@@ -1,7 +1,7 @@
 %TC PROJECT
 
 %-----------------------BUA-A1 Analysis----------------------------------------
-cd ('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\A1_Thal\code')
+cd ('C:\Users\creis\Documents\GitHub\CR_script\A1_Thal\code')
 
 %Organizes data acording to lesion and non-lesioned rats
 run 'sort_lesion_nonlesion.m'
@@ -27,7 +27,7 @@ run 'A1_coherent_files.m' %saves changes (BZ_complete_new and SNr_complete_new) 
 run 'coherent_regions.m'%plots
     
 %-----------------------BUA-A2 Analysis----------------------------------------
-cd ('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\A2_Thal\code')
+cd ('C:\Users\creis\Documents\GitHub\CR_script\A2_Thal\code')
 
 %Organizes data acording to lesion and non-lesioned rats
 run 'sort_lesion_nonlesion.m'
@@ -51,8 +51,8 @@ run 'envelope_rise_evoke_cr.m'
 run %'?'
 
 %-----------------------BUA-A3 Analysis----------------------------------------
-cd ('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\A3_Thal\code')
-% cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/A3_Thal/code') 
+cd ('C:\Users\creis\Documents\GitHub\CR_script\A3_Thal\code')
+% cd('/Users/Carolina/Documents/GitHub/CR_script/A3_Thal/code') 
 
 % psi across regions in different frequencies
 run 'psi_across_frequencies.m'
@@ -72,8 +72,8 @@ run 'psi_bursts_msc.m'
 run 'mang_burst_ctxsub.m'
 
 %-----------------------BUA-A4 Analysis----------------------------------------
-% cd ('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\A4_Thal\code')
-cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/A4_Thal/code') 
+ cd ('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
+% cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
 
 
 %phase synchrony index(psi)consistency during ctx/subctx bursts vs surrogates between ctx/subcortical regions
@@ -93,8 +93,8 @@ run 'region_PSI'
 run 'same_region_dif_freqs.m'
 
 %-----------------------SUA Juxta_SUA_act  Analysis------------------------------
-%  cd ('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\SUA\Juxta SUA_act_mat\code')
- cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/SUA/Juxta SUA_act_mat/code') 
+  cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Juxta SUA_act_mat')
+%  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Juxta SUA_act_mat/code') 
 
 %phase consistency of subcortical firing of subcortical areas
 run 'psi_SUA.m'
@@ -104,13 +104,17 @@ run 'psi_SUA.m'
 run 'Filegen_SUA_act_new.m'
 
 % Sum fo spiking across bursts in time.
-run 'gaussian_spike.m'
+run 'gaussian2.m'
 %-----------------------SUA Probe_SUA_act  Analysis------------------------------
-%  cd ('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\SUA\Probe SUA_act_mat')
- cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/SUA/Probe SUA_act_mat') 
+  cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Probe SUA_act_mat')
+%  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
 
- % Sum fo spiking across bursts in time.
- run 'gaussian_phase_align.m'
+ % Select rats at region and that have shown coh with ctx in the bua
+ % analysis/ were chosen by KN in his excel file
+ run 'filegen_slected_rats.m'
+ 
+ %Sum fo spiking across bursts in time.
+ run 'gaussian_probe.m'
 
 
 

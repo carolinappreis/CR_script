@@ -1,14 +1,13 @@
-   
-    
+
     clear all
-    % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
+    cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
     % cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/SUA/probe SUA_act_mat')
-%     cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
-%     load ('SNR.mat')
-%     list_a=SNR.coh_animals; clear SNR; list_a=list_a(2:end,:)
-   
-    cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-   load('BZ_MUA_KN.mat'); list_a=BZ_MUA_KN([1:5 7:end],:);
+%      cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+      load ('SNR.mat')
+      list_a=SNR.coh_animals; clear SNR; list_a=list_a([2:end],:);
+        cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+%    cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+%     load('BZ_MUA_KN.mat'); list_a=BZ_MUA_KN([1:5 7:end],:);
     
     for nn=1:size(list_a,1);  %%% chose state (lesion OR nolesion)
     
@@ -66,7 +65,7 @@
     end
     
     %     if (length ([thal_BZ thal_VPM thal_PF thal_ZI thal_AV thal_PC thal_CZ thal_VPPC thal_SNr thal_NW thal_PC]))== length (thalchan)
-    thal_local=thalchan(thal_BZ); %%% Chose thal location
+    thal_local=thalchan(thal_SNr); %%% Chose thal location
     %     else
     %         thal_local=[];
     %     end
@@ -104,9 +103,9 @@
     
     
     
-    cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+    cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
     clearvars -except data_all Ecog_all A lesion time list_a
-         save 'probeselect_MUA_BZ_KN'
+          save 'probeselect_SUA_SNR'
     
     
     

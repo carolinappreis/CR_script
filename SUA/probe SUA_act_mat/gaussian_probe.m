@@ -1,12 +1,14 @@
 clear all
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load('probeselect_MUA_BZ_KN.mat')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+cd ('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+load('probeselect_SUA_BZ.mat')
 
 
 srn=1000;
 for ii=1:size(data_all,1)
+     clearvars -except A lesion ii j r region_pl region_npl region_spl region_snpl output_pa output_npa spikerate_all ISI_all data_all Ecog_all srn time
     for  j=1:size(data_all{ii,:},1)
-        
+       
         data=data_all{ii,1}(j,:);
         data_ones=find(data==1);
         [b,a]=butter(2,[15/(0.5*srn) 35/(0.5*srn)],'bandpass');
@@ -21,8 +23,8 @@ for ii=1:size(data_all,1)
         
         spikerate_all{ii,1}(1,j)=mean(nonzeros(spkrate_1));
         if mean(nonzeros(spkrate_1))-std(nonzeros(spkrate_1))>=13 && mean(nonzeros(spkrate_1))+std(nonzeros(spkrate_1))<35
-            
-            cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/A4_Thal/code')
+            cd('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
+%             cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/A4_Thal/code')
             onset1=bursts(env);
             onset=bursts_aligned(env,Ecogfiltered);
             
