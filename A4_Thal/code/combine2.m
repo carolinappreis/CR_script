@@ -115,19 +115,19 @@ BZ.ctx_sub_coh=ctx_sub_coh;
 
 clear all
 % cd('C:\Users\creis\Documents\GitHub\CRcode\codes_thal')
-cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal')
-load('BZ.mat')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+load('SNR.mat')
 
-for ik=1:size(BZ.env_ctx,1);
- env=BZ.env_ctx(ik,:);
- BZ.ctxb_raw{1,ik}=bursts(env);
- Ecogfiltered=BZ.filt_ctx(ik,:);
- BZ.ctxb_phase_al{1,ik}=bursts_aligned(env,Ecogfiltered);
+for ik=1:size(SNR.env_ctx,1);
+ env=SNR.env_ctx(ik,:);
+ SNR.offset_raw{1,ik}=bursts(env);
+ Ecogfiltered=SNR.filt_ctx(ik,:);
+ SNR.offset_phase_al{1,ik}=bursts_aligned(env,Ecogfiltered);
 end
     
 
 for i=1:11
-BZ.ctxb_all{i,1}=sort(cell2mat(BZ.ctxb_raw{1,i}'),'ascend')
+SNR.offset_raw_all{i,1}=sort(cell2mat(SNR.offset_raw{1,i}'),'ascend')
 end
 
 

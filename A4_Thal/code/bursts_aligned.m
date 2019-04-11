@@ -74,7 +74,8 @@ if ~isempty (ind_b)
         end
         onset{hh,1}=maxidxM(nonzeros(pre_onset{hh,1}));
     end
-    
+
+
 %     time=0:1/samprate:(size(Ecogfiltered,2)-1)/samprate;
 %     plot(time,Ecogfiltered)
 %     hold on
