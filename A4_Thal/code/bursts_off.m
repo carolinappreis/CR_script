@@ -1,8 +1,7 @@
 
-function [bursts_singular]=bursts_aligned(env,Ecogfiltered,phase)
-samprate=1000;
+function [offset1]=bursts_off(env)
+
 threshold=prctile(env,75);
-tt(size(env,1):size(env,2))=threshold;
 indexexceed=find(env>threshold);
 diffindex=diff(indexexceed);
 pnts=find(diffindex>1);
@@ -14,7 +13,7 @@ space_b=200;
 
 ind_b=[];
 for i=1:(length(begin2))-1
-    if (ending2(i)-begin2(i))>=50 && begin2(i+1)-ending2(i)>200% min duration of bursts
+    if (ending2(i)-begin2(i))>=50 && begin2(i+1)-ending2(i)>space_b% min duration of bursts
         ind_b=[ind_b i];
     end
 end
@@ -58,39 +57,5 @@ if ~isempty (ind_b)
     onset1{2,1}=b_long(1,:);
     offset1{1,1}=b_short(2,:);
     offset1{2,1}=b_long(2,:);
-    
-    %-----
-    
-    [maxvalM,maxidxM] = findpeaks(Ecogfiltered);
-    
-    
-    for hh=1:size(onset1,1)
-        for b = 1:length(onset1{hh,1})
-            for p=1:length(maxidxM)
-                if min(abs(onset1{hh,1}(b)-maxidxM(p)))<=30;
-                    pre_onset{hh,1}(b,:)=p;
-                end
-            end
-        end
-        onset{hh,1}=maxidxM(nonzeros(pre_onset{hh,1}));
-    end
-% -----------------------------------
-    onset_all=horzcat(onset{:});
-    
-    for i=1:length(onset_all)
-    bursts_singular(i,:)= phase(1,onset_all(i)-200:onset_all(i)+200);
-    end
-    
-
-%     time=0:1/samprate:(size(Ecogfiltered,2)-1)/samprate;
-%     plot(time,Ecogfiltered)
-%     hold on
-%     n=double(onset1{1,1});
-%     m=double(onset{1,1});
-%     plot(time(n),env(n),'bo','MarkerSize', 5)
-%     plot(time(m),env(m),'r.','MarkerSize', 10)
-%     plot(time,env)
-%     plot(time,tt)
-    
 end
 
