@@ -1,15 +1,18 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
+ cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
 load ('data_all' , 'freq')
 
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
+ cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
 load 'animal_region.mat' % comes from code pre_filegen_SUA_act
 % load 'non_repeat_animal_region.mat'
 % load 'single_subj_VM_VL.mat'
 % all_regions={thal_VL; thal_VM};
-all_regions={thal_VA; thal_VL; thal_VM};
+thal_CZ= thal_VL;
+thal_BZ=[thal_VM thal_VA];
+all_regions={thal_CZ; thal_BZ;}
+
 for t=1:size(freq,1)
     for i=1:size(all_regions,1)
         for  j=1:size(all_regions{i,:},2)
@@ -65,7 +68,7 @@ end
 
 bar(abs(euler1))
 title ('Phase consistency of unit firing in cortical signal')
-legend('VA','VL','VM')
+legend('CZ','BZ')
 xticklabels({'5-15Hz','16-26Hz','27-37Hz','38-48Hz','49-100Hz'})
 
 
