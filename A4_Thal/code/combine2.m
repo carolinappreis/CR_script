@@ -16,7 +16,7 @@ end
 clear all
 close all
   cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
+%  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
 load ('data_all')
 load 'BZ_ctx_probe'
 fq=15:35;
@@ -113,23 +113,28 @@ BZ.bua_coh=bua_coh;
 BZ.ctx_sub_coh=ctx_sub_coh;
 
 
-clear all
+% clear all
 % cd('C:\Users\creis\Documents\GitHub\CRcode\codes_thal')
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
-load('SNR.mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 
-for ik=1:size(SNR.env_ctx,1);
- env=SNR.env_ctx(ik,:);
- SNR.offset_raw{1,ik}=bursts(env);
- Ecogfiltered=SNR.filt_ctx(ik,:);
- SNR.offset_phase_al{1,ik}=bursts_aligned(env,Ecogfiltered);
+load('BZ.mat')
+
+for ik=1:size(BZ.env_ctx,1);
+ env=BZ.env_ctx(ik,:);
+ BZ.offset_raw{1,ik}=bursts(env);
+ Ecogfiltered=BZ.filt_ctx(ik,:);
+ BZ.offset_phase_al{1,ik}=bursts_aligned(env,Ecogfiltered);
 end
     
 
-for i=1:11
-SNR.offset_raw_all{i,1}=sort(cell2mat(SNR.offset_raw{1,i}'),'ascend')
+for i=1:size(BZ.filt_thal,1)
+BZ.offset_raw_all{i,1}=sort(cell2mat(BZ.offset_raw{1,i}'),'ascend')
 end
 
 
 BZ.idrat=([1 7 9 11])';
-SNR.idrat=([1 3 11 12])';
+BZ.idrat=([1 3 11 12])';
+
+% Ecogfiltered=BZ.phase_thal{1,1}(1,:);
+

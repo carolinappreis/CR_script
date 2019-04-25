@@ -3,7 +3,8 @@
 %change in beta evoked by surrogates (function hayriye_c needed).
 
 clear all
-cd ('\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A1_Thal\mat')
+% cd ('\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A1_Thal\mat')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A1_Thal/mat')
 load ('BZ_fig_new','all_contacts','surr2','surr_s')
 out3_real= all_contacts;
 clear all_contacts
@@ -26,8 +27,10 @@ for ind=1:2; clear A; A(1:size(out3_real,2),1:551)=out3_real(ind,:,300:850);
 %     plot(st(ind,:),'r.')
 %     plot(st2(ind,:),'b.')
 end
-ax1=subplot(2,1,1)
-title ('BZ','FontSize',14)
+% ax1=subplot(2,1,1)
+
+figure(1)
+title ('BZ','FontSize',16)
 beg=find(st(1,:)<0.05 & st2(1,:)~=0);
 if ~isempty(beg)
     beg(1)
@@ -35,7 +38,7 @@ if ~isempty(beg)
     beg(find(diff(beg)>1)+1)
     beg(end)
     figure(1)
-    patch([beg(1) beg(end) beg(end) beg(1)]-200,[0.15 0.15 0.175 0.175],color_region+[0 0 0.3],'EdgeColor','none')
+    patch([beg(1) beg(end) beg(end) beg(1)]-200,[0.18 0.18 0.19 0.19],color_region+[0 0 0.3],'EdgeColor','none')
 end
 hold on
 clear beg
@@ -45,7 +48,7 @@ if ~isempty(beg)
     beg(find(diff(beg)>1))
     beg(find(diff(beg)>1)+1)
     beg(end)
-    patch([beg(1) beg(end) beg(end) beg(1)]-200,[0.180 0.180 0.205 0.205],color_region - [0.3 0 0.3],'EdgeColor','none')
+    patch([beg(1) beg(end) beg(end) beg(1)]-200,[0.20 0.20 0.21 0.21],color_region,'EdgeColor','none')
 end
 hold on
 load ('BZ_fig_new','med_thal_s')
@@ -55,24 +58,36 @@ y2=med_thal_s{1}(2,:);
 y3=med_thal_s{1}(3,:);
 plot(x,y2,'DisplayName','Beta change with short bursts')
 set(plot(x,y2),'LineWidth',1.5,'Color',color_region+[0 0 0.3]);
-patch([x fliplr(x)], [y1 fliplr(y2)],color_region+[0 0 0.3],'FaceAlpha',0.1,'EdgeColor','none')
-patch([x fliplr(x)], [y2 fliplr(y3)],color_region+[0 0 0.3],'FaceAlpha',0.1,'EdgeColor','none')
+patch([x fliplr(x)], [y1 fliplr(y2)],color_region+[0 0 0.3],'FaceAlpha',0.2,'EdgeColor','none')
+patch([x fliplr(x)], [y2 fliplr(y3)],color_region+[0 0 0.3],'FaceAlpha',0.2,'EdgeColor','none')
 hold on
-y1=surr_s(1,:);
-y2=surr_s(2,:);
-y3=surr_s(3,:);
-plot(x,y2)
-set(plot(x,y2),'LineWidth',1.5,'Color',color_surr);
-patch([x fliplr(x)], [y1 fliplr(y2)],color_surr,'FaceAlpha',0.1,'EdgeColor','none')
-patch([x fliplr(x)], [y2 fliplr(y3)],color_surr,'FaceAlpha',0.1,'EdgeColor','none')
-hold on
+% y1=surr_s(1,:);
+% y2=surr_s(2,:);
+% y3=surr_s(3,:);
+% plot(x,y2)
+% set(plot(x,y2),'LineWidth',1.5,'Color',color_surr);
+% patch([x fliplr(x)], [y1 fliplr(y2)],color_surr,'FaceAlpha',0.1,'EdgeColor','none')
+% patch([x fliplr(x)], [y2 fliplr(y3)],color_surr,'FaceAlpha',0.1,'EdgeColor','none')
+% hold on
 y1=med_thal_s{2}(1,:);
 y2=med_thal_s{2}(2,:);
 y3=med_thal_s{2}(3,:);
 plot(x,y2,'DisplayName','Beta change with long bursts')
-set(plot(x,y2),'LineWidth',1.5,'Color',color_region - [0.3 0 0.3]);
-patch([x fliplr(x)], [y1 fliplr(y2)],color_region- [0.3 0 0.3],'FaceAlpha',0.1,'EdgeColor','none')
-patch([x fliplr(x)], [y2 fliplr(y3)],color_region- [0.3 0 0.3],'FaceAlpha',0.1,'EdgeColor','none')
+set(plot(x,y2),'LineWidth',1.5,'Color',color_region);
+patch([x fliplr(x)], [y1 fliplr(y2)],color_region,'FaceAlpha',0.2,'EdgeColor','none')
+patch([x fliplr(x)], [y2 fliplr(y3)],color_region,'FaceAlpha',0.2,'EdgeColor','none')
+xlabel( 'Time (msec)','FontSize',14)
+ylabel( 'BUA-{\beta} amplitude (%Baseline)','FontSize',14)
+
+ylim( [-0.22 0.22])
+line([0 0],[-0.22 0.22],'LineStyle','--','LineWidth',1.5,'Color',[0.5 0.5 0.5])
+yticks ([-0.2 -0.1 0 0.1 0.2 ])
+yticklabels ({'-20' ,'-10' ,'0' ,'10' ,'20'})
+xlim ([-200 200])
+xticks ([-200:100:200 ])
+xticklabels ({'-200','-100','0','100','200'})
+
+
 
 
 
@@ -101,15 +116,16 @@ for ind=1:2; clear A; A(1:size(out3_real,2),1:551)=out3_real(ind,:,300:850);
 %     plot(st2(ind,:),'b.')
 end
 
-ax2=subplot(2,1,2)
-title ('SNr','FontSize',14)
+figure()
+% ax2=subplot(2,1,2)
+title ('SNr','FontSize',16)
 beg=find(st(1,:)<0.05 & st2(1,:)~=0);
 if ~isempty(beg)
     beg(1)
     beg(find(diff(beg)>1))
     beg(find(diff(beg)>1)+1)
     beg(end)
-    patch([beg(1) beg(end) beg(end) beg(1)]-200,[0.15 0.15 0.175 0.175],color_region+[0 0 0.3],'EdgeColor','none')
+    patch([beg(1) beg(end) beg(end) beg(1)]-200,[0.18 0.18 0.19 0.19],color_region+[0 0 0.3],'EdgeColor','none')
 end
 hold on
 clear beg
@@ -119,7 +135,7 @@ if ~isempty(beg)
     beg(find(diff(beg)>1))
     beg(find(diff(beg)>1)+1)
     beg(end)
-    patch([beg(1) beg(end) beg(end) beg(1)]-200,[0.180 0.180 0.205 0.205],color_region- [0 0 0.3],'EdgeColor','none')
+    patch([beg(1) beg(end) beg(end) beg(1)]-200,[0.2 0.2 0.21 0.21],color_region,'EdgeColor','none')
 end
 hold on
 load ('SNR_fig_new','med_thal_s')
@@ -129,29 +145,40 @@ y2=med_thal_s{1}(2,:);
 y3=med_thal_s{1}(3,:);
 plot(x,y2,'DisplayName','Beta change with short bursts')
 set(plot(x,y2),'LineWidth',1.5,'Color',color_region+[0 0 0.3]);
-patch([x fliplr(x)], [y1 fliplr(y2)],color_region+[0 0 0.3],'FaceAlpha',0.1,'EdgeColor','none')
-patch([x fliplr(x)], [y2 fliplr(y3)],color_region+[0 0 0.3],'FaceAlpha',0.1,'EdgeColor','none')
+patch([x fliplr(x)], [y1 fliplr(y2)],color_region+[0 0 0.3],'FaceAlpha',0.2,'EdgeColor','none')
+patch([x fliplr(x)], [y2 fliplr(y3)],color_region+[0 0 0.3],'FaceAlpha',0.2,'EdgeColor','none')
 hold on
-y1=surr_s(1,:);
-y2=surr_s(2,:);
-y3=surr_s(3,:);
-plot(x,y2,'DisplayName','Beta change outside bursts')
-set(plot(x,y2),'LineWidth',1.5,'Color',color_surr);
-patch([x fliplr(x)], [y1 fliplr(y2)],color_surr,'FaceAlpha',0.1,'EdgeColor','none')
-patch([x fliplr(x)], [y2 fliplr(y3)],color_surr,'FaceAlpha',0.1,'EdgeColor','none')
+% y1=surr_s(1,:);
+% y2=surr_s(2,:);
+% y3=surr_s(3,:);
+% plot(x,y2,'DisplayName','Beta change outside bursts')
+% set(plot(x,y2),'LineWidth',1.5,'Color',color_surr);
+% patch([x fliplr(x)], [y1 fliplr(y2)],color_surr,'FaceAlpha',0.1,'EdgeColor','none')
+% patch([x fliplr(x)], [y2 fliplr(y3)],color_surr,'FaceAlpha',0.1,'EdgeColor','none')
 y1=med_thal_s{2}(1,:);
 y2=med_thal_s{2}(2,:);
 y3=med_thal_s{2}(3,:);
 plot(x,y2,'DisplayName','Beta change with long bursts')
-set(plot(x,y2),'LineWidth',1.5,'Color',color_region- [0 0 0.2]);
-patch([x fliplr(x)], [y1 fliplr(y2)],color_region- [0 0 0.3],'FaceAlpha',0.1,'EdgeColor','none')
-patch([x fliplr(x)], [y2 fliplr(y3)],color_region- [0 0 0.3],'FaceAlpha',0.1,'EdgeColor','none')
-xlabel( 'msec','FontSize',14)
-ylabel( 'Beta amplitude (%Baseline)','FontSize',14)
+set(plot(x,y2),'LineWidth',1.5,'Color',color_region);
+patch([x fliplr(x)], [y1 fliplr(y2)],color_region,'FaceAlpha',0.2,'EdgeColor','none')
+patch([x fliplr(x)], [y2 fliplr(y3)],color_region,'FaceAlpha',0.2,'EdgeColor','none')
+xlabel( 'Time (msec)','FontSize',14)
+ylabel( 'BUA-{\beta} amplitude (%Baseline)','FontSize',14)
 
-ylim( [ax1 ax2] , [-0.22 0.22])
-yticks ( [ax1 ax2] , [-0.2 -0.1 0 0.1 0.2 ])
-yticklabels ( [ax1 ax2] , {'-20' ,'-10' ,'0' ,'10' ,'20'})
+
+ylim( [-0.22 0.22])
+line([0 0],[-0.22 0.22],'LineStyle','--','LineWidth',1.5,'Color',[0.5 0.5 0.5])
+yticks ([-0.2 -0.1 0 0.1 0.2 ])
+yticklabels ({'-20' ,'-10' ,'0' ,'10' ,'20'})
+xlim ([-200 200])
+xticks ([-200:100:200 ])
+xticklabels ({'-200','-100','0','100','200'})
+
+
+
+% ylim( [ax1 ax2] , [-0.22 0.22])
+% yticks ( [ax1 ax2] , [-0.2 -0.1 0 0.1 0.2 ])
+% yticklabels ( [ax1 ax2] , {'-20' ,'-10' ,'0' ,'10' ,'20'})
 
 
 

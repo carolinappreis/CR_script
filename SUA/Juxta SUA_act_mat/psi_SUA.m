@@ -11,9 +11,11 @@ load 'animal_region.mat' % comes from code pre_filegen_SUA_act
 % all_regions={thal_VL; thal_VM};
 thal_CZ= thal_VL;
 thal_BZ=[thal_VM thal_VA];
-all_regions={thal_CZ; thal_BZ;}
+% all_regions={thal_CZ; thal_BZ;}
+all_regions={thal_BZ;}
+freq=[{1:7} {8:14} {15:35} {36:80} {81:100} ];
 
-for t=1:size(freq,1)
+for t=1:size(freq,2)
     for i=1:size(all_regions,1)
         for  j=1:size(all_regions{i,:},2)
             
@@ -53,10 +55,7 @@ for t=1:size(freq,1)
             data(nn)=1;
             data_all{i,j}=data;
             data_ones=find(data==1);
-             [b,a]=butter(2,[(freq(t)-5)/(0.5*srn) (freq(t)+5)/(0.5*srn)],'bandpass');
-            if t==length(freq)
-                [b,a]=butter(2,[49/(0.5*srn) 100/(0.5*srn)],'bandpass');
-            end
+             [b,a]=butter(2,[freq{1,t}(1)/(0.5*srn) freq{1,t}(end)/(0.5*srn)],'bandpass');
             Ecogfiltered=filtfilt(b,a,WaveData_DC);
             ang{t,i,:}{:,j}=angle(hilbert(Ecogfiltered(data_ones)));
             euler{t,i,:}(1,j)=(sum(exp(sqrt(-1)*(ang{t,i,:}{:,j})))./(length(ang{t,i,:}{:,j})));
@@ -66,11 +65,12 @@ for t=1:size(freq,1)
     end
 end
 
-bar(abs(euler1))
-title ('Phase consistency of unit firing in cortical signal')
-legend('CZ','BZ')
-xticklabels({'5-15Hz','16-26Hz','27-37Hz','38-48Hz','49-100Hz'})
-
+bar(abs(euler1),'FaceColor',[0.5 0 0.5])
+title ('BZ')
+ xticklabels({'1-7','8-12','15-35','36-80','81-100'})
+ylabel ('Spike-EcoG-{\beta} coherence')
+xlabel ('Frequency (Hz)')
+box('off')
 
 % cd('/Users/Carolina/Desktop/TC_data') 
 % savefig('sua_phaseconsist')

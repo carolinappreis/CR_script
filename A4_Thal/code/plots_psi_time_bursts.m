@@ -1,6 +1,8 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
-% load('BZ.mat'); color_b= [0.5 0 0.5]; color_b1=color_b+[0.3 0 0.3];
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+
+% load('SNR.mat'); color_b= [0.5 0 0.5]; color_b1=color_b+[0.3 0 0.3];
 load('SNR.mat'); color_b= [0 0 0.5]; color_b1=color_b+[0 0 0.3];
 time=1:401;
 
@@ -21,19 +23,21 @@ end
 % end
 
 
-cd('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
+% cd('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
+cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
+
 st=NaN(1,401);
-clear A; A=t_s_rat; %b1{f,1};
-clear B; B=t_surr_rat; %s1{f,1}(1:size(A,1),:);
+clear A; A=b_s_rat; %b1{f,1};
+clear B; B=b_surr_rat; %s1{f,1}(1:size(A,1),:);
 hayriye_c; st(1,:)=stats.prob; st2(1,:)=stats.posclusterslabelmat;
 beg=find(st(1,:)<0.01 & st2(1,:)~=0);
 if ~isempty(beg)
     sig_rise_all=[beg(1) beg(end)]; 
 end
 
-y2=zscore(mean(t_s_rat)); 
-y1=zscore(mean(t_s_rat)+std(t_s_rat)./sqrt(size(t_s_rat,1))); 
-y3=zscore(mean(t_s_rat)-std(t_s_rat)./sqrt(size(t_s_rat,1)));
+y2=zscore(mean(b_s_rat)); 
+y1=zscore(mean(b_s_rat)+std(b_s_rat)./sqrt(size(b_s_rat,1))); 
+y3=zscore(mean(b_s_rat)-std(b_s_rat)./sqrt(size(b_s_rat,1)));
 p1=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b1)
 patch([time fliplr(time)], [y1 fliplr(y2)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
@@ -46,19 +50,21 @@ patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[2.9 2.9
 
 hold on
 
-cd('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
+% cd('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
+cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
+
 st=NaN(1,401);
-clear A; A=t_l_rat; %b1{f,1};
-clear B; B=t_surr_rat; %s1{f,1}(1:size(A,1),:);
+clear A; A=b_l_rat; %b1{f,1};
+clear B; B=b_surr_rat; %s1{f,1}(1:size(A,1),:);
 hayriye_c; st(1,:)=stats.prob; st2(1,:)=stats.posclusterslabelmat;
 beg=find(st(1,:)<0.01 & st2(1,:)~=0);
 if ~isempty(beg)
     sig_rise_all=[beg(1) beg(end)]; 
 end
 
-y2=zscore(mean(t_l_rat)); 
-y1=zscore(mean(t_l_rat)+std(t_l_rat)./sqrt(size(t_l_rat,1))); 
-y3=zscore(mean(t_l_rat)-std(t_l_rat)./sqrt(size(t_l_rat,1)));
+y2=zscore(mean(b_l_rat)); 
+y1=zscore(mean(b_l_rat)+std(b_l_rat)./sqrt(size(b_l_rat,1))); 
+y3=zscore(mean(b_l_rat)-std(b_l_rat)./sqrt(size(b_l_rat,1)));
 p2=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b)
 patch([time fliplr(time)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time fliplr(time)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')

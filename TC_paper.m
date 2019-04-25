@@ -27,7 +27,8 @@ run 'A1_coherent_files.m' %saves changes (BZ_complete_new and SNr_complete_new) 
 run 'coherent_regions.m'%plots
     
 %-----------------------BUA-A2 Analysis----------------------------------------
-cd ('C:\Users\creis\Documents\GitHub\CR_script\A2_Thal\code')
+% cd ('C:\Users\creis\Documents\GitHub\CR_script\A2_Thal\code')
+cd('/Users/Carolina/Documents/GitHub/CR_script/A2_Thal/code')
 
 %Organizes data acording to lesion and non-lesioned rats
 run 'sort_lesion_nonlesion.m'
@@ -72,8 +73,8 @@ run 'psi_bursts_msc.m'
 run 'mang_burst_ctxsub.m'
 
 %-----------------------BUA-A4 Analysis----------------------------------------
- cd ('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
-% cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
+%  cd ('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
+cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
 
 
 %phase synchrony index(psi)consistency during ctx/subctx bursts vs surrogates between ctx/subcortical regions
@@ -94,7 +95,7 @@ run 'same_region_dif_freqs.m'
 
 %-----------------------SUA Juxta_SUA_act  Analysis------------------------------
   cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Juxta SUA_act_mat')
-%  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Juxta SUA_act_mat/code') 
+%  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Juxta SUA_act_mat') 
 
 %phase consistency of subcortical firing of subcortical areas
 run 'psi_SUA.m'

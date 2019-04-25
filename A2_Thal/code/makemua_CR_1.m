@@ -19,6 +19,15 @@ function [mua] = makemua_CR_1(hpsig,msback,msfoward,muasr,rssr,uthresh)
 % uthresh = 4;
 % Highpass filter signal
 
+
+msback = 0.001;
+hpsig = WaveData(1+ii,:)';
+msfoward = 0.003;
+muasr = round(samprateold);
+uthresh = 4;
+rssr=1000;
+
+
 clear mua
 clear beta*
 clear muatemphp
@@ -95,9 +104,9 @@ allnoisematch(nanneg) = NaN;
 
 E1z = nansum([E1n allnoisematch],2);
 
-% plot(E1d)
-% hold on
-% plot(E1z,'r')
+plot(E1d)
+hold on
+plot(E1z,'r')
 
 % Low pass filter 
 % clear beta*

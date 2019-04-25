@@ -2,13 +2,13 @@
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 %
 % %cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
-% region=char({'SNR';'BZ.'});
+% region=char({'SNR';'SNR.'});
 % load(region(2,:))
 %
 % for ik=1
-% %     :size(BZ.filt_thal,1);
-%     for ct=1:size(BZ.filt_thal{ik,1},1)
-%         non_norm=BZ.phase_ctx(ik,1)-BZ.phase_thal{ik,1}(ct,:);
+% %     :size(SNR.filt_thal,1);
+%     for ct=1:size(SNR.filt_thal{ik,1},1)
+%         non_norm=SNR.phase_ctx(ik,1)-SNR.phase_thal{ik,1}(ct,:);
 %         for x =1:size(non_norm,2)
 %             if non_norm(1,x)>pi
 %                 non_norm(1,x)=(non_norm(1,x))-(2.*pi);
@@ -19,7 +19,7 @@
 %             end
 %         end
 %
-%         ref=BZ.onset_phase_al{1,1}{2,1}(1);
+%         ref=SNR.onset_phase_al{1,1}{2,1}(1);
 %         steps=[50:5:550];
 %         for i=1:length(steps)
 %             output(ct,i)=abs(mean(exp(sqrt(-1).*(non_norm(ref:ref+steps(i)).*hanning(length(ref:ref+steps(i)))'))));
@@ -43,18 +43,18 @@ clear all
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 
-load('BZ.mat');
+load('SNR.mat');
 %  load('SNR.mat');
 
 
-for ik=1:size(BZ.filt_thal,1);
+for ik=1:size(SNR.filt_thal,1);
     ref=[];
-    for ct=1:size(BZ.filt_thal{ik,1},1)
+    for ct=1:size(SNR.filt_thal{ik,1},1)
         non_nomr=[];epochs_idx=[];epochs_t=[];
-        ref=BZ.onset_raw{1,ik}{1,1};
-        non_norm=BZ.phase_ctx(ik,:)-BZ.phase_thal{ik,1}(ct,:);
-        %         AA=BZ.phase_ctx(ik,:);
-        %         BB=BZ.phase_thal{ik,1}(ct,:);
+        ref=SNR.onset_raw{1,ik}{2,1};
+        non_norm=SNR.phase_ctx(ik,:)-SNR.phase_thal{ik,1}(ct,:);
+        %         AA=SNR.phase_ctx(ik,:);
+        %         BB=SNR.phase_thal{ik,1}(ct,:);
         %         non_norm= AA(randperm(length(AA)))-BB(randperm(length(BB)));
         for x =1:size(non_norm,2)
             if non_norm(1,x)>pi
@@ -102,12 +102,12 @@ for ik=1:size(BZ.filt_thal,1);
         
         
     end
-    BZ.across_b_long{ik,1}=squeeze(mean(ep_b,2));
-    BZ.across_t_long{ik,:}=ep_t;
-    BZ.across_b_surr{ik,1}=squeeze(mean(ep_b_s,2));
-    BZ.across_t_surr{ik,:}=ep_t_s;
-    %      BZ.phashift_b_short{ik,1}=squeeze(mean(ep_b,2));
-    %      BZ.phashift_t_short{ik,:}=ep_t;
+%     SNR.across_b_long{ik,1}=squeeze(mean(ep_b,2));
+%     SNR.across_t_long{ik,:}=ep_t;
+%     SNR.across_b_surr{ik,1}=squeeze(mean(ep_b_s,2));
+    SNR.across_t_surr{ik,:}=ep_t_s;
+    %      SNR.phashift_b_short{ik,1}=squeeze(mean(ep_b,2));
+    %      SNR.phashift_t_short{ik,:}=ep_t;
     
 end
 

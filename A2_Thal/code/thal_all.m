@@ -40,10 +40,7 @@ cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/MATLAB/KN')
     thal_PC=[];%Para-central thalamus
     thal_AM=[];%Antero medial thalamus
     thal_Rt=[];%Retucular thalamic nucleus
-    for i=1:length(thalchan)
-        eval(['location=' B{thalchan(i)} '.location']);
-        if ~isempty(min(find(location=='B')) & min(find(location=='Z')));
-            thal_BZ=[thal_BZ,i];
+   clc
         elseif ~isempty(min(find(location=='C')) & min(find(location=='Z')));
             thal_CZ=[thal_CZ,i];
         elseif ~isempty(min(find(location=='A')) & min(find(location=='V')));
@@ -64,7 +61,7 @@ cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/MATLAB/KN')
     end
     
     if (length ([thal_BZ thal_CZ thal_ZI thal_AV thal_Rt thal_AM thal_SNr thal_NW thal_PC]))== length (thalchan)
-        thal_local=thalchan(thal_Rt); %%% Chose thal location
+        thal_local=thalchan(thal_BZ); %%% Chose thal location
     else thal_local=newchannel;
     end
     
