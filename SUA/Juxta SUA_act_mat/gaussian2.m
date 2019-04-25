@@ -120,7 +120,8 @@ end
 
 time2=[1:401];
 color_b=[0.2 0.5 0.5];
-color_s=[0.5 0.5 0.8];
+color_b=[0.5 0 0.5];
+color_s=[0.5 0.5 0.5];
 titles={'CZ','BZ'};
 for b=1
     for i =2

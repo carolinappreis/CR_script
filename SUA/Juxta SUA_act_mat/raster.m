@@ -33,15 +33,16 @@ plot(time(join),spikes(join,:),'r.')
 
 
 
-for f=1:size(output_count,1)
-    open('bz_raster.fig')
+for f=9
+%     1:size(output_count,1)
+%     open('bz_raster.fig')
     hold on
     for i=1:size(output_count{f,1},1)
         steps=-8:round(13./size(output_count{f,1},1),1):8;
         m=[];
         m=output_count{f,1}(i,:);
         idx=find(m==1);
-        m(idx)=steps(i)+2;
+        m(idx)=steps(i)+1.9;
         plot(time(idx),m(idx),'r.')
         hold on
     end
@@ -55,3 +56,5 @@ end
         xticks([0:100:400])
         xticklabels ({'-200','-100','0','100','200'})
         box ('off')
+        ylabel ('Firing rate (z-score)')
+        xlabel ('Time (msec)')
