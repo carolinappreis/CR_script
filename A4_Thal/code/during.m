@@ -7,7 +7,8 @@ load('BZ.mat');
 % data{ii,1}=BZ.filt_thal{BZ.idrat(ii),1}
 % end
 % data=vertcat(data{:});
-bins=[50:30:290];
+ bins=[50:30:290];
+
 
 
 for ik=1:size(BZ.env_ctx,1)

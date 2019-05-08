@@ -23,7 +23,7 @@ for ik=1:length(BZ.idrat)
     dur_all(ik,:)=dur(1,end-24:end);
     ref3=ref1_1(dur_idx(end-24:end));
     for ct=1:size(BZ.phase_thal{BZ.idrat(ik),1},1)
-        clearvars -except ik ct BZ epochs_zd1 epochs_zd dur_all ref3 f
+        clearvars -except ik ct BZ epochs_zd1 epochs_zd dur_all ref3 f th dur_idx
         
         non_norm=unwrap(BZ.phase_ctx(BZ.idrat(ik),:))-unwrap(BZ.phase_thal{BZ.idrat(ik),1}(ct,:)); %circdist
         non_norm1=diff(non_norm);
@@ -70,8 +70,8 @@ xlim([200 800])
 xticklabels ({'-200','0','200','400'})
 title('BZ')
 
-figure()
-plot(smooth(sum(slip_b)))
+% figure()
+% plot(smooth(sum(slip_b)))
 
 %
 %
