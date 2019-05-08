@@ -2,19 +2,19 @@ clear all
 %cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 
-load('SNR.mat');
-% for ii=1:length(SNR.idrat)
-% data{ii,1}=SNR.filt_thal{SNR.idrat(ii),1}
+load('BZ.mat');
+% for ii=1:length(BZ.idrat)
+% data{ii,1}=BZ.filt_thal{BZ.idrat(ii),1}
 % end
 % data=vertcat(data{:});
 bins=[100;200];
 
 
-for ik=1:size(SNR.env_ctx,1)
+for ik=1:size(BZ.env_ctx,1)
     clearvars dur
-    ref1=SNR.onset_raw_all{ik,1};
-    ref1_1=SNR.onset_pa_all{ik,1};
-    ref2=SNR.offset_raw_all{ik,1};
+    ref1=BZ.onset_raw_all{ik,1};
+    ref1_1=BZ.onset_pa_all{ik,1};
+    ref2=BZ.offset_raw_all{ik,1};
     if length(ref1) ~= length(ref1_1)
         ref1=ref1(1:length(ref1_1));
         ref2=ref2(1:length(ref1_1));
@@ -55,13 +55,13 @@ end
 b_pt1=b_pt;
 b_pt=b_pt1(:,[1:6 8]);
 
-SNR.idrat=[new_idx];
-for ik=1:length(SNR.idrat)
+BZ.idrat=[new_idx];
+for ik=1:length(BZ.idrat)
     ref3=b_pt(ik,:);
-    for ct=1:size(SNR.phase_thal{SNR.idrat(ik),1},1)
-        clearvars -except ik ct SNR epochs_zd1 epochs_zd dur_all ref3 b_pt
+    for ct=1:size(BZ.phase_thal{BZ.idrat(ik),1},1)
+        clearvars -except ik ct BZ epochs_zd1 epochs_zd dur_all ref3 b_pt
         
-        non_norm=unwrap(SNR.phase_ctx(SNR.idrat(ik),:))-unwrap(SNR.phase_thal{SNR.idrat(ik),1}(ct,:)); %circdist
+        non_norm=unwrap(BZ.phase_ctx(BZ.idrat(ik),:))-unwrap(BZ.phase_thal{BZ.idrat(ik),1}(ct,:)); %circdist
         non_norm1=diff(non_norm);
         znon_norm=zscore(non_norm1);
         el=400;
@@ -90,7 +90,7 @@ for ik=1:length(SNR.idrat)
     epochs_zd1(ik,:,:)=squeeze(mean(epochs_zd,1));
 end
 
-% for i=1:length(SNR.idrat)
+% for i=1:length(BZ.idrat)
 %  imagesc(squeeze(epochs_zd1(i,:,:)))
 %  close all
 % end
@@ -103,13 +103,13 @@ ylabel('Bursts # (Sorted by length)')
 xticks([200:200:800])
 xlim([200 800])
 xticklabels ({'-200','0','200','400'})
-title('SNR')
+title('BZ')
 %
 %
-% tempo=1:size(SNR.env_ctx,2);
-% plot(tempo,SNR.env_ctx(SNR.idrat(ik),:))
+% tempo=1:size(BZ.env_ctx,2);
+% plot(tempo,BZ.env_ctx(BZ.idrat(ik),:))
 % hold on
-% plot(tempo,SNR.filt_ctx(SNR.idrat(ik),:))
-% plot(tempo(ref3),SNR.env_ctx(SNR.idrat(ik),ref3),'b.')
-% plot(tempo(ref1),SNR.env_ctx(SNR.idrat(ik),ref1),'ro')
+% plot(tempo,BZ.filt_ctx(BZ.idrat(ik),:))
+% plot(tempo(ref3),BZ.env_ctx(BZ.idrat(ik),ref3),'b.')
+% plot(tempo(ref1),BZ.env_ctx(BZ.idrat(ik),ref1),'ro')
 

@@ -69,6 +69,10 @@ xticks([200:200:800])
 xlim([200 800])
 xticklabels ({'-200','0','200','400'})
 title('BZ')
+
+figure()
+plot(smooth(sum(slip_b)))
+
 %
 %
 % tempo=1:size(BZ.env_ctx,2);

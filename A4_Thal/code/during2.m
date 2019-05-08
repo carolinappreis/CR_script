@@ -7,7 +7,7 @@ load('BZ.mat');
 % data{ii,1}=BZ.filt_thal{BZ.idrat(ii),1}
 % end
 % data=vertcat(data{:});
-bins=[100:10:300];
+bins=[100:15:300];
 
 BZ.idrat=[1:size(BZ.env_ctx,1)];
 for ik=1:length(BZ.idrat)
@@ -22,8 +22,10 @@ for ik=1:length(BZ.idrat)
     dur=ref2-ref1;
     for i=1:size(bins,2)-1
         for nn=1:size(dur,2);
+            f=1;
             if ~isempty (dur(nn)>bins(i) && dur(nn)<=bins(i+1))
-                lala(ik,i)=nn;
+                lala{i,1}(f,:)=nn;
+                f=f+1;
             end
         end
     end
