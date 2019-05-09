@@ -1,5 +1,5 @@
 
-function [onset]=bursts_aligned(env,Ecogfiltered)
+function [onset]=bursts_aligned(env,Ecogfiltered,phase)
 samprate=1000;
 threshold=prctile(env,75);
 tt(size(env,1):size(env,2))=threshold;
@@ -27,7 +27,7 @@ if ~isempty (ind_b)
     median_b=median(duration);
     SD_b=std(duration);
     
-   
+    
     bs=[];
     bl=[];
     for i=2:(length(begin3)-1)
@@ -63,6 +63,16 @@ if ~isempty (ind_b)
     
     [maxvalM,maxidxM] = findpeaks(Ecogfiltered);
     
+    for hh=1:size(offset1,1)
+        for b = 1:length(offset1{hh,1})
+            for p=1:length(maxidxM)
+                if min(abs(offset1{hh,1}(b)-maxidxM(p)))<=30;
+                    pre_offset{hh,1}(b,:)=p;
+                end
+            end
+        end
+        offset{hh,1}=maxidxM(nonzeros(pre_offset{hh,1}));
+    end
     
     for hh=1:size(onset1,1)
         for b = 1:length(onset1{hh,1})
@@ -74,21 +84,6 @@ if ~isempty (ind_b)
         end
         onset{hh,1}=maxidxM(nonzeros(pre_onset{hh,1}));
     end
-
-
-%     onset_all=horzcat(onset{:});
-       
-
-%     time=0:1/samprate:(size(Ecogfiltered,2)-1)/samprate;
-%     plot(time,Ecogfiltered)
-%     hold on
-%     n=double(onset1{1,1});
-%     m=double(onset{1,1});
-%     plot(time(n),env(n),'bo','MarkerSize', 5)
-%     plot(time(m),env(m),'r.','MarkerSize', 10)
-%     plot(time,env)
-%     plot(time,tt)
-
     % -----------------------------------
     %     onset_all=horzcat(onset{:});
     
@@ -138,7 +133,6 @@ if ~isempty (ind_b)
 %     xticklabels ({'-500','-400','-300','-200','-100','0','100','200','300','400','500'})
 %     box('off')
     %
-
     
 end
 

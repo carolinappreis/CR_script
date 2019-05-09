@@ -7,23 +7,58 @@ load('BZ.mat');
 % data{ii,1}=BZ.filt_thal{BZ.idrat(ii),1}
 % end
 % data=vertcat(data{:});
-f=1;
-BZ.idrat=[1:size(BZ.env_ctx,1)];
-for ik=1:length(BZ.idrat)
-    ref1=BZ.onset_raw{1,(BZ.idrat(ik))}{2,1};
-    ref1_1=BZ.onset_phase_al{1,(BZ.idrat(ik))}{2,1};
-    ref2=BZ.offset_raw{1,BZ.idrat(ik)}{2,1};
+ bins=[50:30:290];
+
+
+
+for ik=1:size(BZ.env_ctx,1)
+    clearvars dur
+    ref1=BZ.onset_raw_all{ik,1};
+    ref1_1=BZ.onset_pa_all{ik,1};
+    ref2=BZ.offset_raw_all{ik,1};
     if length(ref1) ~= length(ref1_1)
         ref1=ref1(1:length(ref1_1));
         ref2=ref2(1:length(ref1_1));
-        f=f+1;
     end
+    %         [dur,dur_idx]=sort(ref2-ref1,'ascend');
     [dur,dur_idx]=sort(ref2-ref1,'ascend');
-    th(ik,:)=(numel(dur_idx(dur>250)));
-    dur_all(ik,:)=dur(1,end-24:end);
-    ref3=ref1_1(dur_idx(end-24:end));
+    %     dur_all(ik,1)=max(dur);
+    if max(dur)>=290
+        for t=1:length(bins)-1
+            for i=1:length(dur)-1
+                if (dur(i))>bins(t) && (dur(i))<=bins(t+1)
+                    ind_b1{ik,1}(t)=ref1_1(dur_idx(i));
+                    ind_d1{ik,1}(t)=dur(i);
+                end
+            end
+        end
+    end
+end
+
+for i=1:size(ind_b1,1)
+    if size(ind_b1{i,1},2)==size(ind_b1{1,1},2)
+        b_idx_rat(i,:)=squeeze(ind_b1{i,1});
+        b_d_rat(i,:)=squeeze(ind_d1{i,1});
+    end
+end
+
+ff=1;
+for i=1:size(b_idx_rat,1)
+    if b_idx_rat(i,1)~=0
+        new_idx(1,ff)=i;
+        b_pt(ff,:)=b_idx_rat(i,:);
+        d_pt(ff,:)=b_d_rat(i,:);
+        ff=ff+1;
+    end
+end
+b_pt1=b_pt;
+b_pt=b_pt1(:,[1:5 8]);
+
+BZ.idrat=[new_idx];
+for ik=1:length(BZ.idrat)
+    ref3=b_pt(ik,:);
     for ct=1:size(BZ.phase_thal{BZ.idrat(ik),1},1)
-        clearvars -except ik ct BZ epochs_zd1 epochs_zd dur_all ref3 f th dur_idx
+        clearvars -except ik ct BZ epochs_zd1 epochs_zd dur_all ref3 b_pt
         
         non_norm=unwrap(BZ.phase_ctx(BZ.idrat(ik),:))-unwrap(BZ.phase_thal{BZ.idrat(ik),1}(ct,:)); %circdist
         non_norm1=diff(non_norm);
@@ -44,16 +79,15 @@ for ik=1:length(BZ.idrat)
             end
         end
         
-%                         plot(epochs_z1(ii,:),'r.')
-%                         imagesc(epochs_z1)
-%                         xticks([200:200:800])
-%                         xlim([200 800])
-%                         xticklabels ({'-200','0','200','400'})
+%                                 plot(epochs_z1(ii,:),'r.')
+%                                 imagesc(epochs_z1)
+%                                 xticks([200:200:800])
+%                                 xlim([200 800])
+%                                 xticklabels ({'-200','0','200','400'})
         epochs_zd(ct,:,:)=epochs_z1;
     end
     epochs_zd1(ik,:,:)=squeeze(mean(epochs_zd,1));
 end
-
 
 % for i=1:length(BZ.idrat)
 %  imagesc(squeeze(epochs_zd1(i,:,:)))
@@ -70,10 +104,8 @@ xlim([200 800])
 xticklabels ({'-200','0','200','400'})
 title('BZ')
 
-% figure()
-% plot(smooth(sum(slip_b)))
-
-%
+figure()
+plot(smooth(sum(slip_b)))
 %
 % tempo=1:size(BZ.env_ctx,2);
 % plot(tempo,BZ.env_ctx(BZ.idrat(ik),:))
