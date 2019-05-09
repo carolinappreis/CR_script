@@ -75,6 +75,7 @@ if ~isempty (ind_b)
         onset{hh,1}=maxidxM(nonzeros(pre_onset{hh,1}));
     end
 
+
 %     onset_all=horzcat(onset{:});
        
 
@@ -87,6 +88,57 @@ if ~isempty (ind_b)
 %     plot(time(m),env(m),'r.','MarkerSize', 10)
 %     plot(time,env)
 %     plot(time,tt)
+
+    % -----------------------------------
+    %     onset_all=horzcat(onset{:});
+    
+    %     for i=1:length(onset_all)
+    %     bursts_singular(i,:)= phase(1,onset_all(i)-200:onset_all(i)+200);
+    %     end
+    %
+    
+%     time=0:1/samprate:(size(Ecogfiltered,2)-1)/samprate;
+%     plot(time,env,'LineWidth',1)
+%     hold on
+%     plot(time,Ecogfiltered,'LineWidth',1,'Color',[0.5 0.5 0.5])
+%     plot(time,tt,'LineWidth',2,'Color',[0.6 0 0])
+%     plot(time(onset1{2,1}),env(onset1{2,1}),'b.','MarkerSize', 20)
+%     plot(time(onset{2,1}),Ecogfiltered(onset{2,1}),'ko')
+%     
+    
+    
+%         plot(time(n1(5):n2(5)),env(n1(5):n2(5)),'LineWidth',2,'Color',
+%     n1=double(onset1{2,1});
+%     n2=double(offset1{2,1});
+%     
+%     n3=double(onset1{1,1});
+%     n4=double(offset1{1,1});
+%     
+%     m1=double(onset{2,1});
+%     m2=double(onset{1,1});
+%         plot(time,env,'LineWidth',1,'Color',[0.5 0.5 0.5])
+%         hold on
+%         plot(time,Ecogfiltered,'LineWidth',1,'Color',[0.5 0.5 0.5])
+%         plot(time(n1(5):n2(5)),env(n1(5):n2(5)),'LineWidth',2,'Color',[0 0 0])
+%         plot(time(n3(5):n4(5)),env(n3(5):n4(5)),'LineWidth',2,'Color',[0 0 0])
+%         plot(time(n1(5):n2(5)),Ecogfiltered(n1(5):n2(5)),'LineWidth',2,'Color',[0 0 0])
+%         plot(time(n3(5):n4(5)),Ecogfiltered(n3(5):n4(5)),'LineWidth',2,'Color',[0 0 0])
+%     
+%         plot(time,tt,'LineWidth',2,'Color',[0.6 0 0])
+%         plot(time([n1 n3]),env([n1 n3]),'b.','MarkerSize', 20)
+%         plot(time([m1 m2]),env([m1 m2]),'bo','MarkerSize', 10)
+%         xlim ([time(n1(5))-0.5 time(n1(5))+0.5])
+%         xticks([time(n1(5))-0.5 :0.1:time(n1(5))+0.5])
+%         xticklabels ({'-500','-400','-300','-200','-100','0','100','200','300','400','500'})
+%         box('off')
+%     %
+%     plot(time,Ecogfiltered,'LineWidth',1.5,'Color','k')
+%     xlim ([time(n1(5))-0.5 time(n1(5))+0.5].*1000)
+%     xticks([time(n1(5))-0.5 :0.1:time(n1(5))+0.5].*1000))
+%     xticklabels ({'-500','-400','-300','-200','-100','0','100','200','300','400','500'})
+%     box('off')
+    %
+
     
 end
 
