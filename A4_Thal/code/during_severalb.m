@@ -1,21 +1,21 @@
 clear all
-%cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 
-load('SNR.mat');
-% for ii=1:length(SNR.idrat)
-% data{ii,1}=SNR.filt_thal{SNR.idrat(ii),1}
+load('BZ.mat');
+% for ii=1:length(BZ.idrat)
+% data{ii,1}=BZ.filt_thal{BZ.idrat(ii),1}
 % end
 % data=vertcat(data{:});
 bins=[55:50:300];
 
 
 
-for ik=1:size(SNR.env_ctx,1)
+for ik=1:size(BZ.env_ctx,1)
     clearvars dur
-    ref1=SNR.onset_raw_all{ik,1};
-    ref1_1=SNR.onset_pa_all{ik,1};
-    ref2=SNR.offset_raw_all{ik,1};
+    ref1=BZ.onset_raw_all{ik,1};
+    ref1_1=BZ.onset_pa_all{ik,1};
+    ref2=BZ.offset_raw_all{ik,1};
     if length(ref1) ~= length(ref1_1)
         ref1=ref1(1:length(ref1_1));
         ref2=ref2(1:length(ref1_1));
@@ -43,12 +43,12 @@ for i =1:size(ind_b1,1)
         new_idx=[new_idx i];
     end
 end
-SNR.idrat=new_idx;
+BZ.idrat=new_idx;
 
 for bi=1:size(ind_b1,2)
-    clearvars -except ik bi ind_b1 ind_d1 new_idx  slip_b SNR
+    clearvars -except ik bi ind_b1 ind_d1 new_idx  slip_b BZ
 %     :size(ind_b1,2)
-    for ik=1:length(SNR.idrat)
+    for ik=1:length(BZ.idrat)
         for n=1:size(ind_b1,1)
             ind_b1_1{n,1}=squeeze(ind_b1{n,bi});
             ind_d1_1{n,1}=squeeze(ind_d1{n,bi});
@@ -65,10 +65,10 @@ for bi=1:size(ind_b1,2)
         end
 
         ref3=b1(ik,:);
-        for ct=1:size(SNR.phase_thal{SNR.idrat(ik),1},1)
-            clearvars -except ik ct SNR epochs_zd1  slip_b ref3 bi ind_b1 ind_d1 new_idx epochs_zd
+        for ct=1:size(BZ.phase_thal{BZ.idrat(ik),1},1)
+            clearvars -except ik ct BZ epochs_zd1  slip_b ref3 bi ind_b1 ind_d1 new_idx epochs_zd
              
-            non_norm=unwrap(SNR.phase_ctx(SNR.idrat(ik),:))-unwrap(SNR.phase_thal{SNR.idrat(ik),1}(ct,:)); %circdist
+            non_norm=unwrap(BZ.phase_ctx(BZ.idrat(ik),:))-unwrap(BZ.phase_thal{BZ.idrat(ik),1}(ct,:)); %circdist
             non_norm1=diff(non_norm);
             znon_norm=zscore(non_norm1);
             el=400;
@@ -98,21 +98,26 @@ for bi=1:size(ind_b1,2)
     end
     slip_b{bi,:}=squeeze(mean(epochs_zd1,1));
 end
+
+figure()
 imagesc(cell2mat(slip_b))
 xlabel ('Time(msec)')
 ylabel('Bursts # (Sorted by length)')
 xticks([200:200:800])
 xlim([200 800])
 xticklabels ({'-200','0','200','400'})
-title('SNR')
+title('BZ')
 
 figure()
-plot(smooth(sum(cell2mat(slip_b))))
+plot(smooth(sum(cell2mat(slip_b))),'LineWidth',1.5)
+xlabel ('Time(msec)')
+ylabel('Sum zcores across Bursts')
+box('off')
 %
-% tempo=1:size(SNR.env_ctx,2);
-% plot(tempo,SNR.env_ctx(SNR.idrat(ik),:))
+% tempo=1:size(BZ.env_ctx,2);
+% plot(tempo,BZ.env_ctx(BZ.idrat(ik),:))
 % hold on
-% plot(tempo,SNR.filt_ctx(SNR.idrat(ik),:))
-% plot(tempo(ref3),SNR.env_ctx(SNR.idrat(ik),ref3),'b.')
-% plot(tempo(ref1),SNR.env_ctx(SNR.idrat(ik),ref1),'ro')
+% plot(tempo,BZ.filt_ctx(BZ.idrat(ik),:))
+% plot(tempo(ref3),BZ.env_ctx(BZ.idrat(ik),ref3),'b.')
+% plot(tempo(ref1),BZ.env_ctx(BZ.idrat(ik),ref1),'ro')
 
