@@ -7,7 +7,7 @@ load('BZ.mat');
 % data{ii,1}=BZ.filt_thal{BZ.idrat(ii),1}
 % end
 % data=vertcat(data{:});
- bins=[50:30:290];
+bins=[50:30:290];
 
 
 
@@ -79,11 +79,11 @@ for ik=1:length(BZ.idrat)
             end
         end
         
-%                                 plot(epochs_z1(ii,:),'r.')
-%                                 imagesc(epochs_z1)
-%                                 xticks([200:200:800])
-%                                 xlim([200 800])
-%                                 xticklabels ({'-200','0','200','400'})
+        %                                 plot(epochs_z1(ii,:),'r.')
+        %                                 imagesc(epochs_z1)
+        %                                 xticks([200:200:800])
+        %                                 xlim([200 800])
+        %                                 xticklabels ({'-200','0','200','400'})
         epochs_zd(ct,:,:)=epochs_z1;
     end
     epochs_zd1(ik,:,:)=squeeze(mean(epochs_zd,1));
