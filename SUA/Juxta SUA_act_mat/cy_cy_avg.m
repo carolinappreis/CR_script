@@ -37,13 +37,13 @@ for cell=1:size(pha_b,1)
     for ii =1:size(pha_b{cell,1},2)
         for i=1:size(pha_b{cell,1},1)
             if ~isempty (pha_b{cell,1}{i,ii})
-                bu{i,1}=pha_b{cell,1}{i,ii}(1);      
+                    bu{i,1}=mean(exp(sqrt(-1).*(pha_b{cell,1}{i,ii})));        
             end
         end
         bu=bu(~cellfun('isempty',bu));
-        vec_lg(cell,ii)=circ_r(cell2mat(bu));
-        pref_pha(cell,ii)=circ_mean(cell2mat(bu));
-        zm(cell,ii) = circ_r(cell2mat(bu)).*(exp(sqrt(-1).*(circ_mean(cell2mat(bu)))));
+        vec_lg(cell,ii)=abs(mean(cell2mat(bu)));
+        pref_pha(cell,ii)=angle(mean(cell2mat(bu)));
+        zm(cell,ii) = (abs(mean(cell2mat(bu)))).* (mean(cell2mat(bu)));
         clear bu
     end
     cyc_avg(1,:)=mean(vec_lg,1);
@@ -69,7 +69,7 @@ for i=10:14
         p5=polarplot([real(zm1(i-1)) real(zm1(i))], [imag(zm1(i-1)), imag(zm1(i))],'linewidth',2,'MarkerIndices',[2],'Marker','d')
         
     end
-    rlim([0 0.6])
+    rlim([0 0.03])
 end
 legend([p1 p2 p3 p4 p5],{'1st cycle','2nd cycle','3rd cycle','4th cycle','5th cycle'})
 
