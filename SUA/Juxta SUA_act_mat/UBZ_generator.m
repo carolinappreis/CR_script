@@ -1,10 +1,11 @@
 clear all
- cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
+%  cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
+ cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
 load ('SUA_BZ')
 
 freq=17.5;
 [b,a]=butter(2,[(freq-5)/(0.5*srn) (freq+5)/(0.5*srn)],'bandpass');
+
 
 for i =1:size(WaveData_DC,1)
     UBZ.psd(i,:)=pwelch(WaveData_DC(i,:),1000,[],1000,1000);

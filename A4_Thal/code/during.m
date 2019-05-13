@@ -1,6 +1,6 @@
 clear all
-%cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 
 load('BZ.mat');
 % for ii=1:length(BZ.idrat)
@@ -14,7 +14,7 @@ bins=[50:30:290];
 for ik=1:size(BZ.env_ctx,1)
     clearvars dur
     ref1=BZ.onset_raw_all{ik,1};
-    ref1_1=BZ.onset_pa_all{ik,1};
+    ref1_1=BZ.offset_pa_all{ik,1};
     ref2=BZ.offset_raw_all{ik,1};
     if length(ref1) ~= length(ref1_1)
         ref1=ref1(1:length(ref1_1));

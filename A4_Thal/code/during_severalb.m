@@ -14,7 +14,8 @@ bins=[55:50:300];
 for ik=1:size(BZ.env_ctx,1)
     clearvars dur
     ref1=BZ.onset_raw_all{ik,1};
-    ref1_1=BZ.onset_pa_all{ik,1};
+   ref1_1=BZ.offset_pa_all{ik,1}; %%% OFFSET
+%     ref1_1=BZ.onset_pa_all{ik,1}; %%% ONSET
     ref2=BZ.offset_raw_all{ik,1};
     if length(ref1) ~= length(ref1_1)
         ref1=ref1(1:length(ref1_1));
@@ -47,7 +48,7 @@ BZ.idrat=new_idx;
 
 for bi=1:size(ind_b1,2)
     clearvars -except ik bi ind_b1 ind_d1 new_idx  slip_b BZ
-%     :size(ind_b1,2)
+
     for ik=1:length(BZ.idrat)
         for n=1:size(ind_b1,1)
             ind_b1_1{n,1}=squeeze(ind_b1{n,bi});
@@ -103,16 +104,39 @@ figure()
 imagesc(cell2mat(slip_b))
 xlabel ('Time(msec)')
 ylabel('Bursts # (Sorted by length)')
-xticks([200:200:800])
-xlim([200 800])
-xticklabels ({'-200','0','200','400'})
-title('BZ')
+
+
+%%%%% ONSET
+% xticks([200:200:800])
+% xlim([200 800])
+% xticklabels ({'-200','0','200','400'})
+% title('BZ aligned to burst onset')
+
+%%%% OFFSET
+xticks([0:200:600])
+xlim([0 600])
+xticklabels ({'-400','-200','0','200'})
+title('BZ aligned to burst offset')
 
 figure()
 plot(smooth(sum(cell2mat(slip_b))),'LineWidth',1.5)
 xlabel ('Time(msec)')
 ylabel('Sum zcores across Bursts')
 box('off')
+
+%%% ONSET
+% xticks([200:200:800])
+% xlim([200 800])
+% xticklabels ({'-200','0','200','400'})
+% title('BZ aligned to burst onset')
+
+%%% OFFSET
+xticks([0:200:600])
+xlim([0 600])
+xticklabels ({''-400','-200','0','200'})
+title('BZ aligned to burst offset')
+
+
 %
 % tempo=1:size(BZ.env_ctx,2);
 % plot(tempo,BZ.env_ctx(BZ.idrat(ik),:))

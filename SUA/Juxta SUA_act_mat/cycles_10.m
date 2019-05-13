@@ -1,7 +1,8 @@
 
-function [offset1]=bursts_off(env)
-
+function [cycles]=cycles_10(env,Ecogfiltered,phase)
+samprate=1000;
 threshold=prctile(env,75);
+tt(size(env,1):size(env,2))=threshold;
 indexexceed=find(env>threshold);
 diffindex=diff(indexexceed);
 pnts=find(diffindex>1);
@@ -13,7 +14,7 @@ space_b=200;
 
 ind_b=[];
 for i=1:(length(begin2))-1
-    if (ending2(i)-begin2(i))>=50 && begin2(i+1)-ending2(i)>space_b% min duration of bursts
+    if (ending2(i)-begin2(i))>=50 && begin2(i+1)-ending2(i)>200% min duration of bursts
         ind_b=[ind_b i];
     end
 end
@@ -26,7 +27,7 @@ if ~isempty (ind_b)
     median_b=median(duration);
     SD_b=std(duration);
     
-   
+    
     bs=[];
     bl=[];
     for i=2:(length(begin3)-1)
@@ -57,13 +58,34 @@ if ~isempty (ind_b)
     onset1{2,1}=b_long(1,:);
     offset1{1,1}=b_short(2,:);
     offset1{2,1}=b_long(2,:);
+    
+    %-----
+    
+    [maxvalM,maxidxM] = findpeaks(Ecogfiltered);
+    
+    for hh=1:size(offset1,1)
+        for b = 1:length(offset1{hh,1})
+            for p=1:length(maxidxM)
+                if min(abs(offset1{hh,1}(b)-maxidxM(p)))<=30;
+                    pre_offset{hh,1}(b,:)=p;
+                end
+            end
+        end
+         offset{hh,1}=maxidxM(nonzeros(pre_offset{hh,1}));
+    end
+    
+    for hh=1:size(onset1,1)
+        for b = 1:length(onset1{hh,1})
+            for p=1:length(maxidxM)
+                if min(abs(onset1{hh,1}(b)-maxidxM(p)))<=30;
+                    pre_onset{hh,1}(b,:)=p;
+                    if p-10>0 && p+10<length(maxidxM)
+                    cycles{hh,1}(b,:)=maxidxM(p-10:p+10);
+                    end
+                end
+            end
+        end
+         onset{hh,1}=maxidxM(nonzeros(pre_onset{hh,1})); 
+    end
 end
 
-
-
-
-%         plot(time,env,'LineWidth',1)
-%     hold on
-%     plot(time,Ecogfiltered,'LineWidth',1,'Color',[0.5 0.5 0.5])
-%     plot(time(onset1{2,1}),env(onset1{2,1}),'b.','MarkerSize', 20)
-%     plot(time(offset1{2,1}),env(offset1{2,1}),'k.','MarkerSize', 20)

@@ -10,8 +10,9 @@ load('SNR.mat');
 f=1;
 SNR.idrat=[1:size(SNR.env_ctx,1)];
 for ik=1:length(SNR.idrat)
-    ref1=SNR.onset_raw{1,(SNR.idrat(ik))}{2,1};
-    ref1_1=SNR.onset_phase_al{1,(SNR.idrat(ik))}{2,1};
+    ref1=SNR.offset_raw{1,(SNR.idrat(ik))}{2,1};
+     ref1_1=SNR.onset_phase_al{1,(SNR.idrat(ik))}{2,1};%%% ONSET
+%     ref1_1=SNR.offset_phase_al{1,(SNR.idrat(ik))}{2,1};%%% OFFSET
     ref2=SNR.offset_raw{1,SNR.idrat(ik)}{2,1};
     if length(ref1) ~= length(ref1_1)
         ref1=ref1(1:length(ref1_1));
@@ -66,10 +67,18 @@ figure()
 imagesc(slip_b)
 xlabel ('Time(msec)')
 ylabel('Bursts # (Sorted by length)')
+
+%%%%% ONSET
 xticks([200:200:800])
 xlim([200 800])
 xticklabels ({'-200','0','200','400'})
-title('SNR')
+title('SNR aligned to burst onset')
+
+%%%% OFFSET
+% xticks([0:200:600])
+% xlim([0 600])
+% xticklabels ({'-400','-200','0','200'})
+% title('SNR aligned to burst offset')
 
 figure()
 plot(smooth(sum(slip_b)),'LineWidth',1.5)
@@ -77,8 +86,22 @@ xlabel ('Time(msec)')
 ylabel('Sum zcores across Bursts')
 box('off')
 
+%%% ONSET
+xticks([200:200:800])
+xlim([200 800])
+xticklabels ({'-200','0','200','400'})
+title('SNR aligned to burst onset')
+
+
+
+%%% OFFSET
+% xticks([0:200:600])
+% xlim([0 600])
+% xticklabels ({''-400','-200','0','200'})
+% title('SNR aligned to burst offset')
+
 %
-%
+% 
 % tempo=1:size(SNR.env_ctx,2);
 % plot(tempo,SNR.env_ctx(SNR.idrat(ik),:))
 % hold on

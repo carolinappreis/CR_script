@@ -1,5 +1,5 @@
 
-function [onset]=bursts_aligned(env,Ecogfiltered,phase)
+function [offset]=bursts_aligned(env,Ecogfiltered,phase)
 samprate=1000;
 threshold=prctile(env,75);
 tt(size(env,1):size(env,2))=threshold;
@@ -71,7 +71,7 @@ if ~isempty (ind_b)
                 end
             end
         end
-         offset{hh,1}=maxidxM(nonzeros(pre_offset{hh,1}));
+        offset{hh,1}=maxidxM(nonzeros(pre_offset{hh,1}));
     end
     
     for hh=1:size(onset1,1)
@@ -82,7 +82,7 @@ if ~isempty (ind_b)
                 end
             end
         end
-         onset{hh,1}=maxidxM(nonzeros(pre_onset{hh,1}));
+        onset{hh,1}=maxidxM(nonzeros(pre_onset{hh,1}));
     end
     % -----------------------------------
     %     onset_all=horzcat(onset{:});
@@ -91,7 +91,7 @@ if ~isempty (ind_b)
     %     bursts_singular(i,:)= phase(1,onset_all(i)-200:onset_all(i)+200);
     %     end
     %
-    
+%     samprate=1000;
 %     time=0:1/samprate:(size(Ecogfiltered,2)-1)/samprate;
 %     plot(time,env,'LineWidth',1)
 %     hold on

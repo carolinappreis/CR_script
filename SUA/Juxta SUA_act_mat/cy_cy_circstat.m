@@ -1,10 +1,10 @@
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
- cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
+%  cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
 load ('data_all' , 'freq')
 
- cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
+%  cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
 load 'animal_region.mat' % comes from code pre_filegen_SUA_act
 % load 'non_repeat_animal_region.mat'
 % load 'single_subj_VM_VL.mat'
@@ -12,18 +12,18 @@ load 'animal_region.mat' % comes from code pre_filegen_SUA_act
 thal_CZ= thal_VL;
 thal_BZ=[thal_VM thal_VA];
 % all_regions={thal_CZ; thal_BZ;}
-all_regions={thal_BZ;}
+all_regions={thal_BZ;};
 n=[17.5:7.5:32.5];
 freq=cell(1,1);
 for i=1:length(n)
-freq{1,i}=[n(i)-5 n(i)+5];
+    freq{1,i}=[n(i)-5 n(i)+5];
 end
 
 for t=1:size(freq,2)
     for i=1:size(all_regions,1)
         for  j=1:size(all_regions{i,:},2)
             
-            clearvars -except A all_regions i j ang ang_cons regional_ang m data_all euler euler1 ang_mean ang_cons t freq ang1
+            clearvars -except A all_regions i j ang ang_cons regional_ang m data_all euler euler1 ang_mean ang_cons t freq ang1 vect_length ray_test ecog_units
             name=A(all_regions{i,:}(j),1:(find(A((all_regions{i,:}(j)),:)=='.')-1));
             load(name);
             B=who;
@@ -59,20 +59,36 @@ for t=1:size(freq,2)
             data(nn)=1;
             data_all{i,j}=data;
             data_ones=find(data==1);
-             [b,a]=butter(2,[freq{1,t}(1)/(0.5*srn) freq{1,t}(end)/(0.5*srn)],'bandpass');
+            [b,a]=butter(2,[freq{1,t}(1)/(0.5*srn) freq{1,t}(end)/(0.5*srn)],'bandpass');
             Ecogfiltered=filtfilt(b,a,WaveData_DC);
-            ang{t,i,:}{:,j}=angle(hilbert(Ecogfiltered(data_ones)));
-            euler{t,i,:}(1,j)=(sum(exp(sqrt(-1)*(ang{t,i,:}{:,j})))./(length(ang{t,i,:}{:,j})));
+            ecog_units(j,t,:)=Ecogfiltered;
+            ang{1,j}(:,t)=wrapTo2Pi(angle(hilbert(Ecogfiltered(data_ones))));
+            vect_length(j,t)=circ_r(ang{1,j}(:,t));
+            ray_test(j,t)=circ_rtest(ang{1,j}(:,t));
         end
-        euler1(t,i)=mean(euler{t,i,:});
-        ang1{t,i}=cell2mat(ang{t,i});
     end
 end
 
-bar(abs(euler1),'FaceColor',[0.5 0 0.5])
-title ('BZ')
- xticklabels({'12.5-22.5','20-30','27.5-37.5'})
-ylabel ('Spike-EcoG-{\beta} coherence')
-xlabel ('Frequency (Hz)')
-box('off')
+r=ray_test<0.05;
+stat_d=[];
+for i=1:10
+    if sum(r(i,:))>0
+        stat_d=[stat_d;i];
+    end
+end
+
+for i =1:length(stat_d)
+    if find(vect_length(stat_d(i),1:2)==max(vect_length(stat_d(i),1:2)))==1
+        ecogbf_match(i,:)=ecog_units(i,1,:);
+    else find(vect_length(stat_d(i),1:2)==max(vect_length(stat_d(i),1:2)))==2
+        ecogbf_match(i,:)=ecog_units(i,2,:);
+    end
+end
+
+
+units_match=cell2mat(data_all(1,stat_d(1:end))');
+
+clearvars -except units_match ecogbf_match stat_d
+save 'BZ_cycle'
+
 

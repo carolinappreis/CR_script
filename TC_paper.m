@@ -93,7 +93,7 @@ run 'region_PSI'
 run 'same_region_dif_freqs.m'
 
 %-----------------------SUA Juxta_SUA_act  Analysis------------------------------
-  cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Juxta SUA_act_mat')
+cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Juxta SUA_act_mat')
 %  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Juxta SUA_act_mat/code') 
 
 %phase consistency of subcortical firing of subcortical areas
