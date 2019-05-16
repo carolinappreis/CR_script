@@ -37,13 +37,13 @@ for cell=1:size(pha_b,1)
     for ii =1:size(pha_b{cell,1},2)
         for i=1:size(pha_b{cell,1},1)
             if ~isempty (pha_b{cell,1}{i,ii})
-                    bu{i,1}=mean(exp(sqrt(-1).*(pha_b{cell,1}{i,ii})));        
+                bu{i,1}=pha_b{cell,1}{i,ii}(1);      
             end
         end
         bu=bu(~cellfun('isempty',bu));
-        vec_lg(cell,ii)=abs(mean(cell2mat(bu)));
-        pref_pha(cell,ii)=angle(mean(cell2mat(bu)));
-        zm(cell,ii) = (abs(mean(cell2mat(bu)))).* (mean(cell2mat(bu)));
+        vec_lg(cell,ii)=circ_r(cell2mat(bu));
+        pref_pha(cell,ii)=circ_mean(cell2mat(bu));
+        zm(cell,ii) = circ_r(cell2mat(bu)).*(exp(sqrt(-1).*(circ_mean(cell2mat(bu)))));
         clear bu
     end
     cyc_avg(1,:)=mean(vec_lg,1);
@@ -51,7 +51,6 @@ for cell=1:size(pha_b,1)
     
     clearvars -except zm cell pha_b vec_lg  cyc_avg cyc_ang_avg pref_pha
 end
-
 
 
 for i=11:15
@@ -98,3 +97,22 @@ figure(n+1)
     legend([p1 p2 p3 p4 p5],{'1st cycle','2nd cycle','3rd cycle','4th cycle','5th cycle'},'Box','off','Orientation','horizontal','Location','south','FontSize',9)
 end
 
+
+% circ_plot(cell2mat(bu),'pretty','bo',true,'linewidth',2,'color','r')
+
+%checking plots
+% plot(log(UCZ.psd(:,1:50))')
+% env=UCZ.ecog_env(1,:);Ecogfiltered=UCZ.ecog_filt(1,:);
+
+% plot(time,env)
+% hold on
+% plot(time,Ecogfiltered)
+% plot(time(UCZ.onset_phase_al{1,1}{1,1}),Ecogfiltered(UCZ.onset_phase_al{1,1}{1,1}),'bo')
+% plot(time(UCZ.offset_phase_al{1,1}{1,1}),Ecogfiltered(UCZ.offset_phase_al{1,1}{1,1}),'ko')
+% plot(time(UCZ.onset_raw{1,1}{1,1}),env(UCZ.onset_raw{1,1}{1,1}),'b.')
+% plot(time(UCZ.offset_raw{1,1}{1,1}),env(UCZ.offset_raw{1,1}{1,1}),'k.')
+%
+% plot(time,Ecogfiltered)
+% hold on
+% plot(time(cy_bursts{1,1}{2,1}(2,:)),Ecogfiltered(cy_bursts{1,1}{2,1}(2,:)),'r.')
+% plot(time(cell2mat(idx_spkcycle{1,1}(1,:))),Ecogfiltered(cell2mat(idx_spkcycle{1,1}(1,:))),'k.')

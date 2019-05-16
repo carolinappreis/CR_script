@@ -79,8 +79,8 @@ if ~isempty (ind_b)
             for p=1:length(maxidxM)
                 if min(abs(onset1{hh,1}(b)-maxidxM(p)))<=30;
                     pre_onset{hh,1}(b,:)=p;
-                    if p-10>0 && p+10<length(maxidxM)
-                    cycles{hh,1}(b,:)=maxidxM(p-10:p+10);
+                    if p-11>0 && p+11<length(maxidxM)
+                    cycles{hh,1}(b,:)=maxidxM(p-11:p+11);
                     end
                 end
             end
