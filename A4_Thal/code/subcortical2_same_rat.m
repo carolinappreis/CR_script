@@ -2,8 +2,8 @@
 clear all
 close all
 Fs=1000;
-% cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
+ cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
 load BZ_ctx_probe.mat
 WaveA=WaveData_DCall;
 dataA=data;
@@ -14,8 +14,8 @@ for i =1:29
     end
 end
 
-% cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
+ cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
 load CZ_ctx_probe.mat
 WaveB=WaveData_DCall;
 dataB=data;
@@ -35,7 +35,7 @@ clust_b=[];
 clust_s=[];
 dif_angs=[];
 ctcts=0;
-[b,a]=butter(2,[15/(0.5*samprate) 30/(0.5*samprate)],'bandpass');
+[b,a]=butter(2,[5/(0.5*samprate) 30/(0.5*samprate)],'bandpass');
 for r=1:length(subj);
     m=1;
     powerA=[];
@@ -71,8 +71,9 @@ for r=1:length(subj);
                 %                 channel_bursts=WaveA{r,1}(ra,:);
                 channel_bursts=WaveA{r,1}(1,:);
                 
+                freq_b=[15:35];
                 [power1,f]=pwelch(channel_bursts,1000,[],1000,1000); %ctx power spectra
-                filt_bursts= find(power1==(max(power1(freq,1))));
+                filt_bursts= find(power1==(max(power1(freq_b,1))));
                 [bb,aa]=butter(2,[(filt_bursts-5)/(0.5*samprate) (filt_bursts+5)/(0.5*samprate)],'bandpass');
                 env=abs(hilbert(filtfilt(bb,aa,channel_bursts)));
                 threshold=prctile(env,75);
@@ -112,7 +113,7 @@ for r=1:length(subj);
                     onset1=begin3(ind_b1);
                     offset1=ending3(ind_b1);
                     %-------
-                    epoch=200;
+                    epoch=500;
 %                     contacts_rat{r,1}=thal_contact;
                 end
                 
@@ -158,7 +159,7 @@ end
 color_b=[0.2 0.5 0.1];id_rat=animals; rats=size(id_rat,1);
 color_s=[0 0 0];
 color_ctxb=[0.5 0.5 0.5];
-time= [1:2*200+1];
+time= [1:2*epoch+1];
  
 %-----
 
@@ -189,10 +190,9 @@ reg_sd=std(clust_b_m)./sqrt(size(clust_b_m,1));
 reg_sm=mean(clust_s_m);
 reg_ssd=std(clust_s_m)./sqrt(size(clust_s_m,1));
 
-
-% cd ('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/A4_Thal/code')
-cd('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\A4_Thal\code')
-st=NaN(1,401);
+cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
+% cd('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\A4_Thal\code')
+st=NaN(1,2*epoch+1);
 clear A; A=clust_b_m; %b1{f,1};
 clear B; B=clust_s_m; %s1{f,1}(1:size(A,1),:);
 hayriye_c; st(1,:)=stats.prob; st2(1,:)=stats.posclusterslabelmat;

@@ -1,10 +1,10 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
-%  cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
 load ('data_all' , 'freq')
 
-%  cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
+ cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
 load 'animal_region.mat' % comes from code pre_filegen_SUA_act
 % load 'non_repeat_animal_region.mat'
 % load 'single_subj_VM_VL.mat'
@@ -88,7 +88,7 @@ end
 
 units_match=cell2mat(data_all(1,stat_d(1:end))');
 
-clearvars -except units_match ecogbf_match stat_d
-save 'BZ_cycle'
+% clearvars -except units_match ecogbf_match stat_d
+% save 'BZ_cycle'
 
 

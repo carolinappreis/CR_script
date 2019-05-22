@@ -1,29 +1,34 @@
 clear all
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
- load('BZ.mat'); color_b= [0.5 0 0.5]; color_b1=color_b+[0.3 0 0.3];
-% load('SNR.mat'); color_b= [0 0 0.5]; color_b1=color_b+[0 0 0.3];
+
+% load('BZ_offset.mat'); color_b= [0.5 0 0.5]; color_b1=color_b+[0.3 0 0.3];
+load('SNR_offset.mat'); color_b= [0 0 0.5]; color_b1=color_b+[0 0 0.3];
 time=1:401;
 
-for q=1:size (BZ.across_b_long,1)
-    b_l_rat(q,:)=mean(BZ.across_b_long{q,1},1);
-    b_s_rat(q,:)=mean(BZ.across_b_short{q,1},1);
-    t_l_rat(q,:)=mean(BZ.across_t_long{q,1},1);
-    t_s_rat(q,:)=mean(BZ.across_t_short{q,1},1);
-    b_surr_rat(q,:)=mean(BZ.across_b_surr{q,1},1);
-    t_surr_rat(q,:)=mean(BZ.across_t_surr{q,1},1);
+for q=1:size (SNR.oacross_b_long,1)
+    if size(SNR.oacross_b_long{q,1},1)==1
+    b_l_rat(q,:)=SNR.oacross_b_long{q,1};
+    b_s_rat(q,:)=SNR.oacross_b_short{q,1};
+    t_l_rat(q,:)=SNR.oacross_t_long{q,1};
+    t_s_rat(q,:)=SNR.oacross_t_short{q,1};
+    b_surr_rat(q,:)=SNR.oacross_b_surr{q,1};
+    t_surr_rat(q,:)=SNR.oacross_t_surr{q,1};
+    else
+    b_l_rat(q,:)=mean(SNR.oacross_b_long{q,1},1);
+    b_s_rat(q,:)=mean(SNR.oacross_b_short{q,1},1);
+    t_l_rat(q,:)=mean(SNR.oacross_t_long{q,1},1);
+    t_s_rat(q,:)=mean(SNR.oacross_t_short{q,1},1);
+    b_surr_rat(q,:)=mean(SNR.oacross_b_surr{q,1},1);
+    t_surr_rat(q,:)=mean(SNR.oacross_t_surr{q,1},1);
+    end
+
 end
-% 
-% for q=1:size (BZ.across_b_long,1)
-%     b_psl_rat(q,:)=mean(BZ.phashift_b_long{q,1},1);
-%     b_pss_rat(q,:)=mean(BZ.phashift_b_short{q,1},1);
-%     t_psl_rat(q,:)=mean(BZ.phashift_t_long{q,1},1);
-%     t_pss_rat(q,:)=mean(BZ.phashift_t_short{q,1},1);
-% end
 
 
 % cd('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
 cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
+
 st=NaN(1,401);
 clear A; A=t_s_rat; %b1{f,1};
 clear B; B=t_surr_rat; %s1{f,1}(1:size(A,1),:);
@@ -50,6 +55,7 @@ hold on
 
 % cd('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
 cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
+
 st=NaN(1,401);
 clear A; A=t_l_rat; %b1{f,1};
 clear B; B=t_surr_rat; %s1{f,1}(1:size(A,1),:);
