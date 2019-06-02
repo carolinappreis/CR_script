@@ -1,11 +1,11 @@
-%a)select the region we want to analyse 
+%a)select the region we want to analyse
 %b)do the spike sorting - BUA
 %c)filter the EGG in the beta range
 %d)leave thal region unfiltered
 
 clear all
-% cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A2_Thal/MAT')
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A2_Thal\mat')
+cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A2_Thal/MAT')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A2_Thal\mat')
 
 load 'animal_lesion_nolesion.mat'
 
@@ -14,9 +14,9 @@ nfile_i=3:(newfile);
 rr=1;
 for nn=1:length(state_mat);
     
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/MATLAB/KN')
- cd ('\Users\creis\Documents\MATLAB\KN')
-    clearvars -except nfile_i state_mat A rr SUA ctx nn ctx_SUA animals
+    cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/MATLAB/KN')
+    %  cd ('\Users\creis\Documents\MATLAB\KN')
+    clearvars -except nfile_i state_mat A rr SUA ctx nn ctx_SUA animals lesion
     name=A(state_mat(nn),1:(find(A((state_mat((nn))),:)=='.')-1))
     load(name)
     B=who;
@@ -32,53 +32,29 @@ for nn=1:length(state_mat);
     end
     
     thal_BZ=[];%basal-ganglia recipient thalamus
-    thal_CZ=[];%cerebellar recipient thalamus
-    thal_ZI=[];%Zona incerta
-    thal_AV=[];%Amteroventral thalamus
     thal_SNr=[];%Substantia Nigra reticulata
-    thal_NW=[];%No where
-    thal_PC=[];%Para-central thalamus
-    thal_AM=[];%Antero medial thalamus
-    thal_Rt=[];%Retucular thalamic nucleus
+    thal_CZ=[];
+    
     for i=1:length(thalchan)
         eval(['location=' B{thalchan(i)} '.location']);
         if ~isempty(min(find(location=='B')) & min(find(location=='Z')));
             thal_BZ=[thal_BZ,i];
-        elseif ~isempty(min(find(location=='C')) & min(find(location=='Z')));
-            thal_CZ=[thal_CZ,i];
-        elseif ~isempty(min(find(location=='A')) & min(find(location=='V')));
-            thal_AV=[thal_AV,i];
-        elseif ~isempty(min(find(location=='Z')) & min(find(location=='I')));
-            thal_ZI=[thal_ZI,i];
         elseif ~isempty(min(find(location=='S')) & min(find(location=='N')) & min(find(location=='r')));
             thal_SNr=[thal_SNr,i];
-        elseif ~isempty(min(find(location=='n')) & min(find(location=='o')) & min(find(location=='w')));
-            thal_NW=[thal_NW,i];
-        elseif ~isempty(min(find(location=='P')) & min(find(location=='C')));
-            thal_PC=[thal_PC,i];
-        elseif ~isempty(min(find(location=='A')) & min(find(location=='M')));
-            thal_AM=[thal_AM,i];
-        elseif ~isempty(min(find(location=='R')) & min(find(location=='t')));
-            thal_Rt=[thal_Rt,i];
+        elseif ~isempty(min(find(location=='C')) & min(find(location=='Z')));
+            thal_CZ=[thal_CZ,i];
         end
     end
     
-    if (length ([thal_BZ thal_CZ thal_ZI thal_AV thal_Rt thal_AM thal_SNr thal_NW thal_PC]))== length (thalchan)
-        thal_local=thalchan(thal_BZ); %%% Chose thal location
-    else thal_local=newchannel;
-    end
-    
-    
-    chanofinterest= thal_local;
-    animals=A(chanofinterest,:);
+    chanofinterest= thalchan(thal_SNr);
     eval(['samprateold=1/' B{ctxchan} '.interval;']);
     eval(['WaveData(1,:)=' B{ctxchan} '.values;']);
     WaveData=double(WaveData);
-   
-%     cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A2_Thal/code')
-
- cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\probe SUA_act_mat')
-
+    
+    cd ('/Users/Carolina/Documents/GitHub/CR_script/SUA/probe SUA_act_mat')
+    
+    %  cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\probe SUA_act_mat')
+    
     ts=timeseries(WaveData(1,:),0:(1/samprateold):((size(WaveData,2)-1)/samprateold));
     ts1=resample(ts,0:0.001:((size(WaveData,2)-1)/samprateold),'linear');
     ctx_SUA(1,:)=ts1.data;
@@ -86,17 +62,26 @@ for nn=1:length(state_mat);
     for ii=1:length(chanofinterest)
         eval(['WaveData(1+ii,:)=' B{chanofinterest(ii)} '.values;']);
         WaveData=double(WaveData);
-        ctx_SUA(1+ii,:)=makemua_CR_spikes(WaveData(1+ii,:)',0.001,0.003,round(samprateold),1000,4);
+        ctx_SUA(1+ii,:)=makemua_CR_spikes(WaveData(1+ii,:)',0.00005,0.00005,round(samprateold),1000,5);
     end
     SUA{nn,1}=ctx_SUA(2:(end),:);
     ctx(nn,:)=ctx_SUA(1,:);
-    
+    clear ctx_SUA
 end
 
+n=[];
+for i=1:size(SUA,1)
+    if ~isempty (SUA{i,1})
+        n=[n i];
+    end
+end
 
-clearvars -except SUA ctx
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-save 'newSUA_BZ.mat'
+animals=A(lesion(n),:);
+
+clearvars -except SUA ctx animals
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A2_Thal/MAT')
+save 'newSUA_SNR.mat'
 
 
 

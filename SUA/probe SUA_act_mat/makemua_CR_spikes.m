@@ -49,10 +49,10 @@ clear tpass*
 tpass = find(E1dabs>tthres);
 % tpassneg = find(E1d<tthresneg);
 
-% Make binary unit channel for pos and neg crosses 
-tpassbin = zeros(size(E1d,1),1);
-tpassbin(tpass) = 1;
+[pk, idx_pk]=findpeaks(E1dabs(tpass));
 
+tpassbin = zeros(size(E1d,1),1);
+tpassbin(tpass(idx_pk))=1;
 
 srn=rssr;
 dataold=tpassbin;
@@ -60,7 +60,7 @@ dataold=full(dataold);
 data=zeros(1,100000);
 timeold=0:1/muasr:(size(dataold,1)-1)/muasr;
 time=0:1/srn:(size(data,2)-1)/srn;
-spk_t=timeold(tpass);
+spk_t=timeold(tpass(idx_pk));
 spk_tround=round(spk_t,3);
 n=[];
 for i=1:length(spk_t)
@@ -68,6 +68,16 @@ for i=1:length(spk_t)
     n=[n ix];
 end
 data(n)=1;
+
+
+% tpassbin_control=tpassbin;
+% tpassbin_control(tpass) = 2450;
+% plot(timeold,tpassbin_control)
+% plot(timeold(tpass(idx_pk)),E1dabs(tpass(idx_pk)),'r.')
+% hold on
+% plot(timeold(tpass),E1dabs(tpass))
+% plot(timeold,E1dabs)
+
 
 clear sua 
 sua = data;
