@@ -77,11 +77,10 @@ for i=1:size(SUA,1)
 end
 
 animals=A(lesion(n),:);
-
-clearvars -except SUA ctx animals
+% 
+% clearvars -except SUA ctx animals
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A2_Thal/MAT')
-save 'newSUA_SNR.mat'
+% save 'newSUA_SNR.mat'
 
 
 

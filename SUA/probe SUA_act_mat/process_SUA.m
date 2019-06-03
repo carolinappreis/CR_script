@@ -1,7 +1,7 @@
 
 % cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat')
 clear all
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A2_Thal/mat')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 load ('newSUA_SNR')
 srn=1000;
 spikerate=[];
@@ -57,5 +57,5 @@ SNR.beta_rats=bb;
 SNR.gamma_rats=gg;
 
 clearvars -except SNR
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A2_Thal/mat')
+%cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 % save ('SNR_spikerate.mat')

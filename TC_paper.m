@@ -94,7 +94,7 @@ run 'region_PSI'
 run 'same_region_dif_freqs.m'
 
 %-----------------------SUA Juxta_SUA_act  Analysis------------------------------
-% cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Juxta SUA_act_mat')
+ cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Juxta SUA_act_mat')
   cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Juxta SUA_act_mat') 
 
 %phase consistency of subcortical firing of subcortical areas
@@ -106,9 +106,14 @@ run 'Filegen_SUA_act_new.m'
 
 % Sum fo spiking across bursts in time.
 run 'gaussian2.m'
+
+%Cycle by cycle analysis
+run 'CY_CY.m' % runs function 'cycles_10.m'
+
 %-----------------------SUA Probe_SUA_act  Analysis------------------------------
   cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Probe SUA_act_mat')
 %  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
+
 
  % Select rats at region and that have shown coh with ctx in the bua
  % analysis/ were chosen by KN in his excel file
@@ -116,6 +121,9 @@ run 'gaussian2.m'
  
  %Sum fo spiking across bursts in time.
  run 'gaussian_probe.m'
+
+ %triggered avg from burst onset
+ run 'triggered_avg_sua.m'
 
 
 

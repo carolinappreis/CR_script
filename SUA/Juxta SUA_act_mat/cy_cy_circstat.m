@@ -1,10 +1,10 @@
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
+ cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
 load ('data_all' , 'freq')
 
- cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
+%  cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
+ cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
 load 'animal_region.mat' % comes from code pre_filegen_SUA_act
 % load 'non_repeat_animal_region.mat'
 % load 'single_subj_VM_VL.mat'
@@ -12,7 +12,7 @@ load 'animal_region.mat' % comes from code pre_filegen_SUA_act
 thal_CZ= thal_VL;
 thal_BZ=[thal_VM thal_VA];
 % all_regions={thal_CZ; thal_BZ;}
-all_regions={thal_BZ;};
+all_regions={thal_CZ;};
 n=[17.5:7.5:32.5];
 freq=cell(1,1);
 for i=1:length(n)
@@ -62,7 +62,8 @@ for t=1:size(freq,2)
             [b,a]=butter(2,[freq{1,t}(1)/(0.5*srn) freq{1,t}(end)/(0.5*srn)],'bandpass');
             Ecogfiltered=filtfilt(b,a,WaveData_DC);
             ecog_units(j,t,:)=Ecogfiltered;
-            ang{1,j}(:,t)=wrapTo2Pi(angle(hilbert(Ecogfiltered(data_ones))));
+            hp=wrapTo2Pi(angle(hilbert(Ecogfiltered)));
+            ang{1,j}(:,t)=hp(data_ones);
             vect_length(j,t)=circ_r(ang{1,j}(:,t));
             ray_test(j,t)=circ_rtest(ang{1,j}(:,t));
         end
@@ -71,7 +72,7 @@ end
 
 r=ray_test<0.05;
 stat_d=[];
-for i=1:10
+for i=1:size(ray_test,1)
     if sum(r(i,:))>0
         stat_d=[stat_d;i];
     end
@@ -89,6 +90,6 @@ end
 units_match=cell2mat(data_all(1,stat_d(1:end))');
 
 % clearvars -except units_match ecogbf_match stat_d
-% save 'BZ_cycle'
-
+% save 'CZ_cycle'
+% 
 
