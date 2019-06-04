@@ -44,3 +44,10 @@ run 'spikes_makemua.m' % will run make_CR_spikes.m function
 
 %Firing-rate of units into alpha, beta ,gamma
 run 'process_SUA.m'
+
+% triggered averaged from bursts aligned and non-aligned
+run 'triggered_avg_sua.m'
+
+%cycle by cucle analysis prbe
+run 'cy_cy_probe.m' % comes from 'cy_cy_probe_stats.m'
+

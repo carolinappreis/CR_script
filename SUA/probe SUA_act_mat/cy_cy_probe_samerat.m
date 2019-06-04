@@ -1,8 +1,19 @@
 clear all
 cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 load ('SNR_cycle_probe.mat')
+same_a=[28;29];
+WaveData_DC=ctx(same_a,:);
 
-WaveData_DC=ctx;
+hp=find((cellfun(@isempty,SUA))==0);
+r=[];
+for i=1:length(same_a)
+r=[r find(hp(:,1)==same_a(i))];
+end
+
+
+for i=1:length(r)
+stat_d1{i,1}=stat_d{r(i),1};
+end
 
 for i =1:size(stat_d,1)
     %     SSNR.psd(i,:)=pwelch(WaveData_DC(stat_d(i),:),1000,[],1000,1000);
@@ -19,9 +30,9 @@ for i =1:size(stat_d,1)
 end
 
 
-for u=1:size(units_match,1)
+for u=r(1):r(end)
     units_match1=units_match{u,1};
-    close all
+%     close all
     for um=1:size(units_match1,1)
         block = cy_bursts{u,1}{2,1}(any(cy_bursts{u,1}{2,1},2),:);
         for d1=1:size(block,1)
@@ -71,29 +82,30 @@ for u=1:size(units_match,1)
 %     end
 %     rlim([0 0.7])
 %     legend([p1 p2 p3 p4 p5],{'1st cycle','2nd cycle','3rd cycle','4th cycle','5th cycle'},'Box','off','Orientation','horizontal','Location','south','FontSize',9)
-    
-    
-    %%per animal
-    %     for i=11:15
-    %         if i==11
-    %             p1=polarplot([0 cyc_ang_avg(i)], [0, cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-    %             hold on
-    %         elseif i==12
-    %             p2=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-    %         elseif i==13
-    %             p3=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-    %         elseif i==14
-    %             p4=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-    %         elseif i==15
-    %             p5=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-    %
-    %         end
-    %         rlim([0 0.6])
-    %     end
-    %     legend([p1 p2 p3 p4 p5],{'1st cycle','2nd cycle','3rd cycle','4th cycle','5th cycle'},'Box','off','Orientation','horizontal','Location','south','FontSize',9)
+%     
     end
+        %per animal
+        for i=11:15
+            if i==11
+                p1=polarplot([0 cyc_ang_avg(i)], [0, cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+                hold on
+            elseif i==12
+                p2=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+            elseif i==13
+                p3=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+            elseif i==14
+                p4=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+            elseif i==15
+                p5=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+    
+            end
+            rlim([0 0.6])
+        end
+        legend([p1 p2 p3 p4 p5],{'1st cycle','2nd cycle','3rd cycle','4th cycle','5th cycle'},'Box','off','Orientation','horizontal','Location','south','FontSize',9)
+%    close all
     clear pha_b
 end
+
 
 
 

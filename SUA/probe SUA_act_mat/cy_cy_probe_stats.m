@@ -1,6 +1,6 @@
 clear all
 cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-load ('newSUA_BZ')
+load ('newSUA_SNR')
 srn=1000;
 time=0:0.001:((size(ctx(1,:),2)-1)./srn);
 
@@ -68,7 +68,7 @@ end
 
 
 
-clearvars -except units_match ecogbf_match stat_d data_all data_ones srn time ctx SUA
-save 'BZ_cycle_probe'
+% clearvars -except units_match ecogbf_match stat_d data_all data_ones srn time ctx SUA
+% save 'BZ_cycle_probe'
 
 
