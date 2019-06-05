@@ -122,8 +122,5 @@ run 'CY_CY.m' % runs function 'cycles_10.m'
  %Sum fo spiking across bursts in time.
  run 'gaussian_probe.m'
 
- %triggered avg from burst onset
- run 'triggered_avg_sua.m'
-
 
 

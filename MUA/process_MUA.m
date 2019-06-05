@@ -1,16 +1,16 @@
 
-% cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat')
+% cd('C:\Users\creis\Documents\GitHub\CR_script\MUA')
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-load ('newSUA_SNR')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\MUA')
+load ('newMUA_SNR')
 srn=1000;
 spikerate=[];
 
-for ii=1:size(SUA,1)
-    for k=1:size(SUA{ii,1},1)
+for ii=1:size(MUA,1)
+    for k=1:size(MUA{ii,1},1)
         sk_ctc=[];
-        for i =1:srn:(length(SUA{ii,1}(k,:))-srn);
-            sk_ctc=[sk_ctc numel(find(SUA{ii,1}(k,i:i+srn)==1))];
+        for i =1:srn:(length(MUA{ii,1}(k,:))-srn);
+            sk_ctc=[sk_ctc numel(find(MUA{ii,1}(k,i:i+srn)==1))];
             SNR.spikerate{ii,1}(1,k)=mean(sk_ctc);
         end
         
@@ -51,11 +51,11 @@ for i=1:size(SNR.beta_idx,1)
     end
 end
 SNR.ctx=ctx;
-SNR.sua=SUA;
+SNR.mua=MUA;
 SNR.alpha_rats=aa;
 SNR.beta_rats=bb;
 SNR.gamma_rats=gg;
 
 clearvars -except SNR
-%cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+%cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\MUA\probe MUA_act_mat')
 % save ('SNR_spikerate.mat')

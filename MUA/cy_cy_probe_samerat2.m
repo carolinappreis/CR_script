@@ -1,5 +1,5 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\MUA')
 load ('SNR_cycle_probe.mat')
 same_a=[28;29];
 WaveData_DC=ctx(same_a,:);

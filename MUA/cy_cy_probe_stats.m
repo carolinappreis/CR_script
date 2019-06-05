@@ -1,6 +1,6 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-load ('newSUA_SNR')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\MUA')
+load ('newMUA_SNR')
 srn=1000;
 time=0:0.001:((size(ctx(1,:),2)-1)./srn);
 
@@ -11,16 +11,16 @@ for i=1:length(n)
 end
 
 idx=[];
-for i=1:size(SUA,1)
-    if ~isempty(SUA{i,1})
+for i=1:size(MUA,1)
+    if ~isempty(MUA{i,1})
         idx=[idx i];
     end
 end
 
 for t=1:size(freq,2)
     for i=1:length(idx)
-        for  j=1:size(SUA{idx(i),1},1)
-            data=SUA{idx(i),1}(j,:);
+        for  j=1:size(MUA{idx(i),1},1)
+            data=MUA{idx(i),1}(j,:);
             data_all{i,1}(j,:)=data;
             data_ones{i,j}=find(data==1);
             data_one=find(data==1);
@@ -68,7 +68,7 @@ end
 
 
 
-% clearvars -except units_match ecogbf_match stat_d data_all data_ones srn time ctx SUA
+% clearvars -except units_match ecogbf_match stat_d data_all data_ones srn time ctx MUA
 % save 'BZ_cycle_probe'
 
 

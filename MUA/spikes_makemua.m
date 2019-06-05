@@ -16,7 +16,7 @@ for nn=1:length(state_mat);
     
     cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/MATLAB/KN')
     %  cd ('\Users\creis\Documents\MATLAB\KN')
-    clearvars -except nfile_i state_mat A rr SUA ctx nn ctx_SUA animals lesion
+    clearvars -except nfile_i state_mat A rr MUA ctx nn ctx_MUA animals lesion
     name=A(state_mat(nn),1:(find(A((state_mat((nn))),:)=='.')-1))
     load(name)
     B=who;
@@ -57,30 +57,30 @@ for nn=1:length(state_mat);
     
     ts=timeseries(WaveData(1,:),0:(1/samprateold):((size(WaveData,2)-1)/samprateold));
     ts1=resample(ts,0:0.001:((size(WaveData,2)-1)/samprateold),'linear');
-    ctx_SUA(1,:)=ts1.data;
+    ctx_MUA(1,:)=ts1.data;
     timeold=0:(1/samprateold):(length(WaveData(1,:))-1)*(1/samprateold);
     for ii=1:length(chanofinterest)
         eval(['WaveData(1+ii,:)=' B{chanofinterest(ii)} '.values;']);
         WaveData=double(WaveData);
-        ctx_SUA(1+ii,:)=makemua_CR_spikes(WaveData(1+ii,:)',0.00005,0.00005,round(samprateold),1000,5);
+        ctx_MUA(1+ii,:)=makemua_CR_spikes(WaveData(1+ii,:)',0.00005,0.00005,round(samprateold),1000,5);
     end
-    SUA{nn,1}=ctx_SUA(2:(end),:);
-    ctx(nn,:)=ctx_SUA(1,:);
-    clear ctx_SUA
+    MUA{nn,1}=ctx_MUA(2:(end),:);
+    ctx(nn,:)=ctx_MUA(1,:);
+    clear ctx_MUA
 end
 
 n=[];
-for i=1:size(SUA,1)
-    if ~isempty (SUA{i,1})
+for i=1:size(MUA,1)
+    if ~isempty (MUA{i,1})
         n=[n i];
     end
 end
 
 animals=A(lesion(n),:);
 % 
-% clearvars -except SUA ctx animals
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-% save 'newSUA_SNR.mat'
+% clearvars -except MUA ctx animals
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\MUA')
+% save 'newMUA_SNR.mat'
 
 
 

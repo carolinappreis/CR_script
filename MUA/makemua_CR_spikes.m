@@ -1,5 +1,5 @@
 
-function [sua] = makemua_CR_spikes(hpsig,msback,msfoward,muasr,rssr,uthresh)
+function [mua] = makemua_CR_spikes(hpsig,msback,msfoward,muasr,rssr,uthresh)
 
 % hpsig = wideband signal
 % msback = length of data replaced before a spike in s
@@ -79,8 +79,8 @@ data(n)=1;
 % plot(timeold,E1dabs)
 
 
-clear sua 
-sua = data;
+clear mua 
+mua = data;
 end
 
 

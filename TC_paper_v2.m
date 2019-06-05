@@ -39,6 +39,16 @@ run 'CY_CY.m' % runs function 'cycles_10.m'
   cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Probe SUA_act_mat')
 %  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
 
+ % Select rats at region and that have shown coh with ctx in the bua
+ % analysis/ were chosen by KN in his excel file
+ run 'filegen_slected_rats.m'
+ 
+ %Sum fo spiking across bursts in time.
+ run 'gaussian_probe.m'
+
+%-----------------------MUA------------------------------------------------------
+cd('C:\Users\creis\Documents\GitHub\CR_script\MUA')
+
 %Find region, spike sorting , creat files (newSUA_SNR.mat)
 run 'spikes_makemua.m' % will run make_CR_spikes.m function
 
