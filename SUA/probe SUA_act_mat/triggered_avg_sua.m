@@ -1,12 +1,21 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\MUA')
-load('BZ_spikerate.mat') ; 
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+load('SNR_sua_skrate.mat') ; 
+ 
 
-Ecog=BZ.ctx(BZ.beta_rats,:);
-for i =1:size(BZ.beta_rats,1)
-    for ii=1:size(BZ.beta_idx{BZ.beta_rats(i),1},2)
-        hp=BZ.beta_idx{BZ.beta_rats(i),1}(1,ii);
-        data_all{i,1}(ii,:)=BZ.mua{BZ.beta_rats(i),1}(hp,:);
+% subj= SNR.beta_rats(ismember(SNR.beta_rats,BZ.beta_rats));
+
+subj= SNR.beta_rats;
+color_b=[0 0 0.5]; %snr
+% color_b=[0.5 0 0.5]; %bz
+
+
+
+Ecog=SNR.ctx(subj,:);
+for i =1:size(subj,1)
+    for ii=1:size(SNR.beta_idx{subj(i),1},2)
+        hp=SNR.beta_idx{subj(i),1}(1,ii);
+        data_all{i,1}(ii,:)=SNR.sua{subj(i),1}(hp,:);
         clear hp
     end
 end
@@ -18,7 +27,7 @@ for j=1:size(data_all,1)
     
     data=data_all{j,1};
     ecog=Ecog(j,:);
-    clearvars -except j ii srn Ecog data ecog data_all  rec_pa1 rec_npa1 rec_pa2 rec_npa2 region_pl region_spl region_npl region_nspl color_b
+    clearvars -except j ii SNR Ecog data ecog data_all srn rec_pa1 rec_npa1 rec_pa2 rec_npa2 region_pl region_spl region_npl region_nspl subj color_b
     
     for ii=1:size(data,1)
         
@@ -44,7 +53,6 @@ for j=1:size(data_all,1)
     end
     rec_pa2(j,:)=mean(rec_pa1{j,1},1);
     rec_npa2(j,:)=mean(rec_npa1{j,1},1);
-    
     clear data
 end
 rec_pa=cell2mat(rec_pa1);
@@ -56,8 +64,6 @@ region_npl=zscore(mean(rec_npa,1));
 region_snpl=zscore(std(rec_npa)./sqrt(size(rec_npa,1)));
 
 time2=[1:401];
-color_b=[0.2 0.5 0.5];
-color_b=[0.5 0 0.5];
 color_s=[0.5 0.5 0.5];
 
 
@@ -90,5 +96,34 @@ legend([p2],{'non-phase aligned'},'FontSize',12)
 box ('off')
 
 
-% plot(rec_pa1{10,:}(2,:)') % very good cz sua
-% plot(rec_pa1{1,:}')% snr example
+
+% clear all
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+% load('rec_pa2_snr.mat')
+% s=rec_pa2;
+% clear rec_pa2
+% load('rec_pa2_bz.mat')
+% b=rec_pa2;
+% clear rec_pa2
+% for i=1:22
+%     subplot(3,10,i)
+%     plot(b(i,:))
+%     hold on
+%     plot(s(i,:))
+% box('off')
+% end
+
+
+for nn=3
+for i =1:size(s{nn,1},1)
+subplot(size(s{nn,1},1),1,i)
+plot(s{1,1}(i,:))
+xlim ([0 10000])
+end
+figure(2)
+for i =1:size(b{nn,1},1)
+subplot(size(b{nn,1},1),1,i)
+plot(b{1,1}(i,:))
+xlim ([0 10000])
+end
+end

@@ -1,18 +1,18 @@
 clear all
 cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\MUA')
-load('BZ_spikerate.mat') ;
+load('SNR_spikerate.mat') ;
 
 % color_b=[0 0 0.5]; %snr
 color_b=[0.5 0 0.5]; %bz
 
-% subj= BZ.beta_rats(ismember(BZ.beta_rats,BZ.beta_rats));
+% subj= SNR.beta_rats(ismember(SNR.beta_rats,SNR.beta_rats));
 subj=[28;29];
 
-Ecog=BZ.ctx(subj,:);
+Ecog=SNR.ctx(subj,:);
 for i =1:size(subj,1)
-    for ii=1:size(BZ.beta_idx{subj(i),1},2)
-        hp=BZ.beta_idx{subj(i),1}(1,ii);
-        data_all{i,1}(ii,:)=BZ.sua{subj(i),1}(hp,:);
+    for ii=1:size(SNR.beta_idx{subj(i),1},2)
+        hp=SNR.beta_idx{subj(i),1}(1,ii);
+        data_all{i,1}(ii,:)=SNR.mua{subj(i),1}(hp,:);
         clear hp
     end
 end
@@ -24,7 +24,7 @@ for j=1:size(data_all,1)
     
     data=data_all{j,1};
     ecog=Ecog(j,:);
-    clearvars -except j ii srn Ecog data ecog data_all  rec_pa1 rec_npa1 region_pl region_spl region_npl region_nspl subj color_b
+    clearvars -except j ii srn Ecog data ecog data_all  rec_pa1 rec_npa1 rec_pa2 rec_npa2 region_pl region_spl region_npl region_nspl subj color_b
     
     for ii=1:size(data,1)
         
@@ -48,7 +48,8 @@ for j=1:size(data_all,1)
         rec_pa1{j,1}=reshape(sum(output_pa,2),(size(sum(output_pa,2),1)),(size(sum(output_pa,2),3)));
         rec_npa1{j,1}=reshape(sum(output_npa,2),(size(sum(output_npa,2),1)),(size(sum(output_npa,2),3)));
     end
-    
+    rec_pa2(j,:)=mean(rec_pa1{j,1},1);
+    rec_npa2(j,:)=mean(rec_npa1{j,1},1);
     clear data
 end
 rec_pa=cell2mat(rec_pa1);
@@ -79,3 +80,20 @@ box ('off')
 %         ylabel('Firing-rate(z-score)')
 
 hold on
+
+
+clear all
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\MUA')
+load('rec_pa2_snr.mat')
+s=rec_pa2;
+clear rec_pa2
+load('rec_pa2_bz.mat')
+b=rec_pa2;
+clear rec_pa2
+for i=1:2
+    subplot(2,1,i)
+    plot(b(i,:))
+    hold on
+    plot(s(i,:))
+box('off')
+end

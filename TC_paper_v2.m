@@ -36,8 +36,10 @@ run 'gaussian2.m'
 run 'CY_CY.m' % runs function 'cycles_10.m'
 
 %-----------------------SUA Probe_SUA_act  Analysis------------------------------
-  cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Probe SUA_act_mat')
+
 %  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
+cd('C:\Users\creis\Documents\GitHub\CR_script\SUA\probe SUA_act_mat')
+
 
  % Select rats at region and that have shown coh with ctx in the bua
  % analysis/ were chosen by KN in his excel file
@@ -53,10 +55,10 @@ cd('C:\Users\creis\Documents\GitHub\CR_script\MUA')
 run 'spikes_makemua.m' % will run make_CR_spikes.m function
 
 %Firing-rate of units into alpha, beta ,gamma
-run 'process_SUA.m'
+run 'process_MUA.m'
 
 % triggered averaged from bursts aligned and non-aligned
-run 'triggered_avg_sua.m'
+run 'triggered_avg_mua.m'
 
 %cycle by cucle analysis prbe
 run 'cy_cy_probe.m' % comes from 'cy_cy_probe_stats.m'

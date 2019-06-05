@@ -1,11 +1,7 @@
-%a)select the region we want to analyse
-%b)do the spike sorting - BUA
-%c)filter the EGG in the beta range
-%d)leave thal region unfiltered
 
 clear all
-cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A2_Thal/MAT')
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A2_Thal\mat')
+% cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A2_Thal/MAT')
+ cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A2_Thal\mat')
 
 load 'animal_lesion_nolesion.mat'
 

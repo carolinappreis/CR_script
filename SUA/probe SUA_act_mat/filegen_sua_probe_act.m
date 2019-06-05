@@ -1,6 +1,6 @@
 clear all
-% cd ('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+cd ('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
 load list_probe_sua.mat; A=probe_list; clearvars probe_list;
 newfile=[];
 nolesion=[];
@@ -116,7 +116,7 @@ end
     
     cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
     clearvars -except data_all Ecog_all A lesion time
-    save 'probe_SUA_BZ'
+%     save 'probe_SUA_BZ'
     
     
    
