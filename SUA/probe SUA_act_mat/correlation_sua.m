@@ -39,18 +39,19 @@ for rat=1:size(b,1);
             samp_rate=1000;
             freq=100;
             lag_neg=50;
-            ch_max=0.3;
+            ch_max=0.1;
             opt_str='';
             
-            [f,t,cl]=sp2_m1(0,s_2,b_2,sec_tot,samp_rate,seg_pwr,opt_str);
-            psp_ch1(f,cl,freq,ch_max)
+%             [f,t,cl]=sp2_m1(0,s_2,b_2,sec_tot,samp_rate,seg_pwr,opt_str);
+%             psp_ch1(f,cl,freq,ch_max)
+            hold on
             % m=m+1;
             % cor(m,:)=cl;
         end
         clear b_2 s_2
     end
-    % [f,t,cl]=sp2_m1(0,s_2,b_2,sec_tot,samp_rate,seg_pwr,opt_str);
-    % psp2(f,t,cl,freq,lag_tot,lag_neg,ch_max)
+    [f,t,cl]=sp2_m1(0,s_2,b_2,sec_tot,samp_rate,seg_pwr,opt_str);
+    psp2(f,t,cl,freq,lag_tot,lag_neg,ch_max)
     
     % psp_ph1(f4,cl4,freq)
 end
