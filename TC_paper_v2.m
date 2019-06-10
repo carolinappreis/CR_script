@@ -37,7 +37,7 @@ run 'CY_CY.m' % runs function 'cycles_10.m'
 
 %-----------------------SUA Probe_SUA_act  Analysis------------------------------
 
-%  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
+cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
 cd('C:\Users\creis\Documents\GitHub\CR_script\SUA\probe SUA_act_mat')
 
 
@@ -47,9 +47,16 @@ cd('C:\Users\creis\Documents\GitHub\CR_script\SUA\probe SUA_act_mat')
  
  %Sum fo spiking across bursts in time.
  run 'gaussian_probe.m'
+ 
+ % burst triggered avg
+ run 'triggered_avg_sua.m' % data will come from 'spikerate_sua.m'
+ 
+ %correlation spikes snr bz same rat
+ run 'correlation_sua.m'
 
 %-----------------------MUA------------------------------------------------------
 cd('C:\Users\creis\Documents\GitHub\CR_script\MUA')
+cd('/Users/Carolina/Documents/GitHub/CR_script/MUA')
 
 %Find region, spike sorting , creat files (newSUA_SNR.mat)
 run 'spikes_makemua.m' % will run make_CR_spikes.m function

@@ -1,20 +1,23 @@
-clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\MUA')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/MUA')
-load ('SNR_cycle_probe.mat')
 
-WaveData_DC=ctx;
+clear all
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+load ('BZ_cycle_sua.mat')
+%
+% WaveData_DC=ctx;
+
+
 
 for i =1:size(stat_d,1)
-    %     SSNR.psd(i,:)=pwelch(WaveData_DC(stat_d(i),:),1000,[],1000,1000);
-    SSNR.ecog_filt(i,:)=ecogbf_match(i,:);
-    SSNR.ecog_env(i,:)=abs(hilbert(ecogbf_match(i,:)));
-    env=SSNR.ecog_env(i,:);Ecogfiltered=SSNR.ecog_filt(i,:);
-    SSNR.onset_raw{i,1}=bursts(env);
-    SSNR.offset_raw{i,1}=bursts_off(env);
-    SSNR.onset_phase_al{i,1}=bursts_aligned(env,Ecogfiltered);
-    SSNR.offset_phase_al{i,1}=bursts_aligned_off(env,Ecogfiltered);
-    SSNR.ecog_phase(i,:)=wrapTo2Pi(angle(hilbert(ecogbf_match(i,:))));
+    %     SBZ.psd(i,:)=pwelch(WaveData_DC(stat_d(i),:),1000,[],1000,1000);
+    SBZ.ecog_filt(i,:)=ecogbf_match(i,:);
+    SBZ.ecog_env(i,:)=abs(hilbert(ecogbf_match(i,:)));
+    env=SBZ.ecog_env(i,:);Ecogfiltered=SBZ.ecog_filt(i,:);
+    SBZ.onset_raw{i,1}=bursts(env);
+    SBZ.offset_raw{i,1}=bursts_off(env);
+    SBZ.onset_phase_al{i,1}=bursts_aligned(env,Ecogfiltered);
+    SBZ.offset_phase_al{i,1}=bursts_aligned_off(env,Ecogfiltered);
+    SBZ.ecog_phase(i,:)=wrapTo2Pi(angle(hilbert(ecogbf_match(i,:))));
     cy_bursts{i,1}=cycles_10(env,Ecogfiltered);
     clearvars env Ecogfiltered
 end
@@ -30,30 +33,30 @@ for u=1:size(units_match,1)
                 if d2+1<length(block(d1,:))
                     epoch=block(d1,d2):block(d1,d2+1);
                     l=find(units_match1(um,epoch)==1);
-                    pha_b{um,1}{d1,d2}=SSNR.ecog_phase(u,epoch(l));
-                    pha_b_all{u,um}{d1,d2}=SSNR.ecog_phase(u,epoch(l));
+                    pha_b{um,1}{d1,d2}=SBZ.ecog_phase(u,epoch(l));
+                    pha_b_all{u,um}{d1,d2}=SBZ.ecog_phase(u,epoch(l));
                     idx_spkcycle{um,1}{d1,d2}=epoch(l);
                 end
             end
         end
     end
-    for cell=1:size(pha_b,1)
-        for ii =1:size(pha_b{cell,1},2)
-            for i=1:size(pha_b{cell,1},1)
-                if ~isempty (pha_b{cell,1}{i,ii})
-                    bu{i,1}=pha_b{cell,1}{i,ii}(1);
+      for cel=1:size(pha_b,1)
+        for ii =1:size(pha_b{cel,1},2)
+            for i=1:size(pha_b{cel,1},1)
+                if ~isempty (pha_b{cel,1}{i,ii})
+                    bu{i,1}=pha_b{cel,1}{i,ii}(1);
                 end
             end
             bu=bu(~cellfun('isempty',bu));
-            vec_lg(cell,ii)=circ_r(cell2mat(bu));
-            pref_pha(cell,ii)=circ_mean(cell2mat(bu));
+            vec_lg(cel,ii)=circ_r(cell2mat(bu));
+            pref_pha(cel,ii)=circ_mean(cell2mat(bu));
             %         zm(cell,ii) = circ_r(cell2mat(bu)).*(exp(sqrt(-1).*(circ_mean(cell2mat(bu)))));
             clear bu
         end
         cyc_avg(1,:)=mean(vec_lg,1);
         cyc_ang_avg(1,:)=circ_mean(pref_pha);
         
-        clearvars -except zm cell pha_b_all pha_b vec_lg  cyc_avg cyc_ang_avg pref_pha units_match cy_bursts SSNR u f units_match1
+        clearvars -except zm cell pha_b_all pha_b vec_lg  cyc_avg cyc_ang_avg pref_pha units_match cy_bursts SBZ u f units_match1
 %     for i=11:15
 %         figure(cell+1)
 %         if i==11
@@ -115,4 +118,4 @@ end
 % plot(time,Ecogfiltered)
 % hold on
 % plot(time(cy_bursts{1,1}{2,1}(2,:)),Ecogfiltered(cy_bursts{1,1}{2,1}(2,:)),'r.')
-% plot(time(cell2mat(idx_spkcycle{1,1}(1,:))),Ecogfiltered(cell2mat(idx_spkcycle{1,1}(1,:))),'k.')
+% plot(time(cell2mat(idx_spkcycle{1,1}(1,:))),Ecogfiltered(cell2mat(idx_spkcycle{1,1}(1,:))),'k.').')

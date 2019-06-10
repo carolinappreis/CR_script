@@ -1,6 +1,6 @@
 clear all
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
 load ('SUA_BZ')
 load('BZ_cycle')
 
@@ -32,6 +32,23 @@ for f=1:size(cy_bursts,1)
     end
 end
 
+% %checking plots
+% plot(log(UBZ.psd(:,1:50))')
+% env=UBZ.ecog_env(1,:);Ecogfiltered=UBZ.ecog_filt(1,:);
+% 
+% plot(time,env)
+% hold on
+% plot(time,Ecogfiltered)
+% plot(time(UBZ.onset_phase_al{1,1}{1,1}),Ecogfiltered(UBZ.onset_phase_al{1,1}{1,1}),'bo')
+% plot(time(UBZ.offset_phase_al{1,1}{1,1}),Ecogfiltered(UBZ.offset_phase_al{1,1}{1,1}),'ko')
+% plot(time(UBZ.onset_raw{1,1}{1,1}),env(UBZ.onset_raw{1,1}{1,1}),'b.')
+% plot(time(UBZ.offset_raw{1,1}{1,1}),env(UBZ.offset_raw{1,1}{1,1}),'k.')
+% 
+% plot(time,Ecogfiltered)
+% hold on
+% plot(time(cy_bursts{1,1}{2,1}(2,:)),Ecogfiltered(cy_bursts{1,1}{2,1}(2,:)),'r.')
+% plot(time(cell2mat(idx_spkcycle{1,1}(1,:))),Ecogfiltered(cell2mat(idx_spkcycle{1,1}(1,:))),'k.')
+
 
 for cell=1:size(pha_b,1)
     for ii =1:size(pha_b{cell,1},2)
@@ -53,8 +70,8 @@ for cell=1:size(pha_b,1)
 end
 
 
+figure(1)
 for i=11:15
-    
   
     if i==11
         p1=polarplot([0 cyc_ang_avg(i)], [0, cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
@@ -100,19 +117,3 @@ end
 
 % circ_plot(cell2mat(bu),'pretty','bo',true,'linewidth',2,'color','r')
 
-%checking plots
-% plot(log(UBZ.psd(:,1:50))')
-% env=UBZ.ecog_env(1,:);Ecogfiltered=UBZ.ecog_filt(1,:);
-
-% plot(time,env)
-% hold on
-% plot(time,Ecogfiltered)
-% plot(time(UBZ.onset_phase_al{1,1}{1,1}),Ecogfiltered(UBZ.onset_phase_al{1,1}{1,1}),'bo')
-% plot(time(UBZ.offset_phase_al{1,1}{1,1}),Ecogfiltered(UBZ.offset_phase_al{1,1}{1,1}),'ko')
-% plot(time(UBZ.onset_raw{1,1}{1,1}),env(UBZ.onset_raw{1,1}{1,1}),'b.')
-% plot(time(UBZ.offset_raw{1,1}{1,1}),env(UBZ.offset_raw{1,1}{1,1}),'k.')
-%
-% plot(time,Ecogfiltered)
-% hold on
-% plot(time(cy_bursts{1,1}{2,1}(2,:)),Ecogfiltered(cy_bursts{1,1}{2,1}(2,:)),'r.')
-% plot(time(cell2mat(idx_spkcycle{1,1}(1,:))),Ecogfiltered(cell2mat(idx_spkcycle{1,1}(1,:))),'k.')
