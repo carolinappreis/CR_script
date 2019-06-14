@@ -9,7 +9,7 @@ clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequenc
 
 handup=[];
 for i=1:length(start)
-        handup=[handup start(i):ending(i)]; %#ok<*AGROW>
+    handup=[handup start(i):ending(i)]; %#ok<*AGROW>
 end
 handup=sort(handup,'ascend');
 
@@ -64,25 +64,29 @@ tremor_or2=NaN(length(start),1);
 
 for i=1:length(start)
     if (~isnan(start(i)))
-         tremor_or2(i,1)=(mean(envelope(ending(i)-1000:ending(i)))-mean(envelope(start(i)-1000:start(i))))/mean(envelope(start(i)-1000:start(i)));
-         tremor_sor2(i,1)=(mean(envelope(sur_end(i)-1000:sur_end(i)))-mean(envelope(sur_start(i)-1000:sur_start(i))))/mean(envelope(sur_start(i)-1000:sur_start(i)));
-
+        tremor_or2(i,1)=(mean(envelope(ending(i)-1000:ending(i)))-mean(envelope(start(i)-1000:start(i))))/mean(envelope(start(i)-1000:start(i)));
     else
         tremor_or2(i,1)=NaN;
-        tremor_sor2(i,1)=NaN;
     end
 end
-
 
 clear tt
 k=1;
 tt=NaN(20,12);
 tt2=NaN(20,12);
 
+
+[m,n] = size(xx) ;
+idx = randperm(n) ;
+yy = xx ;
+yy(1,idx) = xx(1,:);
+
 for i=1:12
     tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
-    tt2(1:sum(xx==i),i)=tremor_sor2(find(xx==i));
+    tt2(1:sum(yy==i),i)=tremor_or2(find(yy==i));
 end
+
+[h,p]=ttest(tt,tt2)
 
 close all
 figure()
