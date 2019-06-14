@@ -1,5 +1,6 @@
 clear all
-cd('/Users/Carolina/Documents/MATLAB/Tremor')
+% cd('/Users/Carolina/Documents/MATLAB/Tremor')
+cd('C:\Users\creis\Documents\MATLAB\pt_data_periphstim')
 load ('p08_randomstim_cursos.mat')
 start_clean;
 
