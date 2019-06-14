@@ -1,5 +1,6 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
 load('SNR_sua_skrate.mat') ;
 load('BZ_sua_skrate.mat') ;
 subj= SNR.beta_rats(ismember(SNR.beta_rats,BZ.beta_rats));
@@ -42,16 +43,16 @@ for rat=1:size(b,1);
             ch_max=0.1;
             opt_str='';
             
-%             [f,t,cl]=sp2_m1(0,s_2,b_2,sec_tot,samp_rate,seg_pwr,opt_str);
-%             psp_ch1(f,cl,freq,ch_max)
+            [f,t,cl]=sp2_m1(0,s_2,b_2,sec_tot,samp_rate,seg_pwr,opt_str);
+            psp_ch1(f,cl,freq,ch_max)
             hold on
-            % m=m+1;
-            % cor(m,:)=cl;
+            m=m+1;
+            cor(m,:)=cl;
         end
         clear b_2 s_2
     end
-    [f,t,cl]=sp2_m1(0,s_2,b_2,sec_tot,samp_rate,seg_pwr,opt_str);
-    psp2(f,t,cl,freq,lag_tot,lag_neg,ch_max)
+%     [f,t,cl]=sp2_m1(0,s_2,b_2,sec_tot,samp_rate,seg_pwr,opt_str);
+%     psp2(f,t,cl,freq,lag_tot,lag_neg,ch_max)
     
     % psp_ph1(f4,cl4,freq)
 end

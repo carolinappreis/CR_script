@@ -2,22 +2,28 @@
 clear all
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load ('SNR_cycle_sua.mat')
+load ('BZ_cycle_sua.mat')
 
-stat_d1=stat_d(~cellfun('isempty',stat_d));
-units_match1=units_match(~cellfun('isempty',units_match));
-ecogbf_match1=ecogbf_match(any(ecogbf_match,2),:);
+for i=1:size(BZ.same_subj,1)
+    stat_d1{i,1}(:)=stat_d{(BZ.same_subj(i)),1};
+    units_match1{i,1}=units_match{(BZ.same_subj(i)),1};
+    ecogbf_match1(i,:)=ecogbf_match(BZ.same_subj(i),:);
+end
+
+stat_d1=stat_d1(~cellfun('isempty',stat_d1));
+units_match1=units_match1(~cellfun('isempty',units_match1));
+ecogbf_match1=ecogbf_match1(any(ecogbf_match1,2),:);
 
 for i =1:size(stat_d1,1)
-    %     SSNR.psd(i,:)=pwelch(WaveData_DC(stat_d(i),:),1000,[],1000,1000);
-    SSNR.ecog_filt(i,:)=ecogbf_match1(i,:);
-    SSNR.ecog_env(i,:)=abs(hilbert(ecogbf_match1(i,:)));
-    env=SSNR.ecog_env(i,:);Ecogfiltered=SSNR.ecog_filt(i,:);
-    SSNR.onset_raw{i,1}=bursts(env);
-    SSNR.offset_raw{i,1}=bursts_off(env);
-    SSNR.onset_phase_al{i,1}=bursts_aligned(env,Ecogfiltered);
-    SSNR.offset_phase_al{i,1}=bursts_aligned_off(env,Ecogfiltered);
-    SSNR.ecog_phase(i,:)=wrapTo2Pi(angle(hilbert(ecogbf_match1(i,:))));
+    %     SBZ.psd(i,:)=pwelch(WaveData_DC(stat_d(i),:),1000,[],1000,1000);
+    SBZ.ecog_filt(i,:)=ecogbf_match1(i,:);
+    SBZ.ecog_env(i,:)=abs(hilbert(ecogbf_match1(i,:)));
+    env=SBZ.ecog_env(i,:);Ecogfiltered=SBZ.ecog_filt(i,:);
+    SBZ.onset_raw{i,1}=bursts(env);
+    SBZ.offset_raw{i,1}=bursts_off(env);
+    SBZ.onset_phase_al{i,1}=bursts_aligned(env,Ecogfiltered);
+    SBZ.offset_phase_al{i,1}=bursts_aligned_off(env,Ecogfiltered);
+    SBZ.ecog_phase(i,:)=wrapTo2Pi(angle(hilbert(ecogbf_match1(i,:))));
     cy_bursts{i,1}=cycles_10(env,Ecogfiltered);
     clearvars env Ecogfiltered
 end
@@ -34,9 +40,9 @@ for u=1:size(units_match1,1)
                 if d2+1<length(block(d1,:))
                     epoch=block(d1,d2):block(d1,d2+1);
                     l=find(units_match2(um,epoch)==1);
-                    pha_b{um,1}{d1,d2}=SSNR.ecog_phase(u,epoch(l));
-                    pha_b_l{um,1}(d1,d2)=length(SSNR.ecog_phase(u,epoch(l)));
-                    pha_b_all{u,um}{d1,d2}=SSNR.ecog_phase(u,epoch(l));
+                    pha_b{um,1}{d1,d2}=SBZ.ecog_phase(u,epoch(l));
+                    pha_b_l{um,1}(d1,d2)=length(SBZ.ecog_phase(u,epoch(l)));
+                    pha_b_all{u,um}{d1,d2}=SBZ.ecog_phase(u,epoch(l));
                     %                     idx_spkcycle{u,um}{d1,d2}=epoch(l);
                     if isempty (epoch(l))
                         idx_spkcycle{u,um}(d1,d2)=0;
@@ -71,7 +77,7 @@ for u=1:size(units_match1,1)
                 
             end
             
-            clearvars -except zm idx_spkcycle pha_b_all pha_b pha_b_l vec_lg ctc cyc_avg cyc_ang_avg pref_pha units_match cy_bursts SSNR u f units_match1
+            clearvars -except zm idx_spkcycle pha_b_all pha_b pha_b_l vec_lg ctc cyc_avg cyc_ang_avg pref_pha units_match cy_bursts SBZ u f units_match1
                         for i=11:15
                             figure(ctc+1)
                             if i==11
@@ -125,16 +131,16 @@ end
     % circ_plot(ctc2mat(bu),'pretty','bo',true,'linewidth',2,'color','r')
     
     %checking plots
-    % plot(log(SSNR.psd(:,1:50))')
-    % env=SSNR.ecog_env(1,:);Ecogfiltered=SSNR.ecog_filt(1,:);
+    % plot(log(SBZ.psd(:,1:50))')
+    % env=SBZ.ecog_env(1,:);Ecogfiltered=SBZ.ecog_filt(1,:);
     %
     % plot(time,env)
     % hold on
     % plot(time,Ecogfiltered)
-    % plot(time(SSNR.onset_phase_al{1,1}{1,1}),Ecogfiltered(SSNR.onset_phase_al{1,1}{1,1}),'bo')
-    % plot(time(SSNR.offset_phase_al{1,1}{1,1}),Ecogfiltered(SSNR.offset_phase_al{1,1}{1,1}),'ko')
-    % plot(time(SSNR.onset_raw{1,1}{1,1}),env(SSNR.onset_raw{1,1}{1,1}),'b.')
-    % plot(time(SSNR.offset_raw{1,1}{1,1}),env(SSNR.offset_raw{1,1}{1,1}),'k.')
+    % plot(time(SBZ.onset_phase_al{1,1}{1,1}),Ecogfiltered(SBZ.onset_phase_al{1,1}{1,1}),'bo')
+    % plot(time(SBZ.offset_phase_al{1,1}{1,1}),Ecogfiltered(SBZ.offset_phase_al{1,1}{1,1}),'ko')
+    % plot(time(SBZ.onset_raw{1,1}{1,1}),env(SBZ.onset_raw{1,1}{1,1}),'b.')
+    % plot(time(SBZ.offset_raw{1,1}{1,1}),env(SBZ.offset_raw{1,1}{1,1}),'k.')
     %
     % plot(time,Ecogfiltered)
     % hold on

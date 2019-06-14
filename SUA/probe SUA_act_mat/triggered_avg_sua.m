@@ -8,17 +8,17 @@ subj= SNR.beta_rats(ismember(SNR.beta_rats,BZ.beta_rats));
 % clear all
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 % load('BZ_sua_skrate.mat') ;
-% subj= BZ.beta_rats;
+% subj= SNR.beta_rats;
 color_b=[0 0 0.5]; %snr
 % % color_b=[0.5 0 0.5]; %bz
 
 
 
-Ecog=BZ.ctx(subj,:);
+Ecog=SNR.ctx(subj,:);
 for i =1:size(subj,1)
-    for ii=1:size(BZ.beta_idx{subj(i),1},2)
-        hp=BZ.beta_idx{subj(i),1}(1,ii);
-        data_all{i,1}(ii,:)=BZ.sua{subj(i),1}(hp,:);
+    for ii=1:size(SNR.beta_idx{subj(i),1},2)
+        hp=SNR.beta_idx{subj(i),1}(1,ii);
+        data_all{i,1}(ii,:)=SNR.sua{subj(i),1}(hp,:);
         clear hp
     end
 end
@@ -67,6 +67,26 @@ region_npl=zscore(mean(rec_npa,1));
 region_snpl=zscore(std(rec_npa)./sqrt(size(rec_npa,1)));
 
 
+%%% just plot
+
+
+% clear all
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+% load('BZ_rec_pa12.mat')
+% b=rec_pa2;
+% clear rec_pa2
+% load('SNR_rec_pa12.mat')
+% s=rec_pa2;
+% clear rec_pa2
+% for i=1:22
+%     subplot(4,6,i)
+%     plot(b(i,:))
+%     hold on
+%     plot(s(i,:))
+% box('off')
+% end
+
+
 
 % 
 % time2=[1:401];
@@ -103,21 +123,9 @@ region_snpl=zscore(std(rec_npa)./sqrt(size(rec_npa,1)));
 % 
 % 
 % 
-% % clear all
-% % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-% % load('BZ_rec_pa2.mat')
-% % b=rec_pa2;
-% % clear rec_pa2
-% % load('BZ_rec_pa2.mat')
-% % s=rec_pa2;
-% % clear rec_pa2
-% % for i=1:22
-% %     subplot(3,10,i)
-% % %     plot(b(i,:))
-% %     hold on
-% %     plot(s(i,:))
-% % box('off')
-% % end
+
+
+
 % % 
 % % 
 % % for nn=3

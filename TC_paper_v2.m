@@ -37,7 +37,7 @@ run 'CY_CY.m' % runs function 'cycles_10.m'
 
 %-----------------------SUA Probe_SUA_act  Analysis------------------------------
 
-cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
+    cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
 cd('C:\Users\creis\Documents\GitHub\CR_script\SUA\probe SUA_act_mat')
 
 
