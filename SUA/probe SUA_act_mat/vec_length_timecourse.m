@@ -1,7 +1,7 @@
 
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
 load ('SNR_cycle_sua.mat')
 
 
@@ -71,5 +71,10 @@ for u=1:size(data_all,1)
     clear pha_b
 end
 
+plot(nanmean(vec_lg,1),'-d')
+xlim([0 22])
 
-plot(nanmean(vec_lg,1))
+figure()
+err=nanstd(vec_lg);
+errorbar(nanmean(vec_lg),err)
+xlim([0 22])

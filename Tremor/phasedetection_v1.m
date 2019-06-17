@@ -172,12 +172,7 @@ k=1;
 tt=NaN(20,12);
 
 for i=1:12
-    tt(1:sum(xx==i),i)=tremor_or2(find(xx==i)); % please check tt does not contain
-    % zeros - this can happen if tremor amplitude was too small and
-    % stimulation started and stopped within the 5 second window - if so
-    % execute
-    
-    % tt(tt==0)=NaN;
+    tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
 end
 
 
