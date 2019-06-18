@@ -1,7 +1,7 @@
 clear all
 % cd('/Users/Carolina/Documents/MATLAB/Tremor')
-cd('C:\Users\creis\Documents\MATLAB\pt_data_periphstim')
-load ('P01_RS_cursos.mat')
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
+load ('P02_randstim_cursos.mat')
 start_clean;
 
 %%% re - estimate tremor characteristics
@@ -70,58 +70,73 @@ for i=1:length(start)
     end
 end
 
-clear tt
+clear tt tt2
 k=1;
 tt=NaN(20,12);
-tt2=NaN(20,12);
-
-
-[m,n] = size(xx) ;
-idx = randperm(n) ;
 yy = xx ;
-yy(1,idx) = xx(1,:);
 
+for s=1:size(tt,2)
+    for i =1:100;
+        yy1=xx(randperm(size(xx,2)) );
+        tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
+        tt3(i,s)=nanmedian(tt2,1);
+        clear tt2 
+    end
+end
+lg=0:20;
 for i=1:12
     tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
-    tt2(1:sum(yy==i),i)=tremor_or2(find(yy==i));
 end
 
-[h,p]=ttest(tt,tt2)
-
-close all
-figure()
-fig=gcf;
-fig.Color=[1 1 1];
-bar(100.*nanmedian(tt))
+rr(1:size(tt,2))=mean(prctile(tt3,95));
+rr1(1:size(tt,2))=mean(prctile(tt3,25));
+bar(nanmedian(tt))
 hold on
-stem((100.*tt)')
-xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'})
-% ylim([(-max((max(tt)))-0.1).*100 (max(max(tt))+0.1).*100])
+plot(rr,'k--','LineWidth',1.5)
+plot(rr1,'k--','LineWidth',1.5)
 box('off')
-title ('P8')
+title 'Significant phasic-stimulation effect' 
+xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
+
+
+
+% find((nanmedian(tt))>(prctile(tt3,95))|(nanmedian(tt))<(prctile(tt3,25)))
 
 figure()
-fig=gcf;
-fig.Color=[1 1 1];
-bar(100.*nanmedian(tt2))
-hold on
-stem((100.*tt2)')
-xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'})
-% ylim([(-max((max(tt2)))-0.1).*100 (max(max(tt2))+0.1).*100])
+likhood_amp=sum(tt>prctile(tt3,95)| tt>0)./sum(~isnan(tt));
+likhood_sup=sum(tt<prctile(tt3,25)| tt<0)./sum(~isnan(tt));
+likhood=[likhood_sup ; likhood_amp];
+bar(likhood')
+title ('Likelihood of significant amplification/supression effect')
+xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
+legend('supression','amplification')
+legend('boxoff')
 box('off')
-title ('P8')
 
 
 
-
-st=NaN(1,size((tt),1));
-clear A; A=tt; %b1{f,1};
-clear B; B=tt2; %s1{f,1}(1:size(A,1),:);
-hayriye_c; st(1,:)=stats.prob; st2(1,:)=stats.posclusterslabelmat;
-beg=find(st(1,:)<0.01 & st2(1,:)~=0);
-if ~isempty(beg)
-    sig_rise_all=[beg(1) beg(end)];
-    
-end
-
-
+% close all
+% figure()
+% fig=gcf;
+% fig.Color=[1 1 1];
+% bar(nanmedian(tt))
+% hold on
+% stem(tt')
+% xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'})
+% % ylim([(-max((max(tt)))-0.1).*100 (max(max(tt))+0.1).*100])
+% box('off')
+% title ('P8')
+% % 
+% % figure()
+% fig=gcf;
+% fig.Color=[1 1 1];
+% bar(100.*nanmedian(tt2))
+% hold on
+% stem((100.*tt2)')
+% xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'})
+% % ylim([(-max((max(tt2)))-0.1).*100 (max(max(tt2))+0.1).*100])
+% box('off')
+% title ('P8')
+% 
+% 
+%
