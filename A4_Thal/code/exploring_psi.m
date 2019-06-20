@@ -2,13 +2,13 @@
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 %
 % %cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
-% region=char({'BZ';'BZ.'});
+% region=char({'SNR';'SNR.'});
 % load(region(2,:))
 %
 % for ik=1
-% %     :size(BZ.filt_thal,1);
-%     for ct=1:size(BZ.filt_thal{ik,1},1)
-%         non_norm=BZ.phase_ctx(ik,1)-BZ.phase_thal{ik,1}(ct,:);
+% %     :size(SNR.filt_thal,1);
+%     for ct=1:size(SNR.filt_thal{ik,1},1)
+%         non_norm=SNR.phase_ctx(ik,1)-SNR.phase_thal{ik,1}(ct,:);
 %         for x =1:size(non_norm,2)
 %             if non_norm(1,x)>pi
 %                 non_norm(1,x)=(non_norm(1,x))-(2.*pi);
@@ -19,7 +19,7 @@
 %             end
 %         end
 %
-%         ref=BZ.onset_phase_al{1,1}{2,1}(1);
+%         ref=SNR.onset_phase_al{1,1}{2,1}(1);
 %         steps=[50:5:550];
 %         for i=1:length(steps)
 %             output(ct,i)=abs(mean(exp(sqrt(-1).*(non_norm(ref:ref+steps(i)).*hanning(length(ref:ref+steps(i)))'))));
@@ -31,9 +31,9 @@
 % figure()
 % boxplot(output')
 % %
-% test=[BZ.phase_thal{1,1}(1,:);BZ.phase_ctx(1,:)];
+% test=[SNR.phase_thal{1,1}(1,:);SNR.phase_ctx(1,:)];
 % testa=abs(mean(exp(sqrt(-1).*(test(1,:)-test(2,:)))));
-% test1=[BZ.filt_thal{1,1}(1,:);BZ.filt_ctx(1,:)];
+% test1=[SNR.filt_thal{1,1}(1,:);SNR.filt_ctx(1,:)];
 % n=computePPC(test);
 % n1=computePPC(test1);
 
@@ -42,17 +42,17 @@
 clear all
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
-load('BZ_opt.mat');
-%  load('BZ.mat');
+load('SNR_opt.mat');
+%  load('SNR.mat');
 short=1;long=2;
 
 
-for ik=1:size(BZ.filt_thal,1);
+for ik=1:size(SNR.filt_thal,1);
     ref=[];
-    for ct=1:size(BZ.filt_thal{ik,1},1)
+    for ct=1:size(SNR.filt_thal{ik,1},1)
         non_nomr=[];epochs_idx=[];epochs_t=[];
-        ref=BZ.onset_raw{1,ik}{long,1};
-        non_norm=BZ.phase_ctx(ik,:)-BZ.phase_thal{ik,1}(ct,:);
+        ref=SNR.onset_raw{1,ik}{short,1};
+        non_norm=SNR.phase_ctx(ik,:)-SNR.phase_thal{ik,1}(ct,:);
         for x =1:size(non_norm,2)
             if non_norm(1,x)>pi
                 non_norm(1,x)=(non_norm(1,x))-(2.*pi);
@@ -107,20 +107,20 @@ for ik=1:size(BZ.filt_thal,1);
         ep_t_s=ep_t_s';
     end
     if size(ep_b,1)==1
-        BZ.across_b_long{ik,1}=squeeze(mean(ep_b,2))';
-%         BZ.across_b_surr{ik,1}=squeeze(mean(ep_b_s,2))';
+        SNR.across_b_long{ik,1}=squeeze(mean(ep_b,2))';
+        SNR.across_b_surr{ik,1}=squeeze(mean(ep_b_s,2))';
     else
         
-        BZ.across_b_long{ik,1}=squeeze(mean(ep_b,2));
-%         BZ.across_b_surr{ik,1}=squeeze(mean(ep_b_s,2));
-        % BZ.across_t_short{ik,:}=ep_t;
-        % BZ.across_t_surr{ik,:}=ep_t_s;
+         SNR.across_b_short{ik,1}=squeeze(mean(ep_b,2));
+         SNR.across_b_surr{ik,1}=squeeze(mean(ep_b_s,2));
+        % SNR.across_t_short{ik,:}=ep_t;
+        % SNR.across_t_surr{ik,:}=ep_t_s;
     end
         clearvars ep_b ep_t ep_b_s ep_t_s
     
 end
 
-clearvars -except BZ
+clearvars -except SNR
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 % cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
-% save 'BZ_opt'
+% save 'SNR_opt'
