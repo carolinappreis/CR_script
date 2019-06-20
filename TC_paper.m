@@ -25,6 +25,9 @@ run 'A1_coherent_files.m' %saves changes (BZ_complete_new and SNr_complete_new) 
     % files in data format
     
 run 'coherent_regions.m'%plots
+
+%new code for change beta amp
+run 'TC_paper.m'
     
 %-----------------------BUA-A2 Analysis----------------------------------------
 cd ('C:\Users\creis\Documents\GitHub\CR_script\A2_Thal\code')

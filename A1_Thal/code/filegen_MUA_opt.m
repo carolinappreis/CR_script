@@ -154,20 +154,20 @@ for nn=1:length(state_mat);
     x=x+1;
     
     
-    figure(1)
-    for  i = (1:size(WaveData_DC,1))
-        [pxx,f]=pwelch(WaveData_DC(i,:),1000,[],1000,1000);
-        plot(pxx(5:100))
-        hold on
-    end
-    
-    if ~isempty (ind_p)
-        for f=ind_p(1):ind_p (end)
-            [pxx,f]=pwelch(WaveData_DC(f,:),1000,[],1000,1000);
-            figure(2)
-            plot(pxx(5:100),'r.')
-        end
-    end
+%     figure(1)
+%     for  i = (1:size(WaveData_DC,1))
+%         [pxx,f]=pwelch(WaveData_DC(i,:),1000,[],1000,1000);
+%         plot(pxx(5:100))
+%         hold on
+%     end
+%     
+%     if ~isempty (ind_p)
+%         for f=ind_p(1):ind_p (end)
+%             [pxx,f]=pwelch(WaveData_DC(f,:),1000,[],1000,1000);
+%             figure(2)
+%             plot(pxx(5:100),'r.')
+%         end
+%     end
 end
 
 

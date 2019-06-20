@@ -18,7 +18,7 @@ run 'during.m' % according to bins of busrt duration
 %PSD ctx and subcortical regions
 run 'psd_plots'
 
-%-----------------------SUA Juxta_SUA_act  Analysis------------------------------
+%----------------------- Juxta_SUA_act  Analysis------------------------------
 cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Juxta SUA_act_mat')
 cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Juxta SUA_act_mat') 
 
