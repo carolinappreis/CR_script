@@ -1,9 +1,11 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline')
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline')
 SMR_File_To_Mat;
 
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-load ('P011_randstim_cursos.mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
+load ('P01_randstim_cursos.mat')
 in2=1; % analysing the "main tremor axis"
 if in2==1
     in=3;
@@ -109,7 +111,9 @@ BB=ind_e2;
 %A=prctile(C,50);
 % AA= ind_s2([1:9 15]);
 % BB= ind_e2([1:9 15]);
-
+%pt11
+AA= ind_s2([2 4 7:10 13:15 22 25]);
+BB= ind_e2([2 5 7 8 9 12 13 14 19 22 25]);
 
 % AA=ind_s2(find((ind_e2-ind_s2)>10000));
 % BB=ind_e2(find((ind_e2-ind_s2)>10000));

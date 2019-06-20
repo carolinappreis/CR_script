@@ -1,59 +1,127 @@
-cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
-
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stimload stim')
-load stim
-load nostim
+% cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
+clear all
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
+ cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
+load ('p011_stimnosim.mat')
+load ('p03_pha_suffle.mat')
 d=nanmedian(stimout);
 
 upperthreshold=prctile(nostimout,99.7917); %bonferroni corrected for 12 comparisons
 lowerthreshold=prctile(nostimout,0.2083);
 
-find(d>=upperthreshold | d<=lowerthreshold)
-bar(d) 
+% find(d>=upperthreshold | d<=lowerthreshold)
+
+close all
+fig=figure(1)
+subplot(1,3,1)
+bar(d,'FaceColor',[0.5 0.5 0.5],'EdgeColor', [0.5 0.5 0.5]) 
 hold on 
 rr(1:12)=upperthreshold;
 rr2(1:12)=lowerthreshold;
-plot(rr,'r--')
-plot(rr2,'r--')
+plot(rr,'r--','LineWidth',1)
+plot(rr2,'r--','LineWidth',1)
 xlim([0.5 12.5])
 box('off')
 xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
+ylabel ('Median amplitude change')
+xlabel ('Stimulated phase')
+ylim ([-1 1])
+title 'Significant stimulation effect'
+ set(gca,'FontSize',12)
 
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stimload stim')
-load ('pha_suffle')
-for s=1:size(tt,2)
-    for i =1:100;
-        yy1=xx(randperm(size(xx,2)) );
-        tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
-        tt3(i,s)=nanmedian(tt2,1);
-        clear tt2 
-    end
-end
-lg=0:20;
-for i=1:12
-    tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
-end
+rr(1:size(tt,2))=mean(prctile(tt3,99.7917));
+rr1(1:size(tt,2))=mean(prctile(tt3,0.2083));
 
-rr(1:size(tt,2))=mean(prctile(tt3,95));
-rr1(1:size(tt,2))=mean(prctile(tt3,25));
-bar(nanmedian(tt))
+subplot(1,3,2)
+bar(nanmedian(tt),'FaceColor',[0.5 0.5 0.5],'EdgeColor', [0.5 0.5 0.5])
 hold on
-plot(rr,'k--','LineWidth',1.5)
-plot(rr1,'k--','LineWidth',1.5)
+plot(rr,'r--','LineWidth',1)
+plot(rr1,'r--','LineWidth',1)
 box('off')
-title 'Significant phasic-stimulation effect' 
+title 'Significant phasic-specific stimulation effect' 
 xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
+ylabel ('Median amplitude change')
+xlabel ('Stimulated phase')
+ylim ([-1 1])
+ set(gca,'FontSize',12)
 
-
-
-
-figure()
-likhood_amp=sum(tt>prctile(tt3,95)| tt>0)./sum(~isnan(tt));
-likhood_sup=sum(tt<prctile(tt3,25)| tt<0)./sum(~isnan(tt));
+subplot(1,3,3)
+likhood_amp=sum(tt>prctile(tt3,97.5) & tt>0)./sum(~isnan(tt));
+likhood_sup=sum(tt<prctile(tt3,2.5) & tt<0)./sum(~isnan(tt));
 likhood=[likhood_sup ; likhood_amp];
 bar(likhood')
 title ('Likelihood of significant amplification/supression effect')
 xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
 legend('supression','amplification')
 legend('boxoff')
+box('off')
+xlabel ('Stimulated phase')
+ylabel ('Likelihood') 
+ylim ([0 1])
+
+
+fig.Units = 'centimeters';
+fig.OuterPosition= [10, 10, 50, 15];
+set(gca,'FontSize',12)
+
+
+set(fig,'color','w');
+
+
+figure()
+plot(C)
+hold on
+plot(AA,C(AA),'r.')
+plot(BB,C(BB),'b.')
+set(gcf,'color','w');
+title ('Baseline')
+xlabel('Time (msec)')
+ylabel ('Tremor Envelope')
+box('off')
+
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
+load ('P011_randstim_cursos.mat')
+in2=1; % analysing the "main tremor axis"
+if in2==1
+    in=3;
+elseif in2==2 % other axis 1
+    in=6;
+elseif in2==3 % other axis 2
+    in=7;
+end
+data=SmrData.WvData;
+samplerateold=SmrData.SR;
+tremor=(data(in,:));
+addon=92; addon_end=35;
+
+phasedetection;
+
+stimout=tt;
+save stim stimout
+
+data=SmrData.WvData;
+rep=10; % number of trials for random stim - please enter for each patient
+clearvars -except Fpeak in2 in rep SmrData data stimout
+
+samplerateold=SmrData.SR;
+time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
+tremor=data(in,:);
+ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+tremor2(1:size(ts1.data,3))=ts1.data;
+samplerate=1000;
+
+if (Fpeak-2)>=1
+    [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
+else
+    [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
+end
+
+tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
+figure()
+plot(tremor_or)
+set(gcf,'color','w');
+title ('Tremor during random phase stim')
+xlabel('Time(msec)')
+ylabel ('Filtered signal main axis')
 box('off')

@@ -1,7 +1,7 @@
 clear all
-% cd('/Users/Carolina/Documents/MATLAB/Tremor')
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-load ('P02_randstim_cursos.mat')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
+load ('P011_randstim_cursos.mat')
 start_clean;
 
 %%% re - estimate tremor characteristics
@@ -71,6 +71,7 @@ for i=1:length(start)
 end
 
 clear tt tt2
+
 k=1;
 tt=NaN(20,12);
 yy = xx ;
@@ -88,30 +89,33 @@ for i=1:12
     tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
 end
 
-rr(1:size(tt,2))=mean(prctile(tt3,95));
-rr1(1:size(tt,2))=mean(prctile(tt3,25));
-bar(nanmedian(tt))
-hold on
-plot(rr,'k--','LineWidth',1.5)
-plot(rr1,'k--','LineWidth',1.5)
-box('off')
-title 'Significant phasic-stimulation effect' 
-xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
+clearvars -except tt tt3
+save 'p011_pha_suffle.mat'
 
-
-
-% find((nanmedian(tt))>(prctile(tt3,95))|(nanmedian(tt))<(prctile(tt3,25)))
-
-figure()
-likhood_amp=sum(tt>prctile(tt3,95)| tt>0)./sum(~isnan(tt));
-likhood_sup=sum(tt<prctile(tt3,25)| tt<0)./sum(~isnan(tt));
-likhood=[likhood_sup ; likhood_amp];
-bar(likhood')
-title ('Likelihood of significant amplification/supression effect')
-xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
-legend('supression','amplification')
-legend('boxoff')
-box('off')
+% rr(1:size(tt,2))=mean(prctile(tt3,95));
+% rr1(1:size(tt,2))=mean(prctile(tt3,25));
+% bar(nanmedian(tt))
+% hold on
+% plot(rr,'k--','LineWidth',1.5)
+% plot(rr1,'k--','LineWidth',1.5)
+% box('off')
+% title 'Significant phasic-stimulation effect' 
+% xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
+% 
+% 
+% 
+% % find((nanmedian(tt))>(prctile(tt3,95))|(nanmedian(tt))<(prctile(tt3,25)))
+% 
+% figure()
+% likhood_amp=sum(tt>prctile(tt3,95)| tt>0)./sum(~isnan(tt));
+% likhood_sup=sum(tt<prctile(tt3,25)| tt<0)./sum(~isnan(tt));
+% likhood=[likhood_sup ; likhood_amp];
+% bar(likhood')
+% title ('Likelihood of significant amplification/supression effect')
+% xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
+% legend('supression','amplification')
+% legend('boxoff')
+% box('off')
 
 
 

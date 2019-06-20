@@ -43,16 +43,6 @@ clear i
 start=floor((indexes4./samplerateold)*samplerate)+addon;
 ending=floor((indexes3./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
 
-start_run=start(1:12:120);
-end_run=ending(12:12:120);
-e_nonstim=[start_run length(tremor2)];
-s_nonstim=[1 end_run];
-
-ns=[];
-for i=1:length(start_run)
-    ns=[ns s_nonstim(i):e_nonstim(i)];
-end
-
 %%% when patient's hand is up
 handup=[];
 for i=1:length(start)
