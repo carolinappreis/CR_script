@@ -51,6 +51,9 @@ cd('C:\Users\creis\Documents\GitHub\CR_script\SUA\probe SUA_act_mat')
  % burst triggered avg
  run 'triggered_avg_sua.m' % data will come from 'spikerate_sua.m'
  
+ %correct version of thw above
+ run 'new_triggered_sua.m'
+ 
  %correlation spikes snr bz same rat
  run 'correlation_sua.m'
 

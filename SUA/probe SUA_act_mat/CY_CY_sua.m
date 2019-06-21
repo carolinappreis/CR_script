@@ -2,7 +2,7 @@
 clear all
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load ('SNR_cycle_sua.mat')
+load ('NEW_SNR_cycle.mat')
 
 stat_d1=stat_d(~cellfun('isempty',stat_d));
 units_match1=units_match(~cellfun('isempty',units_match));

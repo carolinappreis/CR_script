@@ -1,8 +1,8 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 % cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/SUA/probe SUA_act_mat')
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load('probe_SUA_SNr.mat')
+ cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+load('data_SUA_BZ.mat')
 srn=1000;
 for ii=1:size(data_all,1)
     for  j=1:size(data_all{ii,:},1)
@@ -137,9 +137,9 @@ for i=1:size(rec_pl,1)
     end
 end
 
-rats_id=str2num(A(lesion(in),4:6))
-unNum     = unique(rats_id(:))
-[n,bin]   = histc(rats_id(:),unNum)
+% rats_id=str2num(A(lesion(in),4:6))
+% unNum     = unique(rats_id(:))
+% [n,bin]   = histc(rats_id(:),unNum)
 
 % n=0;
 % for i=20
@@ -154,8 +154,8 @@ unNum     = unique(rats_id(:))
 time2=[1:401];
 color_b=[0.2 0.5 0.5];
 color_s=[0 0 0.5];
-for i =37:46
-    subplot(10,1,i-36)
+for i =1:size(rec_pl1,1)
+    subplot(size(rec_pl1,1),1,i)
     y2=rec_pl1(i,:); y1=y2+rec_spl1(i,:); y3=y2-rec_spl1(i,:);
     y5=rec_npl1(i,:); y4=y5+rec_snpl1(i,:); y6=y5-rec_snpl1(i,:);
     p1=plot(time2, y2, 'LineWidth',1.5,'Color',color_b);

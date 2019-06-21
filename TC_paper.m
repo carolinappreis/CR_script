@@ -105,7 +105,7 @@ run 'psi_SUA.m'
 
 % Single unit firing rate and phase consistency of subcortical firing in
 % bursts vs surrogates && ISI, firing rate per region 
-run 'Filegen_SUA_act_new.m'
+run 'Filegen_JUXTA_act_new.m'
 
 % Sum fo spiking across bursts in time.
 run 'gaussian2.m'
@@ -114,8 +114,8 @@ run 'gaussian2.m'
 run 'CY_CY.m' % runs function 'cycles_10.m'
 
 %-----------------------SUA Probe_SUA_act  Analysis------------------------------
-  cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Probe SUA_act_mat')
-%  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
+%   cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Probe SUA_act_mat')
+  cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
 
 
  % Select rats at region and that have shown coh with ctx in the bua
