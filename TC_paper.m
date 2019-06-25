@@ -2,6 +2,7 @@
 
 %-----------------------BUA-A1 Analysis----------------------------------------
 cd ('C:\Users\creis\Documents\GitHub\CR_script\A1_Thal\code')
+cd('/Users/Carolina/Documents/GitHub/CR_script/A1_Thal/code')
 
 %Organizes data acording to lesion and non-lesioned rats
 run 'sort_lesion_nonlesion.m'

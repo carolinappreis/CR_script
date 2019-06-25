@@ -22,7 +22,7 @@ state_mat=lesion;% lesion vs nolesioned
 newfile=size(A,1);
 
 for nn=1:length(state_mat);  %%% chose state (lesion OR nolesion)
-    clearvars -except nfile_i state_mat A data_all Ecog_all nn
+    clearvars -except nfile_i state_mat A data_all Ecog_all nn lesion
     
     name=A(state_mat(nn),1:(find(A((state_mat((nn))),:)=='.')-1))
     load(name)
@@ -77,7 +77,7 @@ for nn=1:length(state_mat);  %%% chose state (lesion OR nolesion)
     end
     
     %     if (length ([thal_BZ thal_VPM thal_PF thal_ZI thal_AV thal_PC thal_CZ thal_VPPC thal_SNr thal_NW thal_PC]))== length (thalchan)
-    thal_local=thalchan(thal_CZ); %%% Chose thal location
+    thal_local=thalchan(thal_SNr); %%% Chose thal location
     %     else
     %         thal_local=[];
     %     end
@@ -114,11 +114,11 @@ end
 
 data_region=data_all(~cellfun('isempty',data_all))
 Ecog_region=Ecog_all(any(Ecog_all,2),:);
-
+recs=A(lesion([find(~cellfun('isempty',data_all))]),:);
 
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-clearvars -except data_all Ecog_all A lesion time data_region Ecog_region
-save 'data_SUA_CZ'
+clearvars -except data_all Ecog_all A lesion time data_region Ecog_region  recs
+% save 'data_SUA_SNR'
 
 
 

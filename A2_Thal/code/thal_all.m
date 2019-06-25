@@ -64,7 +64,7 @@ cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/MATLAB/KN')
     end
     
     if (length ([thal_BZ thal_CZ thal_ZI thal_AV thal_Rt thal_AM thal_SNr thal_NW thal_PC]))== length (thalchan)
-        thal_local=thalchan(thal_Rt); %%% Chose thal location
+        thal_local=thalchan(thal_CZ); %%% Chose thal location
     else thal_local=newchannel;
     end
     
@@ -166,8 +166,11 @@ for j=1:size(WDC,1)
     end
 end
 
-% data= WDC(~cellfun('isempty', WDC));
-% 
-% clearvars -except WaveData_DCall data
+ data= WDC(~cellfun('isempty', WDC));
+ recs=A(state_mat([find(~cellfun('isempty',WDC))]),:);
+
+
+clearvars -except WaveData_DCall data
 % cd('\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
-% save 'Rt_ctx_probe.mat'
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
+% save 'CZ_ctx_probe.mat'

@@ -1,8 +1,8 @@
 clear all
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
- load('BZ_opt.mat'); color_b= [0.5 0 0.5]; color_b1=color_b+[0.3 0 0.3];
-%  load('SNR_opt.mat'); color_b= [0 0 0.5]; color_b1=color_b+[0 0 0.3];
+%  load('BZ_opt.mat'); color_b= [0.5 0 0.5]; color_b1=color_b+[0.3 0 0.3];
+  load('SNR_opt.mat'); color_b= [0 0 0.5]; color_b1=color_b+[0 0 0.3];
 time=1:401;
 
 for q=1:size (SNR.across_b_long,1)

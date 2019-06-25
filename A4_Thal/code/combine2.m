@@ -2,7 +2,7 @@ clear all
   cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
 % cd ('\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
 load ('animal_lesion_nolesion.mat','A','lesion')
-load 'BZ_ctx_probe.mat'
+load 'CZ_ctx_probe.mat'
 
 
 n=[];
@@ -17,8 +17,7 @@ clear all
 close all
   cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
-load ('data_all')
-load 'BZ_ctx_probe'
+load 'CZ_ctx_probe'
 fq=15:35;
 
 samprate=1000;
@@ -41,6 +40,7 @@ for r=1:size(data,1); %electrodes
     for rr=2:size(data{r,1},1) %contacts
         [power,f]=pwelch(data{r,1}(rr,:),1000,[],1000,1000); %ctx power spectracontact power spectra
         [Pxx_ind,F_ind]=mscohere(data{r,1}(1,:),data{r,1}(rr,:),samprate,[],samprate,samprate); %Magnitude-squared coherence between ctx-a given contact
+       sum(Pxx_ind(fq))./sum(Pxx_ind(1:end))
         if  sum(Pxx_ind(fq))./sum(Pxx_ind(1:end))>0.1
             freq= find(Pxx_ind==(max(Pxx_ind(fq,1))));
             [b,a]=butter(2,[(freq-5)/(0.5*samprate) (freq+5)/(0.5*samprate)],'bandpass');
@@ -94,23 +94,23 @@ ctx_sub_coh=ctx_sub_coh(~cellfun('isempty',ctx_sub_coh));
 clearvars -except coherence env_ctx env_thal filt_ctx filt_thal  phase_ctx phase_thal power_thal power_ctx thal_contact samprate
 
 
-BZ.animals= (A(lesion(n),1:33));
-BZ.bua=data;
-BZ.coh_animals=(A(lesion(n(l)),1:33));
-BZ.env_thal=env_thal;
-BZ.power_thal=power_thal;
-BZ.phase_thal=phase_thal;
-BZ.filt_thal=filt_thal;
-BZ.env_ctx=env_ctx;
-BZ.power_ctx=power_ctx;
-BZ.phase_ctx=phase_ctx;
-BZ.filt_ctx=filt_ctx;
-BZ.samprate=samprate;
-BZ.data_coh=data(l);
+CZ.animals= (A(lesion(n),1:33));
+CZ.bua=data;
+CZ.coh_animals=(A(lesion(n(l)),1:33));
+CZ.env_thal=env_thal;
+CZ.power_thal=power_thal;
+CZ.phase_thal=phase_thal;
+CZ.filt_thal=filt_thal;
+CZ.env_ctx=env_ctx;
+CZ.power_ctx=power_ctx;
+CZ.phase_ctx=phase_ctx;
+CZ.filt_ctx=filt_ctx;
+CZ.samprate=samprate;
+CZ.data_coh=data(l);
 
-BZ.ctx_coh=ctx_coh;
-BZ.bua_coh=bua_coh;
-BZ.ctx_sub_coh=ctx_sub_coh;
+CZ.ctx_coh=ctx_coh;
+CZ.bua_coh=bua_coh;
+CZ.ctx_sub_coh=ctx_sub_coh;
 
 
 clear all
@@ -131,5 +131,5 @@ SNR.offset_raw_all{i,1}=sort(cell2mat(SNR.offset_raw{1,i}'),'ascend')
 end
 
 
-BZ.idrat=([1 7 9 11])';
+CZ.idrat=([1 7 9 11])';
 SNR.idrat=([1 3 11 12])';
