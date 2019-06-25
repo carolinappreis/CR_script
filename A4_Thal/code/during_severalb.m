@@ -2,7 +2,7 @@ clear all
 cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 % cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 
-load('BZ.mat');
+load('BZ_opt.mat');
 % for ii=1:length(BZ.idrat)
 % data{ii,1}=BZ.filt_thal{BZ.idrat(ii),1}
 % end

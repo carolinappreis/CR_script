@@ -27,7 +27,7 @@ ylabel ('Median amplitude change')
 xlabel ('Stimulated phase')
 ylim ([-1 1])
 title 'Significant stimulation effect'
- set(gca,'FontSize',12)
+set(gca,'FontSize',12)
 
 rr(1:size(tt,2))=mean(prctile(tt3,99.7917));
 rr1(1:size(tt,2))=mean(prctile(tt3,0.2083));

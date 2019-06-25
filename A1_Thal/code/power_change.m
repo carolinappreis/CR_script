@@ -1,21 +1,21 @@
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
-load('SNR_opt.mat');
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+load('BZ_opt.mat');
 
 for duration=1:2
-for ik=1:size(SNR.filt_thal,1);
+for ik=1:size(BZ.filt_thal,1);
     ref=[];
-    for ct=1:size(SNR.filt_thal{ik,1},1)
+    for ct=1:size(BZ.filt_thal{ik,1},1)
         non_nomr=[];epochs_t=[];
-        ref=SNR.onset_raw{1,ik}{duration,1};
-        env=abs(hilbert(SNR.filt_thal{ik,1}(ct,:)));
+        ref=BZ.onset_raw{1,ik}{duration,1};
+        env=abs(hilbert(BZ.filt_thal{ik,1}(ct,:)));
         el=500;
         for ii=1:length(ref)
             if ref(ii)>el & ref(ii)+el<length(env)
                 epochs_idx(ii,:)=ref(ii)-el:ref(ii)+el;
                 epochs_t(ii,:)=(env(ref(ii)-el:ref(ii)+el)-median(env(ref(ii)-el:ref(ii))))./median(env(ref(ii)-el:ref(ii)));
-                epochs_ctx(ii,:)=(SNR.env_ctx(ik,(ref(ii)-el:ref(ii)+el))-median(SNR.env_ctx(ik,ref(ii)-el:ref(ii))))./median(SNR.env_ctx(ik,ref(ii)-el:ref(ii)));
+                epochs_ctx(ii,:)=(BZ.env_ctx(ik,(ref(ii)-el:ref(ii)+el))-median(BZ.env_ctx(ik,ref(ii)-el:ref(ii))))./median(BZ.env_ctx(ik,ref(ii)-el:ref(ii)));
             end
         end
 
@@ -32,20 +32,20 @@ for ik=1:size(SNR.filt_thal,1);
         clearvars epochs_t epochs_t_sur 
     end
     
-    SNR.pchange_bursts(ik,:)=mean(epochs_ctx);
-    clear epochs_ctx
     if duration==1
-         SNR.pchange_s(ik,:)=mean(med_thal,1);
-         SNR.pchange_surr(ik,:)=mean(med_sur,1);
+         BZ.pchange_s(ik,:)=mean(med_thal,1);
+         BZ.pchange_surr(ik,:)=mean(med_sur,1);
+         BZ.pchange_ctxs(ik,:)=mean(epochs_ctx);
     elseif duration==2
-        SNR.pchange_l(ik,:)=mean(med_thal,1);
+        BZ.pchange_l(ik,:)=mean(med_thal,1);
+        BZ.pchange_ctxl(ik,:)=mean(epochs_ctx);
     end
-        clearvars med_thal med_sur
+        clearvars med_thal med_sur epochs_ctx
 end 
 end
 
 
-% clearvars -except SNR
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
-% save 'SNR_opt'
+clearvars -except BZ
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+save 'BZ_opt'
 
