@@ -1,6 +1,6 @@
 clear all
- cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+%  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 load('BZ_opt.mat');
 short=1;long=2;
 
@@ -65,13 +65,13 @@ for ik=1:size(BZ.filt_thal,1);
         ep_t_s=ep_t_s';
     end
     if size(ep_b,1)==1
-        BZ.across_b_long{ik,1}=squeeze(mean(ep_b,2))';
+%         BZ.across_b_long{ik,1}=squeeze(mean(ep_b,2))';
 %         BZ.across_b_surr{ik,1}=squeeze(mean(ep_b_s,2))';
     else
         
-         BZ.across_b_long{ik,1}=squeeze(mean(ep_b,2));
+%          BZ.across_b_long{ik,1}=squeeze(mean(ep_b,2));
 %          BZ.across_b_surr{ik,1}=squeeze(mean(ep_b_s,2));
-        % BZ.across_t_short{ik,:}=ep_t;
+         BZ.across_t_short{ik,:}=ep_t;
         % BZ.across_t_surr{ik,:}=ep_t_s;
     end
         clearvars ep_b ep_t ep_b_s ep_t_s
@@ -80,8 +80,8 @@ end
 
 clearvars -except BZ
 cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
-% save 'BZ_opt'
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+save 'BZ_opt'
 
 
 
