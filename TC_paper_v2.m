@@ -73,3 +73,17 @@ run 'triggered_avg_mua.m'
 %cycle by cucle analysis prbe
 run 'cy_cy_probe.m' % comes from 'cy_cy_probe_stats.m'
 
+
+%------------------------ plots poster
+
+% psd and coherence
+ cd ('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
+ cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
+ run('psd_plots.m')
+ run('coherence_plots.m')
+ 
+%amplitude change, PSI 
+dd('C:\Users\creis\Documents\GitHub\CR_script')
+run('plots_TCdata.m')
+
+

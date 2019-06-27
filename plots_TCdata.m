@@ -2,8 +2,8 @@ clear all
 close all
 
 %---------------------------------SNR------------------------------
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
- cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+%  cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 load('SNR_opt.mat');
 time=1:1001;
 time2=1:401;
@@ -28,7 +28,7 @@ y3=100.*(mean(SNR.pchange_ctxl)-std(SNR.pchange_ctxl)./sqrt(size(SNR.pchange_ctx
 p2=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b)
 patch([time fliplr(time)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time fliplr(time)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
-%xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 hold on
 
 color_b= [0.0118    0.7922    0.9882]; 
@@ -40,7 +40,7 @@ y3=100.*(mean(SNR.pchange_ctxs)-std(SNR.pchange_ctxs)./sqrt(size(SNR.pchange_ctx
 p1=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b)
 patch([time fliplr(time)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time fliplr(time)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
-%xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 
 box('off')
 xlim ([0 1000])
@@ -53,7 +53,7 @@ fig.Color='w';
 set(gca,'FontSize',12)
 ylabel('Beta amplitude change (%)');
 xlabel('Time(msec)');
-legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
+%legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
 
 %%% ------ SNR beta activity change
 
@@ -78,10 +78,10 @@ p2=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b)
 patch([time fliplr(time)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time fliplr(time)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 if ~isempty (beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.2 max(y1)+0.2 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[15 15 15.5 15.5],color_b,'EdgeColor','none')
 clear beg
 end
-%xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 
 hold on
 
@@ -105,7 +105,7 @@ p1=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b)
 patch([time fliplr(time)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time fliplr(time)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 if ~isempty (beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.2 max(y1)+0.2 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[16 16 16.5 16.5],color_b,'EdgeColor','none')
 clear beg
 end
 
@@ -120,7 +120,7 @@ fig.Color='w';
 set(gca,'FontSize',12)
 ylabel('Beta amplitude change (%)');
 xlabel('Time(msec)');
-legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
+%legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
 
 %%%------SNR phase coupling across bursts
 fig=figure()
@@ -144,7 +144,7 @@ patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeCo
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 hold on
 if ~isempty(beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.3 max(y1)+0.3 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[2 2 2.05 2.05],color_b,'EdgeColor','none')
 clear beg
 end
 
@@ -169,10 +169,10 @@ patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeCo
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 hold on
 if ~isempty(beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.3 max(y1)+0.3 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[2.1 2.1 2.15 2.15],color_b,'EdgeColor','none')
 clear beg
 end
-%xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 
 box('off')
 xlim ([0 400])
@@ -185,7 +185,7 @@ fig.Color='w';
 set(gca,'FontSize',12)
 ylabel('PSI across {\beta} burts (zscore)');
 xlabel('Time(msec)');
-legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
+%legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
 
 %%%------SNR phase coupling within bursts
 fig=figure()
@@ -209,7 +209,7 @@ patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeCo
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 hold on
 if ~isempty(beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.3 max(y1)+0.3 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[2 2 2.05 2.05],color_b,'EdgeColor','none')
 clear beg
 end
 
@@ -234,10 +234,10 @@ patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeCo
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 hold on
 if ~isempty(beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.3 max(y1)+0.3 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[2.1 2.1 2.15 2.15],color_b,'EdgeColor','none')
 clear beg
 end
-%xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 
 box('off')
 xlim ([0 400])
@@ -250,7 +250,7 @@ fig.Color='w';
 set(gca,'FontSize',12)
 ylabel('PSI within {\beta} burts (zscore)');
 xlabel('Time(msec)');
-legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
+%legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
 
 
 
@@ -258,8 +258,8 @@ legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
 
 %% ---------------------------------BZ------------------------------
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 load('BZ_opt.mat');
 time=1:1001;
 time2=1:401;
@@ -284,7 +284,7 @@ y3=100.*mean(BZ.pchange_ctxl)-std(BZ.pchange_ctxl)./sqrt(size(BZ.pchange_ctxl,1)
 p2=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b)
 patch([time fliplr(time)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time fliplr(time)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
-%xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 hold on
 
 color_b= [0.7098    0.5725    0.0157]; 
@@ -296,7 +296,7 @@ y3=100.*(mean(BZ.pchange_ctxs)-std(BZ.pchange_ctxs)./sqrt(size(BZ.pchange_ctxs,1
 p1=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b)
 patch([time fliplr(time)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time fliplr(time)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
-%xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 
 box('off')
 xlim ([0 1000])
@@ -309,7 +309,7 @@ fig.Color='w';
 set(gca,'FontSize',12)
 ylabel('Beta amplitude change (%)');
 xlabel('Time(msec)');
-legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
+%legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
 
 %%% ------ BZ beta activity
 
@@ -334,10 +334,10 @@ p2=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b)
 patch([time fliplr(time)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time fliplr(time)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 if ~isempty (beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.2 max(y1)+0.2 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[15 15 15+0.5 15+0.5],color_b,'EdgeColor','none')
 clear beg
 end
-%xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 hold on
 
 st=NaN(1,1001);
@@ -360,10 +360,10 @@ p1=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b)
 patch([time fliplr(time)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time fliplr(time)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 if ~isempty (beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.2 max(y1)+0.2 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[16 16 16.5 16.5],color_b,'EdgeColor','none')
 clear beg
 end
-%xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(500,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 
 box('off')
 xlim ([0 1000])
@@ -376,7 +376,7 @@ fig.Color='w';
 set(gca,'FontSize',12)
 ylabel('Beta amplitude change (%)');
 xlabel('Time(msec)');
-legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
+%legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
 
 %%%------BZ phase coupling across bursts
 fig=figure()
@@ -400,7 +400,7 @@ patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeCo
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 hold on
 if ~isempty(beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.3 max(y1)+0.3 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[2 2 2.05 2.05],color_b,'EdgeColor','none')
 clear beg
 end
 
@@ -425,10 +425,10 @@ patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeCo
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 hold on
 if ~isempty(beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.3 max(y1)+0.3 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[2.1 2.1 2.15 2.15],color_b,'EdgeColor','none')
 clear beg
 end
-%xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 
 box('off')
 xlim ([0 400])
@@ -441,7 +441,7 @@ fig.Color='w';
 set(gca,'FontSize',12)
 ylabel('PSI across {\beta} burts (zscore)');
 xlabel('Time(msec)');
-legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
+%legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
 
 %%%------BZ phase coupling within bursts
 fig=figure()
@@ -465,7 +465,7 @@ patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeCo
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 hold on
 if ~isempty(beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.3 max(y1)+0.3 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[2 2 2.05 2.05],color_b,'EdgeColor','none')
 clear beg
 end
 
@@ -490,10 +490,10 @@ patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeCo
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
 hold on
 if ~isempty(beg)
-patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[max(y1)+0.3 max(y1)+0.3 max(y1)+0.5 max(y1)+0.5],color_b,'EdgeColor','none')
+patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],[2.1 2.1 2.15 2.15],color_b,'EdgeColor','none')
 clear beg
 end
-%xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','Color',[0.5 0.5 0.5],'LineWidth',2)
 
 box('off')
 xlim ([0 400])
@@ -506,5 +506,5 @@ fig.Color='w';
 set(gca,'FontSize',12)
 ylabel('PSI within {\beta} burts (zscore)');
 xlabel('Time(msec)');
-legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
+%legend([p1 p2],{'short burst','long burst'},'Box','off','Location','southeast')
 
