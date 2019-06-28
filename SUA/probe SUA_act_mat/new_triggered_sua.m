@@ -1,7 +1,7 @@
 clear all
 %  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load('data_SUA_SNR.mat')
+load('data_SUA_BZ.mat')
 
 
 srn=1000;
@@ -49,10 +49,10 @@ region_snpl=zscore(std(rec_npa2)./sqrt(size(rec_npa2,1)));
 
 time2=[1:401];
 color_s=[0.5 0.5 0.5];
-color_b=[0 0 0.5]; %snr
-% % color_b=[0.5 0 0.5]; %bz
+color_b=[0 0 0.5]; %BZ
+color_b=[0.5 0 0]; %bz
 
-
+fig=figure;
 subplot(1,2,1)
 y2=region_pl; y1=y2+region_spl; y3=y2-region_spl;
 y5=region_npl; y4=y5+region_snpl; y6=y5-region_snpl;
@@ -63,10 +63,10 @@ xlim ([0 400])
 ylim ([-5 5])
 xticks([0:100:400])
 xticklabels ({'-200','-100','0','100','200'})
-legend([p1],{'phase-aligned'},'FontSize',12)
+legend([p1],{'phase-aligned'},'FontSize',12,'box','off')
 box ('off')
-%         xlabel ('Time (msec)')
-%         ylabel('Firing-rate(z-score)')
+xlabel ('Time (msec)')
+ylabel('Firing-rate(z-score)')
 
 
 subplot(1,2,2)
@@ -77,5 +77,11 @@ xlim ([0 400])
 ylim ([-5 5])
 xticks([0:100:400])
 xticklabels ({'-200','-100','0','100','200'})
-legend([p2],{'non-phase aligned'},'FontSize',12)
+legend([p2],{'non-phase aligned'},'FontSize',12,'box','off')
 box ('off')
+xlabel ('Time (msec)')
+ylabel('Firing-rate(z-score)')
+
+fig.Units = 'centimeters';
+fig.OuterPosition= [10, 10, 15, 10];
+fig.Color='w';

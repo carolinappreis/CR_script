@@ -1,10 +1,10 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
 load ('data_all' , 'freq')
 
-%  cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
 load 'animal_region.mat' % comes from code pre_filegen_SUA_act
 
 all_regions={[thal_VL];[thal_VA thal_VM]};
@@ -13,8 +13,8 @@ for ii=1:size(all_regions,1)
         
         clearvars -except output_count rec_pa rec_npa A all_regions ii j region_pl region_npl region_spl region_snpl output_pa output_npa ISI_all spikerate_all
         name=A(all_regions{ii,:}(j),1:(find(A((all_regions{ii,:}(j)),:)=='.')-1));
-        cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
-%                cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
+%         cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\Juxta SUA_act_mat\mat')
+               cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
         
         load(name);
         B=who;
@@ -118,12 +118,12 @@ end
 
 time2=[1:401];
 color_b=[0.2 0.5 0.5];
-color_b=[0.5 0 0.5];
+color_b=[0.5 0 0];
 color_s=[0.5 0.5 0.5];
 titles={'CZ','BZ'};
 for b=1
     for i =2
-        %         size(region_pl,1)
+        fig=figure(1)
         subplot(1,2,1)
         y2=region_pl{i,b}; y1=y2+region_spl{i,b}; y3=y2-region_spl{i,b};
         y5=region_npl{i,b}; y4=y5+region_snpl{i,b}; y6=y5-region_snpl{i,b};
@@ -134,12 +134,12 @@ for b=1
         ylim ([-5 5])
         xticks([0:100:400])
         xticklabels ({'-200','-100','0','100','200'})
-        legend([p1],{'phase-aligned'},'FontSize',12)
+        legend([p1],{'phase-aligned'},'FontSize',12,'box','off')
         box ('off')
-%         xlabel ('Time (msec)')
-%         ylabel('Firing-rate(z-score)')
+        xlabel ('Time (msec)')
+        ylabel('Firing-rate (z-score)')
         
-        title (titles(i),'FontSize',12)
+%         title (titles(i),'FontSize',12)
         subplot(1,2,2)
         p2=plot(time2, y5, 'LineWidth',1.5,'Color',color_s)
         patch([time2 fliplr(time2)], [y4 fliplr(y5)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
@@ -148,8 +148,13 @@ for b=1
         ylim ([-5 5])
         xticks([0:100:400])
         xticklabels ({'-200','-100','0','100','200'})
-        legend([p2],{'non-phase aligned'},'FontSize',12)
+        legend([p2],{'non-phase aligned'},'FontSize',12,'box','off')
         box ('off') 
+        xlabel ('Time (msec)')
+ylabel('Firing-rate (z-score)')
     end
 end
 
+fig.Units = 'centimeters';
+fig.OuterPosition= [10, 10, 15, 10];
+fig.Color='w';

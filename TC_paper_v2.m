@@ -83,7 +83,8 @@ run 'cy_cy_probe.m' % comes from 'cy_cy_probe_stats.m'
  run('coherence_plots.m')
  
 %amplitude change, PSI 
-dd('C:\Users\creis\Documents\GitHub\CR_script')
+cd('C:\Users\creis\Documents\GitHub\CR_script')
+cd('/Users/Carolina/Documents/GitHub/CR_script')
 run('plots_TCdata.m')
 
 
