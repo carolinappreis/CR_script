@@ -90,7 +90,7 @@ for i=1:12
 end
 
 clearvars -except tt tt3
-save 'p011_pha_suffle.mat'
+% % save 'p011_pha_suffle.mat'
 
 % rr(1:size(tt,2))=mean(prctile(tt3,95));
 % rr1(1:size(tt,2))=mean(prctile(tt3,25));
@@ -119,17 +119,17 @@ save 'p011_pha_suffle.mat'
 
 
 
-% close all
-% figure()
-% fig=gcf;
-% fig.Color=[1 1 1];
-% bar(nanmedian(tt))
-% hold on
-% stem(tt')
-% xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'})
-% % ylim([(-max((max(tt)))-0.1).*100 (max(max(tt))+0.1).*100])
-% box('off')
-% title ('P8')
+close all
+figure()
+fig=gcf;
+fig.Color=[1 1 1];
+bar(nanmedian(tt))
+hold on
+stem(tt')
+xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'})
+% ylim([(-max((max(tt)))-0.1).*100 (max(max(tt))+0.1).*100])
+box('off')
+title ('P8')
 % % 
 % % figure()
 % fig=gcf;

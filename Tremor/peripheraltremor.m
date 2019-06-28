@@ -1,4 +1,4 @@
-
+clear all
 cd('C:\Users\creis\Documents\MATLAB\pt_data_periphstim')
 load ('P08_randomstim_cursos.mat')
 in2=1; % analysing the "main tremor axis" 

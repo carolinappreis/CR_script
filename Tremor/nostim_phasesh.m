@@ -1,10 +1,10 @@
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline')
+ cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline')
+% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline')
 load ('P01_baseline.mat')
 
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
+ cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
+% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
 load ('P01_randstim_cursos.mat')
 in2=1; % analysing the "main tremor axis"
 if in2==1
@@ -18,12 +18,9 @@ data=SmrData.WvData;
 samplerateold=SmrData.SR;
 tremor=(data(in,:));
 addon=92; addon_end=35;
+cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
 
-phasedetection;
-bar(0:30:330,100.*nanmedian(tt)) 
-box('off')% x axis phase - y axis percent change in
-% tremor severity at the end of 5 seconds with respect to severity right
-% before stimulation began
+run ('priph_tremor_phaseshift.m');
 
 stimout=tt;
 % save stim stimout
@@ -78,7 +75,7 @@ for i=1:(length(ind_e)-1)
     end
 end
 ind_e2=ind_e(~isnan(ind_e));
-
+% 
 plot(C)
 hold on
 plot(ind_s2,C(ind_s2),'r.')
@@ -87,10 +84,12 @@ plot(ind_e2,C(ind_e2),'b.')
 AA=ind_s2;
 BB=ind_e2;
 
-%pt 1
-% A=prctile(C,70);
-% AA=ind_s2([1 3 6 8 12 18 23 27 30 32]);
-% BB=ind_e2([2 5 7 11 17 22 26 29 31 34]);
+% pt 1
+A=prctile(C,70);
+AA=ind_s2([1 3 6 8 12 18 23 27 30 32]);
+BB=ind_e2([2 5 7 11 17 22 26 29 31 34]);
+AA=ind_s2([1 3 6 8 12 18 23 27 30 ]);
+BB=ind_e2([2 5 7 11 17 22 26 29 31 ]);
 %pt2
 %A=prctile(C,66);
 %pt3
@@ -112,8 +111,8 @@ BB=ind_e2;
 % AA= ind_s2([1:9 15]);
 % BB= ind_e2([1:9 15]);
 %pt11
-AA= ind_s2([2 4 7:10 13:15 22 25]);
-BB= ind_e2([2 5 7 8 9 12 13 14 19 22 25]);
+% AA= ind_s2([2 4 7:10 13:15 22 25]);
+% BB= ind_e2([2 5 7 8 9 12 13 14 19 22 25]);
 
 % AA=ind_s2(find((ind_e2-ind_s2)>10000));
 % BB=ind_e2(find((ind_e2-ind_s2)>10000));
