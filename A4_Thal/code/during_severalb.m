@@ -1,6 +1,6 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+ cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 
 load('BZ_opt.mat');
 % for ii=1:length(BZ.idrat)
@@ -100,11 +100,23 @@ for bi=1:size(ind_b1,2)
     slip_b{bi,:}=squeeze(mean(epochs_zd1,1));
 end
 
-figure()
-imagesc(cell2mat(slip_b))
-xlabel ('Time(msec)')
-ylabel('Bursts # (Sorted by length)')
+sl=cell2mat(slip_b);
+% figure()
+% imagesc(sl)
+% xlabel ('Time(msec)')
+% ylabel('Bursts # (Sorted by length)')
 
+bi=1:3:size(sl,2);
+
+for t=1:size(sl,1)
+for r= 1:size(bi,2)
+    if r+1<=length(bi)
+    ns(t,r)=sum(sl(1,(bi(r):bi(r+1))));
+    else
+        ns(t,r)=NaN;
+    end
+end
+end
 
 %%%%% ONSET
 % xticks([200:200:800])
