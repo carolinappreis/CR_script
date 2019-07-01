@@ -1,21 +1,22 @@
 clear all
  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 % cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load('data_SUA_BZ.mat')
+load('NEW_BZ_cycle.mat')
 
+data_region=units_match(~cellfun('isempty',units_match));
+Ecog_region=ecogbf_match(any(ecogbf_match,2),:);
 
 srn=1000;
 
 for j=1:size(data_region,1)
+
+    clearvars -except j ii BZ Ecog_region  ecog data_region srn rec_pa1 rec_npa1 rec_pa2 rec_npa2 region_pl region_spl region_npl region_nspl subj color_b
+    
     
     data=data_region{j,1};
-    ecog=Ecog_region(j,:);
-    clearvars -except j ii BZ Ecog_region data ecog data_region srn rec_pa1 rec_npa1 rec_pa2 rec_npa2 region_pl region_spl region_npl region_nspl subj color_b
+    Ecogfiltered=Ecog_region(j,:);
     
     for ii=1:size(data,1)
-        
-        [b,a]=butter(2,[15/(0.5*srn) 35/(0.5*srn)],'bandpass');
-        Ecogfiltered=filtfilt(b,a,ecog);
         env=abs(hilbert(Ecogfiltered));
         onset1=bursts(env);
         onset1=horzcat(onset1{:});
@@ -24,11 +25,14 @@ for j=1:size(data_region,1)
         
         data_g=smoothdata(data(ii,:),'gaussian',25);
         
+        epoch=500;
         for jj=1:size(onset,2)
-            if onset(jj)>200 && onset(jj)+200<length(data_g)
-                output_pa(ii,jj,:)=data_g(onset(jj)-200:onset(jj)+200);
-                output_npa(ii,jj,:)= data_g(onset1(jj)-200:onset1(jj)+200);
-                output_count(ii,jj,:)= data(onset1(jj)-200:onset1(jj)+200);
+            if onset(jj)>epoch && onset(jj)+epoch<length(data_g)
+                output_pa(ii,jj,:)=data_g(onset(jj)-epoch:onset(jj)+epoch);
+            end
+            if onset1(jj)>epoch && onset1(jj)+epoch<length(data_g)
+                output_npa(ii,jj,:)= data_g(onset1(jj)-epoch:onset1(jj)+epoch);
+                output_count(ii,jj,:)= data(onset1(jj)-epoch:onset1(jj)+epoch);
             end
         end
         rec_pa1{j,1}=reshape(sum(output_pa,2),(size(sum(output_pa,2),1)),(size(sum(output_pa,2),3)));
@@ -62,7 +66,7 @@ patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.1],'EdgeCo
 xlim ([0 400])
 ylim ([-5 5])
 xticks([0:100:400])
-xticklabels ({'-200','-100','0','100','200'})
+xticklabels ({'-epoch','-100','0','100','epoch'})
 legend([p1],{'phase-aligned'},'FontSize',12,'box','off')
 box ('off')
 xlabel ('Time (msec)')
@@ -76,7 +80,7 @@ patch([time2 fliplr(time2)], [y5 fliplr(y6)],[color_s],'FaceAlpha',[0.1],'EdgeCo
 xlim ([0 400])
 ylim ([-5 5])
 xticks([0:100:400])
-xticklabels ({'-200','-100','0','100','200'})
+xticklabels ({'-epoch','-100','0','100','epoch'})
 legend([p2],{'non-phase aligned'},'FontSize',12,'box','off')
 box ('off')
 xlabel ('Time (msec)')

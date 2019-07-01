@@ -13,8 +13,8 @@ run 'plots_psi_time_bursts.m'
 
 %phase-slips analysis
 run 'phase_slips.m' % as described in PNAS - Cagnan et al.2019
-run 'during.m' % according to bins of busrt duration
-
+run 'during_severalb.m' % according to bins of busrt duration
+run 'idregion_phaseslip.m' % change of instantaneous frequency at ctx and thal independantly
 %PSD ctx and subcortical regions
 run 'psd_plots'
 
@@ -56,6 +56,15 @@ cd('C:\Users\creis\Documents\GitHub\CR_script\SUA\probe SUA_act_mat')
  
  %correlation spikes snr bz same rat
  run 'correlation_sua.m'
+ 
+%stats on phase alignement for cycle by clycle analysis
+run 'cy_cy_sua_stats.m'  % data_SUA_SNR.mat
+
+%cycle by cycle as Andy
+run 'CY_CY_sua.m'
+
+%cycle by cycle HC
+run 'CY_CY_HC.m'
 
 %-----------------------MUA------------------------------------------------------
 cd('C:\Users\creis\Documents\GitHub\CR_script\MUA')

@@ -1,26 +1,27 @@
 
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load ('data_SUA_BZ.mat')
+close all
+ cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+load ('data_SUA_SNR.mat')
 
-BZ.sua=data_region;
-BZ.ctx=Ecog_region;
+SNR.sua=data_region;
+SNR.ctx=Ecog_region;
 
 srn=1000;
 
-for i =1:size(BZ.sua,1)
+for i =1:size(SNR.sua,1)
     [b,a]=butter(2,[20/(0.5*srn) 30/(0.5*srn)],'bandpass');
-    SBZ.ecog_filt(i,:)=filtfilt(b,a,BZ.ctx(i,:));
-    SBZ.ecog_env(i,:)=abs(hilbert(SBZ.ecog_filt(i,:)));
+    SSNR.ecog_filt(i,:)=filtfilt(b,a,SNR.ctx(i,:));
+    SSNR.ecog_env(i,:)=abs(hilbert(SSNR.ecog_filt(i,:)));
     
-    env=SBZ.ecog_env(i,:);Ecogfiltered=SBZ.ecog_filt(i,:);
+    env=SSNR.ecog_env(i,:);Ecogfiltered=SSNR.ecog_filt(i,:);
     
-    SBZ.onset_raw{i,1}=bursts(env);
-    SBZ.offset_raw{i,1}=bursts_off(env);
-    SBZ.onset_phase_al{i,1}=bursts_aligned(env,Ecogfiltered);
-    SBZ.offset_phase_al{i,1}=bursts_aligned_off(env,Ecogfiltered);
-    SBZ.ecog_phase(i,:)=wrapTo2Pi(angle(hilbert(BZ.ctx(i,:))));
+    SSNR.onset_raw{i,1}=bursts(env);
+    SSNR.offset_raw{i,1}=bursts_off(env);
+    SSNR.onset_phase_al{i,1}=bursts_aligned(env,Ecogfiltered);
+    SSNR.offset_phase_al{i,1}=bursts_aligned_off(env,Ecogfiltered);
+    SSNR.ecog_phase(i,:)=wrapTo2Pi(angle(hilbert(SNR.ctx(i,:))));
     cy_bursts{i,1}=cycles_10(env,Ecogfiltered);
     clearvars env Ecogfiltered
 end
@@ -38,9 +39,9 @@ for u=1:size(data_region,1)
                 if d2+1<length(block(d1,:))
                     epoch=block(d1,d2):block(d1,d2+1);
                     l=find(units_match2(um,epoch)==1);
-                    pha_b{um,1}{d1,d2}=SBZ.ecog_phase(u,epoch(l));
-                    pha_b_l{um,1}(d1,d2)=length(SBZ.ecog_phase(u,epoch(l)));
-                    pha_b_all{u,um}{d1,d2}=SBZ.ecog_phase(u,epoch(l));
+                    pha_b{um,1}{d1,d2}=SSNR.ecog_phase(u,epoch(l));
+                    pha_b_l{um,1}(d1,d2)=length(SSNR.ecog_phase(u,epoch(l)));
+                    pha_b_all{u,um}{d1,d2}=SSNR.ecog_phase(u,epoch(l));
                     %                     idx_spkcycle{u,um}{d1,d2}=epoch(l);
                     if isempty (epoch(l))
                         idx_spkcycle{u,um}(d1,d2)=0;
@@ -55,16 +56,20 @@ for u=1:size(data_region,1)
     for ctc=1:size(pha_b,1)
         for ii =1:size(pha_b{ctc,1},2)
             for i=1:size(pha_b{ctc,1},1)
-                if ~isempty (pha_b{ctc,1}{i,ii})  && numel(find(pha_b_l{ctc,1}(:,ii)>0))>20
+                if ~isempty (pha_b{ctc,1}{i,ii})  
                     bu{i,1}=pha_b{ctc,1}{i,ii}(1);
                 else
                     bu{i,1}=[];
                     %         zm(ctc,ii) = circ_r(ctc2mat(bu)).*(exp(sqrt(-1).*(circ_mean(ctc2mat(bu)))));
                 end
             end
-            if ~isempty (cell2mat(bu))
+            
+            bubu=cell2mat(bu);
+            if ~isempty (bubu)&& length(bubu)>=20
                 bu1=cell2mat(bu);
-            else bu1=NaN;
+                bu1=bu1(randperm(20));
+            else
+                bu1=NaN;
             end
             vec_lg(n,ii)=circ_r(bu1);
             pref_pha(u,ctc,ii)=circ_mean(bu1);
@@ -75,9 +80,20 @@ for u=1:size(data_region,1)
     clear pha_b
 end
 
+n=[];
+r=1;
+for i=1:size(vec_lg,1)
+    if ~isnan(sum(vec_lg(i,:)))
+        vl(r,:)=vec_lg(i,:);
+        r=r+1;
+    end
+end
 color_b=[0.5 0 0];
 fig=figure()
-plot(nanmean(vec_lg,1),'-d','LineWidth',1.5,'Color',color_b)
+% plot(nanmean(vec_lg,1),'-d','LineWidth',1.5,'Color',color_b)
+plot(mean(vl),'-d','LineWidth',1.5,'Color',color_b)
+hold on
+xline(11,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim([0 22])
 xlabel('Cycles centred around beta bursts onset')
 xticks([1:2:21])

@@ -8,4 +8,6 @@ run ('tremor_code_HC.m')
 %plots from the above
 run('plots')
 
+%phase-specific change in stim
+run ('priph_tremor_phaseshift.m')
 
