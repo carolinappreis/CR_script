@@ -1,8 +1,8 @@
 clear all
 close all
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-load ('P011_randstim_cursos.mat')
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS')
+load ('P01_RS.mat')
 start_clean;
 
 %% re - estimate tremor characteristics
@@ -90,23 +90,24 @@ for i=1:12
     tt(1:sum(xx==i),i)=tremor_k(find(xx==i));
 end
 
-% clear tt2
-% 
-% k=1;
-% tt3=NaN(20,12);
-% yy = xx ;
-% 
-% for s=1:size(tt,2)
-%     for i =1:100;
-%         yy1=xx(randperm(size(xx,2)) );
-%         tt2(1:sum(yy1==s),1)=tremor_k(find(yy1==s));
-%         tt3(i,s)=nanmedian(tt2,1);
-%         clear tt2 
-%     end
-% end
+clear tt2
 
-% clearvars -except tt tt3
-% save 'p01_pha_suffle_phashift.mat'
+k=1;
+tt3=NaN(20,12);
+yy = xx ;
+
+for s=1:size(tt,2)
+    for i =1:100;
+        yy1=xx(randperm(size(xx,2)) );
+        tt2(1:sum(yy1==s),1)=tremor_k(find(yy1==s));
+        tt3(i,s)=nanmedian(tt2,1);
+        clear tt2 
+    end
+end
+
+clearvars -except tt tt3
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS_PSH')
+save 'p01_pha_suffle_phashift.mat'
 
 % rr(1:size(tt,2))=mean(prctile(tt3,95));
 % rr1(1:size(tt,2))=mean(prctile(tt3,25));
@@ -135,21 +136,22 @@ end
 
 
 
-close all
-figure()
-fig=gcf;
-fig.Color=[1 1 1];
-bar(nanmedian(tt),'FaceColor',[0.5 0.5 0.5],'EdgeColor',[0.5 0.5 0.5])
-hold on
-plot(tt','.')
-xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'})
-% ylim([(-max((max(tt)))-0.1).*100 (max(max(tt))+0.1).*100])
-box('off')
-title ('P11')
-ylabel( 'Frequency change (Hz)')
-xlabel ('Stimulated phase')
-ylim ([-max(max(tt)) max(max(tt))])
-% % 
+% % % close all
+% % % figure()
+% % % fig=gcf;
+% % % fig.Color=[1 1 1];
+% % % bar(nanmedian(tt),'FaceColor',[0.5 0.5 0.5],'EdgeColor',[0.5 0.5 0.5])
+% % % hold on
+% % % plot(tt','.')
+% % % xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'})
+% % % % ylim([(-max((max(tt)))-0.1).*100 (max(max(tt))+0.1).*100])
+% % % box('off')
+% % % title ('P11')
+% % % ylabel( 'Frequency change (Hz)')
+% % % xlabel ('Stimulated phase')
+% % % ylim ([-max(max(tt)) max(max(tt))])
+
+
 % % figure()
 % fig=gcf;
 % fig.Color=[1 1 1];

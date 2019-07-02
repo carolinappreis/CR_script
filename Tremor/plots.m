@@ -1,10 +1,8 @@
 % cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
- cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-load ('p011_stimnosim.mat')
-load ('p03_pha_suffle.mat')
-d=nanmedian(stimout);
+ load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS\p01_stimnosim')
+ load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS\p01_pha_suffle.mat')
+d=nanmedian(tt);
 
 upperthreshold=prctile(nostimout,99.7917); %bonferroni corrected for 12 comparisons
 lowerthreshold=prctile(nostimout,0.2083);
@@ -95,9 +93,6 @@ tremor=(data(in,:));
 addon=92; addon_end=35;
 
 phasedetection;
-
-stimout=tt;
-save stim stimout
 
 data=SmrData.WvData;
 rep=10; % number of trials for random stim - please enter for each patient

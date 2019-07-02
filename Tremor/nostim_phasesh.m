@@ -1,11 +1,13 @@
 clear all
- cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline')
-load ('P01_baseline.mat')
+iii=[1 2 3 4 5 6 8 10 11];
+PC=[70 66 47 47 47 50 50 50 50];
+A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];[];([1:9 15]);([2 4 7:10 13:15 22 25])};
+B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25])};
+for numb=2:length(iii);
+clearvars -except iii PC A1 B1 numb
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 
- cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-load ('P01_randstim_cursos.mat')
 in2=1; % analysing the "main tremor axis"
 if in2==1
     in=3;
@@ -19,15 +21,10 @@ samplerateold=SmrData.SR;
 tremor=(data(in,:));
 addon=92; addon_end=35;
 cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
-
-run ('priph_tremor_phaseshift.m');
-
-stimout=tt;
-% save stim stimout
-
+run ('phasedetection.m');
 data=SmrData.WvData;
 rep=10; % number of trials for random stim - please enter for each patient
-clearvars -except Fpeak in2 in rep SmrData data stimout
+clearvars -except Fpeak in2 in rep SmrData data stimout iii numb PC A1 B1
 
 samplerateold=SmrData.SR;
 time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
@@ -49,8 +46,8 @@ envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
 
 [b,a]=butter(2,[0.1/(0.5*samplerate) ],'low'); %15
 C=(filtfilt(b,a,envelope));
-% A=mean(C);
-A=prctile(C,50);
+%  A=mean(C);
+ A=prctile(C,PC(numb));
 ind_s=[];
 for i=11:length(C)-11
     if C(i-1)<A && C(i+1)>A
@@ -81,15 +78,18 @@ hold on
 plot(ind_s2,C(ind_s2),'r.')
 plot(ind_e2,C(ind_e2),'b.')
 
-AA=ind_s2;
-BB=ind_e2;
+if isempty (A1{numb,1})
+    AA=ind_s2;
+    BB=ind_e2;
+else
+AA=ind_s2(A1{numb,1});
+BB=ind_e2(B1{numb,1});
+end
 
 % pt 1
-A=prctile(C,70);
-AA=ind_s2([1 3 6 8 12 18 23 27 30 32]);
-BB=ind_e2([2 5 7 11 17 22 26 29 31 34]);
-AA=ind_s2([1 3 6 8 12 18 23 27 30 ]);
-BB=ind_e2([2 5 7 11 17 22 26 29 31 ]);
+% A=prctile(C,70);
+% AA=ind_s2([1 3 6 8 12 18 23 27 30 32]);
+% BB=ind_e2([2 5 7 11 17 22 26 29 31 34]);
 %pt2
 %A=prctile(C,66);
 %pt3
@@ -116,11 +116,11 @@ BB=ind_e2([2 5 7 11 17 22 26 29 31 ]);
 
 % AA=ind_s2(find((ind_e2-ind_s2)>10000));
 % BB=ind_e2(find((ind_e2-ind_s2)>10000));
-close all
-plot(C)
-hold on
-plot(AA,C(AA),'r.')
-plot(BB,C(BB),'b.')
+% close all
+% plot(C)
+% hold on
+% plot(AA,C(AA),'r.')
+% plot(BB,C(BB),'b.')
 
 % segment_nostim % please check that the output makes sense - sometimes could be too
 %sensitive when tremor is not large enough amplitude so you may need to
@@ -213,20 +213,24 @@ for i=1
             end3=floor(begin3+5*samplerate);
         end
         baseline3(i,j)=(mean(envelope(end3-1000:end3))-mean(envelope(begin3-1000:begin3)))./mean(envelope(begin3-1000:begin3)); %#ok<*SAGROW> %
-        baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
-        
+%       baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
+        baseline4(i,j)=(mean(frequency(end3-1000:end3))-mean(frequency(begin3-1000:begin3)))./mean(frequency(begin3-1000:begin3)); %#ok<*SAGROW> %
+
     end
 end
 
 for i=1:1e6
-    dum=baseline3(randi(5e4,1,rep));
+    dum=baseline4(randi(5e4,1,rep));
     dum2=dum;
     p(i)=nanmedian(dum2);
 end
 
 nostimout=p;
-clearvars -except stimout nostimout C AA BB
-save 'p011_stimnosim.mat'
+clearvars -except nostimout C AA BB numb iii
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS_PSH')
+save (strcat('P0',num2str(iii(numb)),'_stimnosim_phashift.mat'));
+
+end
 
 % load stim
 % load nostim

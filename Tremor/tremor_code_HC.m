@@ -1,10 +1,10 @@
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline')
+ cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline')
+% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline')
 load ('P01_baseline.mat')
 
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
+% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
 load ('P01_randstim_cursos.mat')
 in2=1; % analysing the "main tremor axis"
 if in2==1
@@ -53,7 +53,7 @@ envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
 [b,a]=butter(2,[0.1/(0.5*samplerate) ],'low'); %15
 C=(filtfilt(b,a,envelope));
 % A=mean(C);
-A=prctile(C,50);
+A=prctile(C,70);
 ind_s=[];
 for i=11:length(C)-11
     if C(i-1)<A && C(i+1)>A
@@ -84,13 +84,13 @@ hold on
 plot(ind_s2,C(ind_s2),'r.')
 plot(ind_e2,C(ind_e2),'b.')
 
-AA=ind_s2;
-BB=ind_e2;
+% AA=ind_s2;
+% BB=ind_e2;
 
 %pt 1
 % A=prctile(C,70);
-% AA=ind_s2([1 3 6 8 12 18 23 27 30 32]);
-% BB=ind_e2([2 5 7 11 17 22 26 29 31 34]);
+AA=ind_s2([1 3 6 8 12 18 23 27 30 32]);
+BB=ind_e2([2 5 7 11 17 22 26 29 31 34]);
 %pt2
 %A=prctile(C,66);
 %pt3
@@ -112,8 +112,8 @@ BB=ind_e2;
 % AA= ind_s2([1:9 15]);
 % BB= ind_e2([1:9 15]);
 %pt11
-AA= ind_s2([2 4 7:10 13:15 22 25]);
-BB= ind_e2([2 5 7 8 9 12 13 14 19 22 25]);
+% AA= ind_s2([2 4 7:10 13:15 22 25]);
+% BB= ind_e2([2 5 7 8 9 12 13 14 19 22 25]);
 
 % AA=ind_s2(find((ind_e2-ind_s2)>10000));
 % BB=ind_e2(find((ind_e2-ind_s2)>10000));
@@ -227,7 +227,7 @@ end
 
 nostimout=p;
 clearvars -except stimout nostimout C AA BB
-save 'p011_stimnosim.mat'
+% % save 'p011_stimnosim.mat'
 
 % load stim
 % load nostim
