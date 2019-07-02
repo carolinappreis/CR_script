@@ -18,7 +18,7 @@ run 'idregion_phaseslip.m' % change of instantaneous frequency at ctx and thal i
 %PSD ctx and subcortical regions
 run 'psd_plots'
 
-%----------------------- Juxta_SUA_act  Analysis------------------------------
+%----------------------- Juxta  Analysis------------------------------
 cd ('C:\Users\creis\Documents\GitHub\CR_script\SUA\Juxta SUA_act_mat')
 cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Juxta SUA_act_mat') 
 
@@ -35,6 +35,10 @@ run 'gaussian2.m'
 %Cycle by cycle analysis
 run 'CY_CY.m' % runs function 'cycles_10.m'
 
+%histogram of firing rate and phase locking of units with ECoG
+run 'frate_phaselocking.m'
+
+
 %-----------------------SUA Probe_SUA_act  Analysis------------------------------
 
 cd('/Users/Carolina/Documents/GitHub/CR_script/SUA/Probe SUA_act_mat') 
@@ -48,11 +52,12 @@ cd('C:\Users\creis\Documents\GitHub\CR_script\SUA\probe SUA_act_mat')
  %Sum fo spiking across bursts in time.
  run 'gaussian_probe.m'
  
- % burst triggered avg
+ % burst triggered avg - units in BZ/snr  filtered by firing rate in the
+ % beta band
  run 'triggered_avg_sua.m' % data will come from 'spikerate_sua.m'
  
- %correct version of thw above
- run 'new_triggered_sua.m'
+ % all units in BZ/snr (not filtered by firing rate)
+ run 'new_triggered_sua.m' 
  
  %correlation spikes snr bz same rat
  run 'correlation_sua.m'
@@ -65,6 +70,12 @@ run 'CY_CY_sua.m'
 
 %cycle by cycle HC
 run 'CY_CY_HC.m'
+
+%phase locking of units to ECoG and firing rate
+run 'phase_consist.m'
+
+%evolurion of vector length cy cy
+run 'vec_length_timecourse.m'
 
 %-----------------------MUA------------------------------------------------------
 cd('C:\Users\creis\Documents\GitHub\CR_script\MUA')

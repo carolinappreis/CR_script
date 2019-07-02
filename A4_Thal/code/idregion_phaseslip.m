@@ -3,7 +3,7 @@ close all
 cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 %  cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 
-load('SNR_opt.mat'); color_b=[0.5 0 0];
+load('SNR_opt.mat'); color_b=[0 0 0.5];
 % for ii=1:length(SNR.idrat)
 % data{ii,1}=SNR.filt_thal{SNR.idrat(ii),1}
 % end
@@ -68,11 +68,11 @@ for bi=1:size(ind_b1,2)
         
         ref3=b1(ik,:);
 %         for ct=1:size(SNR.phase_thal{SNR.idrat(ik),1},1)
-         for ct=1;
+          for ct=1;
             clearvars -except ik ct SNR epochs_zd1  slip_b ref3 bi ind_b1 ind_d1 new_idx epochs_zd color_b
             
-             non_norm=unwrap(SNR.phase_ctx(SNR.idrat(ik),:));
-%                          non_norm=unwrap(SNR.phase_thal{SNR.idrat(ik),1}(ct,:));%circdist
+              non_norm=unwrap(SNR.phase_ctx(SNR.idrat(ik),:));
+%                           non_norm=unwrap(SNR.phase_thal{SNR.idrat(ik),1}(ct,:));%circdist
             non_norm1=diff(non_norm);
             znon_norm=zscore(non_norm1);
             el=400;
@@ -132,15 +132,15 @@ for t=1:size(sl,1)
     end
 end
 
-
 fig=figure()
+subplot(2,1,1)
 imagesc(ns)
-title('SNR aligned to burst onset')
+title('CTX')
 xlabel ('Time (msec)')
-ylabel('Bursts # (Sorted by length)')
-fig.Units = 'centimeters';
-fig.OuterPosition= [10, 10, 10, 10];
-fig.Color='w';
+ylabel('Bursts(Sorted by length)')
+% fig.Units = 'centimeters';
+% fig.OuterPosition= [10, 10, 10, 10];
+% fig.Color='w';
 set(gca,'FontSize',12)
 
 %%%% ONSET
@@ -171,16 +171,8 @@ for r= 1:size(bi,2)
     end
 end
 
-fig=figure()
+subplot(2,1,2)
 plot(ps,'Color',color_b,'LineWidth',2)
-fig.Units = 'centimeters';
-fig.OuterPosition= [10, 10, 10, 10];
-fig.Color='w';
-set(gca,'FontSize',12)
-xlabel ('Time (msec)')
-ylabel('Probability of phase slip')
-box('off')
-
 %%%% ONSET
 xline(40,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5])
 xticks([20:20:80])
@@ -192,3 +184,13 @@ xticklabels ({'-200','0','200','400'})
 % xticks([0:20:60])
 % xlim([0 60])
 % xticklabels ({'-400','-200','0','200'})
+
+
+fig.Units = 'centimeters';
+fig.InnerPosition= [10, 10, 10,10];
+fig.Color='w';
+set(gca,'FontSize',12)
+xlabel ('Time (msec)')
+ylabel('Probability of phase slip')
+box('off')
+

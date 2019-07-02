@@ -1,7 +1,7 @@
 clear all
  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 % cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load('data_SUA_BZ.mat')
+load('data_SUA_SNR.mat')
 
 
 srn=1000;
@@ -10,7 +10,7 @@ for j=1:size(data_region,1)
     
     data=data_region{j,1};
     ecog=Ecog_region(j,:);
-    clearvars -except j ii BZ Ecog_region data ecog data_region srn rec_pa1 rec_npa1 rec_pa2 rec_npa2 region_pl region_spl region_npl region_nspl subj color_b
+    clearvars -except j ii SNR Ecog_region data ecog data_region srn rec_pa1 rec_npa1 rec_pa2 rec_npa2 region_pl region_spl region_npl region_nspl subj color_b
     
     for ii=1:size(data,1)
         
@@ -49,8 +49,8 @@ region_snpl=zscore(std(rec_npa2)./sqrt(size(rec_npa2,1)));
 
 time2=[1:401];
 color_s=[0.5 0.5 0.5];
-color_b=[0 0 0.5]; %BZ
-color_b=[0.5 0 0]; %bz
+color_b=[0 0 0.5]; %SNR
+% color_b=[0.5 0 0]; %bz
 
 fig=figure;
 subplot(1,2,1)

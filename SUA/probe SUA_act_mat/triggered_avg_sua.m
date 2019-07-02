@@ -1,14 +1,13 @@
 clear all
-%  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
 load('BZ_sua_skrate.mat') ; 
 subj= BZ.beta_rats;
 % clear all
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 % load('BZ_sua_skrate.mat') ;
 % subj= BZ.beta_rats;
-color_b=[0 0 0.5]; %BZ
-% % color_b=[0.5 0 0.5]; %BZ
+
 
 
 
@@ -68,7 +67,7 @@ region_snpl=zscore(std(rec_npa)./sqrt(size(rec_npa,1)));
 %%% just plot
 time2=[1:401];
 color_s=[0.5 0.5 0.5];
-color_b=[0 0 0.5]; %BZ
+% color_b=[0 0 0.5]; %BZ
 color_b=[0.5 0 0]; %bz
 
 fig=figure;
@@ -78,28 +77,32 @@ y5=region_npl; y4=y5+region_snpl; y6=y5-region_snpl;
 p1=plot(time2, y2, 'LineWidth',1.5,'Color',color_b)
 patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
+xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim ([0 400])
 ylim ([-5 5])
 xticks([0:100:400])
 xticklabels ({'-200','-100','0','100','200'})
-legend([p1],{'phase-aligned'},'FontSize',12,'box','off')
+legend([p1],{'phase-aligned'},'FontSize',12,'box','off','Location','northeast' )
 box ('off')
 xlabel ('Time (msec)')
 ylabel('Firing-rate(z-score)')
+set(gca,'FontSize',12)
 
 
 subplot(1,2,2)
 p2=plot(time2, y5, 'LineWidth',1.5,'Color',color_s)
 patch([time2 fliplr(time2)], [y4 fliplr(y5)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
 patch([time2 fliplr(time2)], [y5 fliplr(y6)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
+xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim ([0 400])
 ylim ([-5 5])
 xticks([0:100:400])
 xticklabels ({'-200','-100','0','100','200'})
-legend([p2],{'non-phase aligned'},'FontSize',12,'box','off')
+legend([p2],{'non-phase aligned'},'FontSize',12,'box','off','Location','northeast' )
 box ('off')
 xlabel ('Time (msec)')
 ylabel('Firing-rate(z-score)')
+set(gca,'FontSize',12)
 
 fig.Units = 'centimeters';
 fig.OuterPosition= [10, 10, 15, 10];

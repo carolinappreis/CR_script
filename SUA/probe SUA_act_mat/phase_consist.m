@@ -1,6 +1,6 @@
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
 
 for rg = 1:2;
     if rg==1;
@@ -8,33 +8,60 @@ for rg = 1:2;
     elseif rg==2;
         load('data_SUA_SNR.mat');
     end
-    freq=[10;22;32;43;77]; srn=1000;
+%     freq=[10;22;32;43;77]; 
+    freq={[1 7];[8 12];[15 35];[36 80];[85 100]};
+    srn=1000;
     dataregion=cell2mat(data_region);
     for t=1:size(freq,1)
         for  j=1:size(data_region,1)
             for r=1:size(data_region{j,1},1)
                 clear data; data=data_region{j,1}(r,:);
-                data_ones=find(data==1);
-                [b,a]=butter(2,[(freq(t)-5)/(0.5*srn) (freq(t)+5)/(0.5*srn)],'bandpass');
-                if t==length(freq)
-                    [b,a]=butter(2,[49/(0.5*srn) 100/(0.5*srn)],'bandpass');
+                sk_ctc=[];
+                for i =1:srn:(length(data)-srn);
+                    sk_ctc=[sk_ctc numel(find(data(1,i:i+srn)==1))];
                 end
+                sk_ctc1(r,:)=mean(sk_ctc);
+                data_ones=find(data==1);
+                [b,a]=butter(2,[(freq{t,1}(1))/(0.5*srn) (freq{t,1}(2))/(0.5*srn)],'bandpass');
                 Ecogfiltered=filtfilt(b,a,Ecog_region(j,:));
                 ang=angle(hilbert(Ecogfiltered(data_ones)))';
                 vec_an(r,:)=circ_r(ang);
                 clear ang;
             end
             vec(t,j,:)=mean(vec_an);
-            clear vec_an;
+            spikerate{rg,1}(j,:)=mean(sk_ctc1);
+            clear vec_an  sk_ctc1
         end
     end
     reg(rg,:)=mean(vec,2);
 end
 
-bar(abs(euler1))
-title ('Phase consistency of unit firing in cortical signal')
-legend('VA','VL','VM')
-xticklabels({'5-15Hz','16-26Hz','27-37Hz','38-48Hz','49-100Hz'})
+fig=figure()
+subplot(1,3,1)
+histogram(spikerate{1,1},5)
+ylabel('Unit count');
+xlabel('Frequency (Hz)');
+title('Firing rate BZ')
+box('off')
+
+subplot(1,3,2)
+histogram(spikerate{2,1},5)
+ylabel('Unit count');
+xlabel('Frequency (Hz)');
+title('Firing rate SNR')
+box('off')
+
+subplot(1,3,3)
+bar(reg')
+title('Phase locking to ECoG')
+legend('BZ','SNR','box','off')
+ylabel('Vector length');
+xlabel('Frequecy (Hz)');
+xticklabels({'5-15','16-26','27-37','38-48','49-100'})
+box('off')
+fig.Units = 'centimeters';
+fig.OuterPosition= [10, 10, 25, 8];
+fig.Color='w';
 
 
 % cd('/Users/Carolina/Desktop/TC_data')
