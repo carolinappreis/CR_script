@@ -1,8 +1,7 @@
 %TC PROJECT v.2
 
 %-----------------------BUA-A4 Analysis----------------------------------------
- cd ('C:\Users\creis\Documents\GitHub\CR_script\A4_Thal\code')
- cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
+  cd('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code') 
 
 %phase synchrony index(psi)consistency during ctx/subctx bursts vs surrogates between ctx/subcortical regions
 run 'combine2.m'

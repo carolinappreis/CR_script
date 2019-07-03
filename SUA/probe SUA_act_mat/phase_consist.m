@@ -37,21 +37,30 @@ for rg = 1:2;
 end
 
 fig=figure()
-subplot(1,3,1)
-histogram(spikerate{1,1},5)
+histogram(spikerate{1,1},5,'FaceColor',[0.5 0 0],'EdgeColor',[0.4 0 0],'FaceAlpha',0.8)
 ylabel('Unit count');
+ylim([0 5])
 xlabel('Frequency (Hz)');
 title('Firing rate BZ')
 box('off')
+fig.Units = 'centimeters';
+fig.OuterPosition= [10, 10, 6, 6];
+fig.Color='w';
+set(gca,'FontSize',12)
 
-subplot(1,3,2)
-histogram(spikerate{2,1},5)
+fig=figure()
+histogram(spikerate{2,1},5,'FaceColor',[0 0 0.5],'EdgeColor',[0 0 0.4],'FaceAlpha',0.8)
 ylabel('Unit count');
+ylim([0 5])
 xlabel('Frequency (Hz)');
 title('Firing rate SNR')
 box('off')
+fig.Units = 'centimeters';
+fig.OuterPosition= [10, 10, 6, 6];
+fig.Color='w';
+set(gca,'FontSize',12)
 
-subplot(1,3,3)
+fig=figure()
 bar(reg')
 title('Phase locking to ECoG')
 legend('BZ','SNR','box','off')
@@ -60,8 +69,9 @@ xlabel('Frequecy (Hz)');
 xticklabels({'5-15','16-26','27-37','38-48','49-100'})
 box('off')
 fig.Units = 'centimeters';
-fig.OuterPosition= [10, 10, 25, 8];
+fig.OuterPosition= [10, 10, 12,10];
 fig.Color='w';
+set(gca,'FontSize',12)
 
 
 % cd('/Users/Carolina/Desktop/TC_data')
