@@ -1,8 +1,9 @@
 clear all
-close all
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS')
-load ('P01_RS.mat')
+iii=[1 2 3 4 5 6 8 10 11];
+for numb=1:length(iii);
+clearvars -except iii  numb
+% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 start_clean;
 
 %% re - estimate tremor characteristics
@@ -105,9 +106,12 @@ for s=1:size(tt,2)
     end
 end
 
-clearvars -except tt tt3
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS_PSH')
-save 'p01_pha_suffle_phashift.mat'
+clearvars -except tt tt3 iii numb
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS_PSH')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/PS_PSH')
+
+save (strcat('P0',num2str(iii(numb)),'_pha_suffle_phashift.mat'));
+end
 
 % rr(1:size(tt,2))=mean(prctile(tt3,95));
 % rr1(1:size(tt,2))=mean(prctile(tt3,25));

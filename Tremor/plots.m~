@@ -1,9 +1,9 @@
 % cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
 clear all
-%  load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS\P11_stimnosim')
-%  load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS\P11_pha_suffle.mat')
- load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH/P011_stimnosim_phashift.mat')
- load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/PS_PSH/P011_pha_suffle_phashift.mat')
+%  load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS\P10_stimnosim')
+%  load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS\P10_pha_suffle.mat')
+ load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH/P)10_stimnosim_phashift.mat')
+ load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/PS_PSH/P10_pha_suffle_phashift.mat')
 
 d=nanmedian(tt);
 
@@ -100,9 +100,9 @@ xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'}
 % box('off')
 
 
-%  load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P11_RS.mat'))
+%  load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P10_RS.mat'))
 % % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-% % load ('P111_randstim_cursos.mat')
+% % load ('P101_randstim_cursos.mat')
 % in2=1; % analysing the "main tremor axis"
 % if in2==1
 %     in=3;

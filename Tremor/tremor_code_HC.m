@@ -1,11 +1,7 @@
 clear all
- cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline')
-load ('P01_baseline.mat')
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-load ('P01_randstim_cursos.mat')
 in2=1; % analysing the "main tremor axis"
 if in2==1
     in=3;
