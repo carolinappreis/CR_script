@@ -49,39 +49,43 @@ region_snpl=zscore(std(rec_npa2)./sqrt(size(rec_npa2,1)));
 
 time2=[1:401];
 color_s=[0.5 0.5 0.5];
-color_b=[0 0 0.5]; %SNR
-% color_b=[0.5 0 0]; %bz
+  color_b=[0 0 0.5]; %SNR
+%  color_b=[0.5 0 0]; %bz
 
 fig=figure;
-subplot(1,2,1)
+% subplot(1,2,1)
 y2=region_pl; y1=y2+region_spl; y3=y2-region_spl;
 y5=region_npl; y4=y5+region_snpl; y6=y5-region_snpl;
 p1=plot(time2, y2, 'LineWidth',1.5,'Color',color_b)
 patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
+hold on
+xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim ([0 400])
 ylim ([-5 5])
 xticks([0:100:400])
 xticklabels ({'-200','-100','0','100','200'})
-legend([p1],{'phase-aligned'},'FontSize',12,'box','off')
+% legend([p1],{'phase-aligned'},'FontSize',12,'box','off')
 box ('off')
 xlabel ('Time (msec)')
 ylabel('Firing-rate(z-score)')
+% title('Spike triggered average')
 
-
-subplot(1,2,2)
-p2=plot(time2, y5, 'LineWidth',1.5,'Color',color_s)
-patch([time2 fliplr(time2)], [y4 fliplr(y5)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
-patch([time2 fliplr(time2)], [y5 fliplr(y6)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
-xlim ([0 400])
-ylim ([-5 5])
-xticks([0:100:400])
-xticklabels ({'-200','-100','0','100','200'})
-legend([p2],{'non-phase aligned'},'FontSize',12,'box','off')
-box ('off')
-xlabel ('Time (msec)')
-ylabel('Firing-rate(z-score)')
+% subplot(1,2,2)
+% p2=plot(time2, y5, 'LineWidth',1.5,'Color',color_s)
+% patch([time2 fliplr(time2)], [y4 fliplr(y5)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
+% patch([time2 fliplr(time2)], [y5 fliplr(y6)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
+% hold on
+% xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
+% xlim ([0 400])
+% ylim ([-5 5])
+% xticks([0:100:400])
+% xticklabels ({'-200','-100','0','100','200'})
+% legend([p2],{'non-phase aligned'},'FontSize',12,'box','off')
+% box ('off')
+% xlabel ('Time (msec)')
+% ylabel('Firing-rate(z-score)')
 
 fig.Units = 'centimeters';
-fig.OuterPosition= [10, 10, 15, 10];
+fig.InnerPosition= [10, 10, 10, 10];
 fig.Color='w';

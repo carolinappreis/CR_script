@@ -137,10 +137,11 @@ subplot(2,1,1)
 imagesc(ns)
 title('CTX')
 xlabel ('Time (msec)')
-ylabel('Bursts(Sorted by length)')
+ylabel('Bursts (Sorted by duration)')
 % fig.Units = 'centimeters';
 % fig.OuterPosition= [10, 10, 10, 10];
 % fig.Color='w';
+yticks=[1;65];
 set(gca,'FontSize',12)
 
 %%%% ONSET

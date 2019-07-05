@@ -6,26 +6,26 @@ clear all
 close all
  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 % cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load ('data_SUA_SNR.mat')
+load ('data_SUA_BZ.mat')
 
-SNR.sua=data_region;
-SNR.ctx=Ecog_region;
+BZ.sua=data_region;
+BZ.ctx=Ecog_region;
 
 srn=1000;
 
-for i =1:size(SNR.sua,1)
+for i =1:size(BZ.sua,1)
      [b,a]=butter(2,[20/(0.5*srn) 30/(0.5*srn)],'bandpass');
 % [b,a]=butter(2,[15/(0.5*srn) 35/(0.5*srn)],'bandpass');
-    SSNR.ecog_filt(i,:)=filtfilt(b,a,SNR.ctx(i,:));
-    SSNR.ecog_env(i,:)=abs(hilbert(SSNR.ecog_filt(i,:)));
+    SBZ.ecog_filt(i,:)=filtfilt(b,a,BZ.ctx(i,:));
+    SBZ.ecog_env(i,:)=abs(hilbert(SBZ.ecog_filt(i,:)));
     
-    env=SSNR.ecog_env(i,:);Ecogfiltered=SSNR.ecog_filt(i,:);
+    env=SBZ.ecog_env(i,:);Ecogfiltered=SBZ.ecog_filt(i,:);
     
-    SSNR.onset_raw{i,1}=bursts(env);
-    SSNR.offset_raw{i,1}=bursts_off(env);
-    SSNR.onset_phase_al{i,1}=bursts_aligned(env,Ecogfiltered);
-    SSNR.offset_phase_al{i,1}=bursts_aligned_off(env,Ecogfiltered);
-    SSNR.ecog_phase(i,:)=wrapTo2Pi(angle(hilbert(SNR.ctx(i,:))));
+    SBZ.onset_raw{i,1}=bursts(env);
+    SBZ.offset_raw{i,1}=bursts_off(env);
+    SBZ.onset_phase_al{i,1}=bursts_aligned(env,Ecogfiltered);
+    SBZ.offset_phase_al{i,1}=bursts_aligned_off(env,Ecogfiltered);
+    SBZ.ecog_phase(i,:)=wrapTo2Pi(angle(hilbert(BZ.ctx(i,:))));
     cy_bursts{i,1}=cycles_10(env,Ecogfiltered);
     clearvars env Ecogfiltered
 end
@@ -43,9 +43,9 @@ for u=1:size(data_region,1)
                 if d2+1<length(block(d1,:))
                     epoch=block(d1,d2):block(d1,d2+1);
                     l=find(units_match2(um,epoch)==1);
-                    pha_b{um,1}{d1,d2}=SSNR.ecog_phase(u,epoch(l));
-                    pha_b_l{um,1}(d1,d2)=length(SSNR.ecog_phase(u,epoch(l)));
-                    pha_b_all{u,um}{d1,d2}=SSNR.ecog_phase(u,epoch(l));
+                    pha_b{um,1}{d1,d2}=SBZ.ecog_phase(u,epoch(l));
+                    pha_b_l{um,1}(d1,d2)=length(SBZ.ecog_phase(u,epoch(l)));
+                    pha_b_all{u,um}{d1,d2}=SBZ.ecog_phase(u,epoch(l));
                     %                     idx_spkcycle{u,um}{d1,d2}=epoch(l);
                     if isempty (epoch(l))
                         idx_spkcycle{u,um}(d1,d2)=0;

@@ -2,22 +2,22 @@
 clear all
 cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 % cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load ('NEW_SNR_cycle.mat')
+load ('NEW_BZ_cycle.mat')
 
 stat_d1=stat_d(~cellfun('isempty',stat_d));
 units_match1=units_match(~cellfun('isempty',units_match));
 ecogbf_match1=ecogbf_match(any(ecogbf_match,2),:);
 
 for i =1:size(stat_d1,1)
-    %     SSNR.psd(i,:)=pwelch(WaveData_DC(stat_d(i),:),1000,[],1000,1000);
-    SSNR.ecog_filt(i,:)=ecogbf_match1(i,:);
-    SSNR.ecog_env(i,:)=abs(hilbert(ecogbf_match1(i,:)));
-    env=SSNR.ecog_env(i,:);Ecogfiltered=SSNR.ecog_filt(i,:);
-    SSNR.onset_raw{i,1}=bursts(env);
-    SSNR.offset_raw{i,1}=bursts_off(env);
-    SSNR.onset_phase_al{i,1}=bursts_aligned(env,Ecogfiltered);
-    SSNR.offset_phase_al{i,1}=bursts_aligned_off(env,Ecogfiltered);
-    SSNR.ecog_phase(i,:)=wrapTo2Pi(angle(hilbert(ecogbf_match1(i,:))));
+    %     SBZ.psd(i,:)=pwelch(WaveData_DC(stat_d(i),:),1000,[],1000,1000);
+    SBZ.ecog_filt(i,:)=ecogbf_match1(i,:);
+    SBZ.ecog_env(i,:)=abs(hilbert(ecogbf_match1(i,:)));
+    env=SBZ.ecog_env(i,:);Ecogfiltered=SBZ.ecog_filt(i,:);
+    SBZ.onset_raw{i,1}=bursts(env);
+    SBZ.offset_raw{i,1}=bursts_off(env);
+    SBZ.onset_phase_al{i,1}=bursts_aligned(env,Ecogfiltered);
+    SBZ.offset_phase_al{i,1}=bursts_aligned_off(env,Ecogfiltered);
+    SBZ.ecog_phase(i,:)=wrapTo2Pi(angle(hilbert(ecogbf_match1(i,:))));
     cy_bursts{i,1}=cycles_10(env,Ecogfiltered);
     cy_bursts{i,1}=cell2mat(cy_bursts{i,1});
     clearvars env Ecogfiltered
@@ -36,9 +36,9 @@ for u=1:size(units_match1,1)
                 if d2+1<length(block(d1,:))
                     epoch=block(d1,d2):block(d1,d2+1);
                     l=find(units_match2(um,epoch)==1);
-                    pha_b{um,1}{d1,d2}=SSNR.ecog_phase(u,epoch(l));
-                    pha_b_l{um,1}(d1,d2)=length(SSNR.ecog_phase(u,epoch(l)));
-                    pha_b_all{u,um}{d1,d2}=SSNR.ecog_phase(u,epoch(l));
+                    pha_b{um,1}{d1,d2}=SBZ.ecog_phase(u,epoch(l));
+                    pha_b_l{um,1}(d1,d2)=length(SBZ.ecog_phase(u,epoch(l)));
+                    pha_b_all{u,um}{d1,d2}=SBZ.ecog_phase(u,epoch(l));
                     %                     idx_spkcycle{u,um}{d1,d2}=epoch(l);
                     if isempty (epoch(l))
                         idx_spkcycle{u,um}(d1,d2)=0;
@@ -73,7 +73,7 @@ for u=1:size(units_match1,1)
             uni_pha(go,ii)=circ_rtest(bu1)
             clear bu  
         end
-        clearvars -except uni_pha go zm idx_spkcycle pha_b_all pha_b pha_b_l vec_lg ctc cyc_avg cyc_ang_avg pref_pha units_match cy_bursts SSNR u f units_match1
+        clearvars -except uni_pha go zm idx_spkcycle pha_b_all pha_b pha_b_l vec_lg ctc cyc_avg cyc_ang_avg pref_pha units_match cy_bursts SBZ u f units_match1
         go=go+1;
     end
     clear pha_b
@@ -95,7 +95,7 @@ for i=1:length(cy_plots)
     subplot(1,length(cy_plots),i,polaraxes)
     for un=1:size(vl,1)
         polarplot([0 pp(un,cy_plots(i))], [0, vl(un,cy_plots(i))],'linewidth',2)
-        rlim([0 0.8])
+        rlim([0 0.5])
         hold on
     end
 end

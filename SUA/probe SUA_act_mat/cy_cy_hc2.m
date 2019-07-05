@@ -1,18 +1,18 @@
 
 
 clear all
-  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 % cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
 load('SNR_sua_skrate.mat') ; 
 subj= SNR.beta_rats;
 
 Ecog=SNR.ctx(subj,:);
 for i =1:size(subj,1)
-    for ii=1:size(SNR.beta_idx{subj(i),1},2)
-        hp=SNR.beta_idx{subj(i),1}(1,ii);
-        data_all{i,1}(ii,:)=SNR.sua{subj(i),1}(hp,:);
-        clear hp
-    end
+for ii=1:size(SNR.beta_idx{subj(i),1},2)
+    hp=SNR.beta_idx{subj(i),1}(1,ii);
+    data_all{i,1}(ii,:)=SNR.sua{subj(i),1}(hp,:);
+    clear hp
+end
 end
 
 srn=1000;
