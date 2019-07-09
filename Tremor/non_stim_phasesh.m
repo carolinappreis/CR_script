@@ -1,14 +1,15 @@
 clear all
-iii=[1 2 3 4 5 6 8 10 11];
+% iii=[1 2 3 4 5 6 8 10 11];
+iii=[1 2 3 4 5];
 PC=[70 66 47 47 47 50 50 50 50];
 A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];[];([1:9 15]);([2 4 7:10 13:15 22 25])};
 B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25])};
-for numb=5:length(iii);
+for numb=1:length(iii);
     clearvars -except iii PC A1 B1 numb
-    % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
-    % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
+%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
     
     
     in2=1; % analysing the "main tremor axis"
@@ -23,8 +24,8 @@ for numb=5:length(iii);
     samplerateold=SmrData.SR;
     tremor=(data(in,:));
     addon=92; addon_end=35;
-    % cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
-    cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
+     cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
+%     cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
     run ('phasedetection.m');
     data=SmrData.WvData;
     rep=10; % number of trials for random stim - please enter for each patient
@@ -167,7 +168,7 @@ for numb=5:length(iii);
     %     ma(j)=(find(abs(xxx(j,1:3))==max(abs(xxx(j,1:3)))));
     % end
     
-    for i=1:5e4
+    for i=1:25e3
         
         ix=randi(length(segmentb),1);
         segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
@@ -193,7 +194,7 @@ for numb=5:length(iii);
     
     
     for i=1:1e6
-        dum=tremor_k(randi(5e4,1,rep));
+        dum=tremor_k(randi(25e3,1,rep));
         dum2=dum;
         p(i)=nanmedian(dum2);
     end
@@ -201,8 +202,8 @@ for numb=5:length(iii);
     
     nostimout=p;
     clearvars -except nostimout C AA BB numb iii PC A1 B1
-    % cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS_PSH')
-    cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH1')
+     cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS_PSH1')
+%     cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH1')
     save (strcat('P0',num2str(iii(numb)),'_stimnosim_phashift.mat'));
     
 end
