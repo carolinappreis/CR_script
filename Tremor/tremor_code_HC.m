@@ -1,4 +1,6 @@
 clear all
+iii=[1 2 3 4 5 6 8 10 11];
+numb=1;
 load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
 load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
@@ -113,11 +115,11 @@ BB=ind_e2([2 5 7 11 17 22 26 29 31 34]);
 
 % AA=ind_s2(find((ind_e2-ind_s2)>10000));
 % BB=ind_e2(find((ind_e2-ind_s2)>10000));
-close all
-plot(C)
-hold on
-plot(AA,C(AA),'r.')
-plot(BB,C(BB),'b.')
+% close all
+% plot(C)
+% hold on
+% plot(AA,C(AA),'r.')
+% plot(BB,C(BB),'b.')
 
 % segment_nostim % please check that the output makes sense - sometimes could be too
 %sensitive when tremor is not large enough amplitude so you may need to

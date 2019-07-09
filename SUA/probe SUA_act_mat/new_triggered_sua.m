@@ -1,6 +1,6 @@
 clear all
- cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
-% cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
+%  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
 load('data_SUA_SNR.mat')
 
 
@@ -50,7 +50,7 @@ region_snpl=zscore(std(rec_npa2)./sqrt(size(rec_npa2,1)));
 time2=[1:401];
 color_s=[0.5 0.5 0.5];
   color_b=[0 0 0.5]; %SNR
-%  color_b=[0.5 0 0]; %bz
+%   color_b=[0.5 0 0]; %SNR
 
 fig=figure;
 % subplot(1,2,1)
@@ -87,5 +87,7 @@ ylabel('Firing-rate(z-score)')
 % ylabel('Firing-rate(z-score)')
 
 fig.Units = 'centimeters';
-fig.InnerPosition= [10, 10, 10, 10];
+fig.InnerPosition= [10, 10, 9, 9];
 fig.Color='w';
+set(gca,'FontSize',12)
+

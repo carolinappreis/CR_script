@@ -1,5 +1,7 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
+
 load('BZ_opt.mat');  
 load('SNR_opt.mat'); 
 color_s=[0 0 0];
@@ -53,4 +55,25 @@ fig.Color='w';
 
 
 
+iz=[i;z];
+fig=figure();
+y2=log(mean(iz,1));
+y1=log(mean(iz,1)+std(iz)./sqrt(size(iz,1)));
+y3=log(mean(iz,1)-std(iz)./sqrt(size(iz,1)));
+p1=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b)
+% legend([p1],{'M1'},'Box','off')
+patch([time fliplr(time)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
+patch([time fliplr(time)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.2],'EdgeColor','none')
+hold on
+box ('off')
+xlim ([0 80])
+xticks([0:10:100])
+ylabel ('Cortical Log Power')
+xlabel ('Frequency(Hz)')
+box ('off')
+box ('off')
+fig.Units   = 'centimeters';
+fig.OuterPosition= [10, 10, 10, 10];
+fig.Color='w';
+set(gca,'FontSize',12)
 
