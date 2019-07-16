@@ -6,10 +6,14 @@ run ('periph_tremor_CR.m') %will run ('start_clean.m')
 % sig effect of stim compared to non stim periods
 run ('tremor_code_HC.m')
 %plots from the above
-run('plots')
+run('plots') % change for NS/PS for amplitude effects ot NS_PHS1 and PS_PHS1 for effects on frequency
 
 %phase-specific change in stim
 run ('priph_tremor_phaseshift.m')
+
+%sig. induced phase-shift vs.baseline phase-shift
+run('non_stim_phasesh.m')
+
 
 
 

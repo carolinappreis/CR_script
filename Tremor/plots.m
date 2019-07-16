@@ -1,9 +1,13 @@
 % cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
-clear all
-%  load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS\P11_stimnosim')
-%  load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS\P11_pha_suffle.mat')
- load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH/P011_stimnosim_phashift.mat')
- load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/PS_PSH/P011_pha_suffle_phashift.mat')
+clear all;close all
+iii=[1 2 3 4 5 6 8 10 11];
+
+for numb=1
+    %:length(iii);
+%  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS_PSH1\P0',num2str(iii(numb)),'_stimnosim_phashift.mat'))
+%  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS_PSH\P0',num2str(iii(numb)),'_pha_suffle_phashift.mat'))
+ load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH1/P0',num2str(iii(numb)),'_stimnosim_phashift.mat'))
+ load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/PS_PSH/P0',num2str(iii(numb)),'_pha_suffle_phashift.mat'))
 
 d=nanmedian(tt);
 
@@ -12,8 +16,8 @@ lowerthreshold=prctile(nostimout,0.2083);
 
 % find(d>=upperthreshold | d<=lowerthreshold)
 
-close all
-fig=figure(1)
+
+fig=figure(numb)
 subplot(1,3,1)
 bar(d,'FaceColor',[0.5 0.5 0.5],'EdgeColor', [0.5 0.5 0.5]) 
 hold on 
@@ -75,17 +79,17 @@ set(gca,'FontSize',12)
 
 set(fig,'color','w');
 
-figure()
-bar(d,'FaceColor',[0.5 0.5 0.5],'EdgeColor', [0.5 0.5 0.5]) 
-hold on
-plot(tt','.')
-box('off')
-% title 'Significant phasic-specific stimulation effect' 
-xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
-% ylabel ('Median amplitude change')
-% xlabel ('Stimulated phase')
+% figure()
+% bar(d,'FaceColor',[0.5 0.5 0.5],'EdgeColor', [0.5 0.5 0.5]) 
+% hold on
+% plot(tt','.')
+% box('off')
+% % title 'Significant phasic-specific stimulation effect' 
+% xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'})
+% % ylabel ('Median amplitude change')
+% % xlabel ('Stimulated phase')
 
-
+end
 
 
 % figure()

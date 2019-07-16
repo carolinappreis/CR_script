@@ -5,7 +5,7 @@ load('data_SUA_BZ.mat')
 
 
 srn=1000;
-[b,a]=butter(2,[5/(0.5*srn) 15/(0.5*srn)],'bandpass');
+[b,a]=butter(2,[15/(0.5*srn) 35/(0.5*srn)],'bandpass');
 for j=1:size(data_region,1)
     
     data=data_region{j,1};
@@ -13,8 +13,8 @@ for j=1:size(data_region,1)
     clearvars -except j ii BZ b a stat_pa2 stat_npa2 env_pa2 env_npa2 filt_pa2 filt_npa2 Ecog_region data ecog data_region srn rec_pa1 rec_npa1 rec_pa2 rec_npa2 region_pl region_spl region_npl region_nspl subj color_b
     
     for ii=1:size(data,1)
-        [bb,aa]=butter(2,[15/(0.5*srn) 35/(0.5*srn)],'bandpass');
-        Ecogfiltered=filtfilt(bb,aa,ecog);
+
+        Ecogfiltered=filtfilt(b,a,ecog);
         env=abs(hilbert(Ecogfiltered));
         onset1=bursts(env);
         onset1=horzcat(onset1{:});
@@ -30,8 +30,6 @@ for j=1:size(data_region,1)
                 output_count(ii,jj,:)= data(onset1(jj)-200:onset1(jj)+200);
             end
         end
-        
-
         rec_pa1{j,1}=reshape(sum(output_pa,2),(size(sum(output_pa,2),1)),(size(sum(output_pa,2),3)));
         rec_npa1{j,1}=reshape(sum(output_npa,2),(size(sum(output_npa,2),1)),(size(sum(output_npa,2),3)));
     end
@@ -61,7 +59,7 @@ region_spl=zscore(std(rec_pa2)./sqrt(size(rec_pa2,1)));
 region_npl=zscore(mean(rec_npa2,1));
 region_snpl=zscore(std(rec_npa2)./sqrt(size(rec_npa2,1)));
 
-% %%FILTERED
+%%%FILTERED
 % region_pl=zscore(mean(filt_pa2,1));
 % region_spl=zscore(std(filt_pa2)./sqrt(size(filt_pa2,1)));
 % region_npl=zscore(mean(filt_npa2,1));
