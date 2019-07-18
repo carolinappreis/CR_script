@@ -1,11 +1,12 @@
 clear all
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-load ('P011_randstim_cursos.mat')
+iii=[1 2 3 4 5 6 8 10 11];
+
+for numb=1:length(iii);
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 start_clean;
 
 %%% re - estimate tremor characteristics
-clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency
+clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency 
 
 handup=[];
 for i=1:length(start)
@@ -77,20 +78,26 @@ tt=NaN(20,12);
 yy = xx ;
 
 for s=1:size(tt,2)
-    for i =1:100;
-        yy1=xx(randperm(size(xx,2)) );
+    for i =1:1000;
+        yy1=xx(randperm(size(xx,2)));
         tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
         tt3(i,s)=nanmedian(tt2,1);
         clear tt2 
     end
 end
-lg=0:20;
+
 for i=1:12
     tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
 end
 
-clearvars -except tt tt3
-% % save 'p011_pha_suffle.mat'
+ttall (numb,:,:)=tt3;
+% clearvars -except tt tt3 iii numb
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\A_PS')
+% save (strcat('P0',num2str(iii(numb)),'_pha_suffle.mat'));
+end
+A_LS=ttall;
+clearvars -except A_LS
+
 
 % rr(1:size(tt,2))=mean(prctile(tt3,95));
 % rr1(1:size(tt,2))=mean(prctile(tt3,25));
@@ -119,17 +126,17 @@ clearvars -except tt tt3
 
 
 
-close all
-figure()
-fig=gcf;
-fig.Color=[1 1 1];
-bar(nanmedian(tt))
-hold on
-stem(tt')
-xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'})
-% ylim([(-max((max(tt)))-0.1).*100 (max(max(tt))+0.1).*100])
-box('off')
-title ('P8')
+% close all
+% figure()
+% fig=gcf;
+% fig.Color=[1 1 1];
+% bar(nanmedian(tt))
+% hold on
+% stem(tt')
+% xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'})
+% % ylim([(-max((max(tt)))-0.1).*100 (max(max(tt))+0.1).*100])
+% box('off')
+% title ('P8')
 % % 
 % % figure()
 % fig=gcf;

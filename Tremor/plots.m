@@ -4,10 +4,10 @@ iii=[1 2 3 4 5 6 8 10 11];
 
 for numb=1
     %:length(iii);
-%  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS_PSH1\P0',num2str(iii(numb)),'_stimnosim_phashift.mat'))
-%  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS_PSH\P0',num2str(iii(numb)),'_pha_suffle_phashift.mat'))
- load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH1/P0',num2str(iii(numb)),'_stimnosim_phashift.mat'))
- load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/PS_PSH/P0',num2str(iii(numb)),'_pha_suffle_phashift.mat'))
+  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS_PSH1\P0',num2str(iii(numb)),'_stimnosim_phashift.mat'))
+  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS_PSH\P0',num2str(iii(numb)),'_pha_suffle_phashift.mat'))
+%  load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH1/P0',num2str(iii(numb)),'_stimnosim_phashift.mat'))
+%  load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/PS_PSH/P0',num2str(iii(numb)),'_pha_suffle_phashift.mat'))
 
 d=nanmedian(tt);
 
