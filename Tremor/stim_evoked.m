@@ -1,10 +1,21 @@
+%%%plan : identify peaks; if present between 500-800 get subject idx; binary
+%%% for each subj check if max if >0 and >97.5 perctile (corr 12); binary 
+%%% check channels 
+
+
 clear all
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\A_group.mat')
+% load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
+amp.ls=LS; amp.ns=NS; amp.s=S; clear S NS LS
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group.mat')
+% load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/F_group.mat')
+freq.ls=LS; freq.ns=NS; freq.s=S; clear S NS LS
+
 iii=[1 2 3 4 5 6 8 10 11];
-for numb=5
-%     1:length(iii);    
-clearvars -except iii numb
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
-% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+for numb=1:length(iii);    
+clearvars -except iii numb amp freq 
+% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 
 in2=1; % analysing the "main tremor axis"
 if in2==1
@@ -55,48 +66,49 @@ for i=1:12
     emg3(emg3==0)=NaN;
 end
 
+ref=abs(amp.s(:));
+ref=reshape(ref,9,12);
+idx_phase=find(ref(numb,:)==max(ref(numb,:)));
 
-
-for i=1:12;
-fig=figure(1)
+fig=figure()
 subplot(5,1,1)
-plot(ttx(i,:))
+plot(ttx(idx_phase,:))
 xline(250,'--')
 % ylim([-0.5 0.5])
 set(gca,'FontSize',12)
 box('off')
 
 subplot(5,1,2)
-plot(tty(i,:))
+plot(tty(idx_phase,:))
 xline(250,'--')
 % ylim([-0.5 0.5])
 set(gca,'FontSize',12)
 box('off')
 
 subplot(5,1,3)
-plot(ttz(i,:))
+plot(ttz(idx_phase,:))
 xline(250,'--')
 % ylim([-0.5 0.5])
 set(gca,'FontSize',12)
 box('off')
 
 subplot(5,1,4)
-plot(ch(i,:))
+plot(ch(idx_phase,:))
 xline(250,'--')
 set(gca,'FontSize',12)
 box('off')
 
 subplot(5,1,5)
-plot(emg3(i,:))
+plot(emg3(idx_phase,:))
 xline(250,'--')
 set(gca,'FontSize',12)
 box('off')
 
 fig.Units = 'centimeters';
-fig.OuterPosition= [5, 5, 20, 27];
+fig.OuterPosition= [2, 2, 20, 27];
 set(fig,'color','w');
 
-% close all
-end
 
+
+close all
 end
