@@ -4,11 +4,10 @@ iii=[1 2 3 4 5 6 8 10 11];
 
 for numb=1
     %:length(iii);
-  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS_PSH1\P0',num2str(iii(numb)),'_stimnosim_phashift.mat'))
-  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\PS_PSH\P0',num2str(iii(numb)),'_pha_suffle_phashift.mat'))
-%  load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH1/P0',num2str(iii(numb)),'_stimnosim_phashift.mat'))
-%  load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/PS_PSH/P0',num2str(iii(numb)),'_pha_suffle_phashift.mat'))
-
+  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\A_NS\P0',num2str(iii(numb)),'_stimnosim.mat'))
+  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\P_NS\P0',num2str(iii(numb)),'_stimnosim_phashift.mat'))
+tt=stimout;
+tt3= nostimout;
 d=nanmedian(tt);
 
 upperthreshold=prctile(nostimout,99.7917); %bonferroni corrected for 12 comparisons
@@ -31,7 +30,7 @@ xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'}
 % ylabel ('Median amplitude change')
 ylabel ('Median frequency change')
 xlabel ('Stimulated phase')
-ylim ([-1 1])
+% ylim ([-1 1])
 % title 'Significant stimulation effect'
 title 'Significant stimulation effect on frequency change'
 set(gca,'FontSize',12)
@@ -52,7 +51,7 @@ xticklabels({'0' '30' '60' '90' '120' '150' '180' '210' '240' '270' '300' '330'}
 % ylabel ('Median amplitude change')
 ylabel ('Median frequency change')
 xlabel ('Stimulated phase')
-ylim ([-1 1])
+% ylim ([-1 1])
  set(gca,'FontSize',12)
  
 

@@ -9,13 +9,13 @@ for numb=1:length(iii);
 load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
 load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 
-in2=1; % analysing the "main tremor axis"
+in2=3; % analysing the "main tremor axis"
 if in2==1
     in=3;
 elseif in2==2 % other axis 1
-    in=6;
+    in=5;
 elseif in2==3 % other axis 2
-    in=7;
+    in=6;
 end
 data=SmrData.WvData;
 samplerateold=SmrData.SR;
@@ -34,7 +34,7 @@ stim(numb,:)=nanmedian(tt);
 
 data=SmrData.WvData;
 rep=10; % number of trials for random stim - please enter for each patient
-clearvars -except Fpeak in2 in rep SmrData data nostimout iii numb PC A1 B1 iii stim
+clearvars -except Fpeak in2 in rep SmrData data nostimout iii numb PC A1 B1 iii stim nostim
 
 samplerateold=SmrData.SR;
 time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
@@ -153,11 +153,11 @@ tremor=(data(3,:));% %score(:,1)';%
 ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
 ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
 tremorx(1:size(ts1.data,3))=ts1.data;
-tremor=(data(6,:));% %score(:,1)';%
+tremor=(data(5,:));% %score(:,1)';%
 ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
 ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
 tremory(1:size(ts1.data,3))=ts1.data;
-tremor=(data(7,:));% %score(:,1)';%
+tremor=(data(6,:));% %score(:,1)';%
 ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
 ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
 tremorz(1:size(ts1.data,3))=ts1.data;
@@ -176,7 +176,9 @@ end
 for i=1
     for j=1:5e4
         ix=randi(length(segmentb),1);
+        if (segmentb(ix)+1000)<(segmente(ix)-5000)
         segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
+        end
         begin3=segment;
         end3=floor(begin3+5*samplerate);
         while ~isempty(intersect(unstable3,begin3:end3))
@@ -190,15 +192,28 @@ for i=1
     end
 end
 
+for i=1:1e6
+    dum=baseline3(randi(5e4,1,rep));
+    dum2=dum;
+    p(i)=nanmedian(dum2);
+end
+nostim(numb,:)=p;
+
 for i=1:12
     dum=baseline3(randi(5e4,1,rep));
     dum2=dum;
     nostimout(numb,i)=nanmedian(dum2);
 end
-clearvars -except nostimout iii numb PC A1 B1 iii stim
+clearvars -except nostimout iii numb PC A1 B1 iii stim nostim
 end
-ANS_group=nostimout; clear nostimout
-AS_group=stim;
-clearvars  -except ANS_group AS_group
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% ANS_group=nostimout; clear nostimout
+% AS_group=stim;
+% clearvars  -except ANS_group AS_group
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% save 'A_group'
+NS=nostimout; 
+S_group=stim;
+idv_NS=nostim;
+clearvars  -except NS S idv_NS
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis3')
 save 'A_group'

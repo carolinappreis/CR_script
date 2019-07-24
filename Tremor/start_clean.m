@@ -4,9 +4,9 @@ in2=1; % analysing the "main tremor axis"
 if in2==1
     in=3;
 elseif in2==2 % other axis 1
-    in=6;
+    in=5;
 elseif in2==3 % other axis 2
-    in=7;
+    in=6;
 end
 data=SmrData.WvData;
 samplerateold=SmrData.SR;
