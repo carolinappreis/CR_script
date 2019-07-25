@@ -1,9 +1,9 @@
-clear all
+% clear all
 iii=[1 2 3 4 5 6 8 10 11];
 
 for numb=1:length(iii);
-% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
 start_clean;
 
@@ -83,14 +83,14 @@ k=1;
 tt=NaN(20,12);
 yy = xx ;
 
-for s=1:size(tt,2)
-    for i =1:1000;
-        yy1=xx(randperm(size(xx,2)));
-        tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
-        label_sh1(i,s)=nanmedian(tt2,1);
-        clear tt2 
-    end
-end
+% for s=1:size(tt,2)
+%     for i =1:1000;
+%         yy1=xx(randperm(size(xx,2)));
+%         tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
+%         label_sh1(i,s)=nanmedian(tt2,1);
+%         clear tt2 
+%     end
+% end
 
 for i=1:12
     tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
@@ -99,13 +99,13 @@ end
 
 ttall (numb,:)=nanmedian(tt);
 ampall (numb,:)=nanmedian(amp);
-label_sh(numb,:,:)= label_sh1;
-clearvars -except ttall iii numb ampall label_sh
+% label_sh(numb,:,:)= label_sh1;
+clearvars -except ttall iii numb ampall 
 
 end
 clearvars -except ttall ampall 
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
+% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
 save ('abs_amp.mat')
 plot(mean(ampall,2),mean(ttall,2),'k+')
 lsline

@@ -1,3 +1,6 @@
+%%%CHANGE THIS W/ STEPS FROM STIM_PHASE SHIFT
+
+
 clear all
 iii=[1 2 3 4 5 6 8 10 11];
 PC=[70 66 47 47 47 50 50 50 50];
@@ -15,9 +18,9 @@ for numb=1:length(iii);
     if in2==1
         in=3;
     elseif in2==2 % other axis 1
-        in=6;
+        in=5;
     elseif in2==3 % other axis 2
-        in=7;
+        in=6;
     end
     data=SmrData.WvData;
     samplerateold=SmrData.SR;
@@ -28,7 +31,7 @@ for numb=1:length(iii);
     run ('phasedetection.m');
     data=SmrData.WvData;
     rep=10; % number of trials for random stim - please enter for each patient
-    clearvars -except Fpeak in2 in rep SmrData data stimout iii numb PC A1 B1 PNS_group
+    clearvars -except Fpeak in2 in rep SmrData data stimout iii numb PC A1 B1 NS
     
     samplerateold=SmrData.SR;
     time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
@@ -200,7 +203,7 @@ for numb=1:length(iii);
     for i=1:12
     dum=tremor_k(randi(5e4,1,rep));
     dum2=dum;
-    PNS_group(numb,i)=nanmedian(dum2);
+    NS(numb,i)=nanmedian(dum2);
     end
 
 %     nostimout=p;
@@ -209,12 +212,23 @@ for numb=1:length(iii);
 % %     cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH1')
 %     save (strcat('P0',num2str(iii(numb)),'_stimnosim_phashift.mat'));
 
-clearvars -except PNS_group C AA BB numb iii PC A1 B1
+clearvars -except NS C AA BB numb iii PC A1 B1
 
 end
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data') 
-clearvars -except PNS_group 
-save 'PS_group' 
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data') 
+% clearvars -except PNS_group 
+% save 'PS_group' 
+
+
+S_group=stim;
+idv_NS=nostim;
+clearvars  -except NS S idv_NS
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis3')
+save 'F_group'
+
+
+
+
 % load stim
 % load nostim
 % d=nanmedian(stimout);

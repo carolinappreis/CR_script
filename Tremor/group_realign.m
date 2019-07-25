@@ -1,12 +1,13 @@
 clear all
 % load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\A_group.mat')
-load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis2\A_group.mat')
+% load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
 a.ns=NS; a.s=S; clearvars -except a
-% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group.mat')
-load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/F_group.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group.mat')
+% load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/F_group.mat')
 f.ns=NS; f.s=S; clearvars -except a f
 
-ref=a.s; %%% max amplitude change vs. max frequecy change
+ref=f.s; %%% max amplitude change vs. max frequecy change
 iii=0; %%%%% amp (=0) vs. supressive effect
 
 idmi=[];

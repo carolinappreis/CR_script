@@ -2,8 +2,8 @@ clear all
 iii=[1 2 3 4 5 6 8 10 11];
 
 for numb=1:length(iii);
-% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
 start_clean;
 
@@ -35,7 +35,7 @@ envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
 env_z=zscore(envelope);
 phase=angle(dummy);
 frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
-freq_z=zscore(frequency);
+% freq_z=zscore(abs(frequency));
 
 for i=1:length(start)
     if ~isnan(start(i)) 
@@ -57,21 +57,24 @@ tt=NaN(20,12);
 
 for i=1:12
     tt(1:sum(xx==i),i)=tremor_k(find(xx==i));
+    freq(1:sum(xx==i),i)=tremor_or22(find(xx==i));
 end
 
 clear tt2
 
-P_S (numb,:)=nanmedian(tt);
+ttall (numb,:)=nanmedian(tt);
+freqall (numb,:)=nanmedian(freq);
 
 end
 clearvars -except ttall freqall 
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
+% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
 save ('abs_freq.mat')
 
 
-plot(mean(ampall,2),mean(ttall,2),'k+')
+plot(mean(freqall,2),mean(ttall,2),'k+')
 lsline
+m=[mean(freqall,2) mean(ttall,2)];
 corrcoef(m(:,1),m(:,2))
 
 
