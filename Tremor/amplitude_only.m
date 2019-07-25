@@ -2,7 +2,9 @@ clear all
 iii=[1 2 3 4 5 6 8 10 11];
 
 for numb=1:length(iii);
-load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+
 start_clean;
 
 %%% re - estimate tremor characteristics
@@ -66,9 +68,12 @@ tremor_or2=NaN(length(start),1);
 
 for i=1:length(start)
     if (~isnan(start(i)))
-        tremor_or2(i,1)=mean(envelope(start(i)-1000:start(i)));
+        tremor_or3(i,1)=mean(envelope(start(i)-1000:start(i)));
+        tremor_or2(i,1)=(mean(envelope(ending(i)-1000:ending(i)))-mean(envelope(start(i)-1000:start(i))))/mean(envelope(start(i)-1000:start(i)));
+
     else
         tremor_or2(i,1)=NaN;
+        tremor_or3(i,1)=NaN;
     end
 end
 
@@ -82,19 +87,35 @@ for s=1:size(tt,2)
     for i =1:1000;
         yy1=xx(randperm(size(xx,2)));
         tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
-        tt3(i,s)=nanmedian(tt2,1);
+        label_sh1(i,s)=nanmedian(tt2,1);
         clear tt2 
     end
 end
 
 for i=1:12
     tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
+    amp(1:sum(xx==i),i)=tremor_or3(find(xx==i));
 end
 
-ttall (numb,:)=tt;
-clearvars -except ttall iii numb
+ttall (numb,:)=nanmedian(tt);
+ampall (numb,:)=nanmedian(amp);
+label_sh(numb,:,:)= label_sh1;
+clearvars -except ttall iii numb ampall label_sh
 
 end
+clearvars -except ttall ampall 
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
+save ('abs_amp.mat')
+plot(mean(ampall,2),mean(ttall,2),'k+')
+lsline
+corrcoef(m(:,1),m(:,2))
 
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-save (strcat('P0',num2str(iii(numb)),'_amplitude.mat'));
+
+for i=1:9
+a1(1,i)=ttall(i,phase_peak(i));
+a2(1,i)=ampall(i,phase_peak(i));
+end
+plot(a1,a2,'k+')
+lsline
+corrcoef(a1',a2')
