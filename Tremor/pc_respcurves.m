@@ -1,3 +1,24 @@
+clear all
+iii=[1 2 3 4 5 6 8 10 11];
+numb=8;
+
+% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+in2=1; % analysing the "main tremor axis" 
+
+if in2==1
+    in=3;
+elseif in2==2 % other axis 1
+    in=5;
+elseif in2==3 % other axis 2
+    in=6;
+end
+
+data=SmrData.WvData;
+samplerateold=SmrData.SR;
+tremor=(data(in,:));
+addon=92; addon_end=35;
+
 time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
 
 %% downsample
@@ -173,11 +194,10 @@ tt=NaN(20,12);
 
 for i=1:12
     tt(1:sum(xx==i),i)=tremor_or2(find(xx==i)); % please check tt does not contain
-    % zeros - this can happen if tremor amplitude was too small and
-    % stimulation started and stopped within the 5 second window - if so
-    % execute
-    
-    % tt(tt==0)=NaN;
+%     zeros - this can happen if tremor amplitude was too small and
+%     stimulation started and stopped within the 5 second window - if so
+%     execute
+    tt(tt==0)=NaN;
 end
 
 
