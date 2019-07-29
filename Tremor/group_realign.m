@@ -1,7 +1,8 @@
 clear all
 % load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\A_group.mat')
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis2\A_group.mat')
+% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis2\A_group.mat')
 % load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
+load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Axis3/A_group.mat')
 a.ns=NS; a.s=S; clearvars -except a
 load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group.mat')
 % load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/F_group.mat')

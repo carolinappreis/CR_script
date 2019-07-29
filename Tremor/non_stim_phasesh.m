@@ -8,13 +8,13 @@ A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];[
 B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25])};
 for numb=1:length(iii);
     clearvars -except iii PC A1 B1 numb PNS_group
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
-%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+        load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
+        load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
     
     
-    in2=1; % analysing the "main tremor axis"
+    in2=2; % analysing the "main tremor axis"
     if in2==1
         in=3;
     elseif in2==2 % other axis 1
@@ -26,12 +26,12 @@ for numb=1:length(iii);
     samplerateold=SmrData.SR;
     tremor=(data(in,:));
     addon=92; addon_end=35;
-     cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
-%     cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
+%     cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
+        cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
     run ('phasedetection.m');
     data=SmrData.WvData;
     rep=10; % number of trials for random stim - please enter for each patient
-    clearvars -except Fpeak in2 in rep SmrData data stimout iii numb PC A1 B1 NS
+    clearvars -except Fpeak in2 in rep SmrData data nostim iii numb PC A1 B1 NS stim
     
     samplerateold=SmrData.SR;
     time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
@@ -145,23 +145,23 @@ for numb=1:length(iii);
     envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
     phase=angle(dummy);
     frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),251))';
-%     
-%     tremor=(data(3,:));% %score(:,1)';%
-%     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-%     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-%     tremorx(1:size(ts1.data,3))=ts1.data;
-%     tremor=(data(6,:));% %score(:,1)';%
-%     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-%     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-%     tremory(1:size(ts1.data,3))=ts1.data;
-%     tremor=(data(7,:));% %score(:,1)';%
-%     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-%     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-%     tremorz(1:size(ts1.data,3))=ts1.data;
-%     [b,a]=butter(2,[2/(0.5*samplerate) 7/(0.5*samplerate)],'bandpass'); %15
-%     tremorxf=filtfilt(b,a,tremorx);
-%     tremoryf=filtfilt(b,a,tremory);
-%     tremorzf=filtfilt(b,a,tremorz);
+    %
+    %     tremor=(data(3,:));% %score(:,1)';%
+    %     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    %     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+    %     tremorx(1:size(ts1.data,3))=ts1.data;
+    %     tremor=(data(6,:));% %score(:,1)';%
+    %     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    %     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+    %     tremory(1:size(ts1.data,3))=ts1.data;
+    %     tremor=(data(7,:));% %score(:,1)';%
+    %     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    %     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+    %     tremorz(1:size(ts1.data,3))=ts1.data;
+    %     [b,a]=butter(2,[2/(0.5*samplerate) 7/(0.5*samplerate)],'bandpass'); %15
+    %     tremorxf=filtfilt(b,a,tremorx);
+    %     tremoryf=filtfilt(b,a,tremory);
+    %     tremorzf=filtfilt(b,a,tremorz);
     
     % for j=1:length(segmentb)
     %     x=[tremorxf(segmentb(j):segmente(j));tremoryf(segmentb(j):segmente(j));tremorzf(segmentb(j):segmente(j))];
@@ -193,38 +193,43 @@ for numb=1:length(iii);
         end
         
     end
-     
-%     for i=1:1e6
-%         dum=tremor_k(randi(25e3,1,rep));
-%         dum2=dum;
-%         p(i)=nanmedian(dum2);
-%     end
+    
+    tt=[];
     
     for i=1:12
-    dum=tremor_k(randi(5e4,1,rep));
-    dum2=dum;
-    NS(numb,i)=nanmedian(dum2);
+        tt(1:sum(xx==i),i)=tremor_k(find(xx==i));
     end
-
-%     nostimout=p;
-%     clearvars -except nostimout C AA BB numb iii PC A1 B1
-%      cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS_PSH1')
-% %     cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH1')
-%     save (strcat('P0',num2str(iii(numb)),'_stimnosim_phashift.mat'));
-
-clearvars -except NS C AA BB numb iii PC A1 B1
-
+    
+    stim(numb,:)=tt;
+    
+    for i=1:1e6
+        dum=tremor_k(randi(25e3,1,rep));
+        dum2=dum;
+        p(i)=nanmedian(dum2);
+    end
+    
+    for i=1:12
+        dum=tremor_k(randi(5e4,1,rep));
+        dum2=dum;
+        NS(numb,i)=nanmedian(dum2);
+    end
+    
+    nostim=p;
+    %     clearvars -except nostimout C AA BB numb iii PC A1 B1
+    %      cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\NS_PSH1')
+    % %     cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/NS_PSH1')
+    %     save (strcat('P0',num2str(iii(numb)),'_stimnosim_phashift.mat'));
+    
+    clearvars -except NS C AA BB numb iii PC A1 B1 nostim stim NS
+    
 end
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data') 
-% clearvars -except PNS_group 
-% save 'PS_group' 
-
-
-S_group=stim;
+S=stim;
 idv_NS=nostim;
 clearvars  -except NS S idv_NS
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis3')
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis3')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Axis2')
 save 'F_group'
+
 
 
 
