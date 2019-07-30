@@ -34,7 +34,7 @@ stim(numb,:)=nanmedian(tt);
 
 data=SmrData.WvData;
 rep=10; % number of trials for random stim - please enter for each patient
-clearvars -except Fpeak in2 in rep SmrData data nostimout iii numb PC A1 B1 iii stim nostim
+clearvars -except Fpeak in2 in rep SmrData data nostimout iii numb PC A1 B1 iii stim nostim xx
 
 samplerateold=SmrData.SR;
 time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
@@ -176,11 +176,11 @@ end
 for i=1
     for j=1:5e4
         ix=randi(length(segmentb),1);
-        if (segmentb(ix)+1000)<(segmente(ix)-5000)
-        segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
-        end
+         while (segmentb(ix)+1000)<(segmente(ix)-5000)
+        segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);  
         begin3=segment;
         end3=floor(begin3+5*samplerate);
+         end
         while ~isempty(intersect(unstable3,begin3:end3))
             segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
             begin3=segment;
@@ -204,7 +204,7 @@ for i=1:12
     dum2=dum;
     nostimout(numb,i)=nanmedian(dum2);
 end
-clearvars -except nostimout iii numb PC A1 B1 iii stim nostim
+clearvars -except nostimout iii numb PC A1 B1 iii stim nostim 
 end
 % ANS_group=nostimout; clear nostimout
 % AS_group=stim;
