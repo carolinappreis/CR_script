@@ -81,6 +81,7 @@ clear tt tt2
 
 k=1;
 tt=NaN(20,12);
+amp=NaN(20,12);
 yy = xx ;
 
 % for s=1:size(tt,2)

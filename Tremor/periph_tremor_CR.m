@@ -89,7 +89,6 @@ end
 for i=1:12
     tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
 end
-
 ttall (numb,:,:)=tt3;
 % clearvars -except tt tt3 iii numb
 % cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\A_PS')
