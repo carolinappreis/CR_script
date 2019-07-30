@@ -1,7 +1,7 @@
 
 clear all
-% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_amp.mat')
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/abs_amp.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_amp.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/abs_amp.mat')
 
 figure()
 subplot(1,2,1)
@@ -13,7 +13,7 @@ ylabel ('Change in amplitude (zscore)')
 xlabel('Amplitude (zscore)')
 
 c=corrcoef(m(:,1),m(:,2));
-legend(y1,[num2str(c)],'box','off')
+legend(y1,[num2str(c(1,2))],'box','off')
 
 for i=1:9
 a1(1,i)=ttall(i,phase_peak(i));
@@ -27,14 +27,14 @@ box('off')
 ylabel ('Change in amplitude (zscore)')
 xlabel('Amplitude (zscore)')
 c2=corrcoef(a1',a2')
-legend(y2,[num2str(c2)],'box','off')
+legend(y2,[num2str(c2(1,2))],'box','off')
 
 
 
 
 clear all
-% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_freq.mat')
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/abs_freq.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_freq.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/abs_freq.mat')
 
 figure()
 subplot(1,2,1)
@@ -45,7 +45,7 @@ box('off')
 ylabel ('Change in frequency (zscore)')
 xlabel('Frequency (zscore)')
 c=corrcoef(m(:,1),m(:,2));
-legend(y1,[num2str(c)],'box','off')
+legend(y1,[num2str(c(1,2))],'box','off')
 
 for i=1:9
 a1(1,i)=ttall(i,phase_peak(i));
@@ -59,5 +59,5 @@ box('off')
 ylabel ('Change in frequency (zscore)')
 xlabel('Frequency (zscore)')
 c2=corrcoef(a1',a2')
-legend(y2,[num2str(c2)],'box','off')
+legend(y2,[num2str(c2(1,2))],'box','off')
 
