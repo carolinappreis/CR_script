@@ -1,7 +1,8 @@
 clear all
-iii=[1 2 3 4 5 6 8 10 11];
+iii=[1 2 3 4 5 8 10 11];
 
 for numb=1:length(iii);
+    clearvars -except iii numb ttall freqall
 load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 % load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
@@ -29,19 +30,39 @@ else
     [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
 end
 tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
-
+% tremor_or=zscore(tremor_or);
 dummy=hilbert(tremor_or);
 envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
-env_z=zscore(envelope);
 phase=angle(dummy);
-frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
-% freq_z=zscore(abs(frequency));
+% frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
+
+% tremor_or2=NaN(20,5001);
+% tremor_or22=NaN(20,5001);
+% for i=1:length(start)
+%     if ~isnan(start(i)) 
+%         tremor_or2(i,1:(ending(i)-start(i)+1))=frequency(start(i):ending(i));
+%         tremor_or22(i,1:(ending(i)-start(i)+1))=mean(frequency(start(i)-1000:start(i)));
+%         tremor_k(i,1)=tremor_or2(i,(ending(i)-start(i)+1))-tremor_or22(i,(ending(i)-start(i)+1));
+%     else
+%         tremor_or22(i,1:5001)=NaN;
+%         tremor_or2(i,1:5001)=NaN;
+%         tremor_k(i,1)=NaN;
+%     end
+% end
+
+
+
+
+tremor_or2=NaN(20,5001);
+tremor_or22=NaN(20,5001); 
+[a,b]=hist(frequency,0:0.05:10);
+
 
 for i=1:length(start)
     if ~isnan(start(i)) 
-        tremor_or2(i,1:(ending(i)-start(i)+1))=freq_z(start(i):ending(i));
-        tremor_or22(i,1:(ending(i)-start(i)+1))=mean(freq_z(start(i)-1000:start(i)));
-        tremor_k(i,1)=tremor_or2(i,(ending(i)-start(i)+1))-tremor_or22(i,(ending(i)-start(i)+1));
+        tremor_or2(i,1:(ending(i)-start(i)+1))=unwrap(phase(start(i):ending(i)));
+        tremor_or22(i,1:(ending(i)-start(i)+1))=(phase(start(i))+(0:1:(ending(i)-start(i)))*2*pi/(1000./mean(frequency(start(i)-1000:start(i)))));
+        tremor_k(i,1)= (tremor_or2(i,(ending(i)-start(i)+1))-tremor_or22(i,(ending(i)-start(i)+1)))/(2*pi*0.001*(ending(i)-start(i))); %mean(frequency(ending(i)-1000:ending(i)));%
     else
         tremor_or22(i,1:5001)=NaN;
         tremor_or2(i,1:5001)=NaN;
@@ -49,9 +70,9 @@ for i=1:length(start)
     end
 end
 
+
 clear tt
-tt=[]; 
-k=1;
+clear freq
 
 tt=NaN(20,12);
 
@@ -60,12 +81,18 @@ for i=1:12
     freq(1:sum(xx==i),i)=tremor_or22(find(xx==i));
 end
 
-clear tt2
-
 ttall (numb,:)=nanmedian(tt);
 freqall (numb,:)=nanmedian(freq);
 
 end
+
+for i=1:8
+    subplot(8,1,i)
+    bar(ttall(i,:))
+    ylim([-0.5 0.5])
+end
+    
+
 clearvars -except ttall freqall 
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')

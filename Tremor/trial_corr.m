@@ -1,5 +1,6 @@
  clear all
-iii=[1 2 3 4 5 6 8 10 11];
+% iii=[1 2 3 4 5 6 8 10 11];
+iii=[1 2 3 4 5 8 10 11];
 
 for numb=1:length(iii);
 load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
@@ -58,24 +59,46 @@ for i=1:12
 end
 tt=abs(tt1);
 
-figure(1)
 ttall(numb,:)=nanmedian(tt);
 ampall(numb,:)=nanmedian(amp);
 max_ef(1,numb)=find(ttall(numb,:)==max(ttall (numb,:)));
-
 n=[amp(:,max_ef(numb))  tt(:,max_ef(numb))];
+
+figure(1)
 plot(n(:,1),n(:,2),'k+');
 y1=lsline;
 hold on
-
+ylabel ('Change in amplitude (zscore)')
+xlabel('Amplitude (zscore)')
 
 %%% frequency 
 
+% for i=1:length(start)
+%     if ~isnan(start(i)) 
+%         tremor_for2(i,1:(ending(i)-start(i)+1))=frequency(start(i):ending(i));
+%         tremor_for22(i,1:(ending(i)-start(i)+1))=mean(frequency(start(i)-1000:start(i)));
+%         tremor_k(i,1)=tremor_for2(i,(ending(i)-start(i)+1))-tremor_for22(i,(ending(i)-start(i)+1));
+%     else
+%         tremor_for22(i,1:5001)=NaN;
+%         tremor_for2(i,1:5001)=NaN;
+%         tremor_k(i,1)=NaN;
+%     end
+% end
+
+%%% frequency 
+
+tremor_for2=NaN(20,5001);
+tremor_for22=NaN(20,5001);
+
+[a,b]=hist(frequency,0:0.05:10);
+
+
 for i=1:length(start)
     if ~isnan(start(i)) 
-        tremor_for2(i,1:(ending(i)-start(i)+1))=frequency(start(i):ending(i));
-        tremor_for22(i,1:(ending(i)-start(i)+1))=mean(frequency(start(i)-1000:start(i)));
-        tremor_k(i,1)=tremor_for2(i,(ending(i)-start(i)+1))-tremor_for22(i,(ending(i)-start(i)+1));
+        tremor_for2(i,1:(ending(i)-start(i)+1))=unwrap(phase(start(i):ending(i)));
+        tremor_for22(i,1:(ending(i)-start(i)+1))=(phase(start(i))+(0:1:(ending(i)-start(i)))*2*pi/(1000./mean(frequency(start(i)-1000:start(i)))));
+        tremor_k(i,1)= (tremor_for2(i,(ending(i)-start(i)+1))-tremor_for22(i,(ending(i)-start(i)+1)))/(2*pi*0.001*(ending(i)-start(i))); %mean(frequency(ending(i)-1000:ending(i)));%
+%           tremor_k(i,1)= mean(frequency(ending(i)-1000:ending(i)));%
     else
         tremor_for22(i,1:5001)=NaN;
         tremor_for2(i,1:5001)=NaN;
@@ -83,11 +106,13 @@ for i=1:length(start)
     end
 end
 
+
 ttf=[]; 
 nf=[];
 k=1;
 
-ttf=NaN(20,12);
+ttf1=NaN(20,12);
+freq=NaN(20,12);
 
 for i=1:12
     ttf1(1:sum(xx==i),i)=tremor_k(find(xx==i));
@@ -99,20 +124,37 @@ ttfall (numb,:)=nanmedian(ttf);
 freqall (numb,:)=nanmedian(freq);
 max_fef(1,numb)=find(ttfall(numb,:)==max(ttfall (numb,:)));
 
-nf=[amp(:,max_fef(numb))  tt(:,max_fef(numb))];
-figure(2)
-plot(nf(:,1),nf(:,2),'k+');
+nf=[freq(:,max_fef(numb))  ttf(:,max_fef(numb))];
+
+% figure(2)
+% plot(nf(:,1),nf(:,2),'k+');
+% lsline
+% hold on
+% ylabel ('Change in frequency (zscore)')
+% xlabel('Frequency (zscore)')
+
+figure(3)
+plot(n(:,1),nf(:,2),'k+');
 lsline
 hold on
+ylabel ('Change in frequency (zscore)')
+xlabel('Amplitude (zscore)')
+% 
+% figure(4)
+% plot(nf(:,1),n(:,2),'k+');
+% lsline
+% hold on
+% ylabel ('Change in amplitude (zscore)')
+% xlabel('Frequency (zscore)')
 
 end
 
-for i=1:9
+for i=1:size(ttall,1)
 a1(1,i)=ttall(i,max_ef(i));
 a2(1,i)=ampall(i,max_ef(i));
 end
 
-figure(1)
+figure(5)
 y2=plot(a1,a2,'k+');
 y3=lsline;
 set(y3,'LineWidth',2,'Color','red')
@@ -122,22 +164,22 @@ xlabel('Amplitude (zscore)')
 c2=corrcoef(a1',a2')
 legend(y3,[num2str(c2(1,2))],'box','off')
 
-for i=1:9
+for i=1:size(ttfall,1)
 f1(1,i)=ttfall(i,max_fef(i));
 f2(1,i)=freqall(i,max_fef(i));
 end
 
-figure(2)
-y2=plot(f1,f2,'k+');
-y3=lsline;
-set(y3,'LineWidth',2,'Color','red')
-box('off')
-ylabel ('Change in frequency (zscore)')
-xlabel('Frequency (zscore)')
-c2=corrcoef(f1',f2')
-legend(y3,[num2str(c2(1,2))],'box','off')
+% figure(6)
+% y2=plot(f1,f2,'k+');
+% y3=lsline;
+% set(y3,'LineWidth',2,'Color','red')
+% box('off')
+% ylabel ('Change in frequency (zscore)')
+% xlabel('Frequency (zscore)')
+% c2=corrcoef(f1',f2')
+% legend(y3,[num2str(c2(1,2))],'box','off')
 
-figure(3)
+figure(7)
 y2=plot(a1,f2,'k+');
 y3=lsline;
 set(y3,'LineWidth',2,'Color','red')
@@ -147,12 +189,12 @@ xlabel('Amplitude (zscore)')
 c2=corrcoef(a1',f2')
 legend(y3,[num2str(c2(1,2))],'box','off')
 
-figure(4)
-y2=plot(f1,a2,'k+');
-y3=lsline;
-set(y3,'LineWidth',2,'Color','red')
-box('off')
-ylabel ('Change in amplitude (zscore)')
-xlabel('Frequency (zscore)')
-c2=corrcoef(f1',a2')
-legend(y3,[num2str(c2(1,2))],'box','off')
+% figure(8)
+% y2=plot(f1,a2,'k+');
+% y3=lsline;
+% set(y3,'LineWidth',2,'Color','red')
+% box('off')
+% ylabel ('Change in amplitude (zscore)')
+% xlabel('Frequency (zscore)')
+% c2=corrcoef(f1',a2')
+% legend(y3,[num2str(c2(1,2))],'box','off')
