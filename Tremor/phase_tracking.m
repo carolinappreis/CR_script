@@ -1,7 +1,8 @@
 clear all
-iii=[1 2 3 4 5 6 8 10 11];
-for numb= 1:length(iii);
-clearvars -except iii numb psi opsi qnt_psi
+iii=[1 2 3 4 5 8 10 11];
+cor=[];
+for numb=1:length(iii);
+clearvars -except iii numb psi opsi qnt_psi psi cor psi_w
 % load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 
@@ -26,9 +27,42 @@ indexes3=[index(find(diff(index)./samplerateold > 0.95)) index(end)];
 
 ph_tremor=angle(hilbert(tremor));
 
+dd2=round(data(4,:)*100)./100;
+for l=1:length(indexes4)
+    xx(l)=round(dd2(indexes4(l))./0.1); %#ok<*SAGROW>
+end
+
+
+for i=1:12
+    idx_1(1:sum(xx==i),i)=indexes4(find(xx==i));
+    idx_2(1:sum(xx==i),i)=indexes3(find(xx==i));
+end
+
+
+for k=1:size(idx_1,2)
+    run=[];
+    for mk=1:size(idx_1,1)
+        run=[run index(index>=idx_1(mk,k) & index<=idx_2(mk,k))];
+    end
+    sav_run{1,k}(:)=run;
+    psi(numb,k)=circ_r(ph_tremor(run)'); clear run
+end
+
+r=[];
+for i=1:12
+r=[r length(sav_run{1,i})];
+end
+
+
+if sum(r)==length(index)
+    cor(numb)=numb;
+else
+    cor(numb)=NaN;
+end
+    
 for n=1:length(indexes4)
     run=index(index>=indexes4(n) & index<=indexes3(n));
-    psi{numb,1}(1,n)=circ_r(ph_tremor(run)'); clear run
+    psi_wi{numb,1}(1,n)=circ_r(ph_tremor(run)'); clear run
 end
 
 % plot(time,data(2,:))
@@ -38,9 +72,10 @@ end
 % plot(time(run),tremor(run),'r*')
 % plot(time(run),ph_tremor(run),'ko')
 
-qnt_psi(numb,1)=numel(find(psi{numb,1}(:)>=0.5));
-qnt_psi(numb,2)=(numel(find(psi{numb,1}(:)>=0.5)).*100)./(length(psi{numb,1}));
+qnt_psi(numb,1)=numel(find(psi_wi{numb,1}(:)>=0.5));
+qnt_psi(numb,2)=(numel(find(psi_wi{numb,1}(:)>=0.5)).*100)./(length(psi_wi{numb,1}));
 end
 
 
-
+numel(find(psi<0.5))
+numel(find(psi<0.8))

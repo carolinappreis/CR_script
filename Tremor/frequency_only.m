@@ -34,7 +34,7 @@ tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
 dummy=hilbert(tremor_or);
 envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
 phase=angle(dummy);
-% frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
+frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
 
 % tremor_or2=NaN(20,5001);
 % tremor_or22=NaN(20,5001);
@@ -55,7 +55,7 @@ phase=angle(dummy);
 
 tremor_or2=NaN(20,5001);
 tremor_or22=NaN(20,5001); 
-[a,b]=hist(frequency,0:0.05:10);
+% [a,b]=hist(frequency,0:0.05:10);
 
 
 for i=1:length(start)
