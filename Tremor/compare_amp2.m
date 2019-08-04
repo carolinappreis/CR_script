@@ -50,34 +50,13 @@ for i=1:length(start)
     end
 end
 
-tt=NaN(20,12);
-amp=NaN(20,12);
-yy = xx ;
-
-for i=1:12
-    tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
-    amp(1:sum(xx==i),i)=tremor_or3(find(xx==i));
+figure(1)
+subplot(length(iii),1,numb)
+plot(tremor_or3,'k+')
+y1=lsline
+c2=corrcoef([1:length(tremor_or3)]',tremor_or3)
+legend(y1,[num2str(c2)],'box','off')
 end
 
-ttall (numb,:)=nanmedian(tt);
-ampall (numb,:)=nanmedian(amp);
-% label_sh(numb,:,:)= label_sh1;
-clearvars -except ttall iii numb ampall 
-
-end
-clearvars -except ttall ampall 
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-save ('abs_amp.mat')
-plot(mean(ampall,2),mean(ttall,2),'k+')
-lsline
-corrcoef(m(:,1),m(:,2))
 
 
-for i=1:9
-a1(1,i)=ttall(i,phase_peak(i));
-a2(1,i)=ampall(i,phase_peak(i));
-end
-plot(a1,a2,'k+')
-lsline
-corrcoef(a1',a2')

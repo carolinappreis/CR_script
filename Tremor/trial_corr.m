@@ -3,8 +3,8 @@
 iii=[1 2 3 4 5 8 10 11];
 
 for numb=1:length(iii);
-load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
 start_clean;
 
@@ -65,11 +65,12 @@ max_ef(1,numb)=find(ttall(numb,:)==max(ttall (numb,:)));
 n=[amp(:,max_ef(numb))  tt(:,max_ef(numb))];
 
 figure(1)
+subplot(2,2,1)
 plot(n(:,1),n(:,2),'k+');
 y1=lsline;
 hold on
 ylabel ('Change in amplitude (zscore)')
-xlabel('Amplitude (zscore)')
+box('off')
 
 %%% frequency 
 
@@ -122,9 +123,9 @@ ttf=abs(ttf1);
 
 ttfall (numb,:)=nanmedian(ttf);
 freqall (numb,:)=nanmedian(freq);
-max_fef(1,numb)=find(ttfall(numb,:)==max(ttfall (numb,:)));
+% max_fef(1,numb)=find(ttfall(numb,:)==max(ttfall (numb,:)));
 
-nf=[freq(:,max_fef(numb))  ttf(:,max_fef(numb))];
+nf=[freq(:,max_ef(numb))  ttf(:,max_ef(numb))];
 
 % figure(2)
 % plot(nf(:,1),nf(:,2),'k+');
@@ -133,12 +134,14 @@ nf=[freq(:,max_fef(numb))  ttf(:,max_fef(numb))];
 % ylabel ('Change in frequency (zscore)')
 % xlabel('Frequency (zscore)')
 
-figure(3)
+figure(1)
+subplot(2,2,3)
 plot(n(:,1),nf(:,2),'k+');
 lsline
 hold on
 ylabel ('Change in frequency (zscore)')
 xlabel('Amplitude (zscore)')
+box('off')
 % 
 % figure(4)
 % plot(nf(:,1),n(:,2),'k+');
@@ -150,23 +153,22 @@ xlabel('Amplitude (zscore)')
 end
 
 for i=1:size(ttall,1)
-a1(1,i)=ttall(i,max_ef(i));
-a2(1,i)=ampall(i,max_ef(i));
+a1(1,i)=ampall(i,max_ef(i));
+a2(1,i)=ttall(i,max_ef(i));
 end
 
-figure(5)
+figure(1)
+subplot(2,2,2)
 y2=plot(a1,a2,'k+');
 y3=lsline;
 set(y3,'LineWidth',2,'Color','red')
 box('off')
-ylabel ('Change in amplitude (zscore)')
-xlabel('Amplitude (zscore)')
 c2=corrcoef(a1',a2')
-legend(y3,[num2str(c2(1,2))],'box','off')
+% legend(y3,[num2str(c2(1,2))],'box','off')
 
 for i=1:size(ttfall,1)
-f1(1,i)=ttfall(i,max_fef(i));
-f2(1,i)=freqall(i,max_fef(i));
+f1(1,i)=freqall(i,max_ef(i));
+f2(1,i)=ttfall(i,max_ef(i));
 end
 
 % figure(6)
@@ -179,15 +181,15 @@ end
 % c2=corrcoef(f1',f2')
 % legend(y3,[num2str(c2(1,2))],'box','off')
 
-figure(7)
+figure(1)
+subplot(2,2,4)
 y2=plot(a1,f2,'k+');
 y3=lsline;
 set(y3,'LineWidth',2,'Color','red')
 box('off')
-ylabel ('Change in frequency (zscore)')
 xlabel('Amplitude (zscore)')
 c2=corrcoef(a1',f2')
-legend(y3,[num2str(c2(1,2))],'box','off')
+% legend(y3,[num2str(c2(1,2))],'box','off')
 
 % figure(8)
 % y2=plot(f1,a2,'k+');

@@ -1,9 +1,9 @@
 clear all
-iii=[1 2 3 4 5 6 8 10 11];
+iii=[1 2 3 4 5 8 10 11];
 for numb=1:length(iii);
-clearvars -except iii numb P_S ttall 
-load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+clearvars -except iii numb S LS 
+% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 start_clean;
 
 %%%% re - estimate tremor characteristics
@@ -34,52 +34,25 @@ envelope=sqrt((real(variable).^2)+(imag(variable).^2));
 phase=angle(variable);
 frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(variable))),251))'; % frequency estimated from hilbert
 
-%%%% alternative frequency estimation using windowed FFT ( resolution of 0.2 Hz )
-%%% there is a problem with both ways of estimating frequency either due to 
-%%% using window or smoothing etc ... 
+tremor_or2=NaN(20,5001);
+tremor_or22=NaN(20,5001);
 
-% for i=1:length(tremor_or)-5000
-% seg=tremor_or(i:i+5000);
-% f_seg=abs(real(fft(seg)));
-% F=0:(1000/5000):(1000-0.2);
-% f_alt(i)=F(min(find(f_seg==max(f_seg))));
-% end
-     
-%%%% tremor_or2 - tremor_or22 is the difference in slope (i.e. change in frequency)
-
-% tremor_or2=NaN(20,5001);
-% tremor_or22=NaN(20,5001);
-% 
 % [a,b]=hist(frequency,0:0.05:10);
-% 
-% 
-% for i=1:length(start)
-%     if ~isnan(start(i)) 
-%         tremor_or2(i,1:(ending(i)-start(i)+1))=unwrap(phase(start(i):ending(i)));
-%         tremor_or22(i,1:(ending(i)-start(i)+1))=(phase(start(i))+(0:1:(ending(i)-start(i)))*2*pi/(1000./mean(frequency(start(i)-1000:start(i)))));
-%         tremor_k(i,1)= (tremor_or2(i,(ending(i)-start(i)+1))-tremor_or22(i,(ending(i)-start(i)+1)))/(2*pi*0.001*(ending(i)-start(i))); %mean(frequency(ending(i)-1000:ending(i)));%
-% %           tremor_k(i,1)= mean(frequency(ending(i)-1000:ending(i)));%
-%     else
-%         tremor_or22(i,1:5001)=NaN;
-%         tremor_or2(i,1:5001)=NaN;
-%         tremor_k(i,1)=NaN;
-%     end
-% end
-
-%%%% tremor_or2 - tremor_or22 is the difference in frequency (estimated from unwrapped hilbert)
-
 
 for i=1:length(start)
     if ~isnan(start(i)) 
-        tremor_or2(i,1:(ending(i)-start(i)+1))=frequency(start(i):ending(i));
-        tremor_or22(i,1:(ending(i)-start(i)+1))=mean(frequency(start(i)-1000:start(i)));
-        tremor_k(i,1)=tremor_or2(i,(ending(i)-start(i)+1))-tremor_or22(i,(ending(i)-start(i)+1));
+        tremor_or2(i,1:(ending(i)-start(i)+1))=unwrap(phase(start(i):ending(i)));
+        tremor_or22(i,1:(ending(i)-start(i)+1))=(phase(start(i))+(0:1:(ending(i)-start(i)))*2*pi/(1000./mean(frequency(start(i)-1000:start(i)))));
+        tremor_k(i,1)= (tremor_or2(i,(ending(i)-start(i)+1))-tremor_or22(i,(ending(i)-start(i)+1)))/(2*pi*0.001*(ending(i)-start(i))); %mean(frequency(ending(i)-1000:ending(i)));%
+%           tremor_k(i,1)= mean(frequency(ending(i)-1000:ending(i)));%
     else
         tremor_or22(i,1:5001)=NaN;
         tremor_or2(i,1:5001)=NaN;
         tremor_k(i,1)=NaN;
     end
 end
+
+
 
 clear tt
 tt=[]; 
@@ -105,16 +78,13 @@ for s=1:size(tt,2)
         clear tt2 
     end
 end
-P_S (numb,:)=nanmedian(tt);
-ttall (numb,:,:)=tt3;
-clearvars -except P_S tt3 ttall iii numb tt
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\P_PS')
-save (strcat('P0',num2str(iii(numb)),'_pha_suffle_phashift.mat'));
+S (numb,:)=nanmedian(tt);
+LS (numb,:,:)=tt3;
 end
-P_LS=ttall;
-clearvars -except P_LS P_S
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-save 'F_group.mat'
+clearvars -except S LS
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+save 'F_group1.mat'
 
 
 
