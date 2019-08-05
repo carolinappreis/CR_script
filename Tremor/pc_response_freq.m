@@ -1,7 +1,7 @@
 clear all
 iii=[1 2 3 4 5 6 8 10 11];
 for numb=1:length(iii);
-    clearvars -except iii numb f_arc ratio_ma
+    clearvars -except iii numb f_frc 
 %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
     
@@ -179,118 +179,39 @@ for numb=1:length(iii);
     
     ratio_ma{numb,1}=[find(ma==1)./length(ma) find(ma==2)./length(ma) find(ma==3)./length(ma)];
     
-    tremor_or2=NaN(length(start),1);
     
-    for i=1:length(start)
-        if (~isnan(start(i)))
-            %     if (~isnan(start(i))&& ma(i)==3)
-            tremor_or2(i,1)=(mean(envelope(ending(i)-1000:ending(i)))-mean(envelope(start(i)-1000:start(i))))/mean(envelope(start(i)-1000:start(i)));
-        else
-            tremor_or2(i,1)=NaN;
-        end
+    
+tremor_or2=NaN(20,5001);
+tremor_or22=NaN(20,5001);
+
+% [a,b]=hist(frequency,0:0.05:10);
+
+for i=1:length(start)
+%      if ~isnan(start(i)) 
+    if (~isnan(start(i))&& ma(i)==1)
+        tremor_or2(i,1:(ending(i)-start(i)+1))=unwrap(phase(start(i):ending(i)));
+        tremor_or22(i,1:(ending(i)-start(i)+1))=(phase(start(i))+(0:1:(ending(i)-start(i)))*2*pi/(1000./mean(frequency(start(i)-1000:start(i)))));
+        tremor_k(i,1)= (tremor_or2(i,(ending(i)-start(i)+1))-tremor_or22(i,(ending(i)-start(i)+1)))/(2*pi*0.001*(ending(i)-start(i))); %mean(frequency(ending(i)-1000:ending(i)));%
+%           tremor_k(i,1)= mean(frequency(ending(i)-1000:ending(i)));%
+    else
+        tremor_or22(i,1:5001)=NaN;
+        tremor_or2(i,1:5001)=NaN;
+        tremor_k(i,1)=NaN;
     end
-    
-    clear tt
-    k=1;
-    tt=NaN(20,12);
-    
-    for i=1:12
-        tt(1:sum(xx==i),i)=tremor_or2(find(xx==i));
-        tt(tt==0)=NaN;
-    end
-    f_arc(numb,:)=nanmedian(tt);
 end
-clearvars -except f_arc ratio_ma
-
-%%%%-------------------------------------
-
-clear all
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\A_group')
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\f_ax')
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis2\s_arc')
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis3\t_arc')
-
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group')
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/f_ax')
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Axis2/s_arc')
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Axis3/t_arc')
-
-%
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis3\t_ax')
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Axis2\s_ax')
-close all
-% new=[1:5 7:9];
-% for i=1:length(new)
-%     f1=figure(1)
-%     subplot(1,9,i)
-%     bar(S(new(i),:),'LineWidth',1,'FaceColor',[0.5 0 0],'EdgeColor',[0.5 0 0])
-%     hold on
-%     plot(f_ax(new(i),:),'LineWidth',1,'Color','k')
-% %   bar(f_ax(new(i),:),'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor','k')
-%     yline(0,'LineWidth',1)
-%     box('off')
-%
-%     f2=figure(2)
-%     subplot(1,9,i)
-%     bar(S(new(i),:),'FaceColor',[0.5 0 0],'EdgeColor',[0.5 0 0])
-%     hold on
-%     plot(s_arc(new(i),:),'LineWidth',1,'Color','[0.5 0.5 0.5]')
-%     plot(t_arc(new(i),:),'LineWidth',1,'Color','k')
-%     yline(0,'LineWidth',1)
-%     box('off')
-%
-% end
-load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-cl=blushred;
-cl1=squash;
-
-new=[1:5 7:9];
-for i=1:length(new)
-    f1=figure(1)
-    subplot(1,9,i)
-    bar(S(new(i),:),'LineWidth',0.5,'FaceColor',cl,'EdgeColor',cl)
-    hold on
-    bar(f_ax(new(i),:),'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor','k')
-    yline(0,'LineWidth',1)
-    box('off')
     
-    f2=figure(2)
-    subplot(1,9,i)
-    bar(S(new(i),:),'FaceColor',cl,'EdgeColor',cl)
-    hold on
-    plot(s_arc(new(i),:),'LineWidth',1,'Color','k')
-    plot(t_arc(new(i),:),'LineWidth',1,'Color','k')
-    yline(0,'LineWidth',1)
-    box('off')
-    
+clear tt
+tt=[]; 
+k=1;
+
+tt=NaN(20,12);
+
+for i=1:12
+    tt(1:sum(xx==i),i)=tremor_k(find(xx==i));
 end
 
-
-
-
-
-
-% for i=1:9
-%     figure(1)
-%     subplot(9,1,i)
-%     bar(S(i,:))
-%     ylim([-0.5 0.5])
-%     figure(2)
-%     subplot(9,1,i)
-%     bar(f_ax(i,:))
-%     ylim([-0.5 0.5])
-%     figure(3)
-%     subplot(9,1,i)
-%     bar(s_ax(i,:))
-%     ylim([-0.5 0.5])
-%     figure(4)
-%     subplot(9,1,i)
-%     bar(t_ax(i,:))
-%     ylim([-0.5 0.5])
-% end
-%
-
-
-
-
-
+    f_frc(numb,:)=nanmedian(tt);
+end
+clearvars -except f_frc 
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+save('f_frc.mat')

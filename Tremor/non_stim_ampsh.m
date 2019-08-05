@@ -9,7 +9,7 @@ for numb=1:length(iii);
  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 
-in2=2; % analysing the "main tremor axis"
+in2=1; % analysing the "main tremor axis"
 if in2==1
     in=3;
 elseif in2==2 % other axis 1
