@@ -27,6 +27,15 @@ run('stim_evoked.m') % will run ('pre_stim_evoked.m')
 %Check contribution of 3 axis to PCA
 run('pc_respcurves.m')
 
+%Smoothed response curves
+run ('smooth_RC.m')
+
+% GROUP LEVEL response curves
+run('plot_group_rc.m')
+
+% Compare amplitude begining/end experiment
+run('compare_amp2.m')
+
 
 
 

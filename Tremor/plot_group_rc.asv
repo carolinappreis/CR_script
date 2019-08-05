@@ -7,9 +7,8 @@ a.s=S(new,:); clearvars -except a
 load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group1.mat')
 f.s=S; clearvars -except a f
 
-ref1=1;%%%% amp(=0) vs. frequency
+ref1=0;%%%% amp(=0) vs. frequency
 iii=1; %%%%% amp (=0) vs. supressive effect
-metric=1; %%%%%plotting 0 amp; ~=0 freq
 
 
 if ref1==0
@@ -66,7 +65,7 @@ end
 
 
 
-close all
+metric=1; %%%%%%%%%%%%%%%%%%%%%%%% 0 amp; ~=0 freq
 
 if metric==0;
 z_metric=[new_as_al(:,8:12) new_as_al(:,1:7)];
@@ -82,6 +81,16 @@ load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone'
 cl=aegean;
 cl1=stone;
 end
+
+
+% plot(z_metric','-d')
+% xlim([1 12])
+% xticks([ 3 6 9 ])
+% xticklabels({'-90','0','90'})
+% box('off')
+% hold on
+% plot(mean(z_metric),'k','LineWidth',2)
+
 
 sm=[z_metric z_metric];
 
