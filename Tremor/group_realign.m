@@ -7,8 +7,8 @@ load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group.mat')
 % load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/F_group.mat')
 f.ns=NS; f.s=S; clearvars -except a f
 
-ref=a.s; %%% max amplitude change vs. max frequecy change
-iii=0; %%%%% amp (=0) vs. supressive effect
+ref=f.s; %%% max amplitude change vs. max frequecy change
+iii=1; %%%%% amp (=0) vs. supressive effect
 
 idmi=[];
 idma=[];
@@ -74,15 +74,6 @@ for i=1:size(sub,1);
     
 end
 
-% tests={'signrank','ttest'};
-% if kstest(a_s_al(:,1)-a_ns_al(:,1))==1
-%     stat=tests{1};
-% else
-%     stat=tests{2};
-% end
-% %%%% changeeeeeeeeeeeeeeeee
-% disp(eval(stat(a_s_al(:,1),a_ns_al(:,1))))
-
 
 if kstest(a_s_al(:,1)-a_ns_al(:,1))==1
     
@@ -144,15 +135,15 @@ else
     
 end
 
-for i=1:size(sub,1);
-        new_as_al(i,:)=zscore(a_s_al(i,:));
-end
-new_as_al1=[new_as_al(:,8:12) new_as_al(:,1:7)];
-plot(new_as_al1','-d')
-xlim([1 12])
-xticklabels({'-4','-2','0','2','4',''})
-box('off')
-hold on
-plot(mean(new_as_al1),'k','LineWidth',2)
+% for i=1:size(sub,1);
+%         new_as_al(i,:)=zscore(a_s_al(i,:));
+% end
+% new_as_al1=[new_as_al(:,8:12) new_as_al(:,1:7)];
+% plot(new_as_al1','-d')
+% xlim([1 12])
+% xticklabels({'-4','-2','0','2','4',''})
+% box('off')
+% hold on
+% plot(mean(new_as_al1),'k','LineWidth',2)
 
 % clearvars -except test_a test_f f a 

@@ -1,13 +1,29 @@
 clear all
-new=[1:5 7:9]; %%without PD patient (i.e., pt number 6)
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\A_group.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\A_group.mat','S')
 % load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
-a.s=S(new,:); clearvars -except a
+new=[1:5 7:9]; %%without PD patient (i.e., pt number 6)
+S=S(new,:); 
+sm=[S S S];
+for ii=1:size(sm,1)
+    for i=size(S,2)+1:size(S,2)*2
+        smo_s(ii,i-12)=sum(sm(ii,(i-1:i+1)))./length(sm(ii,(i-1:i+1)));
+    end
+end
+a.s=smo_s;  clearvars -except a
+
 % load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/F_group.mat')
 load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group.mat')
-f.s=S; clearvars -except a f
+sm=[S S S];
+for ii=1:size(sm,1)
+    for i=size(S,2)+1:size(S,2)*2
+        smo_s(ii,i-12)=sum(sm(ii,(i-1:i+1)))./length(sm(ii,(i-1:i+1)));
+    end
+end
+f.s=smo_s; clearvars -except a f
 
-ref1=0;%%%% amp(=0) vs. frequency
+
+
+ref1=1;%%%% amp(=0) vs. frequency
 iii=1; %%%%% amp (=0) vs. supressive effect
 metric=1; %%%%%plotting 0 amp; ~=0 freq
 
@@ -76,22 +92,15 @@ else
     cl1=stone;
 end
 
-sm=[metric1 metric1 metric1];
-
-for ii=1:size(sm,1)
-    for i=size(metric1,2)+1:size(metric1,2)*2
-        smo_s(ii,i-12)=sum(sm(ii,(i-1:i+1)))./length(sm(ii,(i-1:i+1)));
-    end
-end
 
 figure(1)
-plot(smo_s','Color',cl1)
+plot(metric1','Color',cl1)
 xlim([1 12])
 xticks([ 3 6 9 12])
 xticklabels({'-90','0','90','180'})
 box('off')
 hold on
-plot(mean(smo_s),'k','LineWidth',4,'Color', cl)
+plot(mean(metric1),'k','LineWidth',4,'Color', cl)
 yline(0,'k', 'LineWidth',1,'LineStyle','--')
 
 
