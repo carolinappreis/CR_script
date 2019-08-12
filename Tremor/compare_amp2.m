@@ -4,8 +4,8 @@ iii=[1 2 3 4 5 8 10 11];
 
 for numb=1:length(iii);
     clearvars -except iii numb ttall ampall amp_ns
-load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
 start_clean;
 
@@ -58,15 +58,15 @@ end
 % set(y1,'LineWidth',2,'Color','red')
 % c2=corrcoef([1:length(tremor_or3)]',tremor_or3)
 % legend(y1,[num2str(c2(1,2))],'box','off')
-
-tremor_nss=[amp_ns(numb,:) tremor_or3'];
+dummy=amp_ns(numb,:); dummy=dummy(find(~isnan(dummy)));
+tremor_nss=[dummy tremor_or3'];
 figure(1)
 subplot(1,length(iii),numb)
 plot(tremor_nss,'k+')
 y1=lsline
 set(y1,'LineWidth',2,'Color','red')
 c2=corrcoef((1:length(tremor_nss))',(tremor_nss)');
-legend(y1,[num2str(c2(1,2))],'box','off')
+legend(y1,[num2str(c2)],'box','off')
 
 end
 

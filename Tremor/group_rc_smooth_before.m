@@ -1,6 +1,6 @@
 clear all
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\A_group.mat','S')
-% load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
+% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\A_group.mat','S')
+load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
 new=[1:5 7:9]; %%without PD patient (i.e., pt number 6)
 S=S(new,:); 
 sm=[S S S];
@@ -11,8 +11,8 @@ for ii=1:size(sm,1)
 end
 a.s=smo_s;  clearvars -except a
 
-% load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/F_group.mat')
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group.mat')
+load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/F_group.mat')
+% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group.mat')
 sm=[S S S];
 for ii=1:size(sm,1)
     for i=size(S,2)+1:size(S,2)*2
@@ -23,8 +23,8 @@ f.s=smo_s; clearvars -except a f
 
 
 
-ref1=1;%%%% amp(=0) vs. frequency
-iii=1; %%%%% amp (=0) vs. supressive effect
+ref1=0;%%%% amp(=0) vs. frequency
+iii=0; %%%%% amp (=0) vs. supressive effect
 metric=1; %%%%%plotting 0 amp; ~=0 freq
 
 
@@ -79,15 +79,15 @@ close all
 
 if metric==0;
     metric1=[a_s_al(:,8:12) a_s_al(:,1:7)];
-    % load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
     cl=blushred;
     cl1=squash;
     
 else
     metric1=[f_s_al(:,8:12) f_s_al(:,1:7)];
-    % load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
-    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
+    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
+%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
     cl=aegean;
     cl1=stone;
 end
@@ -158,3 +158,12 @@ else ref1==1 && iii==1
 end
 
 
+% cr=mean(metric1);
+% clearvars -except cr
+% cr1=mean(metric1);
+% close all
+% y1=plot(cr,cr1,'k*')
+% box('off')
+% c2=corrcoef(cr',cr1')
+% y3=lsline;
+% legend(y3,[num2str(c2)],'box','off')

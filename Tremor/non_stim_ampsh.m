@@ -4,10 +4,10 @@ PC=[70 66 47 47 47 50 50 50 50];
 A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];[];([1:9 15]);([2 4 7:10 13:15 22 25])};
 B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25])};
 for numb=1:length(iii);
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
- load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
- load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+ load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
+ load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+%  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
+%  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 
 in2=1; % analysing the "main tremor axis"
 if in2==1
@@ -176,11 +176,11 @@ end
 for i=1
     for j=1:5e4
         ix=randi(length(segmentb),1);
-         while (segmentb(ix)+1000)<(segmente(ix)-5000)
-        segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);  
-        begin3=segment;
-        end3=floor(begin3+5*samplerate);
-         end
+        if segmentb(ix)+1000 < segmente(ix)-5000
+            segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
+        else
+            segment=NaN;
+        end
         while ~isempty(intersect(unstable3,begin3:end3))
             segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
             begin3=segment;
