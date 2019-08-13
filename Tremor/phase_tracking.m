@@ -1,5 +1,5 @@
 clear all
-iii=[1 2 3 4 5 8 10 11];
+iii=[1 2 3 4 5 8 10 11 13];
 cor=[];
 for numb=1:length(iii);
 clearvars -except iii numb psi opsi qnt_psi psi cor psi_w
@@ -60,6 +60,7 @@ else
     cor(numb)=NaN;
 end
     
+clear run
 for n=1:length(indexes4)
     run=index(index>=indexes4(n) & index<=indexes3(n));
     psi_wi{numb,1}(1,n)=circ_r(ph_tremor(run)'); clear run

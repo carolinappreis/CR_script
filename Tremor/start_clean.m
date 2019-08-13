@@ -72,46 +72,86 @@ dummy=hilbert(tremor_or);
 envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
 
 
-%%% removal of time segments [ < mean - std for more than 10 seconds ]
-unstable=find(envelope<(mean(envelope(handup))-std(envelope(handup))));
+% %%% removal of time segments [ < mean - std for more than 10 seconds ]
+% ---- in the case subjects are droping their hands in the middle of he
+% trials---------------------------------------------------------------
 
-if ~isempty(unstable)
-    change_e=[unstable(find(diff(unstable)~=1)) unstable(end)];
-    change_b=[unstable(1) unstable(find(diff(unstable)~=1)+1)];
-    
-    change_ind=find((change_e-change_b)>10000);
-    
-    unstable2=[];
-    if ~isempty(change_ind)
-        change_e2=change_e(change_ind);
-        change_b2=change_b(change_ind);
-        for i=1:length(change_ind)
-            unstable2=[unstable2 change_b2(i):change_e2(i)];
-        end
-    end
-    
-    unstable3=intersect(handup,unstable2);
-    
-    clear unstable2;
-    unstable2=unstable3;
-    
-    clear i
-    
-    start2=start;
-    ending2=ending;
-    
-    if ~isempty(unstable2)
-        for i=1:length(unstable2)
-            start2(max(find(start<unstable2(i))))=NaN; %#ok<*MXFND>
-            ending2(max(find(start<unstable2(i))))=NaN;
-        end
-    end
-    clear i
-    
-    xx2=xx;
-    clear start ending xx
-    start=start2(find(~isnan(start2)));
-    ending=ending2(find(~isnan(ending2)));
-    xx=xx2((find(~isnan(start2))));
-    clear start2 ending2 xx2
+% % unstable=find(envelope<(mean(envelope(handup))-std(envelope(handup))));
+% unstable=find(envelope<(prctile(envelope,55)));
+% 
+% 
+% if ~isempty(unstable)
+%     change_e=[unstable(find(diff(unstable)~=1)) unstable(end)];
+%     change_b=[unstable(1) unstable(find(diff(unstable)~=1)+1)];
+%     
+%     change_ind=find((change_e-change_b)>10000);
+%     
+%     unstable2=[];
+%     if ~isempty(change_ind)
+%         change_e2=change_e(change_ind);
+%         change_b2=change_b(change_ind);
+%         for i=1:length(change_ind)
+%             unstable2=[unstable2 change_b2(i):change_e2(i)];
+%         end
+%     end
+%     
+%     unstable3=intersect(handup,unstable2);
+%     
+%     clear unstable2;
+%     unstable2=unstable3;
+%     
+%     clear i
+%     
+%     start2=start;
+%     ending2=ending;
+%     pstart=start;
+%     pending=ending;
+
+
+% %     if ~isempty(unstable2)
+% %         for i=1:length(unstable2)
+% %             start2(max(find(start<unstable2(i))))=NaN; %#ok<*MXFND>
+% %             ending2(max(find(start<unstable2(i))))=NaN;
+% %         end
+% %     end
+% 
+% if ~isempty(unstable2)
+%     for i=1:length(start)
+%         if numel(find(start(i)==unstable2))~=0
+%             start2(i)=NaN; %#ok<*MXFND>
+%             ending2(i)=NaN;
+%         end
+%     end
+% end
+% clear i
+
+%     xx2=xx;
+%     clear start ending xx
+%     start=start2(find(~isnan(start2)));
+%     ending=ending2(find(~isnan(ending2)));
+%     xx=xx2((find(~isnan(start2))));
+%     clear start2 ending2 xx2
+% end
+
+%%check unstable
+% time1=0:1/1000:(size(envelope,2)-1)/1000;
+% plot(time1,envelope);
+% hold on
+% plot(time1(handup),envelope(handup),'b.')
+% plot(time1(unstable),envelope(unstable),'r.');
+% plot(time1(pstart),envelope(pstart),'ro')
+% plot(time1(pending),envelope(pending),'ko')
+% plot(time1(start),envelope(start),'r*')
+% plot(time1(ending),envelope(ending),'k*')
+% plot(time1(unstable2),envelope(unstable2),'k.')
+
+
+xx2=xx;
+clear xx
+xx=xx2((find(~isnan(start))));
+clear xx2
+
+counts(1,numb)=length(start);
+for i=1:12
+    counts1(numb,i)=sum(xx==i);
 end

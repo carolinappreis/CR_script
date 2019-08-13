@@ -1,7 +1,7 @@
 clear all
-iii=[1 2 3 4 5 6 8 10 11];
+iii=[1 2 3 4 5 6 8 10 11 13];
 
-for numb=1:length(iii);
+for numb=length(iii);
 load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 start_clean;
 
@@ -37,11 +37,11 @@ tremor=(data(3,:));% %score(:,1)';%
 ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
 ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
 tremorx(1:size(ts1.data,3))=ts1.data;
-tremor=(data(6,:));% %score(:,1)';%
+tremor=(data(5,:));% %score(:,1)';%
 ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
 ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
 tremory(1:size(ts1.data,3))=ts1.data;
-tremor=(data(7,:));% %score(:,1)';%
+tremor=(data(6,:));% %score(:,1)';%
 ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
 ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
 tremorz(1:size(ts1.data,3))=ts1.data;
@@ -94,8 +94,8 @@ ttall (numb,:,:)=tt3;
 % cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\A_PS')
 % save (strcat('P0',num2str(iii(numb)),'_pha_suffle.mat'));
 end
-A_LS=ttall;
-clearvars -except A_LS
+% A_LS=ttall;
+% clearvars -except A_LS
 
 
 % rr(1:size(tt,2))=mean(prctile(tt3,95));
