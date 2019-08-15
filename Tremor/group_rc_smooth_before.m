@@ -1,6 +1,5 @@
 clear all
 load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_amp2.mat','ttall')
-% load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
 S=ttall; 
 sm=[S S S];
 for ii=1:size(sm,1)
@@ -10,8 +9,8 @@ for ii=1:size(sm,1)
 end
 a.s=smo_s;  clearvars -except a
 
-load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/F_group.mat')
-% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_freq2.mat','ttall')
+S=ttall; 
 sm=[S S S];
 for ii=1:size(sm,1)
     for i=size(S,2)+1:size(S,2)*2
@@ -78,15 +77,15 @@ close all
 
 if metric==0;
     metric1=[a_s_al(:,8:12) a_s_al(:,1:7)];
-    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+%     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
     cl=blushred;
     cl1=squash;
     
 else
     metric1=[f_s_al(:,8:12) f_s_al(:,1:7)];
-    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
-%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
+%     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
+     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
     cl=aegean;
     cl1=stone;
 end
