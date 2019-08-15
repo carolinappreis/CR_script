@@ -1,5 +1,5 @@
 clear all
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_amp2.mat','ttall')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC.mat','ttall')
 S=ttall; 
 sm=[S S S];
 for ii=1:size(sm,1)
@@ -9,7 +9,7 @@ for ii=1:size(sm,1)
 end
 a.s=smo_s;  clearvars -except a
 
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_freq2.mat','ttall')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC.mat','ttall')
 S=ttall; 
 sm=[S S S];
 for ii=1:size(sm,1)
@@ -21,9 +21,9 @@ f.s=smo_s; clearvars -except a f
 
 
 
-ref1=0;%%%% amp(=0) vs. frequency
-iii=0; %%%%% amp (=0) vs. supressive effect
-metric=1; %%%%%plotting 0 amp; ~=0 freq
+ref1=1;%%%% amp(=0) vs. frequency
+iii=1; %%%%% amp (=0) vs. supressive effect
+metric=0; %%%%%plotting 0 amp; ~=0 freq
 
 
 if ref1==0

@@ -1,10 +1,12 @@
 clear all
- iii=[1 2 3 4 5 6 8 10 11 13];
+ iii=[1 2 3 4 5 8 10 11 13];
 
-PC=[70 66 47 47 47 50 50 50 50 55];
-A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];[];([1:9 15]);([2 4 7:10 13:15 22 25]);[]};
-B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25]);[]};
+PC=[70 66 47 47 47 50 50 50 55];
+A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];([1:9 15]);([2 4 7:10 13:15 22 25]);[];[]};
+B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25]);[];[]};
 for numb=length(iii);
+    clearvars -except nostimout iii numb PC A1 B1 iii stim nostim 
+
 % load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
 % load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
@@ -151,48 +153,24 @@ envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
 phase=angle(dummy);
 frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),251))';
 
-tremor=(data(3,:));% %score(:,1)';%
-ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-tremorx(1:size(ts1.data,3))=ts1.data;
-tremor=(data(5,:));% %score(:,1)';%
-ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-tremory(1:size(ts1.data,3))=ts1.data;
-tremor=(data(6,:));% %score(:,1)';%
-ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-tremorz(1:size(ts1.data,3))=ts1.data;
-[b,a]=butter(2,[2/(0.5*samplerate) 7/(0.5*samplerate)],'bandpass'); %15
-tremorxf=filtfilt(b,a,tremorx);
-tremoryf=filtfilt(b,a,tremory);
-tremorzf=filtfilt(b,a,tremorz);
-
-for j=1:length(segmentb)
-    x=[tremorxf(segmentb(j):segmente(j));tremoryf(segmentb(j):segmente(j));tremorzf(segmentb(j):segmente(j))];
-    [pc,score,latent,tsquare] = pca(x');
-    xxx(j,1:3)=pc(1:3,1);
-    ma(j)=(find(abs(xxx(j,1:3))==max(abs(xxx(j,1:3)))));
-end
 
 for i=1
     for j=1:5e4
         ix=randi(length(segmentb),1);
-        if segmentb(ix)+1000 < segmente(ix)-5000
-            segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
-        else
-            segment=NaN;
-        end
+        segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
+        begin3=segment;
+        end3=floor(begin3+5*samplerate);
         while ~isempty(intersect(unstable3,begin3:end3))
             segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
             begin3=segment;
             end3=floor(begin3+5*samplerate);
         end
-        baseline3(i,j)=(mean(envelope(end3-1000:end3))-mean(envelope(begin3-1000:begin3)))./mean(envelope(begin3-1000:begin3)); %#ok<*SAGROW> %
+        baseline3(i,j)=(mean(envelope(end3-1000:end3))-mean(envelope(begin3-1000:begin3)))./mean(envelope(begin3-1000:begin3)); %#ok<*SAGROW> % 
         baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
-        
+
     end
 end
+
 
 for i=1:1e6
     dum=baseline3(randi(5e4,1,rep));
@@ -217,6 +195,6 @@ NS=nostimout;
 S=stim;
 idv_NS=nostim;
 clearvars  -except NS S idv_NS
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+ cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 save 'A_group13'

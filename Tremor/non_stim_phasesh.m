@@ -1,10 +1,10 @@
 clear all
- iii=[1 2 3 4 5 6 8 10 11 13];
+ iii=[1 2 3 4 5 8 10 11 12 13];
 
 PC=[70 66 47 47 47 50 50 50 50 55];
-A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];[];([1:9 15]);([2 4 7:10 13:15 22 25]);[]};
-B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25]);[]};
-for numb=length(iii);
+A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];([1:9 15]);([2 4 7:10 13:15 22 25]);[];[]};
+B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25]);[];[]};
+for numb=length(iii)-1;
     clearvars -except iii PC A1 B1 numb NS NS_i
     
          load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
@@ -25,8 +25,9 @@ for numb=length(iii);
     samplerateold=SmrData.SR;
     tremor=(data(in,:));
     addon=92; addon_end=35;
-         cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
+         cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor\old_tremor')
 %     cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
+
     run ('phasedetection.m');
     data=SmrData.WvData;
     rep=10; % number of trials for random stim - please enter for each patient
@@ -100,38 +101,12 @@ for numb=length(iii);
     
     segmentb=AA;
     segmente=BB;
-    
-    %%% removal of time segments [ < mean - std for more than 10 seconds ]
-    handup=[];
-    for i=1:length(segmentb)
-        handup=[handup segmentb(i):segmente(i)]; %#ok<*AGROW>
-    end
-    clear i
-    handup=sort(handup,'ascend');
-    
-    unstable=find(envelope<(mean(envelope(handup))-std(envelope(handup))));
-    
-    if ~isempty(unstable)
-        change_e=[unstable(find(diff(unstable)~=1)) unstable(end)]; %#ok<*FNDSB>
-        change_b=[unstable(1) unstable(find(diff(unstable)~=1)+1)];
-        
-        change_ind=find((change_e-change_b)>10000);
-        
-        unstable2=[];
-        if ~isempty(change_ind)
-            change_e2=change_e(change_ind);
-            change_b2=change_b(change_ind);
-            for i=1:length(change_ind)
-                unstable2=[unstable2 change_b2(i):change_e2(i)]; %#ok<*AGROW>
-            end
-        end
-        
-        [unstable3,ia,ib]=intersect(handup,unstable2);
-    else
-        unstable3=[];
-    end
-    
+    unstable3=[];
     %%% analysis
+    plot(C)
+hold on
+plot(AA,C(AA),'r.')
+plot(BB,C(BB),'b.')
     
     if (Fpeak-2)>=1
         [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
@@ -204,7 +179,7 @@ end
 clearvars  -except NS NS_i
  cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
-save 'F_group13'
+save 'F_group12'
 
 
 

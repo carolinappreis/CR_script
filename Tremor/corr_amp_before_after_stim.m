@@ -41,7 +41,8 @@ for numb=1:length(iii);
     for i=1:length(start)
         if (~isnan(start(i)))
             tremor_or3(i,1)=mean(envelope(start(i)-1000:start(i)));
-             tremor_or2(i,1)=(mean(envelope(ending(i)-1000:ending(i)))-mean(envelope(start(i)-1000:start(i))))/mean(envelope(start(i)-1000:start(i)));
+%             tremor_or2(i,1)=(mean(envelope(ending(i)-1000:ending(i)))-mean(envelope(start(i)-1000:start(i))))/mean(envelope(start(i)-1000:start(i)));
+            tremor_or2(i,1)=mean(envelope(ending(i)-1000:ending(i)));
 
         else
             tremor_or2(i,1)=NaN;
@@ -65,59 +66,14 @@ for numb=1:length(iii);
     n=[amp(:,max_ef(numb))  tt(:,max_ef(numb))];
     
     figure(1)
-    subplot(2,2,1)
+    subplot(1,2,1)
     plot(n(:,1),n(:,2),'k+');
     y1=lsline;
     hold on
     ylabel('Change in amplitude ')
     box('off')
     
-    %%% frequency
     
-    tremor_for2=NaN(20,5001);
-    tremor_for22=NaN(20,5001);
-    
-    [a,b]=hist(frequency,0:0.05:10);
-    
-    
-    for i=1:length(start)
-        if ~isnan(start(i))
-            tremor_for2(i,1:(ending(i)-start(i)+1))=unwrap(phase(start(i):ending(i)));
-            tremor_for22(i,1:(ending(i)-start(i)+1))=(phase(start(i))+(0:1:(ending(i)-start(i)))*2*pi/(1000./mean(frequency(start(i)-1000:start(i)))));
-            tremor_k(i,1)= (tremor_for2(i,(ending(i)-start(i)+1))-tremor_for22(i,(ending(i)-start(i)+1)))/(2*pi*0.001*(ending(i)-start(i))); %mean(frequency(ending(i)-1000:ending(i)));%
-        else
-            tremor_for22(i,1:5001)=NaN;
-            tremor_for2(i,1:5001)=NaN;
-            tremor_k(i,1)=NaN;
-        end
-    end
-    
-    
-    ttf=[];
-    nf=[];
-    k=1;
-    
-    ttf1=NaN(20,12);
-    freq=NaN(20,12);
-    
-    for i=1:12
-        ttf1(1:sum(xx==i),i)=tremor_k(find(xx==i));
-        freq(1:sum(xx==i),i)=tremor_for22(find(xx==i));
-    end
-    ttf=abs(ttf1);
-    
-    ttfall (numb,:)=nanmedian(ttf);
-    freqall (numb,:)=nanmedian(freq);
-    % max_fef(1,numb)=find(ttfall(numb,:)==max(ttfall (numb,:)));
-    
-    nf=[freq(:,max_ef(numb))  ttf(:,max_ef(numb))];
-    
-    figure(1)
-    subplot(2,2,3)
-    plot(n(:,1),nf(:,2),'k+');
-    lsline
-    hold on
-    ylabel('Change in frequency')
     xlabel('Amplitude')
     box('off')
     
@@ -129,7 +85,7 @@ for i=1:size(ttall,1)
 end
 
 figure(1)
-subplot(2,2,2)
+subplot(1,2,2)
 y2=plot(a1,a2,'k+');
 y3=lsline;
 set(y3,'LineWidth',2,'Color','red')
@@ -141,40 +97,3 @@ for i=1:size(ttfall,1)
     f1(1,i)=freqall(i,max_ef(i));
     f2(1,i)=ttfall(i,max_ef(i));
 end
-
-% figure(6)
-% y2=plot(f1,f2,'k+');
-% y3=lsline;
-% set(y3,'LineWidth',2,'Color','red')
-% box('off')
-% ylabel ('Change in frequency (zscore)')
-% xlabel('Frequency (zscore)')
-% c2=corrcoef(f1',f2')
-% legend(y3,[num2str(c2(1,2))],'box','off')
-
-figure(1)
-subplot(2,2,4)
-y2=plot(a1,f2,'k+');
-y3=lsline;
-set(y3,'LineWidth',2,'Color','red')
-box('off')
-xlabel('Amplitude')
-c2=corrcoef(a1',f2')
-legend(y3,[num2str(c2(1,2))],'box','off')
-
-% figure(8)
-% y2=plot(f1,a2,'k+');
-% y3=lsline;
-% set(y3,'LineWidth',2,'Color','red')
-% box('off')
-% ylabel ('Change in amplitude (zscore)')
-% xlabel('Frequency (zscore)')
-% c2=corrcoef(f1',a2')
-% legend(y3,[num2str(c2(1,2))],'box','off')
-
-
-
-
-
-
-

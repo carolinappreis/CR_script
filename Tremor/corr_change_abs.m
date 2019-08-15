@@ -1,6 +1,7 @@
 
 clear all
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_amp.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amplifying_phases')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/abs_amp.mat')
 
 figure()
@@ -33,7 +34,8 @@ legend(y2,[num2str(c2(1,2))],'box','off')
 
 
 clear all
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_freq.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amplifying_phases')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/abs_freq.mat')
 
 figure()
