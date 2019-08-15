@@ -1,15 +1,16 @@
 clear all
-iii=[1 2 3 4 5 8 10 11];
-PC=[70 66 47 47 47 50 50 50 50];
-A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];[];([1:9 15]);([2 4 7:10 13:15 22 25])};
-B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25])};
-for numb=1:length(iii);
+ iii=[1 2 3 4 5 6 8 10 11 13];
+
+PC=[70 66 47 47 47 50 50 50 50 55];
+A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];[];([1:9 15]);([2 4 7:10 13:15 22 25]);[]};
+B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25]);[]};
+for numb=length(iii);
     clearvars -except iii PC A1 B1 numb NS NS_i
     
-    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
-    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+         load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
+         load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
+%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
     
     
     in2=1; % analysing the "main tremor axis"
@@ -24,8 +25,8 @@ for numb=1:length(iii);
     samplerateold=SmrData.SR;
     tremor=(data(in,:));
     addon=92; addon_end=35;
-    %     cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
-    cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
+         cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
+%     cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
     run ('phasedetection.m');
     data=SmrData.WvData;
     rep=10; % number of trials for random stim - please enter for each patient
@@ -201,9 +202,9 @@ for numb=1:length(iii);
     
 end
 clearvars  -except NS NS_i
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Axis2')
-save 'F_group'
+ cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+save 'F_group13'
 
 
 

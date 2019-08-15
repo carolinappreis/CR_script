@@ -1,10 +1,10 @@
-% clear all
-iii=[1 2 3 4 5 8 10 11];
+clear all
+iii=[1 2 3 4 5 8 10 11 13];
 
 for numb=1:length(iii);
-    clearvars -except iii numb ttall ampall 
-% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+    clearvars -except iii numb ttall ampall counts counts1
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
 start_clean;
 
@@ -62,17 +62,23 @@ end
 ttall (numb,:)=nanmedian(tt);
 ampall (numb,:)=nanmedian(amp);
 % label_sh(numb,:,:)= label_sh1;
-clearvars -except ttall iii numb ampall 
+
+clearvars -except ttall iii numb ampall  counts counts1
 
 end
-clearvars -except ttall ampall 
+sum_stim=[counts1 counts']
+clearvars -except ttall ampall sum_stim 
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-save ('abs_amp.mat')
+save ('abs_amp1.mat')
 plot(mean(ampall,2),mean(ttall,2),'k+')
 lsline
 corrcoef(m(:,1),m(:,2))
 
+for i=1:size(ttall)
+    subplot(1,size(ttall,1),i)
+    bar(ttall(i,:))
+end
 
 for i=1:9
 a1(1,i)=ttall(i,phase_peak(i));
