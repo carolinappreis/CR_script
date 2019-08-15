@@ -178,11 +178,11 @@ end
 for i=1
     for j=1:5e4
         ix=randi(length(segmentb),1);
-         while (segmentb(ix)+1000)<(segmente(ix)-5000)
-        segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);  
-        begin3=segment;
-        end3=floor(begin3+5*samplerate);
-         end
+        if segmentb(ix)+1000 < segmente(ix)-5000
+            segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
+        else
+            segment=NaN;
+        end
         while ~isempty(intersect(unstable3,begin3:end3))
             segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
             begin3=segment;

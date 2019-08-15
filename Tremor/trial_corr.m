@@ -173,3 +173,10 @@ legend(y3,[num2str(c2(1,2))],'box','off')
 % xlabel('Frequency (zscore)')
 % c2=corrcoef(f1',a2')
 % legend(y3,[num2str(c2(1,2))],'box','off')
+
+
+
+
+
+
+
