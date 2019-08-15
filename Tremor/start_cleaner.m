@@ -80,10 +80,10 @@ difp=find((diff(new))>100000);
 ep=[new(difp) new(end)];
 sp=[new(1) new(difp+1)];
 
-%     plot(time,data(2,:))
+%     plot(time,data(4,:))
 %     hold on
-%     plot(time(sp),data(2,sp),'r.')
-%     plot(time(ep),data(2,ep),'k.')
+%     plot(time(sp),data(4,sp),'r.')
+%     plot(time(ep),data(4,ep),'k.')
 
 for ik=1:length(sp) %%find double start and end points in a stimulation run
     
@@ -116,3 +116,9 @@ xx=xx(~isnan(xx));
 clear start ending
 start=floor((indexes4./samplerateold)*samplerate)+addon;
 ending=floor((indexes3./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+
+% plot(time,data(4,:))
+% hold on
+% plot(time(index),data(4,index),'r.')
+% plot(time(indexes4),data(4,indexes4),'ko')
+% plot(time(indexes3),data(4,indexes3),'bo')

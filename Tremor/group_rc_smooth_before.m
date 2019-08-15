@@ -1,8 +1,7 @@
 clear all
-% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\A_group.mat','S')
-load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
-new=[1:5 7:9]; %%without PD patient (i.e., pt number 6)
-S=S(new,:); 
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\abs_amp2.mat','ttall')
+% load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
+S=ttall; 
 sm=[S S S];
 for ii=1:size(sm,1)
     for i=size(S,2)+1:size(S,2)*2
