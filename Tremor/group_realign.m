@@ -1,11 +1,11 @@
 clear all
- new=[1:5 7:9]; %%without PD patient (i.e., pt number 6)
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\A_group.mat')
+ new=[1:8 10]; %%without PD patient (i.e., pt number 6)
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC.mat');load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_NS.mat')
 % load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/A_group.mat')
-a.ns=NS(new,:); a.s=S(new,:); clearvars -except a
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\F_group.mat')
+a.ns=NS; a.s=ttall(new,:); clearvars -except a new
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC.mat');load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_NS.mat')
 % load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/F_group.mat')
-f.ns=NS; f.s=S; clearvars -except a f
+f.ns=NS; f.s=ttall(new,:); clearvars -except a f
 
 ref=f.s; %%% max amplitude change vs. max frequecy change
 iii=1; %%%%% amp (=0) vs. supressive effect
@@ -135,6 +135,14 @@ else
     
 end
 
+clearvars -except a f
+
+a.s_ns 
+f.s_ns
+a.s_180
+f.s_180
+a.ns_180
+f.ns_180
 % for i=1:size(sub,1);
 %         new_as_al(i,:)=zscore(a_s_al(i,:));
 % end

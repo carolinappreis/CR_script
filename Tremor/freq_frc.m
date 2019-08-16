@@ -2,7 +2,7 @@
 iii=[1 2 3 4 5 8 10 11 12 13];
 
 for numb=1:length(iii);
-    clearvars -except iii numb ttall freqall ph_stim
+    clearvars -except iii numb ttall freqall ph_stim LS
 load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 % load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
@@ -65,13 +65,23 @@ end
 ttall (numb,:)=nanmedian(tt);
 freqall (numb,:)=nanmedian(freq);
 
-clearvars -except ttall iii numb freqall ph_stim
+for s=1:size(tt,2)
+    for i =1:1000;
+        yy1=xx(randperm(size(xx,2)));
+        tt2(1:sum(yy1==s),1)=tremor_k(find(yy1==s));
+        tt3(i,s)=nanmedian(tt2,1);
+        clear tt2 
+    end
+end
+LS (numb,:,:)=tt3;
+
+clearvars -except ttall iii numb freqall ph_stim LS
 
 end
-clearvars -except ttall freqall ph_stim
- cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim')
+clearvars -except ttall freqall ph_stim LS
+ cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-save ('abs_freq2.mat')
+ save ('freq_FRC.mat')
 
 
     

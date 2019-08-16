@@ -1,23 +1,27 @@
 
-cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
-% cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
+% cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
+ cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 
 
 %Phase tracking within an across stim runs (per phase)
 run('phase_tracking.m')
 
+%Mat for Amplitude Response curves and Random Stim dist
+run ('amp_arc.m') % will run 'start_cleaner.m'
+
 % Mat for Amplitude Response Curves and no stim surrogate
 run ('non_stim_ampsh.m')
 
 %Mat for Phase Response curves and Random Stim dist
-run ('stim_phasesh.m')
+run ('freq_frc.m') % will run 'start_cleaner.m'
 
 %Mat for PRC surrogates
 run('non_stim_phasesh.m')
 
 %Correlation of Amplitude with change in Amp and Freq
 run('trial_corr.m')
-
+run('corr_change_abs.m')
 % Group stats - realignment
 run('group_realign.m')
 
@@ -25,17 +29,26 @@ run('group_realign.m')
 run('stim_evoked.m') % will run ('pre_stim_evoked.m')
 
 %Check contribution of 3 axis to PCA
-run('pc_respcurves.m')
+run('pc_arc.m')
+run('pc_frc.m')
 
 %Smoothed response curves
 run ('smooth_RC.m')
 
 % GROUP LEVEL response curves
-run('plot_group_rc.m')
+run('group_rc_smooth_before.m')
 
 % Compare amplitude begining/end experiment
 run('compare_amp2.m')
 
+%corr amplitude before and after stim
+run('corr_amp_before_after_stim.m')
+
+%median split arc
+run('median_split_a.m')
+
+%median split frc
+run('median_split_f.m')
 
 
 

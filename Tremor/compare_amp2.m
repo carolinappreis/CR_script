@@ -1,13 +1,13 @@
-run('amp_only_ns')
-% clear all
-iii=[1 2 3 4 5 8 10 11];
+clear all
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\bline_amp.mat')
+iii=[1 2 3 4 5 8 10 11 12 13];
 
 for numb=1:length(iii);
-    clearvars -except iii numb ttall ampall amp_ns
-% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+    clearvars -except iii numb bamp_ns
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
-start_clean;
+start_cleaner;
 
 %%% re - estimate tremor characteristics
 clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency 
@@ -51,6 +51,7 @@ for i=1:length(start)
     end
 end
 
+
 % figure(1)
 % subplot(1,length(iii),numb)
 % plot(tremor_or3,'k+')
@@ -58,7 +59,8 @@ end
 % set(y1,'LineWidth',2,'Color','red')
 % c2=corrcoef([1:length(tremor_or3)]',tremor_or3)
 % legend(y1,[num2str(c2(1,2))],'box','off')
-dummy=amp_ns(numb,:); dummy=dummy(find(~isnan(dummy)));
+
+dummy=bamp_ns(numb,:); dummy=dummy(find(~isnan(dummy)));
 tremor_nss=[dummy tremor_or3'];
 figure(1)
 subplot(1,length(iii),numb)
@@ -66,7 +68,7 @@ plot(tremor_nss,'k+')
 y1=lsline
 set(y1,'LineWidth',2,'Color','red')
 c2=corrcoef((1:length(tremor_nss))',(tremor_nss)');
-legend(y1,[num2str(c2)],'box','off')
+legend(y1,[num2str(c2(1,2))],'box','off')
 
 end
 
