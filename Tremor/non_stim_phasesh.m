@@ -7,10 +7,10 @@ B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);
 for numb=length(iii)-1;
     clearvars -except iii PC A1 B1 numb NS NS_i
     
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
-    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+        load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
+        load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
     
     in2=1; % analysing the "main tremor axis"
     if in2==1
@@ -148,6 +148,8 @@ for numb=length(iii)-1;
     %
     %     end
     
+    rep=10;
+    
     for rr=1:1e6
         dum=tremor_k(randi(25e3,1,rep));
         dum2=dum;
@@ -165,21 +167,21 @@ for numb=length(iii)-1;
     
 end
 clearvars  -except NS NS_i
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 save 'F_group12'
 
 
 % clear all
 % load('F_group12.mat')
-% b=(NS(end,:));
-% a=(NS_i(end,:));
-% clearvars -except a b
-% load('freq_NS.mat')
-% NS=[NS(1:8,:); b; NS(9,:)];
-% no_s=[no_s(1:8,:); a; no_s(9,:)];
-% clearvars -except NS no_s
-
+b=(NS(end,:));
+a=(NS_i(end,:));
+clearvars -except a b
+load('freq_NS.mat')
+NS=[NS(1:8,:); b; NS(9,:)];
+no_s=[no_s(1:8,:); a; no_s(9,:)];
+clearvars -except NS no_s
+save('freq_NS.mat')
 
 % load stim
 % load nostim
