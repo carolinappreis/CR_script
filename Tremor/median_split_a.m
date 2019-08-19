@@ -56,7 +56,7 @@ frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     m=1;
     n=1;
     for i=1:length(start)
-        if tremor_or3(i)>nanmedian(tremor_or3)
+        if tremor_or3(i)<=nanmedian(tremor_or3)
             amp_1(1,n)= tremor_or3(i);
             ch_a1(1,n)= tremor_or2(i);
             pha_idx(1,n)=xx(i);
@@ -91,12 +91,13 @@ frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     ef_2=repmat(effect2,1,3);
 
     for i=size(effect1,2)+1:size(effect1,2)*2
-        arc1(numb,i-12)=sum(ef_1(1,(i-1:i+1)))./length(ef_1(1,(i-1:i+1)));
-        arc2(numb,i-12)=sum(ef_2(1,(i-1:i+1)))./length(ef_2(1,(i-1:i+1)));
+        arc1(numb,i-12)=nansum(ef_1(1,(i-1:i+1)))./length(ef_1(1,(i-1:i+1)));
+        arc2(numb,i-12)=nansum(ef_2(1,(i-1:i+1)))./length(ef_2(1,(i-1:i+1)));
     end
 end
 
-
+% clearvars -except arc1 arc2
+% save('arc_mediansplit.mat')
 
 load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 cl=blushred;
@@ -105,10 +106,10 @@ cl1=squash;
 for i=1:size(arc1,1)
     f1=figure(1)
     subplot(1,size(arc1,1),i)
-    bar(arc1(i,:),'FaceColor',cl,'EdgeColor',cl)
+    bar(arc2(i,:),'FaceColor',cl,'EdgeColor',cl)
     box('off')
     hold on
-    bar(arc2(i,:),'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor','k')
+    bar(arc1(i,:),'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor','k')
     box('off')
 end
 

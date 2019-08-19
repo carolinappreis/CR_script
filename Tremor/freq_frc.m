@@ -66,7 +66,7 @@ ttall (numb,:)=nanmedian(tt);
 freqall (numb,:)=nanmedian(freq);
 
 for s=1:size(tt,2)
-    for i =1:1000;
+    for i =1:10000;
         yy1=xx(randperm(size(xx,2)));
         tt2(1:sum(yy1==s),1)=tremor_k(find(yy1==s));
         tt3(i,s)=nanmedian(tt2,1);

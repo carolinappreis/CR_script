@@ -91,17 +91,17 @@ if metric==0;
     cl1=squash;
     
 else
-    load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/fm_ax')
-    load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_FRC','LS')
-    load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_NS','no_s')
-    load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_frc3')
-    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
+%     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/fm_ax')
+%     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_FRC','LS')
+%     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_NS','no_s')
+%     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_frc3')
+%     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
 %     
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\fm_ax')
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC','LS')
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_NS','no_s')
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\smooth_frc3')
-%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\fm_ax')
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC','LS')
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_NS','no_s')
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\smooth_frc3')
+    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
     S=fm_ax;
     
     cl=aegean;
@@ -150,7 +150,7 @@ for i=1:size(smo_s,1)
         yline(prctile(no_s(i,:),0.2083),'r--','LineWidth',1)
         sigrn=[];
         for ii=1:12
-            if S(i,ii)>prctile(LS(i,:,ii),97.5) | S(i,ii)<prctile(LS(i,:,ii),2.5)
+            if S(i,ii)>prctile(LS(i,:,ii),99.7917) | S(i,ii)<prctile(LS(i,:,ii),0.2083)
                 sigrn=[sigrn 0];
             else
                 sigrn=[sigrn NaN];

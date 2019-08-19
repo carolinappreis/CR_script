@@ -75,7 +75,7 @@ frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     m=1;
     n=1;
     for i=1:length(start)
-        if tremor_or3(i)>nanmedian(tremor_or3)
+        if tremor_or3(i)<=nanmedian(tremor_or3)
             amp_1(1,n)= tremor_or3(i);
             ch_f1(1,n)= tremor_k(i);
             pha_idx(1,n)=xx(i);
@@ -110,10 +110,13 @@ frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     ef_2=repmat(effect2,1,3);
 
     for i=size(effect1,2)+1:size(effect1,2)*2
-        frc1(numb,i-12)=sum(ef_1(1,(i-1:i+1)))./length(ef_1(1,(i-1:i+1)));
-        frc2(numb,i-12)=sum(ef_2(1,(i-1:i+1)))./length(ef_2(1,(i-1:i+1)));
+        frc1(numb,i-12)=nansum(ef_1(1,(i-1:i+1)))./length(ef_1(1,(i-1:i+1)));
+        frc2(numb,i-12)=nansum(ef_2(1,(i-1:i+1)))./length(ef_2(1,(i-1:i+1)));
     end
 end
+
+% clearvars -except frc1 frc2
+% save('frc_mediansplit.mat')
 
 close all
 
@@ -124,10 +127,14 @@ cl1=stone;
 for i=1:size(frc1,1)
     f1=figure(1)
     subplot(1,size(frc1,1),i)
-    bar(frc1(i,:),'FaceColor',[0.5 0.5 0.5],'EdgeColor',[0.5 0.5 0.5])
+    bar(frc2(i,:),'FaceColor',[0.5 0.5 0.5],'EdgeColor',[0.5 0.5 0.5])
     hold on
-    bar(frc2(i,:),'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor',cl)
+    bar(frc1(i,:),'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor',cl)
+    
 end
+
+
+
 
 f1.Units = 'centimeters';
 f1.OuterPosition= [10, 10, 60, 6];

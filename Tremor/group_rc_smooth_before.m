@@ -1,29 +1,45 @@
 clear all
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC.mat','ttall')
-S=ttall; 
-sm=[S S S];
+
+dist=2;
+
+if dist==1
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_ARC.mat','ttall')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\frc_FRC.mat','ttall')
+Sa=ttall; 
+Sf=ttall;
+elseif dist==2 %% arc for a<median
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit.mat','arc1')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\frc_mediansplit.mat','frc1')
+Sa=arc1; 
+Sf=frc1;
+elseif dist==3 %% arc for a>median
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit.mat','arc2')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\frc_mediansplit.mat','frc2')
+Sa=arc2; 
+Sf=frc2;
+end
+
+
+sm=[Sa Sa Sa];
 for ii=1:size(sm,1)
-    for i=size(S,2)+1:size(S,2)*2
-        smo_s(ii,i-12)=sum(sm(ii,(i-1:i+1)))./length(sm(ii,(i-1:i+1)));
+    for i=size(Sa,2)+1:size(Sa,2)*2
+        a.s(ii,i-12)=sum(sm(ii,(i-1:i+1)))./length(sm(ii,(i-1:i+1)));
     end
 end
-a.s=smo_s;  clearvars -except a
 
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC.mat','ttall')
-S=ttall; 
-sm=[S S S];
+sm=[Sf Sf Sf];
 for ii=1:size(sm,1)
-    for i=size(S,2)+1:size(S,2)*2
-        smo_s(ii,i-12)=sum(sm(ii,(i-1:i+1)))./length(sm(ii,(i-1:i+1)));
+    for i=size(Sf,2)+1:size(Sf,2)*2
+        f.s(ii,i-12)=sum(sm(ii,(i-1:i+1)))./length(sm(ii,(i-1:i+1)));
     end
 end
-f.s=smo_s; clearvars -except a f
+clearvars -except a f
 
 
 
-ref1=1;%%%% amp(=0) vs. frequency
-iii=1; %%%%% amp (=0) vs. supressive effect
-metric=0; %%%%%plotting 0 amp; ~=0 freq
+ref1=0;%%%% amp(=0) vs. frequency
+iii=0; %%%%% amp (=0) vs. supressive effect
+metric=1; %%%%%plotting 0 amp; ~=0 freq
 
 
 if ref1==0
