@@ -1,8 +1,9 @@
 clear all
-close all
+
 dist=1;
 ref1=0;%%%% amp(=0) vs. frequency
-iii=0; %%%%% amp (=0) vs. supressive effect
+iii=1; %%%%% amp (=0) vs. supressive effect
+metric=1; %%%%%plotting 0 amp; ~=0 freq
 
 
 if dist==1
@@ -36,11 +37,7 @@ for ii=1:size(sm,1)
         f.s(ii,i-12)=sum(sm(ii,(i-1:i+1)))./length(sm(ii,(i-1:i+1)));
     end
 end
-clearvars -except a f ref1 iii 
-
-
-
-
+clearvars -except a f ref1 iii metric
 
 if ref1==0
     ref=a.s; %%% max amplitude change vs. max frequecy change
@@ -89,111 +86,95 @@ for i=1:length(idx);
 end
 
 
-% close all
+close all
 
-
-aa=[a_s_al(:,8:12) a_s_al(:,1:7)];
+if metric==0;
+    metric1=[a_s_al(:,8:12) a_s_al(:,1:7)];
 %     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-acl=blushred;
-acl1=squash;
-
-
-ff=[f_s_al(:,8:12) f_s_al(:,1:7)];
-%     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
-fcl=aegean;
-fcl1=stone;
-
-
-
-f1=figure(1)
-for i=1:size(a_s_al,1)
-    subplot(1,size(a_s_al,1),i)
-    plot(aa(i,:),'Color',acl1)
-    hold on
-    plot(ff(i,:),'Color',fcl1)
-    xlim([1 12])
-    xticks([ 3 6 9 12])
-    xticklabels({'-90','0','90','180'})
-    box('off')
+    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+    cl=blushred;
+    cl1=squash;
     
+else
+    metric1=[f_s_al(:,8:12) f_s_al(:,1:7)];
+%     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
+     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
+    cl=aegean;
+    cl1=stone;
 end
 
-f2=figure(2)
-for i=1:size(a_s_al,1)
-    subplot(1,size(a_s_al,1),i)
-    y2=plot(aa(i,:),ff(i,:),'k+');
-    y3=lsline;
-    set(y3,'LineWidth',2,'Color','red')
-    box('off')
-    c2=corrcoef(aa(i,:)',ff(i,:)')
-    legend(y3,[num2str(c2(1,2))],'box','off')
-end
 
-f3=figure(3)
-subplot(1,2,1)
-plot(mean(aa),'k','LineWidth',3,'Color', acl)
+figure(1)
+plot(metric1','Color',cl1)
+xlim([1 12])
+xticks([ 3 6 9 12])
+xticklabels({'-90','0','90','180'})
+box('off')
 hold on
-plot(mean(ff),'k','LineWidth',3,'Color', fcl)
+plot(mean(metric1),'k','LineWidth',4,'Color', cl)
 yline(0,'k', 'LineWidth',1,'LineStyle','--')
+
+
+figure(2)
+bar(mean(metric1),'LineWidth',1,'FaceColor',cl,'EdgeColor',cl)
+xlim([0 13])
+xticks([ 3 6 9 12])
+xticklabels({'-90','0','90','180'})
 box('off')
-subplot(1,2,2)
-y2=plot(mean(aa),mean(ff),'k+');
-y3=lsline;
-set(y3,'LineWidth',2,'Color','red')
-box('off')
-c2=corrcoef(mean(aa)',mean(ff)')
-legend(y3,[num2str(c2(1,2))],'box','off')
+
+if metric==0
+    
+    figure(1)
+    ylabel('Change in amplitude')
+    figure(2)
+    ylabel('Change in amplitude')
+    
+else
+    
+    figure(1)
+    ylabel('Change in frequency')
+    figure(2)
+    ylabel('Change in frequecy')
+end
+
 
 
 if ref1==0 && iii==0
     
     figure(1)
-    title('Aligment to phase with max tremor amplification')
+    xlabel('Aligment to phase with max tremor amplification')
     figure(2)
-    title('Aligment to phase with max tremor amplification')
-    figure(3)
-    title('Aligment to phase with max tremor amplification')
+    xlabel('Aligment to phase with max tremor amplification')
     
 elseif ref1==0 && iii==1
     
     figure(1)
-    title('Aligment to phase with max tremor supression')
+    xlabel('Aligment to phase with max tremor supression')
     figure(2)
-    title('Aligment to phase with max tremor supression')
-    figure(3)
-    title('Aligment to phase with max tremor supression')
-    
+    xlabel('Aligment to phase with max tremor supression')
     
 elseif ref1==1 && iii==0
     
     figure(1)
-    title('Aligment to phase with max tremor acceleration')
+    xlabel('Aligment to phase with max tremor acceleration')
     figure(2)
-    title('Aligment to phase with max tremor acceleration')
-    figure(3)
-    title('Aligment to phase with max tremor acceleration')
-    
+    xlabel('Aligment to phase with max tremor acceleration')
     
 else ref1==1 && iii==1
     
     figure(1)
-    title('Aligment to phase with max tremor deceleration')
+    xlabel('Aligment to phase with max tremor deceleration')
     figure(2)
-    title('Aligment to phase with max tremor deceleration')
-    figure(3)
-    title('Aligment to phase with max tremor deceleration')
-    
+    xlabel('Aligment to phase with max tremor deceleration')
 end
 
 f1.Units = 'centimeters';
-f1.OuterPosition= [10, 10,50, 6 ];
+f1.OuterPosition= [10, 10,60, 6 ];
 set(gca,'FontSize',8)
 set(f1,'color','w');
 
 f2.Units = 'centimeters';
-f2.OuterPosition= [10, 10,50, 6];
+f2.OuterPosition= [10, 10, 60, 6];
 set(gca,'FontSize',8)
 set(f2,'color','w');
 % 
@@ -202,5 +183,12 @@ f3.OuterPosition= [10, 10,20, 10];
 set(gca,'FontSize',8)
 set(f3,'color','w');
 
-
-
+% cr=mean(metric1);
+% clearvars -except cr
+% cr1=mean(metric1);
+% close all
+% y1=plot(cr,cr1,'k*')
+% box('off')
+% c2=corrcoef(cr',cr1')
+% y3=lsline;
+% legend(y3,[num2str(c2)],'box','off')

@@ -67,8 +67,8 @@ tremor_or2=NaN(20,5001);
 tremor_or22=NaN(20,5001);
 
 for i=1:length(start)
-     if ~isnan(start(i)) 
-%     if (~isnan(start(i))&& ma(i)==1)
+      if ~isnan(start(i)) 
+%      if (~isnan(start(i))&& ma(i)==1)
         tremor_or2(i,1:(ending(i)-start(i)+1))=unwrap(phase(start(i):ending(i)));
         tremor_or22(i,1:(ending(i)-start(i)+1))=(phase(start(i))+(0:1:(ending(i)-start(i)))*2*pi/(1000./mean(frequency(start(i)-1000:start(i)))));
         tremor_k(i,1)= (tremor_or2(i,(ending(i)-start(i)+1))-tremor_or22(i,(ending(i)-start(i)+1)))/(2*pi*0.001*(ending(i)-start(i))); %mean(frequency(ending(i)-1000:ending(i)));%
@@ -79,6 +79,10 @@ for i=1:length(start)
     end
 end
     
+idx_outl=find(tremor_k>(mean(tremor_k+2*(std(tremor_k))))|tremor_k<(mean(tremor_k-2*(std(tremor_k)))));
+tremor_k(idx_outl,1)=NaN;
+xx(1,idx_outl)=NaN;
+
 clear tt
 tt=[]; 
 k=1;

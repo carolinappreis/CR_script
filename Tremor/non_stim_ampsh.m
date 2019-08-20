@@ -8,7 +8,7 @@ for numb=length(iii)-1;
 
 % load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
 % load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
- load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
+
  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 
 in2=1; % analysing the "main tremor axis"
@@ -23,7 +23,6 @@ data=SmrData.WvData;
 samplerateold=SmrData.SR;
 tremor=(data(in,:));
 addon=92; addon_end=35;
-
 cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor\old_tremor')
 phasedetection;
 % bar(0:30:330,100.*nanmedian(tt)) 
@@ -34,7 +33,7 @@ phasedetection;
 % stimout=tt;
 stim(numb,:)=nanmedian(tt);
 % save stim stimout
-
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
 data=SmrData.WvData;
 rep=10; % number of trials for random stim - please enter for each patient
 clearvars -except Fpeak in2 in rep SmrData data nostimout iii numb PC A1 B1 iii stim nostim xx

@@ -52,8 +52,15 @@ run('median_split_f.m')
 
 
 
+%flow of analysis
+%determine main axis
+%find peak frequency
+%find start and end points of stimulation fitiing the criteria
+%find changes in amp and freq 
+%exclude changes in amp and freq that are outliers
 
-
+% look at pc coefficents
+% run 
 
 
 

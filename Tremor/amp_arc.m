@@ -50,6 +50,14 @@ for i=1:length(start)
     end
 end
 
+%%% criteria for outliers
+
+idx_outl=find(tremor_or2>(mean(tremor_or2+2*(std(tremor_or2))))|tremor_or2<(mean(tremor_or2-2*(std(tremor_or2)))));
+tremor_or2(idx_outl,1)=NaN;
+tremor_or3(idx_outl,1)=NaN;
+xx(1,idx_outl)=NaN;
+
+
 tt=NaN(20,12);
 amp=NaN(20,12);
 yy = xx ;
@@ -64,7 +72,7 @@ ttall (numb,:)=nanmedian(tt);
 ampall (numb,:)=nanmedian(amp);
 
 for s=1:size(tt,2)
-    for i =1:10000;
+    for i =1:100000;
         yy1=xx(randperm(size(xx,2)));
         tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
         tt3(i,s)=nanmedian(tt2,1);

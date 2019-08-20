@@ -1,11 +1,15 @@
 clear all
 
-dist=2;
+dist=1;
+ref1=1;%%%% amp(=0) vs. frequency
+iii=1; %%%%% amp (=0) vs. supressive effect
+metric=0; %%%%%plotting 0 amp; ~=0 freq
+
 
 if dist==1
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_ARC.mat','ttall')
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\frc_FRC.mat','ttall')
-Sa=ttall; 
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC.mat','ttall')
+Sa=ttall; clear ttall
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC.mat','ttall')
 Sf=ttall;
 elseif dist==2 %% arc for a<median
 load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit.mat','arc1')
@@ -33,14 +37,7 @@ for ii=1:size(sm,1)
         f.s(ii,i-12)=sum(sm(ii,(i-1:i+1)))./length(sm(ii,(i-1:i+1)));
     end
 end
-clearvars -except a f
-
-
-
-ref1=0;%%%% amp(=0) vs. frequency
-iii=0; %%%%% amp (=0) vs. supressive effect
-metric=1; %%%%%plotting 0 amp; ~=0 freq
-
+clearvars -except a f ref1 iii metric
 
 if ref1==0
     ref=a.s; %%% max amplitude change vs. max frequecy change

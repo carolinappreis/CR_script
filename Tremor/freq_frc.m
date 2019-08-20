@@ -52,10 +52,16 @@ for i=1:length(start)
     end
 end
 
+idx_outl=find(tremor_k>(mean(tremor_k+2*(std(tremor_k))))|tremor_k<(mean(tremor_k-2*(std(tremor_k)))));
+tremor_k(idx_outl,1)=NaN;
+tremor_or22(idx_outl,1)=NaN;
+xx(1,idx_outl)=NaN;
+
 clear tt
 clear freq
 
 tt=NaN(20,12);
+freq=NaN(20,12);
 
 for i=1:12
     tt(1:sum(xx==i),i)=tremor_k(find(xx==i));
@@ -66,7 +72,7 @@ ttall (numb,:)=nanmedian(tt);
 freqall (numb,:)=nanmedian(freq);
 
 for s=1:size(tt,2)
-    for i =1:10000;
+     for i =1:100000;
         yy1=xx(randperm(size(xx,2)));
         tt2(1:sum(yy1==s),1)=tremor_k(find(yy1==s));
         tt3(i,s)=nanmedian(tt2,1);

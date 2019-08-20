@@ -1,13 +1,13 @@
 clear all
 iii=[1 2 3 4 5 8 10 11 12 13];
 for numb=1:length(iii);
-    clearvars -except iii numb arc 
-%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+    clearvars -except iii numb arc
+    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
     
     start_cleaner;
     
-     clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency
+    clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency
     
     handup=[];
     for i=1:length(start)
@@ -55,7 +55,7 @@ for numb=1:length(iii);
     tremoryf=filtfilt(b,a,tremory);
     tremorzf=filtfilt(b,a,tremorz);
     
-
+    
     for j=1:length(start)
         x=[tremorxf(start(j):ending(j));tremoryf(start(j):ending(j));tremorzf(start(j):ending(j))];
         [pc,score,latent,tsquare] = pca(x');
@@ -67,12 +67,17 @@ for numb=1:length(iii);
     
     for i=1:length(start)
          if (~isnan(start(i)))
-%                  if (~isnan(start(i))&& ma(i)==1)
+%                             if (~isnan(start(i))&& ma(i)==1)
             tremor_or2(i,1)=(mean(envelope(ending(i)-1000:ending(i)))-mean(envelope(start(i)-1000:start(i))))/mean(envelope(start(i)-1000:start(i)));
         else
             tremor_or2(i,1)=NaN;
         end
     end
+    
+    
+    idx_outl=find(tremor_or2>(mean(tremor_or2+2*(std(tremor_or2))))|tremor_or2<(mean(tremor_or2-2*(std(tremor_or2)))));
+    tremor_or2(idx_outl,1)=NaN;
+    xx(1,idx_outl)=NaN;
     
     clear tt
     k=1;
@@ -84,11 +89,11 @@ for numb=1:length(iii);
     end
     arc(numb,:)=nanmedian(tt);
 end
-% am_ax=arc;
+%  am_ax=arc;
  t_arc=arc;
-clearvars -except t_arc 
+clearvars -except t_arc
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-% save('t_arc.mat')
+save('t_arc.mat')
 
 %%%%-------------------------------------
 
