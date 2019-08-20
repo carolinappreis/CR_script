@@ -1,8 +1,8 @@
 clear all
 close all
-dist=1;
+dist=3;
 ref1=0;%%%% amp(=0) vs. frequency
-iii=0; %%%%% amp (=0) vs. supressive effect
+iii=1; %%%%% amp (=0) vs. supressive effect
 
 
 if dist==1
@@ -90,16 +90,21 @@ end
 
 
 % close all
+aa1=NaN(size(ref,1),size(ref,2));
+ff1=NaN(size(ref,1),size(ref,2));
+for i=1:size(idx,2)
+aa1(idx(i),:)=a_s_al((i),:)
+ff1(idx(i),:)=f_s_al((i),:)
+end
 
-
-aa=[a_s_al(:,8:12) a_s_al(:,1:7)];
+aa=[aa1(:,8:12) aa1(:,1:7)];
 %     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
 load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 acl=blushred;
 acl1=squash;
 
 
-ff=[f_s_al(:,8:12) f_s_al(:,1:7)];
+ff=[ff1(:,8:12) ff1(:,1:7)];
 %     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
 load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
 fcl=aegean;
@@ -108,8 +113,8 @@ fcl1=stone;
 
 
 f1=figure(1)
-for i=1:size(a_s_al,1)
-    subplot(1,size(a_s_al,1),i)
+for i=1:size(aa,1)
+    subplot(1,size(aa,1),i)
     plot(aa(i,:),'Color',acl1)
     hold on
     plot(ff(i,:),'Color',fcl1)
@@ -121,29 +126,33 @@ for i=1:size(a_s_al,1)
 end
 
 f2=figure(2)
-for i=1:size(a_s_al,1)
-    subplot(1,size(a_s_al,1),i)
+for i=1:size(aa,1)
+    subplot(1,size(aa,1),i)
     y2=plot(aa(i,:),ff(i,:),'k+');
     y3=lsline;
     set(y3,'LineWidth',2,'Color','red')
     box('off')
+    if ~isnan(aa(i,:))
     c2=corrcoef(aa(i,:)',ff(i,:)')
     legend(y3,[num2str(c2(1,2))],'box','off')
+    else
+        legend('off')
+    end
 end
 
 f3=figure(3)
 subplot(1,2,1)
-plot(mean(aa),'k','LineWidth',3,'Color', acl)
+plot(nanmean(aa),'k','LineWidth',3,'Color', acl)
 hold on
-plot(mean(ff),'k','LineWidth',3,'Color', fcl)
+plot(nanmean(ff),'k','LineWidth',3,'Color', fcl)
 yline(0,'k', 'LineWidth',1,'LineStyle','--')
 box('off')
 subplot(1,2,2)
-y2=plot(mean(aa),mean(ff),'k+');
+y2=plot(nanmean(aa),nanmean(ff),'k+');
 y3=lsline;
 set(y3,'LineWidth',2,'Color','red')
 box('off')
-c2=corrcoef(mean(aa)',mean(ff)')
+c2=corrcoef(nanmean(aa)',nanmean(ff)')
 legend(y3,[num2str(c2(1,2))],'box','off')
 
 

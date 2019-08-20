@@ -1,65 +1,64 @@
 clear all
- iii=[1 2 3 4 5 8 10 11 12 13];
+iii=[1 2 3 4 5 8 10 11 12 13];
 PC=[70 66 47 47 47 50 50 50 50 55];
 A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];([1:9 15]);([2 4 7:10 13:15 22 25]);[1 4 7 12 25 31 45 47];[]};
 B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25]);[2 5 10 14 26 37 46 50];[]};
-for numb=length(iii)-1;
-    clearvars -except nostimout iii numb PC A1 B1 iii stim nostim 
 
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
-
- load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-
-in2=1; % analysing the "main tremor axis"
-if in2==1
-    in=3;
-elseif in2==2 % other axis 1
-    in=5;
-elseif in2==3 % other axis 2
-    in=6;
-end
-data=SmrData.WvData;
-samplerateold=SmrData.SR;
-tremor=(data(in,:));
-addon=92; addon_end=35;
-cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor\old_tremor')
-phasedetection;
-% bar(0:30:330,100.*nanmedian(tt)) 
-% box('off')% x axis phase - y axis percent change in
-% tremor severity at the end of 5 seconds with respect to severity right
-% before stimulation began
-
-% stimout=tt;
-stim(numb,:)=nanmedian(tt);
-% save stim stimout
-load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
-data=SmrData.WvData;
-rep=10; % number of trials for random stim - please enter for each patient
-clearvars -except Fpeak in2 in rep SmrData data nostimout iii numb PC A1 B1 iii stim nostim xx
-
-samplerateold=SmrData.SR;
-time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
-tremor=data(in,:);
-ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-tremor2(1:size(ts1.data,3))=ts1.data;
-samplerate=1000;
-
-if (Fpeak-2)>=1
-    [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
-else
-    [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
-end
-
-tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
-dummy=hilbert(tremor_or);
-envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
-
-[b,a]=butter(2,[0.1/(0.5*samplerate) ],'low'); %15
-C=(filtfilt(b,a,envelope));
- A=prctile(C,PC(numb));
-
+for numb=1:length(iii);
+    clearvars -except iii PC A1 B1 numb NS NS_i
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
+  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+%         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
+%         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+    
+    in2=1; % analysing the "main tremor axis"
+    if in2==1
+        in=3;
+    elseif in2==2 % other axis 1
+        in=5;
+    elseif in2==3 % other axis 2
+        in=6;
+    end
+    data=SmrData.WvData;
+    samplerateold=SmrData.SR;
+    tremor=(data(in,:));
+    addon=92; addon_end=35;
+    
+    start_cleaner;
+    
+    %%% re - estimate tremor characteristics
+    clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency
+    
+    handup=[];
+    for i=1:length(start)
+        handup=[handup start(i):ending(i)]; %#ok<*AGROW>
+    end
+    handup=sort(handup,'ascend');
+    
+    [Pxx,F]=pwelch(tremor2(handup),samplerate,[],samplerate,samplerate);
+    
+    frange=F(3:10);
+    Pxxrange=Pxx(3:10);
+    
+    Fpeak=frange(find(Pxxrange==max(Pxxrange)));
+    
+    if (Fpeak-2)>=1
+        [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
+    else
+        [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
+    end
+    tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
+    % tremor_or=zscore(tremor_or);
+    dummy=hilbert(tremor_or);
+    envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
+    phase=angle(dummy);
+    frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
+    
+    
+    [b,a]=butter(2,[0.1/(0.5*samplerate) ],'low'); %15
+    C=(filtfilt(b,a,envelope));
+    %  A=mean(C);
+    A=prctile(C,PC(numb));
     ind_s=[];
     for i=11:length(C)-11
         if C(i-1)<A && C(i+1)>A
@@ -84,6 +83,11 @@ C=(filtfilt(b,a,envelope));
         end
     end
     ind_e2=ind_e(~isnan(ind_e));
+    %
+    % plot(C)
+    % hold on
+    % plot(ind_s2,C(ind_s2),'r.')
+    % plot(ind_e2,C(ind_e2),'b.')
     
     if isempty (A1{numb,1})
         AA=ind_s2;
@@ -101,14 +105,13 @@ C=(filtfilt(b,a,envelope));
     
     segmentb=AA;
     segmente=BB;
-  
-% plot(C)
-% hold on
-% plot(AA,C(AA),'r.')
-% plot(BB,C(BB),'b.')
-
     unstable3=[];
 
+    
+        plot(C)
+    hold on
+    plot(AA,C(AA),'r.')
+    plot(BB,C(BB),'b.')
 
 %%% analysis
 
