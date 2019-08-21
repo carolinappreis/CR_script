@@ -1,12 +1,13 @@
-% clear all
-iii=[1 2 3 4 5 8 10 11 12 13];
+clear all
+iii=[1];
 
-for numb=1:length(iii);
-    clearvars -except iii numb ttall freqall ph_stim LS
-load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+for numb=1;
+%     :length(iii);
+    clearvars -except iii numb ttall ampall ph_stim LS tt1
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
 
-start_cleaner;
+
+DBS_cleaner;
 
 %%% re - estimate tremor characteristics
 clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency 
@@ -59,14 +60,15 @@ xx(1,idx_outl)=NaN;
 clear tt
 clear freq
 
-tt=NaN(20,12);
-% freq=NaN(20,12);
+tt=NaN(25,12);
+% freq=NaN(25,12);
 
 for i=1:12
     tt(1:sum(xx==i),i)=tremor_k(find(xx==i));
 %     freq(1:sum(xx==i),i)=tremor_or22(find(xx==i));
 end
 
+tt1{numb,1}=tt;
 ttall (numb,:)=nanmedian(tt);
 % freqall (numb,:)=nanmedian(freq);
 
@@ -80,13 +82,10 @@ for s=1:size(tt,2)
 end
 LS (numb,:,:)=tt3;
 
-clearvars -except ttall iii numb ph_stim LS
+clearvars -except ttall iii numb freqall ph_stim LS tt1
 
 end
-clearvars -except ttall ph_stim LS
- cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
- save ('freq_FRC.mat')
+clearvars -except ttall  ph_stim LS tt1
+cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+save('DBS_freq_FRC.mat')
 
-amp_arc
-    
