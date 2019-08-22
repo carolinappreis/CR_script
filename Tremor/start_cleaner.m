@@ -71,9 +71,8 @@ tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
 dummy=hilbert(tremor_or);
 envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
 
-th1=(Fpeak*5)./2;
-th2=(Fpeak*5)+round((Fpeak*5)./5);
-%-------
+
+% % % % -------
 
 new=find(data(2,:)>4);
 difp=find((diff(new))>100000);
@@ -97,6 +96,11 @@ for ik=1:length(sp) %%find double start and end points in a stimulation run
     
 end
 
+
+%%%cleaning triggering
+
+th1=(Fpeak*5)./2;
+th2=(Fpeak*5)+round((Fpeak*5)./5);
 for it=1:length(indexes4) %% find runs with trigering issues (too few, too many pulses)
         if numel(index(find(index==indexes4(it)):find(index==indexes3(it))))>=th1 && numel(index(find(index==indexes4(it)):find(index==indexes3(it))))<=th2
             indexes4(it)=indexes4(it);
@@ -109,6 +113,7 @@ for it=1:length(indexes4) %% find runs with trigering issues (too few, too many 
         end
 end
 
+
 indexes4=indexes4(~isnan(indexes4));
 indexes3=indexes3(~isnan(indexes3));
 xx=xx(~isnan(xx));
@@ -117,8 +122,8 @@ clear start ending
 start=floor((indexes4./samplerateold)*samplerate)+addon;
 ending=floor((indexes3./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
 
-% plot(time,data(4,:))
-% hold on
-% plot(time(index),data(4,index),'r.')
-% plot(time(indexes4),data(4,indexes4),'ko')
-% plot(time(indexes3),data(4,indexes3),'bo')
+plot(time,data(4,:))
+hold on
+plot(time(index),data(4,index),'r.')
+plot(time(indexes4),data(4,indexes4),'ko')
+plot(time(indexes3),data(4,indexes3),'bo')

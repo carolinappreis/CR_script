@@ -2,7 +2,7 @@ clear all
 iii=[1 2 3 4 5 8 10 11 12 13];
 
 for numb=1:lenght(iii);
-    clearvars -except iii numb ttall ampall ph_stim LS 
+    clearvars -except iii numb ttall ampall ph_stim LS l_sur
 load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 % load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
@@ -71,27 +71,27 @@ end
 ttall (numb,:)=nanmedian(tt);
 ampall (numb,:)=nanmedian(amp);
 
-% for s=1:size(tt,2)
-%     for i =1:100000;
-%         yy1=xx(randperm(size(xx,2)));
-%         tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
-%         tt3(i,s)=nanmedian(tt2,1);
-%         clear tt2 
-%     end
-% end
-% LS (numb,:,:)=tt3;
+for s=1:size(tt,2)
+    for i =1:100000;
+        yy1=xx(randperm(size(xx,2)));
+        tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
+        tt3(i,s)=nanmedian(tt2,1);
+        clear tt2 
+    end
+end
+LS (numb,:,:)=tt3;
 
 for rr=1:100000
-LS(numb,rr)=nanmedian(tt(randi(length(start),1,10)));
+l_sur(numb,rr)=nanmedian(tt(randi(length(start),1,10)));
 end
 
-clearvars -except ttall iii numb ampall ph_stim LS 
+clearvars -except ttall iii numb ampall ph_stim LS l_sur
 
 end
 clearvars -except ttall ampall ph_stim LS
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
-save ('amp_ARC.mat')
+%  save ('amp_ARC.mat')
 
 
 
