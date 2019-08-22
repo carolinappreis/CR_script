@@ -92,5 +92,5 @@ clearvars -except ttall ph_stim LS
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim')
  save ('freq_FRC.mat')
 
-amp_arc
+
     
