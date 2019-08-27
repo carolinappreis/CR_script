@@ -4,8 +4,9 @@ iii=[1];
 for numb=1;
 %     :length(iii);
     clearvars -except iii numb ttall ampall ph_stim LS tt1
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
 
+    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'))
 
 DBS_cleaner;
 
@@ -52,11 +53,11 @@ for i=1:length(start)
 end
 
 %%% criteria for outliers
-
-idx_outl=find(tremor_or2>(nanmean(tremor_or2)+(2*(nanstd(tremor_or2))))|tremor_or2<(nanmean(tremor_or2)-(2*(nanstd(tremor_or2)))));
-tremor_or2(idx_outl,1)=NaN;
-tremor_or3(idx_outl,1)=NaN;
-xx(1,idx_outl)=NaN;
+% 
+% idx_outl=find(tremor_or2>(nanmean(tremor_or2)+(2*(nanstd(tremor_or2))))|tremor_or2<(nanmean(tremor_or2)-(2*(nanstd(tremor_or2)))));
+% tremor_or2(idx_outl,1)=NaN;
+% tremor_or3(idx_outl,1)=NaN;
+% xx(1,idx_outl)=NaN;
 
 
 tt=NaN(25,12);
@@ -74,15 +75,19 @@ tt1{numb,1}=tt;
 ttall (numb,:)=nanmedian(tt);
 ampall (numb,:)=nanmedian(amp);
 
-for s=1:size(tt,2)
-    for i =1:100000;
-        yy1=xx(randperm(size(xx,2)));
-        tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
-        tt3(i,s)=nanmedian(tt2,1);
-        clear tt2 
-    end
+% for s=1:size(tt,2)
+%     for i =1:100000;
+%         yy1=xx(randperm(size(xx,2)));
+%         tt2(1:sum(yy1==s),1)=tremor_or2(find(yy1==s));
+%         tt3(i,s)=nanmedian(tt2,1);
+%         clear tt2 
+%     end
+% end
+% LS (numb,:,:)=tt3;
+
+for rr=1:100000
+LS(numb,rr)=nanmedian(tt(randi(length(start),1,10)));
 end
-LS (numb,:,:)=tt3;
 
 clearvars -except ttall iii numb ampall ph_stim LS tt1
 

@@ -53,9 +53,9 @@ for i=1:length(start)
     end
 end
 
-idx_outl=find(tremor_k>(nanmean(tremor_k)+(2*(nanstd(tremor_k))))|tremor_k<(nanmean(tremor_k)-(2*(nanstd(tremor_k)))));
-tremor_k(idx_outl,1)=NaN;
-xx(1,idx_outl)=NaN;
+% idx_outl=find(tremor_k>(nanmean(tremor_k)+(2*(nanstd(tremor_k))))|tremor_k<(nanmean(tremor_k)-(2*(nanstd(tremor_k)))));
+% tremor_k(idx_outl,1)=NaN;
+% xx(1,idx_outl)=NaN;
 
 clear tt
 clear freq
@@ -72,15 +72,19 @@ tt1{numb,1}=tt;
 ttall (numb,:)=nanmedian(tt);
 % freqall (numb,:)=nanmedian(freq);
 
-for s=1:size(tt,2)
-     for i =1:100000;
-        yy1=xx(randperm(size(xx,2)));
-        tt2(1:sum(yy1==s),1)=tremor_k(find(yy1==s));
-        tt3(i,s)=nanmedian(tt2,1);
-        clear tt2 
-    end
+% for s=1:size(tt,2)
+%      for i =1:100000;
+%         yy1=xx(randperm(size(xx,2)));
+%         tt2(1:sum(yy1==s),1)=tremor_k(find(yy1==s));
+%         tt3(i,s)=nanmedian(tt2,1);
+%         clear tt2 
+%     end
+% end
+% LS (numb,:,:)=tt3;
+
+for rr=1:100000
+LS(numb,rr)=nanmedian(tt(randi(length(start),1,10)));
 end
-LS (numb,:,:)=tt3;
 
 clearvars -except ttall iii numb freqall ph_stim LS tt1
 

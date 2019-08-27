@@ -3,8 +3,8 @@ iii=[1 2 3 4 5 8 10 11 12 13];
 
 for numb=1:length(iii);
     clearvars -except iii numb ttall ampall ph_stim LS 
-load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
 start_cleaner;
 
@@ -52,10 +52,16 @@ end
 
 %%% criteria for outliers
 
-idx_outl=find(tremor_or2>(nanmean(tremor_or2)+(2*(nanstd(tremor_or2))))|tremor_or2<(nanmean(tremor_or2)-(2*(nanstd(tremor_or2)))));
-tremor_or2(idx_outl,1)=NaN;
-tremor_or3(idx_outl,1)=NaN;
-xx(1,idx_outl)=NaN;
+% f=tremor_or2(find(~isnan(tremor_or2)));
+% histogram(f)
+% f(isoutlier(f,'quartiles'))
+
+
+
+% find(tremor_or2>(nanmean(tremor_or2)+(2*(nanstd(tremor_or2))))|tremor_or2<(nanmean(tremor_or2)-(2*(nanstd(tremor_or2)))));
+% tremor_or2(idx_outl,1)=NaN;
+% tremor_or3(idx_outl,1)=NaN;
+% xx(1,idx_outl)=NaN;
 
 
 tt=NaN(20,12);

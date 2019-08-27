@@ -116,7 +116,7 @@ xx=xx(~isnan(xx));
 clear start ending
 start=floor((indexes4./samplerateold)*samplerate)+addon;
 ending=floor((indexes3./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
-
+% 
 % plot(time,data(4,:))
 % hold on
 % plot(time(index),data(4,index),'r.')
