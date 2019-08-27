@@ -3,8 +3,8 @@ iii=[1 2 3 4 5 8 10 11 12 13];
 
 for numb=1:length(iii);
     clearvars -except iii numb ttall ampall ph_stim LS 
-% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
 start_cleaner;
 
@@ -101,5 +101,12 @@ save ('amp_ARC.mat')
 
 
 
+
+
+plot(time,data(4,:))
+hold on
+plot(time(index),data(4,index),'r.')
+plot(time(indexes4),data(4,indexes4),'ko')
+plot(time(indexes3),data(4,indexes3),'bo')
 
     

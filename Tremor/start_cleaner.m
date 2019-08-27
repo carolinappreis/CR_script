@@ -122,8 +122,10 @@ clear start ending
 start=floor((indexes4./samplerateold)*samplerate)+addon;
 ending=floor((indexes3./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
 
-% plot(time,data(4,:))
-% hold on
-% plot(time(index),data(4,index),'r.')
-% plot(time(indexes4),data(4,indexes4),'ko')
-% plot(time(indexes3),data(4,indexes3),'bo')
+plot(time,data(4,:))
+hold on
+plot(time(index),data(4,index),'r.')
+plot(time(indexes4),data(4,indexes4),'ko')
+plot(time(indexes3),data(4,indexes3),'bo')
+
+l=1;

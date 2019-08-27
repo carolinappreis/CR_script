@@ -1,11 +1,13 @@
+%%% check start and end points and cf. with notes.  
+
 clear all
 iii=[1];
 
 for numb=1;
     %     :length(iii);
     clearvars -except iii numb ttall ampall ph_stim LS tt1
-    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
     
     
     
@@ -88,15 +90,20 @@ for numb=1;
     
     new=find(data(2,:)>4);
     difp=find((diff(new))>100000);
-    ep=[new(difp) new(end)];
-    sp=[new(1) new(difp+1)];
-    dt1_s=sp(1:2:end);dt1_e=ep(1:2:end);
-    dt2_s=sp(2:2:end); dt2_e=ep(2:2:end);
+    ep_1=[new(difp) new(end)];
+    sp_1=[new(1) new(difp+1)];
     
-    %     plot(time,data(4,:))
-    %     hold on
-    %     plot(time(sp),data(4,sp),'r.')
-    %     plot(time(ep),data(4,ep),'k.')
+    %plot(time,data(4,:))
+    %hold on
+    %plot(time(sp),data(4,sp),'r.')
+    %plot(time(ep),data(4,ep),'k.')
+    
+    if numb==1
+    dt1_s=[sp_1(2:2:end)];dt1_e=[ep_1(2:2:end)];
+    dt2_s=sp_1(3:2:end); dt2_e=ep_1(3:2:end);
+    sp=sp_1(1,2:end);
+    ep=ep_1(1,2:end);
+    end
     
     
     for ik=1:length(sp) %%find double start and end points in a stimulation run
@@ -112,18 +119,19 @@ for numb=1;
         
     end
     
-%     for it=1:length(indexes4) %% find runs with trigering issues (too few, too many pulses)
-%         if numel(index(find(index==indexes4(it)):find(index==indexes3(it))))>=th1 && numel(index(find(index==indexes4(it)):find(index==indexes3(it))))<=th2
-%             indexes4(it)=indexes4(it);
-%             indexes3(it)=indexes3(it);
-%             xx(it)=xx(it);
-%         else
-%             indexes4(it)=NaN;
-%             indexes3(it)=NaN;
-%             xx(it)=NaN;
+    %%%%% find runs with trigering issues (too few, too many pulses)
+%         for it=1:length(indexes4) 
+%             if numel(index(find(index==indexes4(it)):find(index==indexes3(it))))>=th1 && numel(index(find(index==indexes4(it)):find(index==indexes3(it))))<=th2
+%                 indexes4(it)=indexes4(it);
+%                 indexes3(it)=indexes3(it);
+%                 xx(it)=xx(it);
+%             else
+%                 indexes4(it)=NaN;
+%                 indexes3(it)=NaN;
+%                 xx(it)=NaN;
+%             end
 %         end
-%     end
-%     
+    %%%%%%%%%%%%%%%%
     indexes4=indexes4(~isnan(indexes4));
     indexes3=indexes3(~isnan(indexes3));
     xx=xx(~isnan(xx));
@@ -141,10 +149,29 @@ for numb=1;
     ending2=[];
     xx2=[];
     for il=1:length(dt2_s)
-        start2=[start2 indexes4(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2))];
-        ending2=[ending2 indexes3(find(([indexes3>=dt2_s(il)]+[indexes3<=dt2_e(il)])==2))];
-        xx2=[xx2 xx(find(([indexes4>=dt1_s(il)]+[indexes4<=dt1_e(il)])==2))];
+        if numb==1&&il==3 | numb==1&&il==9
+            dums=indexes4(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
+            start2=[start2 dums(1,3:end)]; clear dums
+            dume=indexes3(find(([indexes3>=dt2_s(il)]+[indexes3<=dt2_e(il)])==2));
+            ending2=[ending2 dume(1,3:end)]; clear dume
+            dumx=xx(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
+            xx2=[xx2 dumx(1,3:end)];clear dumx
+        else
+            dums=indexes4(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
+            start2=[start2 dums]; clear dums
+            dume=indexes3(find(([indexes3>=dt2_s(il)]+[indexes3<=dt2_e(il)])==2));
+            ending2=[ending2 dume]; clear dume
+            dumx=xx(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
+            xx2=[xx2 dumx];clear dumx
+            
+        end
     end
+    
+%     plot(time,data(4,:))
+%     hold on
+%     plot(time(index),data(4,index),'r.')
+%     plot(time(start1),data(4,start1),'ko')
+%     plot(time(ending1),data(4,ending1),'bo')
     
     
     clear start ending
@@ -155,7 +182,7 @@ for numb=1;
     clear xx
     xx{1,1}=xx1;
     xx{2,1}=xx2;
-  
+    
     
     clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency
     
@@ -202,12 +229,12 @@ for numb=1;
             end
         end
         
-        %%% criteria for outliers
+        %         %% criteria for outliers
         %
-        % idx_outl=find(tremor_or2>(nanmean(tremor_or2)+(2*(nanstd(tremor_or2))))|tremor_or2<(nanmean(tremor_or2)-(2*(nanstd(tremor_or2)))));
-        % tremor_or2(idx_outl,1)=NaN;
-        % tremor_or3(idx_outl,1)=NaN;
-        % xx(1,idx_outl)=NaN;
+        %         idx_outl=find(tremor_or2>(nanmean(tremor_or2)+(2*(nanstd(tremor_or2))))|tremor_or2<(nanmean(tremor_or2)-(2*(nanstd(tremor_or2)))));
+        %         tremor_or2(idx_outl,1)=NaN;
+        %         tremor_or3(idx_outl,1)=NaN;
+        %         xx(1,idx_outl)=NaN;
         
         
         tt=NaN(25,12);
@@ -220,7 +247,7 @@ for numb=1;
             ph_stim{hh,1}(numb,i)=sum(yy==i);
         end
         
-        clear yy; 
+        clear yy;
         
         tt1{hh,1}{numb,1}=tt;
         
@@ -242,20 +269,32 @@ for numb=1;
         end
         
     end
-            clearvars -except ttall iii numb ampall ph_stim LS tt1 hh 
-
+    clearvars -except ttall iii numb ampall ph_stim LS tt1 hh
+    
 end
 clearvars -except ttall ampall ph_stim LS tt1
 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-% save('DBS_amp_ARC.mat')
-
-
-
-
-plot(time,data(4,:))
+save('DBS_amp_ARC.mat')
+bar(ttall{1,1})
 hold on
-plot(time(index),data(4,index),'r.')
-plot(time(indexes4),data(4,indexes4),'ko')
-plot(time(indexes3),data(4,indexes3),'bo')
+plot((cell2mat(tt1{1,1}(:)))','.')
+figure(2)
+bar(ttall{2,1})
+hold on
+plot((cell2mat(tt1{2,1}(:)))','.')
 
 
+P=repmat(ttall{1,1},1,3);
+S=repmat(ttall{2,1},1,3);
+
+
+for ii=1:size(ttall{1,1},1)
+    for i=size(ttall{1,1},2)+1:size(ttall{1,1},2)*2
+        pst_s(ii,i-12)=sum(P(ii,(i-1:i+1)))./length(P(ii,(i-1:i+1)));
+        sprl_s(ii,i-12)=sum(S(ii,(i-1:i+1)))./length(S(ii,(i-1:i+1)));
+    end
+end
+
+bar(pst_s)
+figure(2)
+bar(sprl_s)
