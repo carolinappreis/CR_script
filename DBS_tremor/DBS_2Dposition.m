@@ -11,7 +11,7 @@ for numb=1;
     A1={[];[1 3 7 16 21 23];[]};
     B1={[];[2 6 12 20 22 26];[]};
     
-    cc=3;
+    cc=2;
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
     % load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_HFS_PS.mat'));
     
@@ -105,75 +105,101 @@ for numb=1;
     segmentb=AA;
     segmente=BB;
     unstable3=[];
-
     
+    figure()
     plot(C)
     hold on
     plot(AA,C(AA),'r.')
     plot(BB,C(BB),'b.')
     
+   
+    tremor=(data(3,:));% %score(:,1)';%
+    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+    tremorx(1:size(ts1.data,3))=ts1.data;
+    tremor=(data(6,:));% %score(:,1)';%
+    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+    tremory(1:size(ts1.data,3))=ts1.data;
+    tremor=(data(7,:));% %score(:,1)';%
+    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+    tremorz(1:size(ts1.data,3))=ts1.data;
+    timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
     
-    if (Fpeak-2)>=1
-    [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
-else
-    [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
-end
 
-tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
-dummy=hilbert(tremor_or);
-envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
-phase=angle(dummy);
-frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),251))';
+subplot(3,1,1)
+plot(timeor(1,:), tremorx(1,:));
+hold on
+plot(timeor(1,segmente), tremorz(1,segmente),'r.');
+plot(timeor(1,segmentb), tremorz(1,segmentb),'k.');
+subplot(3,1,2)
+plot(timeor(1,:), tremory(1,:));
+hold on
+plot(timeor(1,segmente), tremorz(1,segmente),'r.');
+plot(timeor(1,segmentb), tremorz(1,segmentb),'k.');
+subplot(3,1,3)
+plot(timeor(1,:), tremorz(1,:));
+hold on
+plot(timeor(1,segmente), tremorz(1,segmente),'r.');
+plot(timeor(1,segmentb), tremorz(1,segmentb),'k.');
 
-amp_e=NaN(length(segmentb),1);
-amp_b=NaN(length(segmentb),1);
 
-for i=1:length(segmentb)
-    if (~isnan(segmentb(i)))
-            amp_b(i,1)=mean(envelope(segmentb(i)-1000:segmentb(i)));
-            amp_e(i,1)=mean(envelope(segmente(i)-1000:segmente(i)));
-    else
-        amp_e(i,1)=NaN;
-        amp_b(i,1)=NaN;
+si=[1 11900 96000 229000 segmente(4)];
+ei=[11000 85000 157000 segmente(4) segmente(5)];
+plot(timeor,C)
+hold on
+plot(timeor(1,si),C(1,si),'r.');
+plot(timeor(1,ei),C(1,ei),'k.');
+plot(timeor(1,epoch),C(1,epoch),'r.');
+plot(timeor(1,epoch),C(1,epoch),'k.');
+
+epoch=segmente(4):segmente(5);
+epoch=229000:segmente(4);
+epoch=96000:segmentb(4);
+epoch=11900:85000;
+epoch=1:11000;
+
+
+
+subplot(3,1,1)
+plot(timeor(1,epoch), tremorx(1,epoch));
+subplot(3,1,2)
+plot(timeor(1,epoch), tremory(1,epoch));
+subplot(3,1,3)
+plot(timeor(1,epoch), tremorz(1,epoch));
+
+figure()
+subplot(3,1,1)
+plot(tremorx(1,epoch), tremory(1,epoch));
+subplot(3,1,2)
+plot(tremorx(1,epoch), tremorz(1,epoch));
+subplot(3,1,3)
+plot(tremory(1,epoch), tremorz(1,epoch));
+
+plot3(tremorx(1,epoch),tremory(1,epoch), tremorz(1,epoch));
+hold on
+    
+
+    
+figure(1)    
+h = animatedline;
+numpoints = length(epoch);
+x = tremorx(1,epoch);
+y = tremory(1,epoch);
+z= tremorz(1,epoch);
+a = tic; % start timer
+for k = 1:numpoints
+    addpoints(h,x(k),y(k),z(k));
+    b = toc(a); % check timer
+    if b > (1/100000)
+        drawnow % update screen every 1/30 seconds
+        a = tic; % reset timer after updating
+        k
+        
     end
 end
 
-% figure(1)
-% y2=plot(amp_b,amp_e,'k+');
-% y3=lsline;
-% set(y3,'LineWidth',2,'Color','red')
-% box('off')
-% c2=corrcoef(amp_b,amp_e)
-% legend(y3,[num2str(c2(1,2))],'box','off')
-% figure(2)
-% bar(amp_b-amp_e)
 
-amp1_p=amp_b(1:2:end);amp1_s=amp_b(2:2:end);
-amp2_p=amp_e(1:2:end);amp2_s=amp_e(2:2:end);
-
-figure (3)
-subplot(2,1,1)
-y2=plot(amp1_p,amp2_p,'k+');
-y3=lsline;
-set(y3,'LineWidth',2,'Color','red')
-box('off')
-c2=corrcoef(amp1_p,amp2_p)
-legend(y3,[num2str(c2(1,2))],'box','off')
-
-subplot(2,1,2)
-y2=plot(amp1_s,amp2_s,'k+');
-y3=lsline;
-set(y3,'LineWidth',2,'Color','red')
-box('off')
-c2=corrcoef(amp1_s,amp2_s)
-legend(y3,[num2str(c2(1,2))],'box','off')
-
-figure(4)
-subplot(2,1,1)
-bar(amp1_p-amp2_p)
-subplot(2,1,2)
-bar(amp1_s-amp2_s)
-
-
-
+    
 end

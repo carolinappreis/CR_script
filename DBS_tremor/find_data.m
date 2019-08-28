@@ -1,6 +1,7 @@
 %%% check start and end points and cf. with notes.  
 
 clear all
+close all
 iii=[1];
 
 for numb=1;
@@ -93,10 +94,10 @@ for numb=1;
     ep_1=[new(difp) new(end)];
     sp_1=[new(1) new(difp+1)];
     
-    %plot(time,data(4,:))
-    %hold on
-    %plot(time(sp),data(4,sp),'r.')
-    %plot(time(ep),data(4,ep),'k.')
+%     plot(time,data(4,:))
+%     hold on
+%     plot(time(sp),data(4,sp),'r.')
+%     plot(time(ep),data(4,ep),'k.')
     
     if numb==1
     dt1_s=[sp_1(2:2:end)];dt1_e=[ep_1(2:2:end)];
@@ -136,6 +137,7 @@ for numb=1;
     indexes3=indexes3(~isnan(indexes3));
     xx=xx(~isnan(xx));
     
+    
     start1=[];
     ending1=[];
     xx1=[];
@@ -166,7 +168,7 @@ for numb=1;
             
         end
     end
-    
+%     
 %     plot(time,data(4,:))
 %     hold on
 %     plot(time(index),data(4,index),'r.')
@@ -182,8 +184,7 @@ for numb=1;
     clear xx
     xx{1,1}=xx1;
     xx{2,1}=xx2;
-    
-    
+        
     clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency
     
     
@@ -213,6 +214,31 @@ for numb=1;
         envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
         phase=angle(dummy);
         frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
+        
+    tremor=(data(3,:));% %score(:,1)';%
+    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+    tremorx(1:size(ts1.data,3))=ts1.data;
+    tremor=(data(6,:));% %score(:,1)';%
+    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+    tremory(1:size(ts1.data,3))=ts1.data;
+    tremor=(data(7,:));% %score(:,1)';%
+    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+    tremorz(1:size(ts1.data,3))=ts1.data;
+    timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
+        
+        
+        
+    for b=1:2
+        for i=1:3
+            figure(b)
+            plot3(tremorx(1,start{b,1}(i):ending{b,1}(i)),tremory(1,start{b,1}(i):ending{b,1}(i)), tremorz(1,start{b,1}(i):ending{b,1}(i)));
+            hold on
+        end
+    end
+
         
         tremor_or2=NaN(length(start{hh,1}),1);
         tremor_or3=NaN(length(start{hh,1}),1);
@@ -274,18 +300,25 @@ for numb=1;
 end
 clearvars -except ttall ampall ph_stim LS tt1
 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-save('DBS_amp_ARC.mat')
-bar(ttall{1,1})
-hold on
-plot((cell2mat(tt1{1,1}(:)))','.')
-figure(2)
+% save('DBS_amp_ARC.mat')
+figure()
+subplot(2,1,1)
 bar(ttall{2,1})
 hold on
 plot((cell2mat(tt1{2,1}(:)))','.')
+box('off')
+title('posture')
+subplot(2,1,2)
+bar(ttall{1,1})
+hold on
+plot((cell2mat(tt1{1,1}(:)))','.')
+box('off')
+title('spiral')
 
 
-P=repmat(ttall{1,1},1,3);
-S=repmat(ttall{2,1},1,3);
+%%%  smooth
+S=repmat(ttall{1,1},1,3);
+P=repmat(ttall{2,1},1,3);
 
 
 for ii=1:size(ttall{1,1},1)
@@ -295,6 +328,12 @@ for ii=1:size(ttall{1,1},1)
     end
 end
 
+figure()
+subplot(2,1,1)
 bar(pst_s)
-figure(2)
+box('off')
+title('posture')
+subplot(2,1,2)
 bar(sprl_s)
+box('off')
+title('spiral')
