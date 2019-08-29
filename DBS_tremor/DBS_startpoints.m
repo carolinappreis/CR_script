@@ -90,6 +90,60 @@ for numb=1;
         end
     end
     
+segmentb=  [8975 89281 242600 209001 378001 393001];
+segmente= [81221 161001 242500  301201 391701  454001]; 
+    
+amp_e=NaN(length(segmentb),1);
+amp_b=NaN(length(segmentb),1);
+
+for i=1:length(segmentb)
+    if (~isnan(segmentb(i)))
+            amp_b(i,1)=mean(envelope(segmentb(i)-1000:segmentb(i)));
+            amp_e(i,1)=mean(envelope(segmente(i)-1000:segmente(i)));
+    else
+        amp_e(i,1)=NaN;
+        amp_b(i,1)=NaN;
+    end
+end
+
+% figure(1)
+% y2=plot(amp_b,amp_e,'k+');
+% y3=lsline;
+% set(y3,'LineWidth',2,'Color','red')
+% box('off')
+% c2=corrcoef(amp_b,amp_e)
+% legend(y3,[num2str(c2(1,2))],'box','off')
+% figure(2)
+% bar(amp_b-amp_e)
+
+amp1_p=amp_b(1:2:end);amp1_s=amp_b(2:2:end);
+amp2_p=amp_e(1:2:end);amp2_s=amp_e(2:2:end);
+
+figure (3)
+subplot(2,1,1)
+y2=plot(amp1_p,amp2_p,'k+');
+y3=lsline;
+set(y3,'LineWidth',2,'Color','red')
+box('off')
+c2=corrcoef(amp1_p,amp2_p)
+legend(y3,[num2str(c2(1,2))],'box','off')
+
+subplot(2,1,2)
+y2=plot(amp1_s,amp2_s,'k+');
+y3=lsline;
+set(y3,'LineWidth',2,'Color','red')
+box('off')
+c2=corrcoef(amp1_s,amp2_s)
+legend(y3,[num2str(c2(1,2))],'box','off')
+
+figure(4)
+subplot(2,1,1)
+bar(amp1_p-amp2_p)
+subplot(2,1,2)
+bar(amp1_s-amp2_s)
+
+
+
 end
 
 
