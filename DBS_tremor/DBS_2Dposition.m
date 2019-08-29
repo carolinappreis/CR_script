@@ -105,13 +105,13 @@ for numb=1;
     segmentb=AA;
     segmente=BB;
     unstable3=[];
-    
-    figure()
-    plot(C)
-    hold on
-    plot(AA,C(AA),'r.')
-    plot(BB,C(BB),'b.')
-    
+%     
+%     figure()
+%     plot(C)
+%     hold on
+%     plot(AA,C(AA),'r.')
+%     plot(BB,C(BB),'b.')
+%     
    
     tremor=(data(3,:));% %score(:,1)';%
     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
@@ -131,13 +131,13 @@ for numb=1;
 subplot(3,1,1)
 plot(timeor(1,:), tremorx(1,:));
 hold on
-plot(timeor(1,segmente), tremorz(1,segmente),'r.');
-plot(timeor(1,segmentb), tremorz(1,segmentb),'k.');
+plot(timeor(1,segmente), tremorx(1,segmente),'r.');
+plot(timeor(1,segmentb), tremorx(1,segmentb),'k.');
 subplot(3,1,2)
 plot(timeor(1,:), tremory(1,:));
 hold on
-plot(timeor(1,segmente), tremorz(1,segmente),'r.');
-plot(timeor(1,segmentb), tremorz(1,segmentb),'k.');
+plot(timeor(1,segmente), tremory(1,segmente),'r.');
+plot(timeor(1,segmentb), tremory(1,segmentb),'k.');
 subplot(3,1,3)
 plot(timeor(1,:), tremorz(1,:));
 hold on
@@ -145,22 +145,35 @@ plot(timeor(1,segmente), tremorz(1,segmente),'r.');
 plot(timeor(1,segmentb), tremorz(1,segmentb),'k.');
 
 
-si=[1 11900 96000 229000 segmente(4)];
-ei=[11000 85000 157000 segmente(4) segmente(5)];
+
+si=[1 11900 157901 227501 segmente(5) segmentb(6)];
+ei=[11000 157901 segmentb(4) segmente(5) segmentb(6) segmente(6)];
+
+figure()
+subplot(2,1,1)
+plot(timeor,C)
+hold on
+plot(timeor(1,segmentb), C(1,segmentb),'r.');
+plot(timeor(1,segmente), C(1,segmente),'ko');
+subplot(2,1,2)
 plot(timeor,C)
 hold on
 plot(timeor(1,si),C(1,si),'r.');
-plot(timeor(1,ei),C(1,ei),'k.');
-plot(timeor(1,epoch),C(1,epoch),'r.');
-plot(timeor(1,epoch),C(1,epoch),'k.');
+plot(timeor(1,ei),C(1,ei),'ko');
 
-epoch=segmente(4):segmente(5);
-epoch=229000:segmente(4);
-epoch=96000:segmentb(4);
-epoch=11900:85000;
+
+
+
+epoch=segmentb(6):segmente(6);
+epoch=segmente(5):segmentb(6);
+epoch=227501:segmente(5);
+
+epoch=36161:segmentb(4);
+epoch=11900:36161;
 epoch=1:11000;
 
 
+epoch=1:157901;
 
 subplot(3,1,1)
 plot(timeor(1,epoch), tremorx(1,epoch));
@@ -177,6 +190,10 @@ plot(tremorx(1,epoch), tremorz(1,epoch));
 subplot(3,1,3)
 plot(tremory(1,epoch), tremorz(1,epoch));
 
+plot3(timeor(1,:),tremorx(1,:), tremory(1,:));
+hold on
+plot3(timeor(1,si),tremorx(1,si), tremory(1,si),'rd');
+plot3(timeor(1,epoch),tremorx(1,epoch), tremory(1,epoch));
 plot3(tremorx(1,epoch),tremory(1,epoch), tremorz(1,epoch));
 hold on
     
@@ -185,8 +202,11 @@ hold on
 figure(1)    
 h = animatedline;
 numpoints = length(epoch);
-x = tremorx(1,epoch);
-y = tremory(1,epoch);
+% x = tremorx(1,epoch);
+% y = tremory(1,epoch);
+% z= tremorz(1,epoch);
+x = timeor(1,epoch);
+y = tremorx(1,epoch);
 z= tremorz(1,epoch);
 a = tic; % start timer
 for k = 1:numpoints
@@ -196,7 +216,6 @@ for k = 1:numpoints
         drawnow % update screen every 1/30 seconds
         a = tic; % reset timer after updating
         k
-        
     end
 end
 

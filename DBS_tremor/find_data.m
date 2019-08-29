@@ -94,10 +94,6 @@ for numb=1;
     ep_1=[new(difp) new(end)];
     sp_1=[new(1) new(difp+1)];
     
-%     plot(time,data(4,:))
-%     hold on
-%     plot(time(sp),data(4,sp),'r.')
-%     plot(time(ep),data(4,ep),'k.')
     
     if numb==1
     dt1_s=[sp_1(2:2:end)];dt1_e=[ep_1(2:2:end)];
@@ -105,7 +101,12 @@ for numb=1;
     sp=sp_1(1,2:end);
     ep=ep_1(1,2:end);
     end
-    
+%     
+%         plot(time,data(4,:))
+%     hold on
+%     plot(time(sp),data(4,sp),'r.')
+%     plot(time(ep),data(4,ep),'k.')
+
     
     for ik=1:length(sp) %%find double start and end points in a stimulation run
         
@@ -168,7 +169,8 @@ for numb=1;
             
         end
     end
-%     
+%   
+%     figure()
 %     plot(time,data(4,:))
 %     hold on
 %     plot(time(index),data(4,index),'r.')
@@ -228,16 +230,30 @@ for numb=1;
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     tremorz(1:size(ts1.data,3))=ts1.data;
     timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
+% 
+%     subplot(3,1,1)
+%     plot(timeor(1,:), tremorx(1,:));
+%     subplot(3,1,2)
+%     plot(timeor(1,:), tremory(1,:));
+%     subplot(3,1,3)
+%     plot(timeor(1,:), tremorz(1,:));
         
+    dt1_s=floor((dt1_s./samplerateold)*samplerate)+addon;
+    dt1_e=floor((dt1_e./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+    dt2_s=floor((dt2_s./samplerateold)*samplerate)+addon;
+    dt2_e=floor((dt2_e./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
         
-        
-    for b=1:2
-        for i=1:3
-            figure(b)
-            plot3(tremorx(1,start{b,1}(i):ending{b,1}(i)),tremory(1,start{b,1}(i):ending{b,1}(i)), tremorz(1,start{b,1}(i):ending{b,1}(i)));
+  
+        for i=1:length(dt1_e)
+            figure(1)
+            subplot(2,1,1)
+            plot3(timeor(1,dt1_s(i):dt1_e(i)),tremorx(1,dt1_s(i):dt1_e(i)), tremorz(1,dt1_s(i):dt1_e(i)));
+            hold on
+            subplot(2,1,2)
+            plot3(timeor(1,dt2_s(i):dt2_e(i)),tremorx(1,dt2_s(i):dt2_e(i)), tremorz(1,dt2_s(i):dt2_e(i)));
             hold on
         end
-    end
+   
 
         
         tremor_or2=NaN(length(start{hh,1}),1);
@@ -303,22 +319,22 @@ cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
 % save('DBS_amp_ARC.mat')
 figure()
 subplot(2,1,1)
-bar(ttall{2,1})
-hold on
-plot((cell2mat(tt1{2,1}(:)))','.')
-box('off')
-title('posture')
-subplot(2,1,2)
 bar(ttall{1,1})
 hold on
 plot((cell2mat(tt1{1,1}(:)))','.')
+box('off')
+title('posture')
+subplot(2,1,2)
+bar(ttall{2,1})
+hold on
+plot((cell2mat(tt1{2,1}(:)))','.')
 box('off')
 title('spiral')
 
 
 %%%  smooth
-S=repmat(ttall{1,1},1,3);
-P=repmat(ttall{2,1},1,3);
+P=repmat(ttall{1,1},1,3);
+S=repmat(ttall{2,1},1,3);
 
 
 for ii=1:size(ttall{1,1},1)
@@ -337,3 +353,4 @@ subplot(2,1,2)
 bar(sprl_s)
 box('off')
 title('spiral')
+
