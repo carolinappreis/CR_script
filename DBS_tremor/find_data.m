@@ -220,16 +220,35 @@ for numb=1;
     tremor=(data(3,:));% %score(:,1)';%
     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+[b,a]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
+    % tremor_or=zscore(tremor_or);
+    dummy=hilbert(tremor_or);
+    envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
+    phase=angle(dummy);
+    frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
+    tremor=(data(3,:));% %score(:,1)';%
+    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     tremorx(1:size(ts1.data,3))=ts1.data;
+    filt_x=filtfilt(b,a,tremorx);
     tremor=(data(6,:));% %score(:,1)';%
     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     tremory(1:size(ts1.data,3))=ts1.data;
+    filt_y=filtfilt(b,a,tremory);
     tremor=(data(7,:));% %score(:,1)';%
     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     tremorz(1:size(ts1.data,3))=ts1.data;
+    filt_z=filtfilt(b,a,tremorz);
     timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
+    
+        subplot(3,1,1)
+    plot(timeor(1,:), filt_x(1,:));
+    subplot(3,1,2)
+    plot(timeor(1,:), filt_y(1,:));
+    subplot(3,1,3)
+    plot(timeor(1,:), filt_z(1,:));
 % 
 %     subplot(3,1,1)
 %     plot(timeor(1,:), tremorx(1,:));

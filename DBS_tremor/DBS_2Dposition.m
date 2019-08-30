@@ -60,9 +60,6 @@ for numb=1;
 %     plot(envelope,'LineWidth',1.5)
 %     plot(C,'LineWidth',1.5)
     
-    
-    
-    
      A=prctile(C,PC(cc,numb));
     ind_s=[];
     for i=11:length(C)-11
@@ -113,41 +110,31 @@ for numb=1;
 %     plot(BB,C(BB),'b.')
 %     
    
+tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
+    [b,a]=butter(2,[3/(0.5*samplerate) ],'low'); %15
+    % tremor_or=zscore(tremor_or);
+    dummy=hilbert(tremor_or);
+    envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
+    phase=angle(dummy);
+    frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     tremor=(data(3,:));% %score(:,1)';%
     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     tremorx(1:size(ts1.data,3))=ts1.data;
+    filt_x=filtfilt(b,a,tremorx);
     tremor=(data(6,:));% %score(:,1)';%
     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     tremory(1:size(ts1.data,3))=ts1.data;
+    filt_y=filtfilt(b,a,tremory);
     tremor=(data(7,:));% %score(:,1)';%
     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     tremorz(1:size(ts1.data,3))=ts1.data;
-    timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
+    filt_z=filtfilt(b,a,tremorz);
     
-
-subplot(3,1,1)
-plot(timeor(1,:), tremorx(1,:));
-hold on
-plot(timeor(1,segmente), tremorx(1,segmente),'r.');
-plot(timeor(1,segmentb), tremorx(1,segmentb),'k.');
-subplot(3,1,2)
-plot(timeor(1,:), tremory(1,:));
-hold on
-plot(timeor(1,segmente), tremory(1,segmente),'r.');
-plot(timeor(1,segmentb), tremory(1,segmentb),'k.');
-subplot(3,1,3)
-plot(timeor(1,:), tremorz(1,:));
-hold on
-plot(timeor(1,segmente), tremorz(1,segmente),'r.');
-plot(timeor(1,segmentb), tremorz(1,segmentb),'k.');
-
-
-
-si=[1 11900 157901 227501 segmente(5) segmentb(6)];
-ei=[11000 157901 segmentb(4) segmente(5) segmentb(6) segmente(6)];
+si=  [8975 79831 151001 225401 301001 374501];
+ei= [65001 145001 220501 292001 350001 435501];
 
 figure()
 subplot(2,1,1)
@@ -161,19 +148,8 @@ hold on
 plot(timeor(1,si),C(1,si),'r.');
 plot(timeor(1,ei),C(1,ei),'ko');
 
-
-
-
-epoch=segmentb(6):segmente(6);
-epoch=segmente(5):segmentb(6);
-epoch=227501:segmente(5);
-
-epoch=36161:segmentb(4);
-epoch=11900:36161;
-epoch=1:11000;
-
-
-epoch=1:157901;
+f=2;
+epoch=si(f):ei(f);
 
 subplot(3,1,1)
 plot(timeor(1,epoch), tremorx(1,epoch));
@@ -193,9 +169,11 @@ plot(tremory(1,epoch), tremorz(1,epoch));
 plot3(timeor(1,:),tremorx(1,:), tremory(1,:));
 hold on
 plot3(timeor(1,si),tremorx(1,si), tremory(1,si),'rd');
+
 plot3(timeor(1,epoch),tremorx(1,epoch), tremory(1,epoch));
+
 plot3(tremorx(1,epoch),tremory(1,epoch), tremorz(1,epoch));
-hold on
+
     
 
     
@@ -205,17 +183,17 @@ numpoints = length(epoch);
 % x = tremorx(1,epoch);
 % y = tremory(1,epoch);
 % z= tremorz(1,epoch);
-x = timeor(1,epoch);
-y = tremorx(1,epoch);
-z= tremorz(1,epoch);
+x = filt_x(1,epoch);
+y = filt_y(1,epoch);
+z= filt_z(1,epoch);
 a = tic; % start timer
 for k = 1:numpoints
     addpoints(h,x(k),y(k),z(k));
     b = toc(a); % check timer
-    if b > (1/100000)
+    if b > (1/1000)
         drawnow % update screen every 1/30 seconds
         a = tic; % reset timer after updating
-        k
+        k;
     end
 end
 

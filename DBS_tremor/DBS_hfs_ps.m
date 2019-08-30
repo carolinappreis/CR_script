@@ -11,7 +11,7 @@ for numb=1;
     A1={[];[1 3 7 16 21 23];[]};
     B1={[];[2 6 12 20 22 26];[]};
     
-    cc=3;
+    cc=2;
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
     % load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_HFS_PS.mat'));
     
