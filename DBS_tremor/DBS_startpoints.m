@@ -7,7 +7,7 @@ for numb=1;
     DBS_Fpeak
     
     cond={'_NS_BL.mat';'_NS_PS.mat';'_HFS_PS.mat'};
-    cc=3;
+    cc=2;
     if cc==2
         segmentb=  [8975 79831 151001 225401 301001 374501];
         segmente= [65001 145001 220501 292001 350001 435501];
@@ -26,8 +26,8 @@ for numb=1;
     end
     
     
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
-    % load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_HFS_PS.mat'));
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
+    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
     
     in2=1; % analysing the "main tremor axis"
     
@@ -58,7 +58,7 @@ for numb=1;
         [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
     end
     tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
-    [b,a]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
+    [b,a]=butter(2,[0.8/(0.5*samplerate) ],'low'); %15
     % tremor_or=zscore(tremor_or);
     dummy=hilbert(tremor_or);
     envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
@@ -79,6 +79,8 @@ for numb=1;
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     tremorz(1:size(ts1.data,3))=ts1.data;
     filt_z=filtfilt(b,a,tremorz);
+    timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
+
     
     
     subplot(3,1,1)
