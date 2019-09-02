@@ -3,19 +3,31 @@ iii=[1];
 
 for numb=1;
     %     :length(iii);
-    clearvars -except iii numb ttall ampall ph_stim LS tt1
+    clearvars -except nostimout iii numb cc cond 
     DBS_Fpeak
-
+    
     cond={'_NS_BL.mat';'_NS_PS.mat';'_HFS_PS.mat'};
-    PC=[29;75;75];
-    A1={[];[1 3 7 16 21 23];[]};
-    B1={[];[2 6 12 20 22 26];[]};
+    cc=3;
+    if cc==2
+        segmentb=  [8646 88131 174501 234200 315901 393800];
+        segmente= [82701 147501 226501 297200 377500 454600];
+        start{1,1}=[8646 174501 315901];
+        start{2,1}=[88131 234200 393800];
+        ending{1,1}=[82701 226501 377500];
+        ending{2,1}=[147501 297200 454600];
+        
+    elseif cc==3
+        segmentb= [1621 112001 205601 287501 366701 450401];
+        segmente= [76121 179301 263501 350901 422701 517501];
+        start{1,1}=segmentb(1:2:end);
+        start{2,1}=segmentb(2:2:end);
+        ending{1,1}=segmente(1:2:end);
+        ending{2,1}=segmente(2:2:end);
+    end
     
-    cc=2;
-%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_HFS_PS.mat'));
     
-    
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
+%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
     
     in2=1; % analysing the "main tremor axis"
     
@@ -46,72 +58,7 @@ for numb=1;
         [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
     end
     tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
-    % tremor_or=zscore(tremor_or);
-    dummy=hilbert(tremor_or);
-    envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
-    phase=angle(dummy);
-    frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
-
-    [b,a]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
-    C=(filtfilt(b,a,envelope));
-    
-%     plot(tremor_or)
-%     hold on
-%     plot(envelope,'LineWidth',1.5)
-%     plot(C,'LineWidth',1.5)
-    
-     A=prctile(C,PC(cc,numb));
-    ind_s=[];
-    for i=11:length(C)-11
-        if C(i-1)<A && C(i+1)>A
-            ind_s=[ind_s i]; %#ok<*AGROW>
-        end
-    end
-    for i=1:(length(ind_s)-1)
-        if ind_s(i+1)-ind_s(i)==1
-            ind_s(i+1)=NaN;
-        end
-    end
-    ind_s2=ind_s(~isnan(ind_s));
-    ind_e=[];
-    for i=11:length(C)-11
-        if C(i-1)>A && C(i+1)<A
-            ind_e=[ind_e i];
-        end
-    end
-    for i=1:(length(ind_e)-1)
-        if ind_e(i+1)-ind_e(i)==1
-            ind_e(i+1)=NaN;
-        end
-    end
-    ind_e2=ind_e(~isnan(ind_e));
-    %
-    % plot(C)
-    % hold on
-    % plot(ind_s2,C(ind_s2),'r.')
-    % plot(ind_e2,C(ind_e2),'b.')
-    
-    if isempty (A1{cc,numb})
-        AA=ind_s2;
-        BB=ind_e2;
-    else
-        AA=ind_s2(A1{cc,numb});
-        BB=ind_e2(B1{cc,numb});
-    end
-
-    segmentb=AA;
-    segmente=BB;
-    unstable3=[];
-%     
-%     figure()
-%     plot(C)
-%     hold on
-%     plot(AA,C(AA),'r.')
-%     plot(BB,C(BB),'b.')
-%     
-   
-tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
-    [b,a]=butter(2,[3/(0.5*samplerate) ],'low'); %15
+    [b,a]=butter(2,[0.8/(0.5*samplerate) ],'low'); %15
     % tremor_or=zscore(tremor_or);
     dummy=hilbert(tremor_or);
     envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
@@ -132,73 +79,83 @@ tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     tremorz(1:size(ts1.data,3))=ts1.data;
     filt_z=filtfilt(b,a,tremorz);
-        timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
+    timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
 
+    %
+    % figure()
+    % subplot(2,1,1)
+    % plot(timeor,C)
+    % hold on
+    % plot(timeor(1,segmentb), C(1,segmentb),'r.');
+    % plot(timeor(1,segmente), C(1,segmente),'ko');
+    % subplot(2,1,2)
+    % plot(timeor,C)
+    % hold on
+    % plot(timeor(1,si),C(1,si),'r.');
+    % plot(timeor(1,ei),C(1,ei),'ko');
     
-si=  [8975 79831 151001 225401 301001 374501];
-ei= [65001 145001 220501 292001 350001 435501];
-
-figure()
-subplot(2,1,1)
-plot(timeor,C)
-hold on
-plot(timeor(1,segmentb), C(1,segmentb),'r.');
-plot(timeor(1,segmente), C(1,segmente),'ko');
-subplot(2,1,2)
-plot(timeor,C)
-hold on
-plot(timeor(1,si),C(1,si),'r.');
-plot(timeor(1,ei),C(1,ei),'ko');
-
-f=2;
-epoch=si(f):ei(f);
-
-subplot(3,1,1)
-plot(timeor(1,epoch), tremorx(1,epoch));
-subplot(3,1,2)
-plot(timeor(1,epoch), tremory(1,epoch));
-subplot(3,1,3)
-plot(timeor(1,epoch), tremorz(1,epoch));
-
-figure()
-subplot(3,1,1)
-plot(tremorx(1,epoch), tremory(1,epoch));
-subplot(3,1,2)
-plot(tremorx(1,epoch), tremorz(1,epoch));
-subplot(3,1,3)
-plot(tremory(1,epoch), tremorz(1,epoch));
-
-plot3(timeor(1,:),tremorx(1,:), tremory(1,:));
-hold on
-plot3(timeor(1,si),tremorx(1,si), tremory(1,si),'rd');
-
-plot3(timeor(1,epoch),tremorx(1,epoch), tremory(1,epoch));
-
-plot3(tremorx(1,epoch),tremory(1,epoch), tremorz(1,epoch));
-
+    f=2;
+    epoch=segmentb(1):segmente(2);
     
-
+    subplot(3,1,1)
+    plot(timeor(1,epoch), filt_x(1,epoch));
+    subplot(3,1,2)
+    plot(timeor(1,epoch), filt_y(1,epoch));
+    subplot(3,1,3)
+    plot(timeor(1,epoch), filt_z(1,epoch));
     
-figure(1)    
-h = animatedline;
-numpoints = length(epoch);
-% x = tremorx(1,epoch);
-% y = tremory(1,epoch);
-% z= tremorz(1,epoch);
-x = filt_x(1,epoch);
-y = filt_y(1,epoch);
-z= filt_z(1,epoch);
-a = tic; % start timer
-for k = 1:numpoints
-    addpoints(h,x(k),y(k),z(k));
-    b = toc(a); % check timer
-    if b > (1/1000)
-        drawnow % update screen every 1/30 seconds
-        a = tic; % reset timer after updating
-        k;
+    figure()
+    subplot(3,1,1)
+    plot(filt_x(1,epoch), filt_y(1,epoch));
+    subplot(3,1,2)
+    plot(filt_x(1,epoch), filt_z(1,epoch));
+    subplot(3,1,3)
+    plot(filt_y(1,epoch), filt_z(1,epoch));
+    
+    plot3(timeor(1,:),filt_x(1,:), filt_z(1,:));
+    hold on
+    plot3(timeor(1,segmentb),filt_x(1,segmentb), filt_y(1,segmentb),'rd');
+    
+    plot3(timeor(1,epoch),tremorx(1,epoch), filt_y(1,epoch));
+    
+    figure()
+    for f=1:6
+    epoch=segmentb(f):segmente(f);
+    plot3(filt_x(1,epoch),filt_y(1,epoch), filt_z(1,epoch),'color',rand(1,3));
+    hold on
+    n(f,:)=segmente(f)-segmentb(f);
     end
-end
-
-
+    xlabel('x axis')
+    ylabel('y axis')
+    zlabel('z axis')
+    
+    
+    figure(1)
+    xlabel('x axis')
+    ylabel('y axis')
+    zlabel('z axis')
+    for f=1:6
+        epoch=segmentb(f):segmente(f);
+        h = animatedline;
+        numpoints = length(epoch);
+        % x = tremorx(1,epoch);
+        % y = tremory(1,epoch);
+        % z= tremorz(1,epoch);
+        x = filt_x(1,epoch);
+        y = filt_y(1,epoch);
+        z= filt_z(1,epoch);
+        a = tic; % start timer
+        for k = 1:numpoints
+            addpoints(h,x(k),y(k),z(k));
+            b = toc(a); % check timer
+            if b > (1/1000)
+                drawnow % update screen every 1/30 seconds
+                a = tic; % reset timer after updating
+                k;
+            end
+        end
+         h = animatedline(x,y,z,'color',rand(1,3));
+        hold on
+    end
     
 end

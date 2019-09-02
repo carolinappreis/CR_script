@@ -1,3 +1,11 @@
+clear all
+iii=[1 2 3 4 5 8 10 11 12 13];
+cor=[];
+for numb=1:length(iii);
+clearvars -except iii numb psi cor rayl
+% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+
 
 in2=1; % analysing the "main tremor axis"
 
@@ -118,8 +126,57 @@ indexes4=indexes4(~isnan(indexes4));
 indexes3=indexes3(~isnan(indexes3));
 xx=xx(~isnan(xx));
 
+% plot(time,data(4,:))
+% hold on
+% plot(time(index),data(4,index),'r.')
+% plot(time(indexes4),data(4,indexes4),'ko')
+% plot(time(indexes3),data(4,indexes3),'bo')
+
+
+ph_tremor=angle(hilbert(tremor_or));
 clear start ending
 start=floor((indexes4./samplerateold)*samplerate)+addon;
 ending=floor((indexes3./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+
+tremor_or2=NaN(length(start),1);
+
+for i=1:length(start)
+    if (~isnan(start(i)))
+        tremor_or2(i,1)=(mean(envelope(ending(i)-1000:ending(i)))-mean(envelope(start(i)-1000:start(i))))/mean(envelope(start(i)-1000:start(i)));
+
+    else
+        tremor_or2(i,1)=NaN;
+    end
+end
+
+for i=1:12
+    idx_1(1:sum(xx==i),i)=start(find(xx==i));
+    idx_2(1:sum(xx==i),i)=ending(find(xx==i));
+end
+
+%per phase
+% for k=1:size(idx_1,2)
+%     run=[];
+%     for mk=1:size(idx_1,1)
+%         run=[run index(index>=idx_1(mk,k) & index<=idx_2(mk,k))];
+%     end
+%     sav_run{1,k}(:)=run;
+%     psi(numb,k)=circ_r(ph_tremor(run)');
+%     rayl(numb,k)=circ_rtest(ph_tremor(run)');
+%     clear run
+% end
+
+%all stim phases
+run=[];
+for k=1:size(idx_1,2)
+    for mk=1:size(idx_1,1)
+        run=[run index(index>=idx_1(mk,k) & index<=idx_2(mk,k))];
+    end
+    rayl(numb,k)=circ_rtest(ph_tremor(run)');
+end
+
+    clearvars -except iii numb psi cor rayl
+end
+
 
 

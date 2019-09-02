@@ -1,5 +1,5 @@
 clear all
-iii=[1 2 3 4 5 8 10 11 13];
+iii=[1 2 3 4 5 8 10 11 12 13];
 cor=[];
 for numb=1:length(iii);
 clearvars -except iii numb psi opsi qnt_psi psi cor psi_w
@@ -45,7 +45,9 @@ for k=1:size(idx_1,2)
         run=[run index(index>=idx_1(mk,k) & index<=idx_2(mk,k))];
     end
     sav_run{1,k}(:)=run;
-    psi(numb,k)=circ_r(ph_tremor(run)'); clear run
+    psi(numb,k)=circ_r(ph_tremor(run)');
+    rayl(numb,k)=circ_rtest(ph_tremor(run)');
+    clear run
 end
 
 r=[];

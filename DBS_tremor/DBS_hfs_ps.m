@@ -14,9 +14,7 @@ for numb=1;
     cc=2;
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
     % load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_HFS_PS.mat'));
-    
-    
-    
+
     in2=1; % analysing the "main tremor axis"
     
     if in2==1
