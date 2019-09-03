@@ -7,14 +7,16 @@ for numb=1;
     DBS_Fpeak
     
     cond={'_NS_BL.mat';'_NS_PS.mat';'_HFS_PS.mat'};
-    cc=3;
+    cc=2;
     if cc==2
-        segmentb=  [8646 88131 174501 234200 315901 393800];
-        segmente= [82701 147501 226501 297200 377500 454600];
-        start{1,1}=[8646 174501 315901];
-        start{2,1}=[88131 234200 393800];
-        ending{1,1}=[82701 226501 377500];
-        ending{2,1}=[147501 297200 454600];
+%         segmentb=  [8646 88131 174501 234200 315901 393800];
+%         segmente= [82701 147501 226501 297200 377500 454600];
+        segmentb=  [13292 102401 175001 246701 301570 395401];
+        segmente= [81771 157711 226401 303611 316201 453900];
+        start{1,1}=segmentb(1:2:end);
+        start{2,1}=segmentb(2:2:end);
+        ending{1,1}=segmente(1:2:end);
+        ending{2,1}=segmente(2:2:end);
         
     elseif cc==3
         segmentb= [1621 112001 205601 287501 366701 450401];
@@ -94,30 +96,31 @@ for numb=1;
     % plot(timeor(1,si),C(1,si),'r.');
     % plot(timeor(1,ei),C(1,ei),'ko');
     
-    f=2;
-    epoch=segmentb(1):segmente(2);
-    
-    subplot(3,1,1)
-    plot(timeor(1,epoch), filt_x(1,epoch));
-    subplot(3,1,2)
-    plot(timeor(1,epoch), filt_y(1,epoch));
-    subplot(3,1,3)
-    plot(timeor(1,epoch), filt_z(1,epoch));
-    
-    figure()
-    subplot(3,1,1)
-    plot(filt_x(1,epoch), filt_y(1,epoch));
-    subplot(3,1,2)
-    plot(filt_x(1,epoch), filt_z(1,epoch));
-    subplot(3,1,3)
-    plot(filt_y(1,epoch), filt_z(1,epoch));
-    
-    plot3(timeor(1,:),filt_x(1,:), filt_z(1,:));
-    hold on
-    plot3(timeor(1,segmentb),filt_x(1,segmentb), filt_y(1,segmentb),'rd');
-    
-    plot3(timeor(1,epoch),tremorx(1,epoch), filt_y(1,epoch));
-    
+    f=5;
+    epoch=segmentb(f):segmente(f);
+%     
+%     subplot(3,1,1)
+%     plot(timeor(1,epoch), filt_x(1,epoch));
+%     subplot(3,1,2)
+%     plot(timeor(1,epoch), filt_y(1,epoch));
+%     subplot(3,1,3)
+%     plot(timeor(1,epoch), filt_z(1,epoch));
+%     
+%     figure()
+%     subplot(3,1,1)
+%     plot(filt_x(1,epoch), filt_y(1,epoch));
+%     subplot(3,1,2)
+%     plot(filt_x(1,epoch), filt_z(1,epoch));
+%     subplot(3,1,3)
+%     plot(filt_y(1,epoch), filt_z(1,epoch));
+%     
+%     plot3(timeor(1,:),filt_x(1,:), filt_z(1,:));
+%     hold on
+%     plot3(timeor(1,segmentb),filt_x(1,segmentb), filt_y(1,segmentb),'rd');
+
+        plot3(timeor(1,epoch),filt_x(1,epoch), filt_y(1,epoch));
+    plot3(filt_x(1,epoch),filt_y(1,epoch), filt_z(1,epoch));
+%     
     figure()
     for f=1:6
     epoch=segmentb(f):segmente(f);
