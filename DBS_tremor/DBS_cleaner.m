@@ -97,17 +97,17 @@ for ik=1:length(sp) %%find double start and end points in a stimulation run
     
 end
 
-for it=1:length(indexes4) %% find runs with trigering issues (too few, too many pulses)
-        if numel(index(find(index==indexes4(it)):find(index==indexes3(it))))>=th1 && numel(index(find(index==indexes4(it)):find(index==indexes3(it))))<=th2
-            indexes4(it)=indexes4(it);
-            indexes3(it)=indexes3(it);
-            xx(it)=xx(it);
-        else
-            indexes4(it)=NaN;
-            indexes3(it)=NaN;
-            xx(it)=NaN;
-        end
-end
+% for it=1:length(indexes4) %% find runs with trigering issues (too few, too many pulses)
+%         if numel(index(find(index==indexes4(it)):find(index==indexes3(it))))>=th1 && numel(index(find(index==indexes4(it)):find(index==indexes3(it))))<=th2
+%             indexes4(it)=indexes4(it);
+%             indexes3(it)=indexes3(it);
+%             xx(it)=xx(it);
+%         else
+%             indexes4(it)=NaN;
+%             indexes3(it)=NaN;
+%             xx(it)=NaN;
+%         end
+% end
 
 indexes4=indexes4(~isnan(indexes4));
 indexes3=indexes3(~isnan(indexes3));
