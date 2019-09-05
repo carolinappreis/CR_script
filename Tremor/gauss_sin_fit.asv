@@ -3,34 +3,21 @@ cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 load('smooth_arc3.mat')
 for i=1:10;
-xdata = (1:12);
+xdata = (1:1:12);
 y=smo_s(i,:);
 % bar(cr)
 fs=fittype('a*sin(b*x)');
 gs=fittype('a1*exp(-((x-b1)/c1).^2)');
-s = fit(xdata',y',fs,'StartPoint',[max(y) 0.5]);
-g = fit(xdata',y',gs,'StartPoint',[max(y) mean(xdata) 0.5*(max(xdata)-min(xdata))]);
-figure(1)
-subplot(10,1,i)
-plot(s,xdata,y)
+s = fit(xdata',y',fs,'StartPoint',[max(y) 1]);
+g = fit(xdata',y',gs,'StartPoint',[max(y) mean(y) 0.5*(max(xdata)-min(xdata))]);
+% plot(s,xdata,y)
 hold on 
-yline(0)
-legend('off')
-ylim([-0.5 0.5])
-box('off')
-
-figure(2)
-subplot(10,1,i)
 plot(g,xdata,y)
-hold on 
-yline(0)
 legend('off')
-ylim([-0.5 0.5])
 box('off')
-clear y g s 
+% close all
 end
 
-% cl
 
 bar(smo_s(1,:))
 data=smo_s(1,:);
