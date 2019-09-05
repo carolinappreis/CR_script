@@ -7,7 +7,7 @@ for i=1:10;
 x = (1:1:12);
 y=smo_s(i,:);
 figure(1)
-% subplot(10,1,i)
+subplot(10,1,i)
 % bar(cr)
 s = fit(x',y','sin1')
 g = fit(x',y','gauss1')
@@ -16,17 +16,18 @@ hold on
 plot(g,x,y)
 legend('off')
 box('off')
-close all
+% close all
 end
 
 
-p=[data(1):0.00001:data(2)
-
+bar(smo_s(1,:))
 data=smo_s(1,:);
 zd=zscore(data);
+
 xd=1:12;
 s=max(data)*sin(0.5*xd+2*pi);
 zs=zscore(s);
+
 g = gaussmf(xd,[3 6]);
 zg=zscore(g);
 
