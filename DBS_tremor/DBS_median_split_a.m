@@ -52,10 +52,10 @@ frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     
     %%% criteria for outliers
 
-idx_outl=find(tremor_or2>(nanmean(tremor_or2)+(2*(nanstd(tremor_or2))))|tremor_or2<(nanmean(tremor_or2)-(2*(nanstd(tremor_or2)))));
-    tremor_or2(idx_outl,1)=NaN;
-    tremor_or3(idx_outl,1)=NaN;
-    xx(1,idx_outl)=NaN;
+% idx_outl=find(tremor_or2>(nanmean(tremor_or2)+(2*(nanstd(tremor_or2))))|tremor_or2<(nanmean(tremor_or2)-(2*(nanstd(tremor_or2)))));
+%     tremor_or2(idx_outl,1)=NaN;
+%     tremor_or3(idx_outl,1)=NaN;
+%     xx(1,idx_outl)=NaN;
     
     
     amp_1=NaN(2,round(size(tremor_or3,1)./2));
@@ -108,7 +108,12 @@ cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
 clearvars -except arc1 arc2
 save('arc_mediansplit.mat')
 
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+load('arc_mediansplit.mat')
+
+% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
 cl=blushred;
 cl1=squash;
 
