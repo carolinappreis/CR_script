@@ -1,6 +1,6 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+ cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 load('smooth_arc3.mat')
 for i=1:10;
 xdata = (1:12);
@@ -32,7 +32,7 @@ end
 
 % cl
 
-bar(smo_s(1,:))
+bar plot(smo_s(1,:))
 data=smo_s(1,:);
 zd=zscore(data);
 
