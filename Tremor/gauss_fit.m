@@ -17,21 +17,24 @@ function [gof] = gauss_fit(y)
 [xData, yData] = prepareCurveData( [], y );
 
 % Set up fittype and options.
-ft = fittype( 'gauss1' );
+ft = fittype( 'a*exp(-((x-b)/c).^2)' );
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
-opts.Lower = [-Inf -Inf 0];
-opts.StartPoint = [0.125000139356832 5 2.42844905890238];
+opts.Upper = [Inf Inf 3];
+opts.Lower = [-Inf -Inf -3];
+opts.StartPoint = [0.5 6 3];
 
 % Fit model to data.
 [fitresult, gof] = fit( xData, yData, ft, opts );
-
 % Plot fit with data.
-figure( 'Name', '1_sin' );
-h = plot( fitresult, xData, yData );
-legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
+% figure( 'Name', '1_sin' );
+% h = plot( fitresult, xData, yData );
+h=plot(fitresult);
+set(h,'LineWidth',2,'Color','k')
+
+% legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
 % Label axes
-ylabel( 'y', 'Interpreter', 'none' );
+% ylabel( 'y', 'Interpreter', 'none' );
 
 
 

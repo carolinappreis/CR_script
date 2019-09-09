@@ -20,17 +20,25 @@ function [gof] = sin_fit(y)
 ft = fittype( 'a*sin(b*x)+c', 'independent', 'x', 'dependent', 'y' );
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
-opts.StartPoint = [max(y) 0.5 0];
+% opts.Lower = [-Inf 0.5 -Inf];
+% opts.StartPoint = [0.5 0.5543 0.658594407192643];
+% opts.Upper = [Inf 0.5 Inf];
+opts.Lower = [-Inf 0.5 -0.2];
+opts.StartPoint = [2 0.5543 0];
+opts.Upper = [Inf 0.5 0.2];
 
 % Fit model to data.
 [fitresult, gof] = fit( xData, yData, ft, opts );
 
 % Plot fit with data.
-figure( 'Name', '1_sin' );
-h = plot( fitresult, xData, yData );
-legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
+% figure( 'Name', '1_sin' );
+% h = plot( fitresult, xData, yData );
+h=plot(fitresult);
+set(h,'LineWidth',2,'Color','k')
+
+% legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
 % Label axes
-ylabel( 'y', 'Interpreter', 'none' );
+% ylabel( 'y', 'Interpreter', 'none' );
 
 
 
