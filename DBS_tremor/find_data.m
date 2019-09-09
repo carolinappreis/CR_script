@@ -243,12 +243,12 @@ for numb=1;
         filt_z=filtfilt(b,a,tremorz);
         timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
         
-%         subplot(3,1,1)
-%         plot(timeor(1,:), filt_x(1,:));
-%         subplot(3,1,2)
-%         plot(timeor(1,:), filt_y(1,:));
-%         subplot(3,1,3)
-%         plot(timeor(1,:), filt_z(1,:));
+        %         subplot(3,1,1)
+        %         plot(timeor(1,:), filt_x(1,:));
+        %         subplot(3,1,2)
+        %         plot(timeor(1,:), filt_y(1,:));
+        %         subplot(3,1,3)
+        %         plot(timeor(1,:), filt_z(1,:));
         %
         %     subplot(3,1,1)
         %     plot(timeor(1,:), tremorx(1,:));
@@ -351,9 +351,9 @@ cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
 cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
 load('DBS_amp_ARC.mat')
 
-% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 
-load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
 cl=blushred;
 cl1=squash;
 
@@ -393,4 +393,39 @@ subplot(2,1,2)
 bar(sprl_s,'FaceColor',cl,'EdgeColor',cl)
 box('off')
 title('spiral')
+
+
+y=[pst_s;sprl_s];
+for i =1:2;
+    clearvars -except i y rs_gauss rs_sin cl smo_s
+    figure(i)
+    subplot(1,2,1)
+    bar(y(i,:),'FaceColor',cl,'EdgeColor',cl)
+    hold on
+    rsg=gauss_fit(y(i,:));
+    rs_gauss(i,:)=rsg.adjrsquare;
+    %     legend( 'ARC', 'gaussian fit', 'Location', 'NorthEast', 'Interpreter', 'none');
+    %     legend('boxoff')
+    %    xlabel( 'Stim phase', 'Interpreter', 'none' );
+    %    ylabel( 'Amplitude change', 'Interpreter', 'none' );
+    title(['adjr^2: ',num2str(rs_gauss(i))])
+    %   ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
+    xlabel('');ylabel('');legend('off')
+    box('off')
+    
+    subplot(1,2,2)
+    bar(y(i,:),'FaceColor',cl,'EdgeColor',cl)
+    hold on
+    rss=sin_fit(y(i,:));
+    rs_sin(i,:)=rss.adjrsquare;
+    xlabel('');ylabel('');legend('off')
+    %     legend( 'ARC','Sin fit', 'Location', 'NorthEast', 'Interpreter', 'none');
+    %     legend('boxoff')
+    %     xlabel( 'Stim phase', 'Interpreter', 'none' );
+    %     ylabel( 'Amplitude change', 'Interpreter', 'none' );
+    title(['adjr^2: ',num2str(rs_sin(i))])
+    %     ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
+    box('off')
+    hold off
+end
 
