@@ -2,7 +2,7 @@
 clear all
 close all
 
-metric=0;
+metric=1;
 
 if metric==0;
     % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_arc3')
