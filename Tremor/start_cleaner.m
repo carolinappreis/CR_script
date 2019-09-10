@@ -1,6 +1,3 @@
-
-in2=1; % analysing the "main tremor axis"
-
 if in2==1
     in=3;
 elseif in2==2 % other axis 1

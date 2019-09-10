@@ -1,6 +1,6 @@
 clear all
 
-dist=1;
+dist=1;%%%% all data; median split data A<median ; median split data A>median
 ref1=1;%%%% amp(=0) vs. frequency
 iii=1; %%%%% amp (=0) vs. supressive effect
 metric=0; %%%%%plotting 0 amp; ~=0 freq

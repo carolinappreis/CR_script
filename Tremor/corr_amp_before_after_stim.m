@@ -6,6 +6,7 @@ for numb=1:length(iii);
 %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
     
+    in2=1
     start_cleaner;
 
      clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency
@@ -40,11 +41,13 @@ for numb=1:length(iii);
     tremor_or3=NaN(length(start),1);
     for i=1:length(start)
         if (~isnan(start(i)))
-            tremor_or3(i,1)=mean(envelope(start(i)-1000:start(i)));
-%             tremor_or2(i,1)=(mean(envelope(ending(i)-1000:ending(i)))-mean(envelope(start(i)-1000:start(i))))/mean(envelope(start(i)-1000:start(i)));
+            tremor_or1(i,1)=mean(envelope(start(i)-1000:start(i)));
             tremor_or2(i,1)=mean(envelope(ending(i)-1000:ending(i)));
+            tremor_or3(i,1)=(mean(envelope(ending(i)-1000:ending(i)))-mean(envelope(start(i)-1000:start(i))))/mean(envelope(start(i)-1000:start(i)));
+
 
         else
+            tremor_or1(i,1)=NaN;
             tremor_or2(i,1)=NaN;
             tremor_or3(i,1)=NaN;
         end
@@ -52,17 +55,23 @@ for numb=1:length(iii);
     
     clear tt tt2
     tt1=NaN(20,12);
-    amp=NaN(20,12);
+    tt2=NaN(20,12);
+    tt3=NaN(20,12);
     
     for i=1:12
-        tt1(1:sum(xx==i),i)=tremor_or2(find(xx==i));
-        amp(1:sum(xx==i),i)=tremor_or3(find(xx==i));
+        tt1(1:sum(xx==i),i)=tremor_or1(find(xx==i));
+        tt2(1:sum(xx==i),i)=tremor_or2(find(xx==i));
+        tt3(1:sum(xx==i),i)=tremor_or2(find(xx==i));
     end
-    tt=abs(tt1);
+    tt=abs(tt3);
     
     ttall(numb,:)=nanmedian(tt);
-    ampall(numb,:)=nanmedian(amp);
+    ampall1(numb,:)=nanmedian(tt1);
+    ampall2(numb,:)==nanmedian(tt2);
     max_ef(1,numb)=find(ttall(numb,:)==max(ttall (numb,:)));
+    
+   %%%% to be changed if used
+    
     n=[amp(:,max_ef(numb))  tt(:,max_ef(numb))];
     
     figure(1)

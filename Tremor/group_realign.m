@@ -1,11 +1,11 @@
 clear all
 %  new=[1:8 10]; %%without PD patient (i.e., pt number 6)
-% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC.mat');load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_NS.mat')
-load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_ARC.mat'); load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_NS.mat')
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC.mat');load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_NS.mat')
+% load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_ARC.mat'); load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_NS.mat')
 
 a.ns=NS; a.s=ttall; clearvars -except a 
-% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC.mat');load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_NS.mat')
-load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_FRC.mat'); load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_NS.mat');
+load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC.mat');load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_NS.mat')
+% load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_FRC.mat'); load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_NS.mat');
 
 f.ns=NS; f.s=ttall; clearvars -except a f
 

@@ -24,6 +24,7 @@ for numb=1:length(iii);
     tremor=(data(in,:));
     addon=92; addon_end=35;
     
+    in2=1; % analysing the "main tremor axis"
     start_cleaner;
     
     %%% re - estimate tremor characteristics
@@ -166,9 +167,8 @@ end
 % cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % save 'A_group'
 NS=nostimout; 
-S=stim;
-idv_NS=nostim;
-clearvars  -except NS S idv_NS
+no_s=nostim;
+clearvars  -except NS no_s
  cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
-save 'A_group12'
+save 'amp_NS.mat'

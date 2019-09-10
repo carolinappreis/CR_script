@@ -5,7 +5,7 @@ A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];(
 B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25]);[2 5 10 14 26 37 46 50];[]};
 
 for numb=1:length(iii);
-    clearvars -except iii PC A1 B1 numb NS NS_i
+    clearvars -except iii PC A1 B1 numb NS no_s
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
   load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 %         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
@@ -154,7 +154,7 @@ for numb=1:length(iii);
         dum2=dum;
         NS_i1(rr)=nanmedian(dum2);
     end
-    NS_i(numb,:)=NS_i1;
+    no_s(numb,:)=NS_i1;
     
     for i=1:12
         dum=tremor_k(randi(5e4,1,rep));
@@ -162,23 +162,9 @@ for numb=1:length(iii);
         NS(numb,i)=nanmedian(dum2);
     end
     
-    clearvars -except NS C AA BB numb iii PC A1 B1 nostim stim NS NS_i
+    clearvars -except NS C AA BB numb iii PC A1 B1 nostim stim NS no_s
     
 end
-clearvars  -except NS NS_i
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
-save 'F_group12'
-
-
-% clear all
-% load('F_group12.mat')
-b=(NS(end,:));
-a=(NS_i(end,:));
-clearvars -except a b
-load('freq_NS.mat')
-NS=[NS(1:8,:); b; NS(9,:)];
-no_s=[no_s(1:8,:); a; no_s(9,:)];
 clearvars -except NS no_s
 save('freq_NS.mat')
 

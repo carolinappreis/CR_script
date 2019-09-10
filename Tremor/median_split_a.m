@@ -7,6 +7,7 @@ for numb=1:length(iii);
 load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 % load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
+in2=1;
 start_cleaner;
 
 %%% re - estimate tremor characteristics
@@ -52,11 +53,11 @@ frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     
     %%% criteria for outliers
 
-    idx_outl=find(tremor_or2>(mean(tremor_or2+2*(std(tremor_or2))))|tremor_or2<(mean(tremor_or2-2*(std(tremor_or2)))));
-    tremor_or2(idx_outl,1)=NaN;
-    tremor_or3(idx_outl,1)=NaN;
-    xx(1,idx_outl)=NaN;
-    
+%     idx_outl=find(tremor_or2>(mean(tremor_or2+2*(std(tremor_or2))))|tremor_or2<(mean(tremor_or2-2*(std(tremor_or2)))));
+%     tremor_or2(idx_outl,1)=NaN;
+%     tremor_or3(idx_outl,1)=NaN;
+%     xx(1,idx_outl)=NaN;
+%     
     
     amp_1=NaN(2,round(size(tremor_or3,1)./2));
     ch_a1=NaN(2,round(size(tremor_or3,1)./2));

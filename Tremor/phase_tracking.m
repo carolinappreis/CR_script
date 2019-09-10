@@ -46,7 +46,6 @@ for k=1:size(idx_1,2)
     end
     sav_run{1,k}(:)=run;
     psi(numb,k)=circ_r(ph_tremor(run)');
-    rayl(numb,k)=circ_rtest(ph_tremor(run)');
     clear run
 end
 

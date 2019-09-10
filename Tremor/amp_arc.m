@@ -6,6 +6,7 @@ for numb=1:length(iii);
 load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
 % load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
+in2=1; % analysing the "main tremor axis"
 start_cleaner;
 
 %%% re - estimate tremor characteristics
