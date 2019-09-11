@@ -1,102 +1,150 @@
 clear all
+close all
 iii=[1];
 
 for numb=1;
-%     :length(iii);
-    clearvars -except iii numb ttall ampall ph_stim LS
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-
-
-DBS_cleaner;
-     clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency
+    %     :length(iii);
     
-    handup=[];
-    for i=1:length(start)
-        handup=[handup start(i):ending(i)]; %#ok<*AGROW>
-    end
-    handup=sort(handup,'ascend');
+    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
     
-    [Pxx,F]=pwelch(tremor2(handup),samplerate,[],samplerate,samplerate);
     
-    frange=F(3:10);
-    Pxxrange=Pxx(3:10);
-    
-    Fpeak=frange(find(Pxxrange==max(Pxxrange)));
-    
-    if (Fpeak-2)>=1
-        [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
-    else
-        [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
-    end
-    tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
-    
-    dummy=hilbert(tremor_or);
-    envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
-    phase=angle(dummy);
-    frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
-    
-    tremor=(data(3,:));% %score(:,1)';%
-    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-    tremorx(1:size(ts1.data,3))=ts1.data;
-    tremor=(data(6,:));% %score(:,1)';%
-    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-    tremory(1:size(ts1.data,3))=ts1.data;
-    tremor=(data(7,:));% %score(:,1)';%
-    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-    tremorz(1:size(ts1.data,3))=ts1.data;
-    if (Fpeak-2)>=1
-        [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
-    else
-        [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
-    end
-    tremorxf=filtfilt(b,a,tremorx);
-    tremoryf=filtfilt(b,a,tremory);
-    tremorzf=filtfilt(b,a,tremorz);
-    
-
-    for j=1:length(start)
-        x=[tremorxf(start(j):ending(j));tremoryf(start(j):ending(j));tremorzf(start(j):ending(j))];
-        [pc,score,latent,tsquare] = pca(x');
-        xxx(j,1:3)=pc(1:3,1);
-        ma(j)=(find(abs(xxx(j,1:3))==max(abs(xxx(j,1:3)))));
-    end
-
-tremor_or2=NaN(20,5001);
-tremor_or22=NaN(20,5001);
-
-for i=1:length(start)
-      if ~isnan(start(i)) 
-%        if (~isnan(start(i))&& ma(i)==1)
-        tremor_or2(i,1:(ending(i)-start(i)+1))=unwrap(phase(start(i):ending(i)));
-        tremor_or22(i,1:(ending(i)-start(i)+1))=(phase(start(i))+(0:1:(ending(i)-start(i)))*2*pi/(1000./mean(frequency(start(i)-1000:start(i)))));
-        tremor_k(i,1)= (tremor_or2(i,(ending(i)-start(i)+1))-tremor_or22(i,(ending(i)-start(i)+1)))/(2*pi*0.001*(ending(i)-start(i))); %mean(frequency(ending(i)-1000:ending(i)));%
-    else
-        tremor_or22(i,1:5001)=NaN;
-        tremor_or2(i,1:5001)=NaN;
-        tremor_k(i,1)=NaN;
+    for  in2=1:3; % analysing the "main tremor axis"
+        clearvars -except iii numb ttall ampall ph_stim LS tt1 in2 SmrData
+        cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor')
+        
+        DBS_find_cond;
+        
+        
+        for hh=1:2;
+            clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency tt
+            
+            
+            handup=[];
+            for i=1:length(start{hh,1})
+                handup=[handup start{hh,1}(i):ending{hh,1}(i)]; %#ok<*AGROW>
+            end
+            handup=sort(handup,'ascend');
+            
+            [Pxx,F]=pwelch(tremor2(handup),samplerate,[],samplerate,samplerate);
+            
+            frange=F(3:10);
+            Pxxrange=Pxx(3:10);
+            
+            Fpeak=frange(find(Pxxrange==max(Pxxrange)));
+            
+            if (Fpeak-2)>=1
+                [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
+            else
+                [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
+            end
+            tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
+            % tremor_or=zscore(tremor_or);
+            dummy=hilbert(tremor_or);
+            envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
+            phase=angle(dummy);
+            frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
+            
+            tremor=(data(3,:));% %score(:,1)';%
+            ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+            ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+            
+            
+            [bb,aa]=butter(2,[0.8/(0.5*samplerate) ],'low'); %15
+            % tremor_or=zscore(tremor_or);
+            dummy=hilbert(tremor_or);
+            envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
+            phase=angle(dummy);
+            frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
+            tremor=(data(3,:));% %score(:,1)';%
+            ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+            ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+            tremorx(1:size(ts1.data,3))=ts1.data;
+            filt_x=filtfilt(bb,aa,tremorx);
+            tremor=(data(6,:));% %score(:,1)';%
+            ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+            ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+            tremory(1:size(ts1.data,3))=ts1.data;
+            filt_y=filtfilt(bb,aa,tremory);
+            tremor=(data(7,:));% %score(:,1)';%
+            ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+            ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+            tremorz(1:size(ts1.data,3))=ts1.data;
+            filt_z=filtfilt(bb,aa,tremorz);
+            timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
+            tremorxf=filtfilt(b,a,tremorx);
+            tremoryf=filtfilt(b,a,tremory);
+            tremorzf=filtfilt(b,a,tremorz);
+            
+            
+            for j=1:length(start{hh,1})
+                if (~isnan(start{hh,1}(j)))
+                    x=[tremorxf(start{hh,1}(j):ending{hh,1}(j));tremoryf(start{hh,1}(j):ending{hh,1}(j));tremorzf(start{hh,1}(j):ending{hh,1}(j))];
+                    [pc,score,latent,tsquare] = pca(x');
+                    xxx(j,1:3)=pc(1:3,1);
+                    ma(j)=(find(abs(xxx(j,1:3))==max(abs(xxx(j,1:3)))));
+                end
+            end
+            
+            tremor_or2=NaN(length(start{hh,1}),1);
+            tremor_or22=NaN(length(start{hh,1}),1);
+            
+            if in2==1
+                for i=1:length(start{hh,1})
+                    if (~isnan(start{hh,1}(i))&& ma(i)==1)
+                        tremor_or2(i,1:(ending{hh,1}(i)-start{hh,1}(i)+1))=unwrap(phase(start{hh,1}(i):ending{hh,1}(i)));
+                        tremor_or22(i,1:(ending{hh,1}(i)-start{hh,1}(i)+1))=(phase(start{hh,1}(i))+(0:1:(ending{hh,1}(i)-start{hh,1}(i)))*2*pi/(1000./mean(frequency(start{hh,1}(i)-1000:start{hh,1}(i)))));
+                        tremor_k(i,1)= (tremor_or2(i,(ending{hh,1}(i)-start{hh,1}(i)+1))-tremor_or22(i,(ending{hh,1}(i)-start{hh,1}(i)+1)))/(2*pi*0.001*(ending{hh,1}(i)-start{hh,1}(i))); %mean(frequency(ending{hh,1}(i)-1000:ending{hh,1}(i)));%
+                        xx{hh,1}(i)= xx{hh,1}(i);
+                    else
+                        tremor_or22(i,1:5001)=NaN;
+                        tremor_or2(i,1:5001)=NaN;
+                        tremor_k(i,1)=NaN;
+                        xx{hh,1}(i)= NaN;
+                    end
+                end
+            else
+                for i=1:length(start{hh,1})
+                    if ~isnan(start{hh,1}(i))
+                        tremor_or2(i,1:(ending{hh,1}(i)-start{hh,1}(i)+1))=unwrap(phase(start{hh,1}(i):ending{hh,1}(i)));
+                        tremor_or22(i,1:(ending{hh,1}(i)-start{hh,1}(i)+1))=(phase(start{hh,1}(i))+(0:1:(ending{hh,1}(i)-start{hh,1}(i)))*2*pi/(1000./mean(frequency(start{hh,1}(i)-1000:start{hh,1}(i)))));
+                        tremor_k(i,1)= (tremor_or2(i,(ending{hh,1}(i)-start{hh,1}(i)+1))-tremor_or22(i,(ending{hh,1}(i)-start{hh,1}(i)+1)))/(2*pi*0.001*(ending{hh,1}(i)-start{hh,1}(i))); %mean(frequency(ending{hh,1}(i)-1000:ending{hh,1}(i)));%
+                        xx{hh,1}(i)= xx{hh,1}(i);
+                    else
+                        tremor_or22(i,1:5001)=NaN;
+                        tremor_or2(i,1:5001)=NaN;
+                        tremor_k(i,1)=NaN;
+                        xx{hh,1}(i)= NaN;
+                    end
+                end
+            end
+            
+            tt=NaN(20,12);
+            yy=xx{hh,1}(:);
+            
+            for i=1:12
+                tt(1:sum(yy==i),i)=tremor_k(find(yy==i));
+                tt(tt==0)=NaN;
+            end
+            frc(hh,numb,:)=nanmedian(tt);
+        end
+        if in2==1
+            fm_ax=frc;
+            %                 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+            cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+            save('fm_ax.mat','fm_ax')
+            
+        elseif in2==2
+            s_frc=frc;
+            %                 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+            cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+            save('s_frc.mat','s_frc')
+            
+        elseif in2==3
+            t_frc=frc;
+            %                 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+            cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+            save('t_frc.mat','t_frc')
+        end
     end
 end
-    
-idx_outl=find(tremor_or2>(nanmean(tremor_or2)+(2*(nanstd(tremor_or2))))|tremor_or2<(nanmean(tremor_or2)-(2*(nanstd(tremor_or2)))));
-tremor_k(idx_outl,1)=NaN;
-xx(1,idx_outl)=NaN;
-
-clear tt
-tt=[]; 
-k=1;
-
-tt=NaN(20,12);
-
-for i=1:12
-    tt(1:sum(xx==i),i)=tremor_k(find(xx==i));
-end
-    frc(numb,:)=nanmedian(tt);
-end 
-% fm_ax=frc;
-t_frc=frc;
-clearvars -except  t_frc
-cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-save('t_frc.mat')
