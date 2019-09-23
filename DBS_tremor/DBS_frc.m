@@ -7,8 +7,8 @@ iii=[1];
 for numb=1;
     %     :length(iii);
     clearvars -except iii numb ttall ph_stim LS tt1
-       load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
+%        load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+     load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
     
     
     
@@ -346,8 +346,8 @@ for numb=1;
     
 end
 clearvars -except ttall ampall ph_stim LS tt1
-cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-% cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+% cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
 save('DBS_freq_FRC.mat')
 
 
