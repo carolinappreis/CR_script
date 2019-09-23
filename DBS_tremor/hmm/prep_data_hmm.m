@@ -53,17 +53,16 @@ for numb=1;
         end
         
     end
-    rnsfs=[rt ns fs];
+    rnsfs=[ns fs];
     %     clearvars -except nostimout iii numb cc cond  nostim
 end
-
 
 
 clear data
 data1=rnsfs;
 length_epoch=30000;
 options = struct();
-options.K =6; % number of states
+options.K =3; % number of states
 options.order=0;
 Fs=samplerate;
 T=repmat(length_epoch,1,length(data1)./length_epoch);
