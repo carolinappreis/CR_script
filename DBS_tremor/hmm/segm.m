@@ -21,8 +21,8 @@ if cc==1
 else
     epch=[];
     for tr=1:length(segmentb)
-        run=tremor_or(segmentb(tr):segmente(tr));
-        epch=[epch (tremor_or(((numel(run)/2)-t):((numel(run)/2)+t)-1))];
+        run=round((length(segmentb(tr):segmente(tr)))./2,0);    
+        epch=[epch tremor_or((segmentb(tr)+run-t):(segmentb(tr)+run+t-1))];
     end
     
 end

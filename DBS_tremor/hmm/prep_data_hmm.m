@@ -9,8 +9,8 @@ for numb=1;
     cond={'_NS_BL.mat';'_NS_PS.mat';'_HFS_PS.mat';};
     
     for cc=2:3;
-        load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
-        %         load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
+%         load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
+                load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
         
         in2=1; % analysing the "main tremor axis"
         
@@ -60,7 +60,7 @@ end
 clearvars -except Fs rs ns fs
 
 clear data
-data=([ns rs])';
+data=([ns])';
 
 
 length_epoch=30*Fs;
@@ -69,7 +69,7 @@ T=repmat(length_epoch,1,length(data)./length_epoch);
 options = struct();
 options.K =3; % number of states
 options.order=3;
-options.useParallel=1;
+options.useParallel=0;
 
 
 
@@ -81,8 +81,8 @@ plot(Gamma*5)
 
 
 X=data;
-% fit = hmmspectramar(X,T,hmm,Gamma,options)
-fit = hmmspectramt(X,T,Gamma,options)
+ fit = hmmspectramar(X,T,hmm,Gamma,options)
+% fit = hmmspectramt(X,T,Gamma,options)
 
 figure()
 for i=1:options.K

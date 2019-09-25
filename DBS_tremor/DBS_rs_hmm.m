@@ -1,7 +1,8 @@
 
 
 clearvars -except data Fs segmentb segmente a b ns fs iii numb in2 time_n
-load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+% load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'))
 
 if in2==1
     in=3;
@@ -26,9 +27,9 @@ difp=find(diff(new)>500);  %(100000)*Fs./1000
 sp_1=[new(1) new(difp+1)];
 ep_1=[new(difp) new(end)];
 
-plot(time_n,data2(2,:))
-hold on
-plot(time_n(sp_1),data2(2,sp_1),'ro')
+% plot(time_n,data2(2,:))
+% hold on
+% plot(time_n(sp_1),data2(2,sp_1),'ro')
 
 %%------------------------
 
@@ -46,10 +47,9 @@ envelope=abs(hilbert(tremor_or));
 t=300; %(15000.*Fs)./1000;
 rs=[];
 for tr=1:length(sp_1)
-%     if (run/2)>t && ((run/2)+t)<length(tremor_or)
-        run=round(length(sp_1(tr):ep_1(tr))./2,0);
-        rs=[rs (tremor_or(sp_1(tr-((run-t)):((numel(run)/2)+t)-1))];
-%     end
+%if (run/2)>t && ((run/2)+t)<length(tremor_or)
+        run=round((length(sp_1(tr):ep_1(tr)))./2,0);    
+        rs=[rs tremor_or((sp_1(tr)+run-t):(sp_1(tr)+run+t-1))];
 end
 
 %%%%% check eppochs!!
