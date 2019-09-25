@@ -1,4 +1,5 @@
 clear all
+close all
 % cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\')
 
@@ -6,12 +7,12 @@ load ('DBS_amp_ARC.mat')
 
 cond={'NS_PS_result.mat';'HFS_PS_result.mat'};
 
-k=2;
-n=2;
+k=1;
+n=1;
 
 load(cond{k,1})
 % load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean');
 
 cl=blushred;
 

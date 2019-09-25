@@ -5,14 +5,14 @@ iii=[1];
 for numb=1;
     %     :length(iii);
     
-    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
     
     
     for  in2=1:3; % analysing the "main tremor axis"
         clearvars -except iii numb ttall ampall ph_stim LS tt1 in2 SmrData
-           cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor')
-
+        %            cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor')
+        cd('C:\Users\creis\Documents\GitHub\CR_script\DBS_tremor')
         DBS_find_cond;
         
         
@@ -125,20 +125,20 @@ for numb=1;
         end
         if in2==1
             am_ax=arc;
-            %                 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-            cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+            cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+            %             cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
             save('am_ax.mat','am_ax')
             
         elseif in2==2
             s_arc=arc;
-            %                 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-            cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+            cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+            %             cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
             save('s_arc.mat','s_arc')
             
         elseif in2==3
             t_arc=arc;
-            %                 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-            cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+            cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+            %             cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
             save('t_arc.mat','t_arc')
         end
     end

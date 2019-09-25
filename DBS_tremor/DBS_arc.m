@@ -174,15 +174,15 @@ for numb=1;
     
 end
 clearvars -except ttall ampall ph_stim LS tt1
-% cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
 % cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
 % save('DBS_amp_ARC.mat')
 
- cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+%  cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
 load('DBS_amp_ARC.mat')
 
-% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean')
+ load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean');
+% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean')
 cl=aegean;
 cl1=blushred;
 
@@ -219,14 +219,14 @@ end
 
 figure()
 subplot(2,1,1)
-bar(0:30:330,pst_s,'FaceColor',cl1,'EdgeColor',cl1)
+bar(0:30:330,pst_s,'FaceColor',cl,'EdgeColor',cl)
 ax = gca; ax.FontSize = 12; ax.YLim = [-0.4 0.4];
 box('off')
 xlabel('stimulation phase','FontSize',14)
 ylabel ('change tremor severity','FontSize',14)
 % title('Posture','FontSize',14)
 subplot(2,1,2)
-bar(0:30:330,sprl_s,'FaceColor',cl,'EdgeColor',cl)
+bar(0:30:330,sprl_s,'FaceColor',cl1,'EdgeColor',cl1)
 ax = gca; ax.FontSize = 12; ax.YLim = [-0.4 0.4];
 xlabel('stimulation phase','FontSize',14)
 ylabel ('change tremor severity','FontSize',14)

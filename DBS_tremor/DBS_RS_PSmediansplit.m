@@ -360,19 +360,22 @@ cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
 load('arc_mediansplit.mat')
 
 % load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','grey');
 
 cl=blushred;
-cl1=squash;
+cl1=aegean;
+cl2=grey;
 
 
 
 for hh=1:size(arc1,1)
     subplot(1,size(arc1,1),hh)
-    bar(arc2{hh,1},'FaceColor',cl,'EdgeColor',cl)
-    box('off')
+    bar(0:30:330,arc2{hh,1},'FaceColor',cl1,'EdgeColor',cl1)
     hold on
-    bar(arc1{hh,1},'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor','k')
+    bar(0:30:330,arc1{hh,1},'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor',cl2)
+    ax = gca; ax.FontSize = 12; ax.YLim = [-0.8 0.8];
+    xlabel('stimulation phase','FontSize',14)
+    ylabel ('change tremor severity','FontSize',14)
     box('off')
     if hh==1
         title('posture')

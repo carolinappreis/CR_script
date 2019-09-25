@@ -44,8 +44,8 @@ options = struct();
 options.filter=[2 10];
 options.Fs=1000;
 options.onpower=1;
-% options.downsample=20;
-options.K =5; % number of states
+options.downsample=20;
+options.K =3; % number of states
 T=repmat(length_epoch,1,length(data)./length_epoch);
 % data=data1(1:sum(T))';
 
