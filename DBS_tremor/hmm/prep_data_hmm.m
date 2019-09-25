@@ -9,8 +9,8 @@ for numb=1;
     cond={'_NS_BL.mat';'_NS_PS.mat';'_HFS_PS.mat'};
     
     for cc=1:3;
-        load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
-        %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
+%         load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
+        load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
         
         in2=1; % analysing the "main tremor axis"
         
@@ -67,7 +67,7 @@ options.order=0;
 Fs=samplerate;
 T=repmat(length_epoch,1,length(data1)./length_epoch);
 data=data1';
-
+options.useParallel=0;
 [hmm, Gamma] = hmmmar(data,T,options);
 
 [viterbipath] = hmmdecode(data,T,hmm,1);
