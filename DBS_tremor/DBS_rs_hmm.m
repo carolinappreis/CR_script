@@ -1,8 +1,14 @@
+clear all
+iii=[1];
+numb=1;
+DBS_Fpeak
 
+% clearvars -except data Fs segmentb segmente a b ns fs iii numb in2 time_n
+load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\start_end_RS.mat')
+% load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'))
 
-clearvars -except data Fs segmentb segmente a b ns fs iii numb in2 time_n
-% load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'))
+in2=1;
 
 if in2==1
     in=3;
@@ -16,40 +22,52 @@ samplerateold=SmrData.SR;
 tremor=(data(in,:));
 addon=92; addon_end=35;
 
-
-ts=timeseries(data,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-ts2=resample(ts,0:1/Fs:((size(data,2)-1)/samplerateold),'linear');
-data2(:,1:size(ts2.data,3))=ts2.data;
-time_n=0:1/Fs:(size(data2(in,:),2)-1)/Fs;
-
-new=find(data2(2,:)>4);
-difp=find(diff(new)>500);  %(100000)*Fs./1000
-sp_1=[new(1) new(difp+1)];
-ep_1=[new(difp) new(end)];
-
-% plot(time_n,data2(2,:))
-% hold on
-% plot(time_n(sp_1),data2(2,sp_1),'ro')
-
 %%------------------------
+Fs=2*(Fpeak+2);
 
-Fs=20;
-
+time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
 ts=timeseries(data,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-ts2=resample(ts,0:1/Fs:((size(data,2)-1)/samplerateold),'linear');
-data2(:,1:size(ts2.data,3))=ts2.data;
-time_n=0:1/Fs:(size(data2(in,:),2)-1)/Fs;
+ts1=resample(ts,0:1/Fs:((size(data,2)-1)/samplerateold),'linear');
+data2(1:size(data,1),1:size(ts1.data,3))=ts1.data;
+tremor3=data2([3 6 7],:);
+time_n=0:1/Fs:(size(data2,2)-1)/Fs;
 
-tremor_or=filtfilt(b,a,data2(in,:));
-tremor_or=zscore(tremor_or);
-envelope=abs(hilbert(tremor_or));
+if (Fpeak-2)>=1
+    [b,a]=butter(2,[(Fpeak-2)/(0.5*Fs) (Fpeak+2)/(0.5*Fs)],'bandpass'); %15
+else
+    [b,a]=butter(2,[(1)/(0.5*Fs) (Fpeak+2)/(0.5*Fs)],'bandpass'); %15
+end
+%         [b,a]=butter(2,[0.8/(0.5*samplerate) ],'low'); %15
+%         tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
 
-t=300; %(15000.*Fs)./1000;
-rs=[];
-for tr=1:length(sp_1)
-%if (run/2)>t && ((run/2)+t)<length(tremor_or)
-        run=round((length(sp_1(tr):ep_1(tr)))./2,0);    
-        rs=[rs tremor_or((sp_1(tr)+run-t):(sp_1(tr)+run+t-1))];
+[m,n]=butter(2,[3/(0.5*Fs) ],'low'); %15
+for i=1:size(tremor3,1)
+    dc_t3(i,:)=filtfilt(m,n,tremor3(i,:));
+    filt_t3(i,:)=filtfilt(b,a,tremor3(i,:));
+    env_t3(i,:)=abs(hilbert(filt_t3(i,:)));
 end
 
-%%%%% check eppochs!!
+s=round((start*Fs)./samplerateold,0);
+e=round((ending*Fs)./samplerateold,0);
+t=[Fs 5*Fs];
+for ep=1:size(t,2);
+    for th=1:size(tremor3,1);
+        for i=1:length(t(ep))
+            for tr=1:length(s)
+                if ((tr)+t(ep)-1)<length(s) && (s(tr)+t(ep)-1)<length(tremor3)
+                    RS_t1{ep,1}(th,tr,1:t(ep))=filt_t3(th,s(tr):(s(tr)+t(ep)-1));
+                    RS_e1{ep,1}(th,tr,1:t(ep))=env_t3(th,s(tr):(s(tr)+t(ep)-1));
+                    RS_dc1{ep,1}(th,tr,1:t(ep))=dc_t3(th,s(tr):(s(tr)+t(ep)-1));
+                end
+            end
+        end
+    end
+    RS_t{ep,1}=reshape(RS_t1{ep,1},size(RS_t1{ep,1},1),size(RS_t1{ep,1},2)*size(RS_t1{ep,1},3));
+    RS_e{ep,1}=reshape(RS_e1{ep,1},size(RS_e1{ep,1},1),size(RS_e1{ep,1},2)*size(RS_e1{ep,1},3));
+    RS_dc{ep,1}=reshape(RS_dc1{ep,1},size(RS_dc1{ep,1},1),size(RS_dc1{ep,1},2)*size(RS_dc1{ep,1},3));
+end
+
+cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA')
+clearvars -except RS_t RS_e RS_dc Fs t
+save 'RS_input_9ch.mat'
+

@@ -9,8 +9,8 @@ for numb=1;
     cond={'_NS_BL.mat';'_NS_PS.mat';'_HFS_PS.mat';};
     
     for cc=2:3;
-%         load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
-                load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
+         load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
+%                 load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
         
         in2=1; % analysing the "main tremor axis"
         
@@ -45,7 +45,7 @@ for numb=1;
         envelope=abs(hilbert(tremor_or));
         
         if cc==1
-%             rt=segm(tremor_or,cc,samplerate);
+%             rt=segm(tremor_or,cc,Fs);
         elseif cc==2
             ns=segm(tremor_or,cc,Fs);
         elseif cc==3
@@ -63,13 +63,13 @@ clear data
 data=([ns])';
 
 
-length_epoch=30*Fs;
+length_epoch=10*Fs;
 T=repmat(length_epoch,1,length(data)./length_epoch);
 
 options = struct();
 options.K =3; % number of states
 options.order=3;
-options.useParallel=0;
+options.useParallel=1;
 
 
 
