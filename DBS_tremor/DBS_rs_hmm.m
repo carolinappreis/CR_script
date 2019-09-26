@@ -23,7 +23,8 @@ tremor=(data(in,:));
 addon=92; addon_end=35;
 
 %%------------------------
-Fs=2*(Fpeak+2);
+Fs=20;
+% 2*(Fpeak+2);
 
 time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
 ts=timeseries(data,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
@@ -32,18 +33,14 @@ data2(1:size(data,1),1:size(ts1.data,3))=ts1.data;
 tremor3=data2([3 6 7],:);
 time_n=0:1/Fs:(size(data2,2)-1)/Fs;
 
-if (Fpeak-2)>=1
-    [b,a]=butter(2,[(Fpeak-2)/(0.5*Fs) (Fpeak+2)/(0.5*Fs)],'bandpass'); %15
-else
-    [b,a]=butter(2,[(1)/(0.5*Fs) (Fpeak+2)/(0.5*Fs)],'bandpass'); %15
-end
+[b,a]=butter(2,[2/(0.5*Fs) (Fs./2)/(0.5*Fs)],'bandpass'); %15
 %         [b,a]=butter(2,[0.8/(0.5*samplerate) ],'low'); %15
 %         tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
 
 [m,n]=butter(2,[3/(0.5*Fs) ],'low'); %15
 for i=1:size(tremor3,1)
-    dc_t3(i,:)=filtfilt(m,n,tremor3(i,:));
-    filt_t3(i,:)=filtfilt(b,a,tremor3(i,:));
+    dc_t3(i,:)=filtfilt(m,n,zscore(tremor3(i,:)));
+    filt_t3(i,:)=filtfilt(b,a,zscore(tremor3(i,:)));
     env_t3(i,:)=abs(hilbert(filt_t3(i,:)));
 end
 
@@ -69,5 +66,5 @@ end
 
 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA')
 clearvars -except RS_t RS_e RS_dc Fs t
-save 'RS_input_9ch.mat'
+save 'RS_20fs_9ch.mat'
 
