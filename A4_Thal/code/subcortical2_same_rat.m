@@ -16,7 +16,7 @@ end
 
  cd ('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A3_Thal/mat')
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\A3_Thal\mat')
-load CZ_ctx_probe.mat
+load SNr_ctx_probe.mat
 WaveB=WaveData_DCall;
 dataB=data;
 idx_B=[];
@@ -27,7 +27,7 @@ for i =1:29
 end
 
 % load ('data_all.mat','freq')
-freq=[5:15];
+freq=[5:35];
 subj= idx_B(ismember(idx_B,idx_A));
 samprate=1000;
 ctx_b1=[];

@@ -33,3 +33,4 @@ run('DBS_NS_FS_analysis.m')
 
 
 cd('C:\Users\creis\Documents\GitHub\CR_script\DBS_tremor\hmm')
+cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor/hmm')

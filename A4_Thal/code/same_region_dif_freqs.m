@@ -2,7 +2,7 @@
 
 clear all
 % cd ('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\A4_Thal')
- cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/A4_Thal')
+ cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A4_Thal/mat')
  load 'snr_lowbeta.mat'; color_b=[0 0.8 0.8];id_rat=animals; rats=size(id_rat,1);
 %   load 'bz_lowbeta.mat'; color_b=[0.8 0 0.8];id_rat=animals; rats=size(id_rat,1);
 % id_rat=([1 6]);
@@ -40,7 +40,7 @@ reg_sm=mean(clust_s_m);
 reg_ssd=std(clust_s_m)./sqrt(size(clust_s_m,1));
 
 
- cd ('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/A4_Thal/code')
+ cd ('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code')
 % cd('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\A4_Thal\code')
 st=NaN(1,401);
 clear A; A=clust_b_m; %b1{f,1};
@@ -73,7 +73,7 @@ hold on
 clearvars -except p1 p2
 
 % cd ('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\A4_Thal')
- cd('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/A4_Thal')
+ cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/A4_Thal/mat')
   load 'snr_highbeta.mat'; color_b=[0 0 0.5];id_rat=animals; rats=size(id_rat,1);
 %  load 'bz_highbeta.mat'; color_b=[0.5 0 0.5];id_rat=animals; rats=size(id_rat,1);
 % id_rat=([1 6]);
@@ -111,7 +111,7 @@ reg_sm=mean(clust_s_m);
 reg_ssd=std(clust_s_m)./sqrt(size(clust_s_m,1));
 
 
- cd ('/Users/Carolina/Documents/GitHub/CRcode/codes_thal/A4_Thal/code')
+ cd ('/Users/Carolina/Documents/GitHub/CR_script/A4_Thal/code')
 % cd('C:\Users\creis\Documents\GitHub\CRcode\codes_thal\A4_Thal\code')
 st=NaN(1,401);
 clear A; A=clust_b_m; %b1{f,1};
