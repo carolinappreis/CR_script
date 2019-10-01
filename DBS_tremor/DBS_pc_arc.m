@@ -90,7 +90,7 @@ for numb=1;
             tremor_or3=NaN(length(start{hh,1}),1);
             if in2==1
                 for i=1:length(start{hh,1})
-                    if (~isnan(start{hh,1}(i))&& ma(i)==1)
+                    if (~isnan(start{hh,1}(i))&& ma(i)==3)
                         tremor_or3(i,1)=mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
                         tremor_or2(i,1)=(mean(envelope(ending{hh,1}(i)-1000:ending{hh,1}(i)))-mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i))))/mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
                         xx{hh,1}(i)= xx{hh,1}(i);
@@ -123,23 +123,23 @@ for numb=1;
             end
             arc(hh,numb,:)=nanmedian(tt);
         end
-        if in2==1
-            am_ax=arc;
-            cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-            %             cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
-            save('am_ax.mat','am_ax')
-            
-        elseif in2==2
-            s_arc=arc;
-            cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-            %             cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
-            save('s_arc.mat','s_arc')
-            
-        elseif in2==3
-            t_arc=arc;
-            cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-            %             cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
-            save('t_arc.mat','t_arc')
-        end
+%         if in2==1
+%             am_ax=arc;
+%             cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+%             %             cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+%             save('am_ax.mat','am_ax')
+%             
+%         elseif in2==2
+%             s_arc=arc;
+%             cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+%             %             cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+%             save('s_arc.mat','s_arc')
+%             
+%         elseif in2==3
+%             t_arc=arc;
+%             cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+%             %             cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+%             save('t_arc.mat','t_arc')
+%         end
     end
 end

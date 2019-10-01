@@ -46,38 +46,19 @@ for i=1:size(tremor3,1)
 end
 
 % all conditions
-s=round((start*Fs)./samplerateold,0);
-e=round((ending*Fs)./samplerateold,0);
+% s=round((start*Fs)./samplerateold,0);
+% e=round((ending*Fs)./samplerateold,0);
 
 %just posture
 % s=round((start1*Fs)./samplerateold,0);
 % e=round((ending1*Fs)./samplerateold,0);
 
 %just spiral
-% s=round((start2*Fs)./samplerateold,0);
-% e=round((ending2*Fs)./samplerateold,0);
+s=round((start2*Fs)./samplerateold,0);
+e=round((ending2*Fs)./samplerateold,0);
 
-%start to length of epochs decided by t;
-% t=[Fs 5*Fs];
-% for ep=1:size(t,2);
-%     for th=1:size(tremor3,1);
-%         for i=1:length(t(ep))
-%             for tr=1:length(s)
-%                 RS_t1{ep,1}(th,tr,1:t(ep))=filt_t3(th,s(tr):(s(tr)+t(ep)-1));
-%                 RS_e1{ep,1}(th,tr,1:t(ep))=env_t3(th,s(tr):(s(tr)+t(ep)-1));
-%                 RS_dc1{ep,1}(th,tr,1:t(ep))=dc_t3(th,s(tr):(s(tr)+t(ep)-1));
-%             end
-%         end
-%        
-%         RS_t{ep,1}=reshape(RS_t1{ep,1},size(RS_t1{ep,1},1),size(RS_t1{ep,1},2)*size(RS_t1{ep,1},3));
-%         RS_e{ep,1}=reshape(RS_e1{ep,1},size(RS_e1{ep,1},1),size(RS_e1{ep,1},2)*size(RS_e1{ep,1},3));
-%         RS_dc{ep,1}=reshape(RS_dc1{ep,1},size(RS_dc1{ep,1},1),size(RS_dc1{ep,1},2)*size(RS_dc1{ep,1},3));
-%         
-%     end
-% end
-
-%once sec before:one sec after stim
-t=[Fs 5*Fs];
+%once sec before or after stim
+t=[Fs];
 for ep=1:size(t,2);
     for th=1:size(tremor3,1)
             RS_raw1=[];
@@ -86,10 +67,10 @@ for ep=1:size(t,2);
             RS_dc1=[];
         for i=1:length(t(ep))
             for tr=1:length(s)
-                RS_raw1=[RS_raw1 tremor3(th,s(tr):(s(tr)+Fs+t(ep)-1))];
-                RS_t1=[RS_t1 filt_t3(th,s(tr)-Fs:(s(tr)+Fs+t(ep)-1))];
-                RS_e1=[RS_e1 env_t3(th,s(tr)-Fs:(s(tr)+Fs+t(ep)-1))];
-                RS_dc1=[RS_dc1 dc_t3(th,s(tr)-Fs:(s(tr)+Fs+t(ep)-1))];
+                RS_raw1=[RS_raw1 tremor3(th,s(tr)-Fs:(s(tr)-1))];
+                RS_t1=[RS_t1 filt_t3(th,s(tr)-Fs:(s(tr)-1))];
+                RS_e1=[RS_e1 env_t3(th,s(tr)-Fs:(s(tr)-1))];
+                RS_dc1=[RS_dc1 dc_t3(th,s(tr)-Fs:(s(tr)-1))];
             end
         end
 
@@ -103,9 +84,9 @@ end
 
 
 
-% cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA')
-cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/');
+cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA')
+% cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/');
 
 clearvars -except RS_t RS_e RS_dc Fs t RS_raw
-save 'RS_20fs_9ch_beforeafter.mat'
+save 'RS_20fs_9ch_spiral_before.mat'
 

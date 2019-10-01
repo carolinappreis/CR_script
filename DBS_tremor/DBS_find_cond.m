@@ -86,11 +86,11 @@
         sp=sp_1(1,2:end);
         ep=ep_1(1,2:end);
     end
-    %
-            plot(time,data(4,:))
-        hold on
-        plot(time(sp),data(4,sp),'r.')
-        plot(time(ep),data(4,ep),'k.')
+%     %
+%             plot(time,data(4,:))
+%         hold on
+%         plot(time(sp),data(4,sp),'r.')
+%         plot(time(ep),data(4,ep),'k.')
     
     
     for ik=1:length(sp) %%find double start and end points in a stimulation run

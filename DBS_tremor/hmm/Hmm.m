@@ -27,24 +27,25 @@ time_n=0:1/Fs:(size(data,1)-1)/Fs;
 
 
 % %%% decide on order
-% for order=1:10
-% sample_rate=Fs;
-% subplot(1,10,order)
-%         mar = check_mar_spectra( data,size(data,1), order, sample_rate,0);
-% 
-%         [pxx_welch,f_welch] = pwelch( data,hamming(64),[],256,sample_rate, 'psd' );
-% 
-%         [pxx_yule,f_yule] = pyulear( data,order,1024,sample_rate );
-% 
-%         plot(f_welch,pxx_welch,'linewidth',3)
-%         hold on
+for order=1:10
+sample_rate=Fs;
+subplot(1,10,order)
+        mar = check_mar_spectra( data,size(data,1), order, sample_rate,0);
+
+        [pxx_welch,f_welch] = pwelch( data,hamming(64),[],256,sample_rate, 'psd' );
+
+        [pxx_yule,f_yule] = pyulear( data,order,1024,sample_rate );
+
+        plot(f_welch,pxx_welch,'linewidth',3)
+        hold on
 %         plot(f_yule,pxx_yule,'g--','linewidth',2)
-%         plot(mar.freq_vect,squeeze(abs(mar.PSD(1,1,:))),'r:','linewidth',2)
-%         xlabel('Frequency (Hz)')
-%         ylabel('Power Spectral Density')
-% end
-% legend({'pwelch','pyulear','hmmmar'});
-% 
+        plot(mar.freq_vect,squeeze(abs(mar.PSD(1,1,:))),'r:','linewidth',2)
+        xlabel('Frequency (Hz)')
+        ylabel('Power Spectral Density')
+       
+end
+legend({'pwelch','pyulear','hmmmar'});
+
 % options = struct();
 % options.initrep = 3; % Quin = 3
 % options.K =4; % number of states

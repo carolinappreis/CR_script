@@ -1,14 +1,14 @@
 clear all
 close all
-% load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\RS_input_9ch.mat')
-% load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\RS_20fs_9ch.mat')
-load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/start_end_RS.mat')
-load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/RS_20fs_9ch_posture_beforeafter.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\start_end_RS.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\RS_20fs_9ch_posture.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/start_end_RS.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/RS_20fs_9ch_posture_beforeafter.mat')
 iii=2;
-t(2)=140;
+%  t(2)=140;
 
-% d= [RS_t{iii,1}; RS_e{iii,1}; RS_dc{iii,1}];
-% stackedplot(d');
+d= [RS_t{iii,1}; RS_e{iii,1}; RS_dc{iii,1}];
+stackedplot(d');
 % xlim([0 1200])
 % dc=RS_dc{iii,1};
 % data2=RS_e{iii,1};
@@ -19,36 +19,50 @@ t(2)=140;
 
 data1=RS_e{iii,1};
 
-data=data1';
+data=data1(3,:);data=data';
 T=repmat(t(iii),1,((length(data)./t(iii))));
-
-epochs=zeros(1,size(data,1)); epochs(1:t(iii):end)=4;
 
 options=struct();
 options.initrep=3;
-options.K=3;
-options.useParallel=0;
+options.K=2;
+options.useParallel=1;
 options.Fs=Fs;
 options.embeddedlags=0;
 options.covtype = 'diag';
 options.zeromean = 0;
+options.order=0;
+
+% options=struct();
+% options.initrep=3;
+% options.K=3;
+% options.useParallel=1;
+% options.Fs=Fs;
+% % options.embeddedlags=0;
+% % options.covtype = 'diag';
+% options.zeromean = 0;
+% options.order=7;
 
 [hmm,Gamma,~,vpath]=hmmmar(data,T,options);
+epochs=zeros(1,size(data,1)); epochs(1:t(iii):end)=2;
 
 figure;area(Gamma)
 hold on
-plot(epochs,'k--','LineWidth',2)
+plot(epochs,'r','LineWidth',1.5)
+plot(data','k','LineWidth',2)
 
 X=data;
 % fit = hmmspectramar(X,T,hmm,Gamma,options)
 fit = hmmspectramt(X,T,Gamma,options)
 
 figure()
-for ii=1:options.K
-    plot(fit.state(ii).f,fit.state(ii).psd(:,3,3))
+for state = 1:options.K
+for ii=1:1
+    subplot(1,2,ii+((state-1)*1))
+    plot(fit.state(state).f,fit.state(state).psd(:,ii,ii))
     hold on
 end
-legend({'state1','state2','state3','state4'})
+end
+legend({'state1','state2'})
 legend('boxoff')
 
 figure; plot(vpath,'LineWidth',3);ylim([0.8 2.2])
