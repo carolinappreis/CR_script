@@ -55,9 +55,11 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DAT
         phase=angle(dummy);
         frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
         tremor=(data(3,:));% %score(:,1)';%
+        
         ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
         ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
         tremorx(1:size(ts1.data,3))=ts1.data;
+        
         filt_x=filtfilt(b,a,tremorx);
         tremor=(data(6,:));% %score(:,1)';%
         ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
