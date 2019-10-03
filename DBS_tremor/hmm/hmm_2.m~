@@ -7,7 +7,7 @@ load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/RS_hm
 iii=1;
 
 
-d= [RS_t{iii,1}; RS_e{iii,1}];
+d= [RS_t{iii,1}; RS_e{iii,1}; RS_dc{iii,1}];
 stackedplot(d');
 % xlim([0 1200])
 % dc=RS_dc{iii,1};
@@ -19,8 +19,7 @@ stackedplot(d');
 
 data1=RS_e{iii,1};
 data=data1;data=data';
-T=length(data1);
-T=repmat(t(iii),1,(round((length(data1)./t(iii)),0)));
+T=repmat(t(iii),1,(length(data1)./t(iii)));
 
 options=struct();
 options.initrep=3;

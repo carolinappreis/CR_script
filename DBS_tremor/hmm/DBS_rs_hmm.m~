@@ -87,20 +87,20 @@ for ep=1:size(t,2);
             RS_raw1=[];
             RS_t1=[];
             RS_e1=[];
-%             RS_dc1=[];
+            RS_dc1=[];
         for i=1:length(t(ep))
             for tr=1:length(s)
                 RS_raw1=[RS_raw1 tremor3(th,s(tr)-Fs:(s(tr)+Fs+t(ep)-1))];
                 RS_t1=[RS_t1 filt_t3(th,s(tr)-Fs:(s(tr)+Fs+t(ep)-1))];
                 RS_e1=[RS_e1 env_t3(th,s(tr)-Fs:(s(tr)+Fs+t(ep)-1))];
-%                 RS_dc1=[RS_dc1 dc_t3(th,s(tr)-Fs:(s(tr)+Fs+t(ep)-1))];
+                RS_dc1=[RS_dc1 dc_t3(th,s(tr)-Fs:(s(tr)+Fs+t(ep)-1))];
             end
         end
 
         RS_r{ep,1}(th,:)=RS_raw1;
         RS_t{ep,1}(th,:)=RS_t1;
         RS_e{ep,1}(th,:)=RS_e1;
-%         RS_dc{ep,1}(th,:)=RS_dc1;
+        RS_dc{ep,1}(th,:)=RS_dc1;
         
     end
 end

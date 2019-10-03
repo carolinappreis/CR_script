@@ -194,7 +194,9 @@
 
 
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA')
+% cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA')
+cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA')
+
 load('input.mat')
 input_2=input_2(1:length(input_1),:);
 motor(1:size(input_1,1),1)=0;
