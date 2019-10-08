@@ -5,18 +5,19 @@ iii=[1];
 for numb=1;
     %     :length(iii);
     
-%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-         load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
+    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
     
     
     for  in2=1:3; % analysing the "main tremor axis"
-        clearvars -except iii numb ttall ampall ph_stim LS tt1 in2 SmrData
-                    cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor')
-%         cd('C:\Users\creis\Documents\GitHub\CR_script\DBS_tremor')
+        clearvars -except iii numb ttall ampall ph_stim LS tt1 in2 SmrData pca_ax1 pca_ax2 pca_ax3
+        
+        cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor')
+        %         cd('C:\Users\creis\Documents\GitHub\CR_script\DBS_tremor')
         DBS_find_cond;
         
         
-        for hh=2;
+        for hh=1:2;
             clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency tt
             
             
@@ -88,58 +89,44 @@ for numb=1;
             
             tremor_or2=NaN(length(start{hh,1}),1);
             tremor_or3=NaN(length(start{hh,1}),1);
-            if in2==1
-                for i=1:length(start{hh,1})
-                    if (~isnan(start{hh,1}(i))&& ma(i)==1)
-                        tremor_or3(i,1)=mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
-                        tremor_or2(i,1)=(mean(envelope(ending{hh,1}(i)-1000:ending{hh,1}(i)))-mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i))))/mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
-                        xx{hh,1}(i)= xx{hh,1}(i);
-                    else
-                        tremor_or2(i,1)=NaN;
-                        tremor_or3(i,1)=NaN;
-                        xx{hh,1}(i)= NaN;
-                    end
-                end
-            else
-                for i=1:length(start{hh,1})
-                    if (~isnan(start{hh,1}(i)))
-                        tremor_or3(i,1)=mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
-                        tremor_or2(i,1)=(mean(envelope(ending{hh,1}(i)-1000:ending{hh,1}(i)))-mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i))))/mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
-                        xx{hh,1}(i)= xx{hh,1}(i);
-                    else
-                        tremor_or2(i,1)=NaN;
-                        tremor_or3(i,1)=NaN;
-                        xx{hh,1}(i)= NaN;
-                    end
+            
+            for i=1:length(start{hh,1})
+                if (~isnan(start{hh,1}(i))&& ma(i)==in2)
+                    tremor_or3(i,1)=mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
+                    tremor_or2(i,1)=(mean(envelope(ending{hh,1}(i)-1000:ending{hh,1}(i)))-mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i))))/mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
+                    xx{hh,1}(i)= xx{hh,1}(i);
+                else
+                    tremor_or2(i,1)=NaN;
+                    tremor_or3(i,1)=NaN;
+                    xx{hh,1}(i)= NaN;
                 end
             end
             
-            tt=NaN(20,12);
-            yy=xx{hh,1}(:);
-            
-            for i=1:12
-                tt(1:sum(yy==i),i)=tremor_or2(find(yy==i));
-                tt(tt==0)=NaN;
-            end
-            arc(hh,numb,:)=nanmedian(tt);
         end
+        
+        tt=NaN(20,12);
+        yy=xx{hh,1}(:);
+        
+        for i=1:12
+            tt(1:sum(yy==i),i)=tremor_or2(find(yy==i));
+            tt(tt==0)=NaN;
+        end
+        arc(hh,numb,:)=nanmedian(tt);
+        
         if in2==1
-            am_ax=arc;
-%             cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-                         cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
-            save('am_ax.mat','am_ax')
+            pca_ax1=arc;
             
         elseif in2==2
-            s_arc=arc;
-%             cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-                        cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
-            save('s_arc.mat','s_arc')
+            pca_ax2=arc;
             
         elseif in2==3
-            t_arc=arc;
-%             cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-                         cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
-            save('t_arc.mat','t_arc')
+            pca_ax3=arc;
+            
         end
     end
+    %cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+    cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+    clearvars -except pca_ax1 pca_ax2 pca_ax3
+    %     save('pca')
 end
+

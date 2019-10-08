@@ -7,11 +7,11 @@ iii=[1];
 for numb=1;
     %     :length(iii);
     clearvars -except iii numb ttall ampall ph_stim LS tt1
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+   load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
 
 
-    in2=1; % analysing the "main tremor axis"
+    in2=3; % analysing the "main tremor axis"
 
     if in2==1
         in=3;
@@ -356,30 +356,52 @@ end
 %%________________________________________________________________________
 clear all
 close all
-cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-load('arc_mediansplit.mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+% cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+% 
+% load('arc_mediansplit.mat')
 
-% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','grey');
+ load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','grey')
+% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','grey');
 
-cl=blushred;
+cl1=blushred;
 cl1=aegean;
-cl2=grey;
+cl2=[0.7 0.7 0.7];
 
 
+% 
+% for hh=1:size(arc1,1)
+%     subplot(1,size(arc1,1),hh)
+%     bar(0:30:330,arc2{hh,1},'FaceColor',cl1,'EdgeColor',cl1)
+%     hold on
+%     bar(0:30:330,arc1{hh,1},'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor',cl2)
+%     ax = gca; ax.FontSize = 12; ax.YLim = [-0.8 0.8];
+%     xlabel('stimulation phase','FontSize',14)
+%     ylabel ('change tremor severity','FontSize',14)
+%     box('off')
+%     if hh==1
+%         title('posture')
+%     else
+%         title('spiral')
+%     end
+% end
 
-for hh=1:size(arc1,1)
-    subplot(1,size(arc1,1),hh)
+
+hh=2;
+
+f=figure()
     bar(0:30:330,arc2{hh,1},'FaceColor',cl1,'EdgeColor',cl1)
     hold on
     bar(0:30:330,arc1{hh,1},'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor',cl2)
-    ax = gca; ax.FontSize = 12; ax.YLim = [-0.8 0.8];
-    xlabel('stimulation phase','FontSize',14)
-    ylabel ('change tremor severity','FontSize',14)
-    box('off')
-    if hh==1
-        title('posture')
-    else
-        title('spiral')
-    end
-end
+yline(0,'LineWidth',1)
+ylim([-0.8 0.8])
+yticks([ -0.5:0.25:0.5])
+box('off')
+ylabel('Change in tremor severity')
+xlabel('Stimulation phase (degrees)')
+    
+f.Units = 'centimeters';
+f.OuterPosition= [10, 10, 10, 10];
+set(gca,'XTickLabelRotation',45)
+set(gca,'FontSize',12)
+set(f,'color','w');

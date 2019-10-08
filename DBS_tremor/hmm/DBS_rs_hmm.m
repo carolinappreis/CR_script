@@ -4,10 +4,11 @@ numb=1;
 DBS_Fpeak
 
 % clearvars -except data Fs segmentb segmente a b ns fs iii numb in2 time_n
-load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\start_end_RS.mat')
-% load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/start_end_RS.mat')
-%  load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'))
+% load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+% load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\start_end_RS.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/start_end_RS.mat')
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'))
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/pca_ma.mat')
 
 in2=1;
 
@@ -50,12 +51,43 @@ dc_t3=data2(7:9,:);
 % e=round((ending*Fs)./samplerateold,0);
 
 %just posture
+
 s=round((start1*Fs)./samplerateold,0);
 e=round((ending1*Fs)./samplerateold,0);
 
+
+% jj=3;%% axis
+% 
+% s=s(pca_idx{1,1}(:)==jj);
+
+    
 %just spiral
 % s=round((start2*Fs)./samplerateold,0);
 % e=round((ending2*Fs)./samplerateold,0);
+
+
+% t=5*Fs;
+% for th=jj
+%     RS_raw1=[];
+%     RS_t1=[];
+%     RS_e1=[];
+%     RS_dc1=[];
+%     for tr=1:length(s)
+%         RS_raw1=[RS_raw1 tremor3(th,s(tr)-Fs:(s(tr)+t-1))];
+%         RS_t1=[RS_t1 filt_t3(th,s(tr)-Fs:(s(tr)+t-1))];
+%         RS_e1=[RS_e1 env_t3(th,s(tr)-Fs:(s(tr)+t-1))];
+%         RS_dc1=[RS_dc1 dc_t3(th,s(tr)-Fs:(s(tr)+t-1))];
+%     end
+%     
+%     
+%     RS_r(1,:)=RS_raw1;
+%     RS_t(1,:)=RS_t1;
+%     RS_e(1,:)=RS_e1;
+%     RS_dc(1,:)=RS_dc1;
+%     
+% end
+
+
 
 t=5*Fs;
 for th=1:size(tremor3,1)
@@ -80,8 +112,8 @@ end
 
 t=t+Fs;
 
-cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA')
-% cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/');
+% cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA')
+cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/');
 
 clearvars -except RS_t RS_e RS_dc Fs t RS_raw
 save 'RS_hmm_posture.mat'

@@ -26,8 +26,8 @@ for numb=1;
     end
     
     
-         load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
-%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
+%          load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
+   load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
     
     in2=1; % analysing the "main tremor axis"
     
@@ -150,9 +150,9 @@ end
 NS=nostimout;
 idv_NS=nostim;
 clearvars  -except NS idv_NS
- cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
-save 'HFS_PS_result.mat'
+%  cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+save 'NS_PS_result.mat'
 
 
 % amp_e=NaN(length(segmentb),1);
