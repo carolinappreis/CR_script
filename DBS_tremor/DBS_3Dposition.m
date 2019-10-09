@@ -28,8 +28,8 @@ for numb=1;
     end
     
     
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
-%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),cond{cc,1}))
+    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),cond{cc,1}));
     
     in2=1; % analysing the "main tremor axis"
     
@@ -96,8 +96,8 @@ for numb=1;
     % plot(timeor(1,si),C(1,si),'r.');
     % plot(timeor(1,ei),C(1,ei),'ko');
     
-    f=5;
-    epoch=segmentb(f):segmente(f);
+%     f=5;
+%     epoch=segmentb(f):segmente(f);
 %     
 %     subplot(3,1,1)
 %     plot(timeor(1,epoch), filt_x(1,epoch));
@@ -114,7 +114,7 @@ for numb=1;
 %     subplot(3,1,3)
 %     plot(filt_y(1,epoch), filt_z(1,epoch));
 %     
-%     plot3(timeor(1,:),filt_x(1,:), filt_z(1,:));
+    plot3(timeor(1,:),filt_x(1,:), filt_z(1,:));
 %     hold on
 %     plot3(timeor(1,segmentb),filt_x(1,segmentb), filt_y(1,segmentb),'rd');
 
@@ -123,11 +123,14 @@ for numb=1;
 %     
     figure()
     for f=1:6
+            subplot(6,1,f)
+
     epoch=segmentb(f):segmente(f);
     plot3(filt_x(1,epoch),filt_y(1,epoch), filt_z(1,epoch),'color',rand(1,3));
     hold on
     n(f,:)=segmente(f)-segmentb(f);
     end
+    
     xlabel('x axis')
     ylabel('y axis')
     zlabel('z axis')
