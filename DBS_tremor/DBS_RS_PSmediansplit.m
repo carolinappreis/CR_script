@@ -7,8 +7,8 @@ iii=[1];
 for numb=1;
     %     :length(iii);
     clearvars -except iii numb ttall ampall ph_stim LS tt1
-%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-   load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
+     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+%    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
 
 
     in2=3; % analysing the "main tremor axis"
@@ -354,19 +354,19 @@ end
 %
 
 %%________________________________________________________________________
-clear all
-close all
+% clear all
+% close all
 % cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
 % cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
 % 
 % load('arc_mediansplit.mat')
 
- load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','grey')
-% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','grey');
+%  load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','grey')
+ load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','grey');
 
 cl1=blushred;
-cl1=aegean;
-cl2=[0.7 0.7 0.7];
+% cl1=aegean;
+ cl2=[0.7 0.7 0.7];
 
 
 % 
@@ -387,12 +387,12 @@ cl2=[0.7 0.7 0.7];
 % end
 
 
-hh=2;
+hh=1;
 
 f=figure()
-    bar(0:30:330,arc2{hh,1},'FaceColor',cl1,'EdgeColor',cl1)
+    bar(0:30:330,arc2{hh,1},'LineWidth',2,'FaceColor',cl1,'EdgeColor',cl1)
     hold on
-    bar(0:30:330,arc1{hh,1},'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor',cl2)
+    bar(0:30:330,arc1{hh,1},'LineWidth',2,'FaceColor','none','EdgeColor',cl2)
 yline(0,'LineWidth',1)
 ylim([-0.8 0.8])
 yticks([ -0.5:0.25:0.5])

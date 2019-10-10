@@ -5,7 +5,8 @@ iii=[1];
 numb=1;
 DBS_Fpeak
 
-load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/01_NS_PS.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/01_NS_PS.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\01_NS_PS.mat')
 
 in2=1;
 
@@ -43,7 +44,8 @@ filt_t3=data2(1:3,:);
 env_t3=data2(4:6,:);
 dc_t3=data2(7:9,:);
 
-load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone','blushred','ocean','cream','banana');
+% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone','blushred','ocean','cream','banana');
+load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone','blushred','ocean','cream','banana');
 
 
 data1=filt_t3(1,:);
@@ -54,7 +56,7 @@ T=length(data1);
 options=struct();
 options.initrep=3;
 options.K=3;
-options.useParallel=0;
+options.useParallel=1;
 options.Fs=Fs;
 options.embeddedlags=0;
 options.covtype = 'diag';

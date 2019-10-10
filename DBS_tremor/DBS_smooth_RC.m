@@ -1,40 +1,40 @@
-% % %%% Create smooth data and save
-% %
-% % % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%---------------AMP
-% % %%% loading all ARC axis
-clear all
-% load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_amp_ARC')
-% load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\am_ax')
-% load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\s_arc')
-% load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\t_arc')
-
-load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_amp_ARC')
-load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/am_ax')
-load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/s_arc')
-load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/t_arc')
-
-for pp=1:2
-    
-SO=repmat(ttall{pp,1},1,3);
-S1=repmat(squeeze(am_ax(pp,:,:))',1,3);
-S2=repmat(squeeze(s_arc(pp,:,:))',1,3);
-S3=repmat(squeeze(t_arc(pp,:,:))',1,3);
-
-    for ii=1:size(SO,1)
-        for i=size(ttall{1,1},2)+1:size(ttall{1,1},2)*2
-            smo_s(pp,ii,i-12)=sum(SO(ii,(i-1:i+1)))./length(SO(ii,(i-1:i+1)));
-            smo_s1(pp,ii,i-12)=sum(S1(ii,(i-1:i+1)))./length(S1(ii,(i-1:i+1)));
-            smo_s2(pp,ii,i-12)=sum(S2(ii,(i-1:i+1)))./length(S2(ii,(i-1:i+1)));
-            smo_s3(pp,ii,i-12)= sum(S3(ii,(i-1:i+1)))./length(S3(ii,(i-1:i+1)));
-        end
-    end
-end
-
-clearvars -except smo_s smo_s1 smo_s2 smo_s3
- cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
-% cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-
-save('smooth_arc3.mat')
+% % % %%% Create smooth data and save
+% % %
+% % % % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%---------------AMP
+% % % %%% loading all ARC axis
+% clear all
+% % load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_amp_ARC')
+% % load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\am_ax')
+% % load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\s_arc')
+% % load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\t_arc')
+% 
+% load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_amp_ARC')
+% load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/am_ax')
+% load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/s_arc')
+% load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/t_arc')
+% 
+% for pp=1:2
+%     
+% SO=repmat(ttall{pp,1},1,3);
+% S1=repmat(squeeze(am_ax(pp,:,:))',1,3);
+% S2=repmat(squeeze(s_arc(pp,:,:))',1,3);
+% S3=repmat(squeeze(t_arc(pp,:,:))',1,3);
+% 
+%     for ii=1:size(SO,1)
+%         for i=size(ttall{1,1},2)+1:size(ttall{1,1},2)*2
+%             smo_s(pp,ii,i-12)=sum(SO(ii,(i-1:i+1)))./length(SO(ii,(i-1:i+1)));
+%             smo_s1(pp,ii,i-12)=sum(S1(ii,(i-1:i+1)))./length(S1(ii,(i-1:i+1)));
+%             smo_s2(pp,ii,i-12)=sum(S2(ii,(i-1:i+1)))./length(S2(ii,(i-1:i+1)));
+%             smo_s3(pp,ii,i-12)= sum(S3(ii,(i-1:i+1)))./length(S3(ii,(i-1:i+1)));
+%         end
+%     end
+% end
+% 
+% clearvars -except smo_s smo_s1 smo_s2 smo_s3
+%  cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+% % cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+% 
+% save('smooth_arc3.mat')
 % %
 % % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%---------------FREQ
 % %
@@ -83,18 +83,18 @@ close all
 metric=0;
 
 if metric==0;
-        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/am_ax')
-        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_amp_ARC','LS','tt1','ttall')        
-        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/NS_PS_result','idv_NS')
-        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/smooth_arc3')
-        load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
-%     %
+%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/am_ax')
+%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_amp_ARC','LS','tt1','ttall')        
+%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/NS_PS_result','idv_NS')
+%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/smooth_arc3')
+%         load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
+    %
     
-%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\am_ax')
-%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\NS_PS_result','idv_NS')
-%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_amp_ARC','LS','tt1','ttall')
-%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\smooth_arc3')
-%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\am_ax')
+    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\NS_PS_result','idv_NS')
+    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_amp_ARC','LS','tt1','ttall')
+    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\smooth_arc3')
+    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
     
     
     S=ttall;
@@ -102,17 +102,17 @@ if metric==0;
     cl1=squash;
     
 else
-        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/fm_ax')
-        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_freq_FRC','LS','tt1','ttall')
-        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/fNS_PS_result','fidv_NS')
-        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/smooth_frc3')
-        load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
+%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/fm_ax')
+%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_freq_FRC','LS','tt1','ttall')
+%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/fNS_PS_result','fidv_NS')
+%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/smooth_frc3')
+%         load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
 
-%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\fm_ax')
-%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_freq_FRC','LS','tt1','ttall')
-%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\fNS_PS_result','fidv_NS')
-%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\smooth_frc3')
-%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
+    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\fm_ax')
+    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_freq_FRC','LS','tt1','ttall')
+    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\fNS_PS_result','fidv_NS')
+    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\smooth_frc3')
+    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
 
 
     S=ttall;
