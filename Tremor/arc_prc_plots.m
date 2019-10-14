@@ -2,57 +2,61 @@
 clear all
 close all
 
-metric=1;
+metric=0;
 
 if metric==0;
-    % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_arc3')
-    % load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/am_ax')
+        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_ARC','LS')
+        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_NS','no_s')
+        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_arc3')
+    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+      S=am_ax;
     
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\am_ax')
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_NS','no_s')
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC','LS')
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\smooth_arc3')
-    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-    S=am_ax;
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\am_ax')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_NS','no_s')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC','LS')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\smooth_arc3')
+%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+%     S=am_ax;
     
     cl=blushred;
     cl1=squash;
     
 else
-    %     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/fm_ax')
-    %     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_FRC','LS')
-    %     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_NS','no_s')
-    %     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_frc3')
-    %     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
-    %
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\fm_ax')
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC','LS')
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_NS','no_s')
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\smooth_frc3')
-    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
+        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/fm_ax')
+        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_FRC','LS')
+        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_NS','no_s')
+        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_frc3')
+        load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
+    
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\fm_ax')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC','LS')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_NS','no_s')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\smooth_frc3')
+%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
     S=fm_ax;
     
     cl=aegean;
     cl1=stone;
 end
 
-for i=1:size(smo_s,1)
+ for i=1:size(smo_s,1)
     f1=figure(1)
     subplot(1,size(smo_s,1),i)
     bar(smo_s(i,:),'LineWidth',0.5,'FaceColor',cl,'EdgeColor',cl)
     hold on
-    bar(smo_s1(i,:),'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor','k')
+%     bar(smo_s1(i,:),'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor','k')
     yline(0,'LineWidth',1)
     box('off')
 
     f2=figure(2)
     subplot(1,size(smo_s,1),i)
-    bar(smo_s(i,:),'FaceColor',cl,'EdgeColor',cl)
-    hold on
-    plot(smo_s2(i,:),'LineWidth',1,'Color','k')
-    plot(smo_s3(i,:),'LineWidth',1,'Color','k')
-    yline(0,'LineWidth',1)
-    box('off')
+        bar(smo_s(i,:),'FaceColor',cl,'EdgeColor',cl)
+        hold on
+        plot(smo_s2(i,:),'LineWidth',1,'Color','k')
+        plot(smo_s3(i,:),'LineWidth',1,'Color','k')
+        yline(0,'LineWidth',1)
+        box('off')
 
     f3=figure(3)
     subplot(1,size(S,1),i)
@@ -66,7 +70,7 @@ for i=1:size(smo_s,1)
     
     box('off')
     
-end
+ end
 
 
 f1.Units = 'centimeters';

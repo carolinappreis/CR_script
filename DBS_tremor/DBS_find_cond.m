@@ -154,13 +154,13 @@
             
         end
     end
-    %
-    %     figure()
-    %     plot(time,data(4,:))
-    %     hold on
-    %     plot(time(index),data(4,index),'r.')
-    %     plot(time(start1),data(4,start1),'ko')
-    %     plot(time(ending1),data(4,ending1),'bo')
+    
+%     figure()
+%     plot(time,data(4,:))
+%     hold on
+%     plot(time(index),data(4,index),'r.')
+%     plot(time(start1),data(4,start1),'ko')
+%     plot(time(ending1),data(4,ending1),'bo')
     
     
     clear start ending

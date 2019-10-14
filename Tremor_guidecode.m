@@ -1,5 +1,4 @@
-
-% cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
+ cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
 cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 

@@ -1,10 +1,10 @@
 clear all
 close all
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 load('smooth_arc3.mat')
-% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 cl=blushred;
 
 % for i=1:size(smo_s,1);

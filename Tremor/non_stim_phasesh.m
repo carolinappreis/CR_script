@@ -1,17 +1,15 @@
 clear all
-iii=[1 2 3 4 5 8 10 11 12 13];
-PC=[70 66 47 47 47 50 50 50 50 55];
-A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];([1:9 15]);([2 4 7:10 13:15 22 25]);[1 4 7 12 25 31 45 47];[]};
-B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25]);[2 5 10 14 26 37 46 50];[]};
-
-for numb=1:length(iii);
-    clearvars -except iii PC A1 B1 numb NS no_s
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
-  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-%         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
-%         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+iii=[1 2 3 4 5 8 10 11 12 13 16];
+in2=1;
+for numb=11
+    %     1:length(iii);
+    Fpeak_tremor
+    clearvars -except iii PC A1 B1 numb NS NS_i Fpeak samplerate in2
+    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
+    PC=[70 66 47 47 47 50 50 50 50 55 45];
+    A1={([1 3 6 8 12 18 23 27 30 32]);[];[];([2 3 5 6 7]);([1 2 4 6 8 9 10 11]);[];([1:9 15]);([2 4 7:10 13:15 22 25]);[1 4 7 12 25 31 45 47];[];[1 3 4 7 8]};
+    B1={([2 5 7 11 17 22 26 29 31 34]);[];[];([2 3 5 6 7]);([1 2 4 6 7 9 10 11 12]);[];([1:9 15]);([2 5 7 8 9 12 13 14 19 22 25]);[2 5 10 14 26 37 46 50];[];[1 3 4 7 10]};
     
-    in2=1; % analysing the "main tremor axis"
     if in2==1
         in=3;
     elseif in2==2 % other axis 1
@@ -24,23 +22,11 @@ for numb=1:length(iii);
     tremor=(data(in,:));
     addon=92; addon_end=35;
     
-    start_cleaner;
     
-    %%% re - estimate tremor characteristics
-    clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency
-    
-    handup=[];
-    for i=1:length(start)
-        handup=[handup start(i):ending(i)]; %#ok<*AGROW>
-    end
-    handup=sort(handup,'ascend');
-    
-    [Pxx,F]=pwelch(tremor2(handup),samplerate,[],samplerate,samplerate);
-    
-    frange=F(3:10);
-    Pxxrange=Pxx(3:10);
-    
-    Fpeak=frange(find(Pxxrange==max(Pxxrange)));
+    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+    tremor2(1:size(ts1.data,3))=ts1.data;
+    samplerate=1000;
     
     if (Fpeak-2)>=1
         [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
@@ -83,11 +69,11 @@ for numb=1:length(iii);
         end
     end
     ind_e2=ind_e(~isnan(ind_e));
-    %
-    % plot(C)
-    % hold on
-    % plot(ind_s2,C(ind_s2),'r.')
-    % plot(ind_e2,C(ind_e2),'b.')
+%     
+%     plot(C)
+%     hold on
+%     plot(ind_s2,C(ind_s2),'r.')
+%     plot(ind_e2,C(ind_e2),'b.')
     
     if isempty (A1{numb,1})
         AA=ind_s2;
@@ -106,11 +92,6 @@ for numb=1:length(iii);
     segmentb=AA;
     segmente=BB;
     unstable3=[];
-    %% analysis
-        plot(C)
-    hold on
-    plot(AA,C(AA),'r.')
-    plot(BB,C(BB),'b.')
     
     for i=1:5e4
         ix=randi(length(segmentb),1);
@@ -149,13 +130,13 @@ for numb=1:length(iii);
     
     rep=10;
     
-    for rr=1:1e6
-        dum=tremor_k(randi(25e3,1,rep));
-        dum2=dum;
-        NS_i1(rr)=nanmedian(dum2);
-    end
-    no_s(numb,:)=NS_i1;
-    
+%     for rr=1:1e6
+%         dum=tremor_k(randi(25e3,1,rep));
+%         dum2=dum;
+%         NS_i1(rr)=nanmedian(dum2);
+%     end
+%     no_s(numb,:)=NS_i1;
+%     
     for i=1:12
         dum=tremor_k(randi(5e4,1,rep));
         dum2=dum;

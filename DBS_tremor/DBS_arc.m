@@ -10,7 +10,7 @@ for numb=1;
 %            load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
 load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
 
-    in2=1; % analysing the "main tremor axis"
+    in2=3; % analysing the "main tremor axis"
     
     DBS_find_cond;
     clear handup Pxx F frange Pxxrange Fpeak tremor_or dummy envelope phase frequency
@@ -43,35 +43,35 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DAT
         phase=angle(dummy);
         frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
         
-        tremor=(data(3,:));% %score(:,1)';%
-        ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-        ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+% %         tremor=(data(3,:));% %score(:,1)';%
+%         ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+%         ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
         
-        
-        [b,a]=butter(2,[0.8/(0.5*samplerate) ],'low'); %15
-        % tremor_or=zscore(tremor_or);
-        dummy=hilbert(tremor_or);
-        envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
-        phase=angle(dummy);
-        frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
-        tremor=(data(3,:));% %score(:,1)';%
-        
-        ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-        ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-        tremorx(1:size(ts1.data,3))=ts1.data;
-        
-        filt_x=filtfilt(b,a,tremorx);
-        tremor=(data(6,:));% %score(:,1)';%
-        ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-        ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-        tremory(1:size(ts1.data,3))=ts1.data;
-        filt_y=filtfilt(b,a,tremory);
-        tremor=(data(7,:));% %score(:,1)';%
-        ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
-        ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-        tremorz(1:size(ts1.data,3))=ts1.data;
-        filt_z=filtfilt(b,a,tremorz);
-        timeor=0:1/samplerate:(size(tremorx,2)-1)/samplerate;
+%         
+%         [b,a]=butter(2,[0.8/(0.5*samplerate) ],'low'); %15
+%         % tremor_or=zscore(tremor_or);
+%         dummy=hilbert(tremor_or);
+%         envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
+%         phase=angle(dummy);
+%         frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
+%         
+%         tremor=(data(3,:));% %score(:,1)';%
+%         ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+%         ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+%         tremorx(1:size(ts1.data,3))=ts1.data;
+%         filt_x=filtfilt(b,a,tremorx);
+%         
+%         tremor=(data(6,:));% %score(:,1)';%
+%         ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+%         ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+%         tremory(1:size(ts1.data,3))=ts1.data;
+%         filt_y=filtfilt(b,a,tremory);
+%         tremor=(data(7,:));% %score(:,1)';%
+%         ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+%         ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+%         tremorz(1:size(ts1.data,3))=ts1.data;
+%         filt_z=filtfilt(b,a,tremorz);
+        timeor=0:1/samplerate:(size(envelope,2)-1)/samplerate;
         
         %         subplot(3,1,1)
         %         plot(timeor(1,:), filt_x(1,:));
@@ -108,10 +108,12 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DAT
         tremor_or2=NaN(length(start{hh,1}),1);
         tremor_or3=NaN(length(start{hh,1}),1);
         
+        
         for i=1:length(start{hh,1})
             if (~isnan(start{hh,1}(i)))
                 tremor_or3(i,1)=mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
                 tremor_or2(i,1)=(mean(envelope(ending{hh,1}(i)-1000:ending{hh,1}(i)))-mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i))))/mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
+                plot(envelope(start{hh,1}(i)-1000:ending{hh,1}(i)));
                 xx{hh,1}(i)= xx{hh,1}(i);
             else
                 tremor_or2(i,1)=NaN;
@@ -176,15 +178,15 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DAT
     
 end
 clearvars -except ttall ampall ph_stim LS tt1
-cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+% cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
 % cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
 % save('DBS_amp_ARC.mat')
 
 %  cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
-load('DBS_amp_ARC.mat')
+% load('DBS_amp_ARC.mat')
 
- load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean');
-% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean')
+%  load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean');
+ load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean')
 cl=aegean;
 cl1=blushred;
 

@@ -1,10 +1,10 @@
 clear all
-iii=[1 2 3 4 5 8 10 11 12 13];
+iii=[1 2 3 4 5 8 10 11 12 13 16];
 for in2=1:3;
     for numb=1:length(iii);
         clearvars -except iii numb frc in2
-        %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
-        load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+             load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+%         load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
         
         % analysing the "main tremor axis"
         start_cleaner;
@@ -110,7 +110,9 @@ for in2=1:3;
         end
         frc(numb,:)=nanmedian(tt);
         
-        cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+%         cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+        cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+
         if in2==1
             fm_ax=frc;
             save('fm_ax.mat','fm_ax')

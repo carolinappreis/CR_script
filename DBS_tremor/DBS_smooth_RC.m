@@ -83,18 +83,18 @@ close all
 metric=0;
 
 if metric==0;
-%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/am_ax')
-%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_amp_ARC','LS','tt1','ttall')        
-%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/NS_PS_result','idv_NS')
-%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/smooth_arc3')
-%         load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
+        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/am_ax')
+        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_amp_ARC','LS','tt1','ttall')        
+        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/NS_PS_result','idv_NS')
+        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/smooth_arc3')
+        load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
     %
     
-    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\am_ax')
-    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\NS_PS_result','idv_NS')
-    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_amp_ARC','LS','tt1','ttall')
-    load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\smooth_arc3')
-    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\am_ax')
+%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\NS_PS_result','idv_NS')
+%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_amp_ARC','LS','tt1','ttall')
+%     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\smooth_arc3')
+%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
     
     
     S=ttall;
@@ -168,15 +168,25 @@ end
 % set(gca,'FontSize',8)
 % set(f3,'color','w');
 
-i=2;
-fig=[smo_s(i,1,:);smo_s2(i,1,:);smo_s3(i,1,:)];
 
 %%------- POSTER IMAGES
 
 
-for i=1:size(fig,1)
+
+    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone','blushred');
+
+
+i=2;
+fig=[smo_s(i,1,:);smo_s2(i,1,:);smo_s3(i,1,:)];
+S=ttall;
+cl(2,:)=aegean;
+cl(1,:)=blushred;
+cl1=stone;
+
+
+for ii=1:size(fig,1)
 f=figure()
-bar(0:30:330,fig(i,:),'LineWidth',0.5,'FaceColor',cl,'EdgeColor',cl)
+bar(0:30:330,fig(ii,:),'LineWidth',0.5,'FaceColor',cl(i,:),'EdgeColor',cl(i,:))
 hold on
 yline(0,'LineWidth',1)
 ylim([-0.5 0.5])
@@ -186,8 +196,8 @@ ylabel('Change in tremor severity')
 xlabel('Stimulation phase (degrees)')
     
 f.Units = 'centimeters';
-f.OuterPosition= [10, 10, 10, 10];
+f.OuterPosition= [10, 10, 12, 12];
 set(gca,'XTickLabelRotation',45)
-set(gca,'FontSize',12)
+set(gca,'FontSize',14)
 set(f,'color','w');
 end

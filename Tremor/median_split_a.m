@@ -1,11 +1,11 @@
 clear all
 close all
-iii=[1 2 3 4 5 8 10 11 12 13];
+iii=[1 2 3 4 5 8 10 11 12 13 16];
 
 for numb=1:length(iii);
     clearvars -except iii numb arc1 arc2
-load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+% load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
 in2=1;
 start_cleaner;
@@ -105,11 +105,13 @@ frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     end
 end
 
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-clearvars -except arc1 arc2
-save('arc_mediansplit.mat')
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% clearvars -except arc1 arc2
+% save('arc_mediansplit.mat')
 
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+
 cl=blushred;
 cl1=squash;
 

@@ -3,22 +3,30 @@ clear all
 dist=1;%%%% all data; median split data A<median ; median split data A>median
 ref1=1;%%%% amp(=0) vs. frequency
 iii=1; %%%%% amp (=0) vs. supressive effect
-metric=0; %%%%%plotting 0 amp; ~=0 freq
+metric=1; %%%%%plotting 0 amp; ~=0 freq
 
 
 if dist==1
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC.mat','ttall')
+% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC.mat','ttall')
+load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_ARC.mat','ttall')
+
 Sa=ttall; clear ttall
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC.mat','ttall')
+% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC.mat','ttall')
+load ('Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_FRC.mat','ttall')
+
 Sf=ttall;
 elseif dist==2 %% arc for a<median
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit.mat','arc1')
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\frc_mediansplit.mat','frc1')
+% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit.mat','arc1')
+% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\frc_mediansplit.mat','frc1')
+load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit.mat','arc1')
+load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/frc_mediansplit.mat','frc1')
 Sa=arc1; 
 Sf=frc1;
 elseif dist==3 %% arc for a>median
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit.mat','arc2')
-load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\frc_mediansplit.mat','frc2')
+% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit.mat','arc2')
+% load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\frc_mediansplit.mat','frc2')
+load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit.mat','arc2')
+load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/frc_mediansplit.mat','frc2')
 Sa=arc2; 
 Sf=frc2;
 end
@@ -90,15 +98,15 @@ close all
 
 if metric==0;
     metric1=[a_s_al(:,8:12) a_s_al(:,1:7)];
-%     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+   load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
     cl=blushred;
     cl1=squash;
     
 else
     metric1=[f_s_al(:,8:12) f_s_al(:,1:7)];
-%     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
-     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
+    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
+%      load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
     cl=aegean;
     cl1=stone;
 end

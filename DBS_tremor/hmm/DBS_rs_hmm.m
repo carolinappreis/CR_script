@@ -8,17 +8,6 @@ DBS_Fpeak
 % load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\start_end_RS.mat')
 load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/start_end_RS.mat')
 load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'))
-load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/pca_ma.mat')
-
-in2=1;
-
-if in2==1
-    in=3;
-elseif in2==2 % other axis 1
-    in=6;
-elseif in2==3 % other axis 2
-    in=7;
-end
 data=SmrData.WvData;
 samplerateold=SmrData.SR;
 %%------------------------
@@ -40,6 +29,8 @@ time=0:1/samplerateold:(size(data1,2)-1)/samplerateold;
 ts=timeseries(data1,0:(1/samplerateold):((size(data1,2)-1)/samplerateold));
 ts1=resample(ts,0:1/Fs:((size(data1,2)-1)/samplerateold),'linear');
 data2(1:size(ts1.data,1),1:size(ts1.data,3))=ts1.data;
+time2=0:1/Fs:(size(data2,2)-1)/Fs;
+
 
 
 filt_t3=data2(1:3,:);
@@ -61,7 +52,7 @@ e=round((ending1*Fs)./samplerateold,0);
 % s=s(pca_idx{1,1}(:)==jj);
 
     
-%just spiral
+% % just spiral
 % s=round((start2*Fs)./samplerateold,0);
 % e=round((ending2*Fs)./samplerateold,0);
 
@@ -95,11 +86,13 @@ for th=1:size(tremor3,1)
     RS_t1=[];
     RS_e1=[];
     RS_dc1=[];
+    seg=[];
     for tr=1:length(s)
         RS_raw1=[RS_raw1 tremor3(th,s(tr)-Fs:(s(tr)+t-1))];
         RS_t1=[RS_t1 filt_t3(th,s(tr)-Fs:(s(tr)+t-1))];
         RS_e1=[RS_e1 env_t3(th,s(tr)-Fs:(s(tr)+t-1))];
         RS_dc1=[RS_dc1 dc_t3(th,s(tr)-Fs:(s(tr)+t-1))];
+        seg=[seg s(tr)-Fs:(s(tr)+t-1)];
     end
     
     

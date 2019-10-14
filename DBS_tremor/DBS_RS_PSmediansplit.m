@@ -1,17 +1,17 @@
 %%% check start and end points and cf. with notes.
 
 clear all
-close all
+% close all
 iii=[1];
 
 for numb=1;
     %     :length(iii);
     clearvars -except iii numb ttall ampall ph_stim LS tt1
-     load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-%    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
+%      load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
 
 
-    in2=3; % analysing the "main tremor axis"
+    in2=1; % analysing the "main tremor axis"
 
     if in2==1
         in=3;
@@ -336,21 +336,23 @@ for numb=1;
             arc2{hh,1}(numb,i-12)=nansum(ef_2(1,(i-1:i+1)))./length(ef_2(1,(i-1:i+1)));
         end
         %
-        figure(hh+2)
-        for f=1:6
-            epoch=start{hh,1}(f):ending{hh,1}(f);
-            plot3(filt_x(1,epoch),filt_y(1,epoch), filt_z(1,epoch),'color',rand(1,3));
-            hold on
-        end
-        xlabel('x axis')
-        ylabel('y axis')
-        zlabel('z axis')
-    end
+%         figure(hh+2)
+%         for f=1:6
+%             epoch=start{hh,1}(f):ending{hh,1}(f);
+%             plot3(filt_x(1,epoch),filt_y(1,epoch), filt_z(1,epoch),'color',rand(1,3));
+%             hold on
+%         end
+%         xlabel('x axis')
+%         ylabel('y axis')
+%         zlabel('z axis')
+     end
 
 end
-% clearvars -except arc1 arc2
-% cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
-% save('arc_mediansplit.mat')
+ clearvars -except arc1 arc2
+% % cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data')
+%  cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA')
+% 
+%  save('arc_mediansplit.mat')
 %
 
 %%________________________________________________________________________
@@ -361,11 +363,10 @@ end
 % 
 % load('arc_mediansplit.mat')
 
-%  load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','grey')
- load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','grey');
+ load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','grey')
+%  load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','grey');
 
-cl1=blushred;
-% cl1=aegean;
+
  cl2=[0.7 0.7 0.7];
 
 
@@ -387,21 +388,42 @@ cl1=blushred;
 % end
 
 
-hh=1;
+hh=2;
+%  cl1=blushred;
+%   cl1=aegean;
+
+% f=figure()
+% bar(0:30:330,arc2{hh,1},'LineWidth',2,'FaceColor',cl1,'EdgeColor',cl1)
+% hold on
+% bar(0:30:330,arc1{hh,1},'LineWidth',2,'FaceColor','none','EdgeColor',cl2)
+% yline(0,'LineWidth',1)
+% ylim([-0.75 0.75])
+% yticks([ -1:0.25:1])
+% box('off')
+% ylabel('Change in tremor severity')
+% xlabel('Stimulation phase (degrees)')
+%     
+% f.Units = 'centimeters';
+% f.OuterPosition= [10, 10, 12, 12];
+% set(gca,'XTickLabelRotation',45)
+% set(gca,'FontSize',14)
+% set(f,'color','w');
 
 f=figure()
-    bar(0:30:330,arc2{hh,1},'LineWidth',2,'FaceColor',cl1,'EdgeColor',cl1)
-    hold on
-    bar(0:30:330,arc1{hh,1},'LineWidth',2,'FaceColor','none','EdgeColor',cl2)
+y=[arc1{hh,1};arc2{hh,1}]';
+b = bar(0:30:330,y);
 yline(0,'LineWidth',1)
-ylim([-0.8 0.8])
-yticks([ -0.5:0.25:0.5])
+ylim([-0.75 0.75])
+yticks([ -1:0.25:1])
 box('off')
 ylabel('Change in tremor severity')
 xlabel('Stimulation phase (degrees)')
     
 f.Units = 'centimeters';
-f.OuterPosition= [10, 10, 10, 10];
+f.OuterPosition= [10, 10, 12, 12];
 set(gca,'XTickLabelRotation',45)
-set(gca,'FontSize',12)
+set(gca,'FontSize',14)
 set(f,'color','w');
+
+
+
