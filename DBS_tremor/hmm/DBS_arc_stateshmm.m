@@ -3,7 +3,7 @@
 clear all
 close all
 iii=[1];
-cc=2
+cc=1
 numb=1;
 %     :length(iii);
 clearvars -except iii numb ttall ampall ph_stim LS tt1 cc
@@ -12,7 +12,7 @@ clearvars -except iii numb ttall ampall ph_stim LS tt1 cc
 load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
 
 
-in2=1; % analysing the "main tremor axis"
+in2=3; % analysing the "main tremor axis"
 
 if in2==1
     in=3;
@@ -63,7 +63,7 @@ end
 
 
 %     load('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\states_spiral_3ch.mat')
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/Tall_states2_motor',num2str(cc),'_3ch.mat'),'states')
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/Tnew_states2_motor',num2str(cc),'_3ch.mat'),'states')
 
 
 for cr=1:3
@@ -202,3 +202,21 @@ for i=1:3
 end
 f.Units = 'centimeters';
 f.OuterPosition= [10, 10, 30, 10];
+
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','m1_1','m1_2','m2_1','m2_2','blushred','stone','aegean');
+col(1,:)=blushred;
+col(2,:)=aegean;
+f=figure()
+for i=2
+        bar(0:30:330,smooth_r{i,1},'LineWidth',0.5,'FaceColor',col(cc,:),'EdgeColor',col(cc,:))
+        yline(0,'LineWidth',1)
+        % yticks([ -0.5:0.25:0.5])
+        box('off')
+        ylabel('Change in tremor severity')
+        xlabel('Stimulation phase (degrees)')
+        set(gca,'XTickLabelRotation',45)
+        set(gca,'FontSize',14)
+        set(f,'color','w');
+end
+f.Units = 'centimeters';
+f.OuterPosition= [10, 10, 12, 12];

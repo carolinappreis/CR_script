@@ -103,6 +103,30 @@ for th=1:size(tremor3,1)
     
 end
 
+
+
+% t=5*Fs;
+% for th=1:size(tremor3,1)
+%     RS_raw1=[];
+%     RS_t1=[];
+%     RS_e1=[];
+%     RS_dc1=[];
+%     seg=[];
+%     for tr=1:length(s)
+%         RS_raw1=[RS_raw1 tremor3(th,s(tr)-Fs:s(tr))];
+%         RS_t1=[RS_t1 filt_t3(th,s(tr)-Fs:s(tr))];
+%         RS_e1=[RS_e1 env_t3(th,s(tr)-Fs:s(tr))];
+%         RS_dc1=[RS_dc1 dc_t3(th,s(tr)-Fs:s(tr))];
+%         seg=[seg s(tr)-Fs:s(tr)];
+%     end
+%     
+%     
+%     RS_r(th,:)=RS_raw1;
+%     RS_t(th,:)=RS_t1;
+%     RS_e(th,:)=RS_e1;
+%     RS_dc(th,:)=RS_dc1;
+%     
+% end
 t=t+Fs;
 
 % cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA')

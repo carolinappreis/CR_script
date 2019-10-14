@@ -14,7 +14,7 @@ a.ns=NS(off,:); a.s=ttall(off,:); clearvars -except a off
 % f.ns=NS(off,:); f.s=ttall(off,:); clearvars -except a f
 
 ref=a.s; %%% max amplitude change vs. max frequecy change
-iii=1; %%%%% amp (=0) vs. supressive effect
+iii=0; %%%%% amp (=0) vs. supressive effect
 
 idmi=[];
 idma=[];
@@ -29,16 +29,20 @@ end
 
 if iii==0;
     sub=ref(idma,:);  % iii=0 amplifying effect;
+    sub1=a.ns(idma,:);  % iii=0 amplifying effect;
 else
     sub=ref(idmi,:);  % iii~=0 supressive effect;
+    sub1=a.ns(idmi,:);  % iii=0 amplifying effect;
 end
 
 for i=1:size(sub,1);
     
     if iii==0
         phase_peak(1,i)=find(sub(i,:)==max(sub(i,:)));
+        p_p_s(1,i)=find(sub1(i,:)==max(sub1(i,:)));
     else
         phase_peak(1,i)=find(sub(i,:)==min(sub(i,:)));
+        p_p_s(1,i)=find(sub1(i,:)==min(sub1(i,:)));
     end
     
     if phase_peak(i)==1;
@@ -50,7 +54,7 @@ for i=1:size(sub,1);
         
     else
         a_s_al(i,:)=[a.s(i,phase_peak(i):end) a.s(i,1:phase_peak(i)-1)];
-        a_ns_al(i,:)=[a.ns(i,phase_peak(i):end) a.ns(i,1:phase_peak(i)-1)];
+        a_ns_al(i,:)=[a.ns(i,p_p_s(i):end) a.ns(i,1:p_p_s(i)-1)];
         
         %f_s_al(i,:)=[f.s(i,phase_peak(i):end) f.s(i,1:phase_peak(i)-1)];
         %f_ns_al(i,:)=[f.ns(i,phase_peak(i):end) f.ns(i,1:phase_peak(i)-1)];
