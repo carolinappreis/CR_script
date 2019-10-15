@@ -1,8 +1,8 @@
 % 
-    clearvars -except iii numb ttall ampall ph_stim LS tt1
-           load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-%              load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
-    in2=1; % analysing the "main tremor axis"
+    clearvars -except iii numb ttall ampall ph_stim LS tt1 in2 hfs hfs_tt
+%            load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+             load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
+%     in2=1; % analysing the "main tremor axis"
     
     if in2==1
         in=3;
@@ -63,4 +63,4 @@
     
     Fpeak=frange(find(Pxxrange==max(Pxxrange)));
 
-clearvars -except iii numb  Fpeak samplerate
+clearvars -except iii numb  Fpeak samplerate in2 hfs hfs_tt
