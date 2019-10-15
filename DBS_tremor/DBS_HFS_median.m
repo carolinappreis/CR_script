@@ -100,17 +100,17 @@
 % % clearvars -except hfs hfs_tt
 % % cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
 % % save ('HFS_median')
-% % 
+
 
 
 clear all
-% CD ('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data');
-cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+ cd ('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data');
+% cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
 load('3ax_all.mat')
 load('HFS_median.mat')
 
 
-for aa=1:3
+for aa=1
     for m=1:2
         if (numel(find(ttall(aa,m,:)<0)))~=0 % all -except all amplifying subjects
             

@@ -7,8 +7,8 @@ iii=[1];
 for numb=1;
     %     :length(iii);
     clearvars -except iii numb ttall ampall ph_stim LS tt1
-%            load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
+           load(strcat('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA\0',num2str(iii(numb)),'_RS_PS.mat'))
+%  load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/0',num2str(iii(numb)),'_RS_PS.mat'));
 
     in2=3; % analysing the "main tremor axis"
     
@@ -113,7 +113,6 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DAT
             if (~isnan(start{hh,1}(i)))
                 tremor_or3(i,1)=mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
                 tremor_or2(i,1)=(mean(envelope(ending{hh,1}(i)-1000:ending{hh,1}(i)))-mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i))))/mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
-                plot(envelope(start{hh,1}(i)-1000:ending{hh,1}(i)));
                 xx{hh,1}(i)= xx{hh,1}(i);
             else
                 tremor_or2(i,1)=NaN;

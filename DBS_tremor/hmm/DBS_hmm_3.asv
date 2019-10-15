@@ -256,7 +256,7 @@ states{1,1}=first;
 states{2,1}=scnd;
 states{3,1}=none;
 
-% bb=[(numel(first)./length(st_ep))*100  (numel(scnd)./length(st_ep))*100];
+bb=[(numel(first)./length(st_ep))*100  (numel(scnd)./length(st_ep))*100];
 
 f=figure()
 b=bar([numel(first) numel(scnd)])
