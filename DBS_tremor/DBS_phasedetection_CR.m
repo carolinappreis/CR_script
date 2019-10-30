@@ -1,4 +1,6 @@
 
+numb=1;
+
 if in2==1
     in=3;
 elseif in2==2 % other axis 1
@@ -65,9 +67,28 @@ else
 end
 
 tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
-
 dummy=hilbert(tremor_or);
 envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
+phase=angle(dummy);
+frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
+
+tremor=(data(3,:));% %score(:,1)';%
+ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+tremorx(1:size(ts1.data,3))=ts1.data;
+tremor=(data(6,:));% %score(:,1)';%
+ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+tremory(1:size(ts1.data,3))=ts1.data;
+tremor=(data(7,:));% %score(:,1)';%
+ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
+tremorz(1:size(ts1.data,3))=ts1.data;
+tremorxf=filtfilt(b,a,tremorx);
+tremoryf=filtfilt(b,a,tremory);
+tremorzf=filtfilt(b,a,tremorz);
+
+
 
 %-------
 
@@ -76,18 +97,20 @@ difp=find((diff(new))>100000);
 ep_1=[new(difp) new(end)];
 sp_1=[new(1) new(difp+1)];
 
+%%% input start all trial
+start_t=2;
+sp=sp_1(1,start_t:end);
+ep=ep_1(1,start_t:end);
 
-if numb==1
-    dt1_s=[sp_1(2:2:end)];dt1_e=[ep_1(2:2:end)];
-    dt2_s=sp_1(3:2:end); dt2_e=ep_1(3:2:end);
-    sp=sp_1(1,2:end);
-    ep=ep_1(1,2:end);
-end
-%     %
-%             plot(time,data(4,:))
-%         hold on
-%         plot(time(sp),data(4,sp),'r.')
-%         plot(time(ep),data(4,ep),'k.')
+%%% posture/spiral trials 
+dt1_s=[sp_1(start_t:2:end)];dt1_e=[ep_1(start_t:2:end)];
+dt2_s=sp_1(start_t+1:2:end); dt2_e=ep_1(start_t+1:2:end);
+
+
+%plot(time,data(4,:))
+%hold on
+%plot(time(sp),data(4,sp),'r.')
+%plot(time(ep),data(4,ep),'k.')
 
 
 for ik=1:length(sp) %%find double start and end points in a stimulation run
@@ -136,30 +159,21 @@ start2=[];
 ending2=[];
 xx2=[];
 for il=1:length(dt2_s)
-    if numb==1&&il==3 | numb==1&&il==9
-        dums=indexes4(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
-        start2=[start2 dums(1,3:end)]; clear dums
-        dume=indexes3(find(([indexes3>=dt2_s(il)]+[indexes3<=dt2_e(il)])==2));
-        ending2=[ending2 dume(1,3:end)]; clear dume
-        dumx=xx(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
-        xx2=[xx2 dumx(1,3:end)];clear dumx
-    else
-        dums=indexes4(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
-        start2=[start2 dums]; clear dums
-        dume=indexes3(find(([indexes3>=dt2_s(il)]+[indexes3<=dt2_e(il)])==2));
-        ending2=[ending2 dume]; clear dume
-        dumx=xx(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
-        xx2=[xx2 dumx];clear dumx
-        
-    end
+    dums=indexes4(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
+    start2=[start2 dums]; clear dums
+    dume=indexes3(find(([indexes3>=dt2_s(il)]+[indexes3<=dt2_e(il)])==2));
+    ending2=[ending2 dume]; clear dume
+    dumx=xx(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
+    xx2=[xx2 dumx];clear dumx
 end
 
-figure()
-plot(time,data(4,:))
-hold on
-plot(time(index),data(4,index),'r.')
-plot(time(start1),data(4,start1),'ko')
-plot(time(ending1),data(4,ending1),'bo')
+
+% figure()
+% plot(time,data(4,:))
+% hold on
+% plot(time(index),data(4,index),'r.')
+% plot(time(start2),data(4,start2),'ko')
+% plot(time(ending2),data(4,ending2),'bo')
 
 
 clear start ending
@@ -170,3 +184,49 @@ ending{2,1}=floor((ending2./samplerateold)*samplerate)+addon+addon_end;%floor(5*
 clear xx
 xx{1,1}=xx1;
 xx{2,1}=xx2;
+
+
+%-----
+for hh=1:2;
+    for j=1:length(start{hh,1})
+        if (~isnan(start{hh,1}(j)))
+            x=[tremorxf(start{hh,1}(j):ending{hh,1}(j));tremoryf(start{hh,1}(j):ending{hh,1}(j));tremorzf(start{hh,1}(j):ending{hh,1}(j))];
+            [pc,score,latent,tsquare] = pca(x');
+            xxx(j,1:3)=pc(1:3,1);
+            ma(j)=(find(abs(xxx(j,1:3))==max(abs(xxx(j,1:3)))));
+        end
+    end
+    
+    tremor_or2=NaN(length(start{hh,1}),1);
+    tremor_or3=NaN(length(start{hh,1}),1);
+    
+    
+    for i=1:length(start{hh,1})
+        if (~isnan(start{hh,1}(i)))
+            tremor_or2(i,1)=(mean(envelope(ending{hh,1}(i)-1000:ending{hh,1}(i)))-mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i))))/mean(envelope(start{hh,1}(i)-1000:start{hh,1}(i)));
+            xx{hh,1}(i)= xx{hh,1}(i);
+        else
+            tremor_or2(i,1)=NaN;
+            xx{hh,1}(i)= NaN;
+        end
+    end
+    
+    %         %% criteria for outliers
+    %
+    %         idx_outl=find(tremor_or2>(nanmean(tremor_or2)+(2*(nanstd(tremor_or2))))|tremor_or2<(nanmean(tremor_or2)-(2*(nanstd(tremor_or2)))));
+    %         tremor_or2(idx_outl,1)=NaN;
+    %         tremor_or3(idx_outl,1)=NaN;
+    %         xx(1,idx_outl)=NaN;
+    
+    tt=NaN(20,12);
+    yy=xx{hh,1}(:);
+    
+    for i=1:12
+        tt(1:sum(yy==i),i)=tremor_or2(find(yy==i));
+        tt(tt==0)=NaN;
+    end
+    tt1{hh,1}=tt;
+    pca_ax{hh,1}=ma;
+    clear yy ma;
+    
+end

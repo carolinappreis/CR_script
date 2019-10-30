@@ -1,6 +1,7 @@
 clear all
-cd('C:\Users\creis\Documents\MATLAB\pt_data_periphstim')
-load ('P013_randomstim_cursos.mat')
+cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\DBS_DATA')
+load ('01_RS_PS.mat')
+
 in2=1; % analysing the "main tremor axis" 
 
 if in2==1
@@ -17,9 +18,11 @@ addon=92; addon_end=35;
 
 phasedetection;
 
-bar(0:30:330,100.*nanmedian(tt)) % x axis phase - y axis percent change in 
+bar(0:30:330,100.*nanmedian(tt)) 
+hold on
+plot(0:30:330,100.*tt,'.')
+% x axis phase - y axis percent change in 
 % tremor severity at the end of 5 seconds with respect to severity right
 % before stimulation began
 
-stimout=tt;
-save stim stimout
+

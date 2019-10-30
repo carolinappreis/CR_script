@@ -5,35 +5,35 @@ close all
 metric=0;
 
 if metric==0;
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/am_ax')
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_ARC','LS')
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_NS','no_s')
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_arc3')
-    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-      S=am_ax;
+%         load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/am_ax')
+%         load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_ARC','LS')
+%         load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/amp_NS','no_s')
+%         load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_arc3')
+%     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+%       S=am_ax;
     
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\am_ax')
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_NS','no_s')
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC','LS')
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\smooth_arc3')
-%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-%     S=am_ax;
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\am_ax')
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_NS','no_s')
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\amp_ARC','LS')
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\smooth_arc3')
+    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+    S=am_ax;
     
     cl=blushred;
     cl1=squash;
     
 else
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/fm_ax')
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_FRC','LS')
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_NS','no_s')
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_frc3')
-        load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
+%         load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/fm_ax')
+%         load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_FRC','LS')
+%         load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_NS','no_s')
+%         load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/smooth_frc3')
+%         load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','aegean','stone');
     
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\fm_ax')
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC','LS')
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_NS','no_s')
-%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\smooth_frc3')
-%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\fm_ax')
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC','LS')
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_NS','no_s')
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\smooth_frc3')
+    load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','aegean','stone');
     S=fm_ax;
     
     cl=aegean;
