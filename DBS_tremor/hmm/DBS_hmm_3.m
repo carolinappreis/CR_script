@@ -177,7 +177,7 @@ for i=3
     h(2).EdgeColor = 'none';
     hold on
      plot(epochs,'w','LineWidth',0.5)
-    plot(data(:,i)*10,'k','LineWidth',1)
+    plot(time,data(:,i)*10,'k','LineWidth',1)
     xlim([0 size(data,1)])
     ylim([-0.5 1]);
     box('off')
