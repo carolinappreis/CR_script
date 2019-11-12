@@ -4,8 +4,8 @@ iii=[1 2 3 4 5 8 10 11 12 13 16];
 
 for numb=1:length(iii);
     clearvars -except iii numb arc1 arc2
- load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+%  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
 in2=1;
 start_cleaner;
@@ -108,7 +108,7 @@ end
 % cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % clearvars -except arc1 arc2
 % save('arc_mediansplit.mat')
-
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit.mat')
 % load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
 
@@ -129,3 +129,34 @@ f1.Units = 'centimeters';
 f1.OuterPosition= [10, 10, 60, 6];
 set(gca,'FontSize',9)
 set(f1,'color','w');
+
+
+
+
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','grey')
+%  load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','grey');
+
+
+     cl2=[0.7 0.7 0.7];
+     
+     int=[2 5 8];
+
+    for hh=1:size(int,2)
+    f=figure()
+    y=[arc1(int(hh),:);arc2(int(hh),:)]';
+    b = bar(0:30:330,y);
+    yline(0,'LineWidth',1)
+    ylim([-0.75 0.75])
+    yticks([ -1:0.25:1])
+    box('off')
+    ylabel('Change in tremor severity')
+    xlabel('Stimulation phase (degrees)')
+
+    f.Units = 'centimeters';
+    f.OuterPosition= [10, 10, 12, 12];
+    set(gca,'XTickLabelRotation',45)
+    set(gca,'FontSize',14)
+    set(f,'color','w');
+
+
+    end

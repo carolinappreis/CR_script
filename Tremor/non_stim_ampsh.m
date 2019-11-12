@@ -1,8 +1,7 @@
 clear all
 iii=[1 2 3 4 5 8 10 11 12 13 16];
 in2=1;
-for numb=11
-    %     1:length(iii);
+for numb= 1:length(iii);
     Fpeak_tremor
     clearvars -except iii PC A1 B1 numb NS NS_i Fpeak samplerate in2
     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
@@ -69,11 +68,11 @@ for numb=11
         end
     end
     ind_e2=ind_e(~isnan(ind_e));
-%     
-%     plot(C)
-%     hold on
-%     plot(ind_s2,C(ind_s2),'r.')
-%     plot(ind_e2,C(ind_e2),'b.')
+    
+    plot(C)
+    hold on
+    plot(ind_s2,C(ind_s2),'r.')
+    plot(ind_e2,C(ind_e2),'b.')
     
     if isempty (A1{numb,1})
         AA=ind_s2;
@@ -94,10 +93,10 @@ for numb=11
     unstable3=[];
     
 %     
-%     plot(C)
-%     hold on
-%     plot(AA,C(AA),'r.')
-%     plot(BB,C(BB),'b.')
+    plot(C)
+    hold on
+    plot(AA,C(AA),'r.')
+    plot(BB,C(BB),'b.')
 %     
     %%% analysis
     
@@ -107,43 +106,43 @@ for numb=11
         [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
     end
     
-    tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
-    dummy=hilbert(tremor_or);
-    envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
-    phase=angle(dummy);
-    frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),251))';
-    
-    
-    for i=1
-        for j=1:5e4
-            ix=randi(length(segmentb),1);
-            segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
-            begin3=segment;
-            end3=floor(begin3+5*samplerate);
-            while ~isempty(intersect(unstable3,begin3:end3))
-                segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
-                begin3=segment;
-                end3=floor(begin3+5*samplerate);
-            end
-            baseline3(i,j)=(mean(envelope(end3-1000:end3))-mean(envelope(begin3-1000:begin3)))./mean(envelope(begin3-1000:begin3)); %#ok<*SAGROW> %
-            baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
-            
-        end
-    end
-    
-   rep=10; 
-    for i=1:1e6
-        dum=baseline3(randi(5e4,1,rep));
-        dum2=dum;
-        p(i)=nanmedian(dum2);
-    end
-    nostim(numb,:)=p;
-    
-    for i=1:12
-        dum=baseline3(randi(5e4,1,rep));
-        dum2=dum;
-        nostimout(numb,i)=nanmedian(dum2);
-    end
+%     tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
+%     dummy=hilbert(tremor_or);
+%     envelope=sqrt((real(dummy).^2)+(imag(dummy).^2));
+%     phase=angle(dummy);
+%     frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),251))';
+%     
+%     
+%     for i=1
+%         for j=1:5e4
+%             ix=randi(length(segmentb),1);
+%             segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
+%             begin3=segment;
+%             end3=floor(begin3+5*samplerate);
+%             while ~isempty(intersect(unstable3,begin3:end3))
+%                 segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
+%                 begin3=segment;
+%                 end3=floor(begin3+5*samplerate);
+%             end
+%             baseline3(i,j)=(mean(envelope(end3-1000:end3))-mean(envelope(begin3-1000:begin3)))./mean(envelope(begin3-1000:begin3)); %#ok<*SAGROW> %
+%             baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
+%             
+%         end
+%     end
+%     
+%    rep=10; 
+%     for i=1:1e6
+%         dum=baseline3(randi(5e4,1,rep));
+%         dum2=dum;
+%         p(i)=nanmedian(dum2);
+%     end
+%     nostim(numb,:)=p;
+%     
+%     for i=1:12
+%         dum=baseline3(randi(5e4,1,rep));
+%         dum2=dum;
+%         nostimout(numb,i)=nanmedian(dum2);
+%     end
     clearvars -except nostimout iii numb PC A1 B1 iii stim nostim
 end
 % ANS_group=nostimout; clear nostimout
@@ -151,9 +150,9 @@ end
 % clearvars  -except ANS_group AS_group
 % cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % save 'A_group'
-NS=nostimout;
-no_s=nostim;
-clearvars  -except NS no_s
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
-save 'amp_NS.mat'
+% % NS=nostimout;
+% % no_s=nostim;
+% % clearvars  -except NS no_s
+% % cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% % % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+% % % save 'amp_NS.mat'

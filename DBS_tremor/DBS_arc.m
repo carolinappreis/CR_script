@@ -181,8 +181,8 @@ clearvars -except ttall ampall ph_stim LS tt1
 % cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
 % save('DBS_amp_ARC.mat')
 
-%  cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
-% load('DBS_amp_ARC.mat')
+ cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data')
+load('DBS_amp_ARC.mat')
 
 %  load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean');
  load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean')
