@@ -58,7 +58,7 @@ for nr=1
 %             cd('C:\Users\creis\Desktop\arcs_share\peripheral')
                         cd('/Users/Carolina/OneDrive - Nexus365/arcs_share/peripheral')
 
-            saveas(['arc_',num2str(i)],'.png')
+            saveas(f1,['arc_smo_',num2str(i),'.png'])
             
         elseif nr==2
             f1=figure(i)

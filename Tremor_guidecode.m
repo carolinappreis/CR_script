@@ -61,6 +61,16 @@ run('median_split_a.m')
 run('median_split_f.m')
 %saves frc_mediansplit.mat
 
+%individual envelope phase-locked 
+run('pls_sig.m')
+
+% phase-locked group level
+run('pls_group_amp.m')
+run('pls_group_sup.m')
+
+
+
+
 
 %flow of analysis
 %determine main axis

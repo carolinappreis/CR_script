@@ -1,9 +1,9 @@
 clear all
 
 dist=1;%%%% all data; median split data A<median ; median split data A>median
-ref1=1;%%%% amp(=0) vs. frequency
+ref1=0;%%%% amp(=0) vs. frequency
 iii=1; %%%%% amp (=0) vs. supressive effect
-metric=1; %%%%%plotting 0 amp; ~=0 freq
+metric=0; %%%%%plotting 0 amp; ~=0 freq
 
 
 if dist==1
@@ -112,7 +112,7 @@ else
 end
 
 
-figure(1)
+f1=figure(1)
 plot(metric1','Color',cl1)
 xlim([1 12])
 xticks([ 3 6 9 12])
@@ -123,7 +123,7 @@ plot(mean(metric1),'k','LineWidth',4,'Color', cl)
 yline(0,'k', 'LineWidth',1,'LineStyle','--')
 
 
-figure(2)
+f2=figure(2)
 bar(mean(metric1),'LineWidth',1,'FaceColor',cl,'EdgeColor',cl)
 xlim([0 13])
 xticks([ 3 6 9 12])
@@ -132,16 +132,16 @@ box('off')
 
 if metric==0
     
-    figure(1)
-    ylabel('Change in amplitude')
-    figure(2)
-    ylabel('Change in amplitude')
+    f1=figure(1)
+    ylabel('Change in tremor severity')
+    f2=figure(2)
+    ylabel('Change in tremor severity')
     
 else
     
-    figure(1)
+    f1=figure(1)
     ylabel('Change in frequency')
-    figure(2)
+    f2=figure(2)
     ylabel('Change in frequecy')
 end
 
@@ -149,32 +149,40 @@ end
 
 if ref1==0 && iii==0
     
-    figure(1)
+    f1=figure(1)
     xlabel('Aligment to phase with max tremor amplification')
-    figure(2)
+    f2=figure(2)
     xlabel('Aligment to phase with max tremor amplification')
     
 elseif ref1==0 && iii==1
     
-    figure(1)
+   f1=figure(1)
     xlabel('Aligment to phase with max tremor supression')
-    figure(2)
+   f2=figure(2)
     xlabel('Aligment to phase with max tremor supression')
     
 elseif ref1==1 && iii==0
     
-    figure(1)
+     f1=figure(1)
     xlabel('Aligment to phase with max tremor acceleration')
-    figure(2)
+     f2=figure(2)
     xlabel('Aligment to phase with max tremor acceleration')
     
 else ref1==1 && iii==1
     
-    figure(1)
+     f1=figure(1)
     xlabel('Aligment to phase with max tremor deceleration')
-    figure(2)
+     f2=figure(2)
     xlabel('Aligment to phase with max tremor deceleration')
 end
+
+  
+   
+    f2.Units = 'centimeters';
+    f2.OuterPosition= [10, 10, 12, 12];
+    box('off')
+    set(gca,'FontSize',14)
+    set(f2,'color','w');
 
 
 % cr=mean(metric1);
