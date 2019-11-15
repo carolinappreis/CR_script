@@ -9,12 +9,16 @@ for rep=1:2
         iiii=all(1);
     end
     for numb=1:size(iiii,2);
-        % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
-        if rep==1
-            load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
-        else
-            load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS_1/p0',num2str(iiii(numb)),'_PLS2.mat'))
-        end
+             % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
+       if rep==1
+%            load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
+                    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
+
+       else
+%                load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS_1/p0',num2str(iiii(numb)),'_PLS2.mat'))
+                      load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_1\p0',num2str(iiii(numb)),'_PLS2.mat'))
+
+       end
         
         in2=1; % analysing the "main tremor axis"
         
@@ -112,7 +116,7 @@ for rep=1:2
         % hold on
         % plot(data(2,:))
         % plot(dc,'LineWidth',3)
-        envelope=zscore(abs(hilbert(tremor_or)));
+        envelope=abs(hilbert(zscore(tremor_or)));
         
         bin=floor(50000/3);
         
@@ -132,17 +136,19 @@ for rep=1:2
     
 end
 
-load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','olive')
+% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','olive')
+load('\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','olive')
+
 
 f1=figure;
-plot(1:4,amp,'.','MarkerSize',7)
+plot(1:4,amp','.','MarkerSize',7)
 hold on
 plot(median(amp,1),'lineWidth',3,'Color',olive)
 xlim([0 5])
 xticks([1 2 3 4])
 xticklabels({'before','mid1',' mid2','end'})
-ylim([-1 2])
-yticks(-1:1:2)
+ylim([-1 4])
+yticks(-1:2:4)
 ylabel('Tremor severity (zscore)')
 f1.Units = 'centimeters';
 f1.OuterPosition= [10, 10, 10, 10];

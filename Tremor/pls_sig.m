@@ -6,8 +6,8 @@ iiii=all(1:8);
 
 for numb=1:length(iiii);
     clearvars -except iiii numb
-    % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
+%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
        
     in2=1; % analysing the "main tremor axis"
@@ -99,58 +99,71 @@ end
 
 tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
 
-%%% dc_shift
-% [d,e]=butter(3,(0.5)/(0.5*samplerateold),'low');
-% dc=(filtfilt(d,e,data(6,:))-2)*10;
-% plot(data(1,:))
-% hold on
-% plot(data(2,:))
-% plot(dc,'LineWidth',3)
-envelope=abs(hilbert(tremor_or));
+% %% dc_shift
+[d,e]=butter(3,(0.5)/(0.5*samplerateold),'low');
+dc=(filtfilt(d,e,data(6,:))-2)*10;
+% [l1 l2]=findpeaks(dc*-1);
+% [h1 h2]=findpeaks(dc);
+% [dh1 dh2]=sort(h1,'descend');
+% 
+% for i=1:numel(start)
+% h_up(1,i)=h2(dh2(i));
+% end
 
-for rr=1:length(start)
-change(1,rr)=(mean(envelope(ending(rr)-1000))-mean(envelope(start(rr)-1000)))./mean(envelope(start(rr)-1000));
-amp_b(1,rr)=mean(envelope(start(rr)-1000));
-amp_after(1,rr)=mean(envelope(ending(rr)-1000));
-trace(rr,:)=envelope(start(rr)-1000:start(rr)+60000-1);
-end
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
 
-% [p,h]=ttest(amp_b,amp_after)
+close all
+plot(time,data(2,:))
+hold on
+plot(time,data(1,:))
+plot(time,dc,'LineWidth',1)
+plot(time(floor((dc_s{numb,1})*samplerateold)),dc(floor((dc_s{numb,1})*samplerateold)),'ro')
 
-f1=figure;
-subplot(1,2,1)
-time=1:length(tremor_or);
-plot(time,tremor_or,'LineWidth',1,'Color',[0.5 0.5 0.5])
-xlim([0 300000])
-xticks(0:60000:300000)
-xticklabels({'0','1','2','3','4','5'})
-set(gca,'FontSize',14)
-title('filtered tremor')
-box('off')
-ylabel('Acceleration (m/s^2)')
-xlabel('Time (min) ')
-subplot(1,2,2)
-color_b1=[0.5 0.5 0.5];
-y2=median(trace); 
-y1=y2+std(trace); 
-y3=y2-std(trace);
-time=1:length(trace);
-p1=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b1)
-patch([time fliplr(time)], [y1 fliplr(y2)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
-patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
-set(gca,'FontSize',14)
-box('off')
-title('Avg envelope')
-xlim([0 61000])
-xticks(0:10000:61000)
-xticklabels({'0','10','20','30','40','50','60'})
-xlabel('Time (sec)')
-ylabel('Change in tremor severity (m/s^2)')
-f1.Units = 'centimeters';
-f1.OuterPosition= [10, 10, 24, 12];
-set(f1,'color','w');
-cd('/Users/Carolina/OneDrive - Nexus365/arcs_share/peripheral')
-saveas(f1,['PLS_plots',num2str(iiii(numb)),'.png'])
+% envelope=abs(hilbert(tremor_or));
+% 
+% for rr=1:length(start)
+% change(1,rr)=(mean(envelope(ending(rr)-1000))-mean(envelope(start(rr)-1000)))./mean(envelope(start(rr)-1000));
+% amp_b(1,rr)=mean(envelope(start(rr)-1000));
+% amp_after(1,rr)=mean(envelope(ending(rr)-1000));
+% trace(rr,:)=envelope(start(rr)-1000:start(rr)+60000-1);
+% end
+% 
+% % [p,h]=ttest(amp_b,amp_after)
+% 
+% f1=figure;
+% subplot(1,2,1)
+% time=1:length(tremor_or);
+% plot(time,tremor_or,'LineWidth',1,'Color',[0.5 0.5 0.5])
+% xlim([0 300000])
+% xticks(0:60000:300000)
+% xticklabels({'0','1','2','3','4','5'})
+% set(gca,'FontSize',14)
+% title('filtered tremor')
+% box('off')
+% ylabel('Acceleration (m/s^2)')
+% xlabel('Time (min) ')
+% subplot(1,2,2)
+% color_b1=[0.5 0.5 0.5];
+% y2=median(trace); 
+% y1=y2+std(trace); 
+% y3=y2-std(trace);
+% time=1:length(trace);
+% p1=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b1)
+% patch([time fliplr(time)], [y1 fliplr(y2)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
+% patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
+% set(gca,'FontSize',14)
+% box('off')
+% title('Avg envelope')
+% xlim([0 61000])
+% xticks(0:10000:61000)
+% xticklabels({'0','10','20','30','40','50','60'})
+% xlabel('Time (sec)')
+% ylabel('Change in tremor severity (m/s^2)')
+% f1.Units = 'centimeters';
+% f1.OuterPosition= [10, 10, 24, 12];
+% set(f1,'color','w');
+% cd('/Users/Carolina/OneDrive - Nexus365/arcs_share/peripheral')
+% % saveas(f1,['PLS_plots',num2str(iiii(numb)),'.png'])
 
 
 end
