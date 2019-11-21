@@ -3,7 +3,7 @@ clear all
 cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\raw_patient_data\P03')
 load('P03_PLS.mat')
 numb=1;
-cond=1;
+cond=2;
 in2=1; % analysing the "main tremor axis"
 
 if in2==1
@@ -126,17 +126,20 @@ if cond==1;
 else
     start=start(4:5);
     ending=ending(4:5);
-    bef_s=floor([753.2 1004]*samplerate);
+    bef_s=floor([757.9 1004]*samplerate);
+    tap_in(1,:)=NaN;
+    tap_in(2,:)=NaN;
+    tap_out(1,:)=NaN;
+    tap_out(2,:)=NaN;
 end
 
 envelope=abs(hilbert(tremor_or));
 
 for rr=1:length(start)
-    change(1,rr)=(mean(envelope(ending(rr)-1000))-mean(envelope(start(rr)-1000)))./mean(envelope(start(rr)-1000));
     amp_b(1,rr)=mean(envelope(start(rr)-1000));
     amp_after(1,rr)=mean(envelope(ending(rr)-1000));
     trace(rr,:)=envelope(start(rr)-1000:start(rr)+100000-1);
-    idx_t(rr,:)=[ start(rr)-1000 start(rr)+100000-1];
+    idx_t(rr,:)=[bef_s(rr) ending(rr)];
 end
 
 % [p,h]=ttest(amp_b,amp_after)
@@ -151,15 +154,19 @@ time2=1:length(tremor_or);
 plot(time2,tremor_or,'LineWidth',1,'Color',[0.5 0.5 0.5])
 hold on
 plot(time2,dc2,'LineWidth',1)
-if cond==1
+
     for r=1:size(tap_in,1)
         for i=1:length(bef_s)
+            xline(time2(start(i)),'g','LineWidth',2)
+            if ~isnan(tap_in)
             xline(tap_in(r,i),'r--','LineWidth',0.5)
             xline(tap_out(r,i),'k--','LineWidth',0.5)
+            end
         end
     end
-end
 
+box('off')
+xlim([bef_s(1)-5000 ending(end)+5000])
 
 f2=figure;
 subplot(size(trace,1)+1,1,1)
@@ -172,14 +179,20 @@ p1=plot(time3, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b1)
 patch([time3 fliplr(time3)], [y1 fliplr(y2)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
 patch([time3 fliplr(time3)], [y2 fliplr(y3)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
 box('off')
+xlim([0 length(y2)])
+
 for r=1:size(tap_in,1)
     for i=1:size(trace,1)
         subplot(size(trace,1)+1,1,1+i)
         plot(time2(idx_t(i,1):idx_t(i,2)),envelope(idx_t(i,1):idx_t(i,2)))
         hold on
-        xline(tap_in(r,i),'r--','LineWidth',0.5)
-        xline(tap_out(r,i),'k--','LineWidth',0.5)
+        xline(time2(start(i)),'g','LineWidth',2)
+        if ~isnan(tap_in)
+            xline(tap_in(r,i),'r--','LineWidth',0.5)
+            xline(tap_out(r,i),'k--','LineWidth',0.5)
+        end
         box('off')
+        xlim([time2(idx_t(i,1)) time2(idx_t(i,2))])
     end
 end
 % xlim([0 61000])
@@ -193,6 +206,8 @@ f1.OuterPosition= [10, 10, 24, 12];
 set(f1,'color','w');
 
 
+
+start-bef_s
 mean([tap_out(1,:)-tap_in(1,:) tap_out(2,:)-tap_in(2,:)])
 std([tap_out(1,:)-tap_in(1,:) tap_out(2,:)-tap_in(2,:)])
 
