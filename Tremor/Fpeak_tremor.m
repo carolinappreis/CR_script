@@ -1,7 +1,7 @@
 % 
-    clearvars -except iii numb ttall ampall ph_stim LS tt1 in2
- load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-%         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+    clearvars -except iii numb ttall ampall ph_stim LS tt1 in2 yy
+%  load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+        load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
 
     
     if in2==1
@@ -63,4 +63,4 @@
     
     Fpeak=frange(find(Pxxrange==max(Pxxrange)));
 
-clearvars -except iii numb  Fpeak samplerate in2
+clearvars -except iii numb  Fpeak samplerate in2 yy

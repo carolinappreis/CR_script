@@ -1,12 +1,12 @@
 clear all
 iii=[1 2 3 4 5 8 10 11 12 13 16];
 in2=1;
-for numb= 8
+for numb= 7:10
 %     1:length(iii);
     Fpeak_tremor
     clearvars -except iii PC A1 B1 numb NS NS_i Fpeak samplerate in2
-%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
-     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
+     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
+%      load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
 
    
     
@@ -45,19 +45,19 @@ for numb= 8
     
     [b,a]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
     C=(filtfilt(b,a,tremor2));
-    close all
-      plot(zscore(tremor_or))
-    hold on
-  plot(zscore(C),'LineWidth',1)
+%     close all
+%       plot(zscore(tremor_or))
+%     hold on
+%   plot(zscore(C),'LineWidth',1)
 
     
-    hu={round(([6.849 7.91 9.731])*(10^5),1);round([1.598 3.55 5.142 6.585 8.159]*(10^5),1);round([1.171/1000 1.072 2.272 3.485 4.681]*(10^5),1)...
+    hu={round(([6.849 7.91 9.731])*(10^5),1);round([1.598 3.55 5.142 6.585 8.159]*(10^5),1);round([1.171/10 1.072 2.272 3.485 4.681]*(10^5),1)...
         ;round([1.116 2.315 4.253 5.885 7.026]*(10^5),1);round([5.257 7.746 9.313 1.069*10 1.183*10]*(10^5),1);...
-        round([2.159/10 1.4600 2.9230 4.3520 5.6510]*(10^5),1);round([6110/10^5 1.47 2.754 4.232 5.503]*(10^5),1);round([2.4/10 1.317 3.012]*(10^5),1);round([]*(10^5),1);round([]*(10^5),1)};
+        round([2.159/10 1.4600 2.9230 4.3520 5.6510]*(10^5),1);round([6110/10^5 1.47 2.754 4.232 5.503]*(10^5),1);round([2.4/10 1.317 3.012]*(10^5),1);round([10211 134450 340484 466600 639582],1);round([5265 139104 277397 401396 551971],1)};
     
-    hd={round(([7.244 8.958 1.097*10])*(10^5),1);round([2.43 4.486 6.051 7.509 9.037]*(10^5),1);round([5.121/1000 1.774 2.905 4.186 5.348]*(10^5),1)...
+    hd={round(([7.244 8.958 1.097*10])*(10^5),1);round([2.43 4.486 6.051 7.509 9.037]*(10^5),1);round([5.121/10 1.774 2.905 4.186 5.348]*(10^5),1)...
         ;round([1.698 3.091 5.132 6.481 7.825]*(10^5),1);round([6.386 8.465 9.991 1.131*10 1.24*10]*(10^5),1);...
-        round([8.309 2.1070 3.5590 4.9500 6.3050]*(10^5),1);round([7.305/10 2.104 3.401 4.898 6.207]*(10^5),1);round([]*(10^5),1);round([9.98/10 2.385 4.394]*(10^5),1);round([]*(10^5),1)};
+        round([8.309/10 2.1070 3.5590 4.9500 6.3050]*(10^5),1);round([7.305/10 2.104 3.401 4.898 6.207]*(10^5),1);round([9.98/10 2.385 4.394]*(10^5),1);round([85248 230271 431076 548826 747772],1);round([84050 211850 343728 477800 622380],1)};
     segmentb=hu{numb,:};
     segmente=hd{numb,:};
     unstable3=[];
@@ -65,12 +65,21 @@ for numb= 8
     close all
      plot(zscore(tremor_or))
      hold on
-    plot(C)
+    plot(zscore(C))
     for i=1:size(segmentb,2)
    xline(segmentb(i),'r')
    xline(segmente(i),'k')
     end
     
+    
+    zc=zscore(C);
+    close all
+    plot(tt,zscore(tremor_or))
+    hold on
+   plot(tt,zc)
+    plot(tt(segmentb),zc(segmentb),'ko')
+    plot(tt(segmente),zc(segmente),'ro')
+
 % % % %     
 % % %     %%% analysis
 % % %     
