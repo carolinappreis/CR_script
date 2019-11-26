@@ -8,7 +8,7 @@ dc_s{6,1}=[6.24 162.5 357.7 522.2 683.6];
 dc_s{7,1}=[24.04 177.1 342 577.4 679.2];
 dc_s{8,1}=[24.66 342.3 576.1 722.2];
 dc_s{9,1}=[43.88 199];
-
+dc_s{10,1}=[];
 % cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
     cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 

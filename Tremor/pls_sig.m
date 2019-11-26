@@ -1,10 +1,10 @@
 clear all
-all=[2 3 4 5 8 10 11 13 16];
+all=[2 3 4 5 8 10 11 13 16 17];
 % iiii=[2 5 8];
 
-iiii=all(1:8);
+iiii=all(1:10);
 
-for numb= 1:length(iiii);
+for numb=length(iiii);
     clearvars -except iiii numb
     %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
