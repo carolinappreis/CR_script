@@ -1,5 +1,5 @@
 clear all
-iii=[1 2 3 4 5 8 10 11 12 13 16];
+iii=[1 2 3 4 5 8 10 11 12 13 16 17];
 
 for numb=1:length(iii);
 %     1:length(iii);

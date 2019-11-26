@@ -1,20 +1,21 @@
 clear all
-% iiii=[1 2 3 4 5 8 10 11 12 13 16];
-iiii=[2 5 8];
+iiii=[1 2 3 4 5 8 10 11 12 13 16 17];
+% iiii=[2 5 8]; %% significant one
+% iiii=[ 2 3 4 5 8 10 11 13 16 17];
 
-for numb=1:length(iiii);
+for numb= 1:length(iiii);
     clearvars -except iiii numb
-    % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
+    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
     
     in2=1; % analysing the "main tremor axis"
     
     if in2==1
         in=3;
     elseif in2==2 % other axis 1
-        in=6;
+        in=5;
     elseif in2==3 % other axis 2
-        in=7;
+        in=6;
     end
     data=SmrData.WvData;
     samplerateold=SmrData.SR;
@@ -23,6 +24,10 @@ for numb=1:length(iiii);
     
     time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
     
+    f1=figure(1)
+    stackedplot(data')
+    title(['pt_',num2str(iiii(numb))])
+%    
     %%% downsample
     
     ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
@@ -97,8 +102,12 @@ for numb=1:length(iiii);
     envelope=[abs(hilbert(tremorxf));abs(hilbert(tremoryf));abs(hilbert(tremorzf))];
     phase=[angle(hilbert(tremorxf));angle(hilbert(tremoryf));angle(hilbert(tremorzf))];
     
+% figure()
+%     bar(sum(envelope'))
+%     box('off')
+
     
-    
+    close all
     %%
     
     new=find(data(2,:)>4);
@@ -135,7 +144,7 @@ for numb=1:length(iiii);
     
     %%%% find runs with trigering issues (too few, too many pulses)
     th1=(Fpeak*5)./2;
-    th2=(Fpeak*5)+round((Fpeak*5)./5);
+    th2=(Fpeak*5)+round((Fpeak*5)./2);
     for it=1:length(indexes4)
         if numel(index(find(index==indexes4(it)):find(index==indexes3(it))))>=th1 && numel(index(find(index==indexes4(it)):find(index==indexes3(it))))<=th2
             indexes4(it)=indexes4(it);
@@ -227,11 +236,13 @@ for numb=1:length(iiii);
         
         for i=1:12
             tt(1:sum(yy==i),i)=tremor_or2(axx,find(yy==i));
+            stim_pha(1,i)=numel(tremor_or2(axx,find(yy==i)))
             tt_pc(1:sum(yy==i),i)=tremor_pc(1,find(yy==i));
             tt(tt==0)=NaN;
             tt_pc(tt_pc==0)=NaN;
         end
         tt1{hh,axx}=tt;
+        
     end
     
     pca_ax{hh,1}=ma;
@@ -244,45 +255,55 @@ for numb=1:length(iiii);
     for i=1
         a=hist(pca_ax{i,1},3);
         axmax=find(a==max(a));
-        f2=figure()
-        subplot(1,5,1)
-        bar(0:30:330,100.*nanmedian(tt1{i,axmax}))
-        hold on
-        plot(0:30:330,100.*tt1{i,axmax},'.')
+        
+        
+        for axis=1:3
+            f2=figure(2)
+            subplot(1,3,axis)
+            bar(0:30:330,100.*nanmedian(tt1{i,axis}))
+            hold on
+            plot(0:30:330,100.*tt1{i,axis},'.')
+            box('off')
+                        
+            f3=figure(3)
+            subplot(1,3,axis)
+            dum=repmat(nanmedian(tt1{i,axis}),1,3);
+            for iii=size(tt1{1,1},2)+1:size(tt1{1,1},2)*2
+                dum1(1,iii-12)=sum(dum(1,(iii-1:iii+1)))./length(dum(1,(iii-1:iii+1)));
+            end
+            bar(0:30:330,100.*dum1)
+            box('off')
+            clear dum1
+        end
+        
+        f4=figure(4)
+        subplot(1,3,1)
+        bar(1:3,a)
+        names = {'CED2'; 'CED5';'CED6'};
         box('off')
-        subplot(1,5,2)
+        set(gca,'xtick',[1:3],'xticklabel',names)
+        subplot(1,3,2)
+        bar([1 2],[PSI_ax{i}(1,1);PSI_ax{i}(1,2)]);
+        names = {'PSI 2 5'; 'PSI 2 6'};
+        set(gca,'xtick',[1:2],'xticklabel',names)
+        subplot(1,3,3)
         dum=repmat(nanmedian(tt1{i,axmax}),1,3);
         for iii=size(tt1{1,1},2)+1:size(tt1{1,1},2)*2
             dum1(1,iii-12)=sum(dum(1,(iii-1:iii+1)))./length(dum(1,(iii-1:iii+1)));
         end
         bar(0:30:330,100.*dum1)
         box('off')
-        
-        subplot(1,5,3)
-        cr=repmat(nanmedian(tt_pc),1,3);
-        for iii=size(tt1{1,1},2)+1:size(tt1{1,1},2)*2
-            cr1(1,iii-12)=sum(cr(1,(iii-1:iii+1)))./length(cr(1,(iii-1:iii+1)));
-        end
-        bar(0:30:330,100.*cr1)
-        box('off')
-        
-        subplot(1,5,4)
-        bar(1:3,a)
-        names = {'CED2'; 'CED5';'CED6'};
-        set(gca,'xtick',[1:3],'xticklabel',names)
-        box('off')
-        subplot(1,5,5)
-        bar([1 2],[PSI_ax{i}(1,1);PSI_ax{i}(1,2)]);
-        names = {'PSI 2 5'; 'PSI 2 6'};
-        set(gca,'xtick',[1:2],'xticklabel',names)
-        f2.Units = 'centimeters';
-        f2.OuterPosition= [10, 10, 60, 10];
-        set(f2,'color','w');
-        
+        clear dum1
+  
     end
+        f1.Units = 'centimeters';f2.Units = 'centimeters';f3.Units = 'centimeters';f4.Units = 'centimeters';
+        f1.OuterPosition= [10, 10, 10, 10];f2.OuterPosition= [10, 10, 30, 10];f3.OuterPosition= [10, 10, 30, 10];f4.OuterPosition= [10, 10, 30, 10];
+        set(f1,'color','w');set(f2,'color','w');set(f3,'color','w');set(f4,'color','w');
+
+        stim_pha
+    close all
     
-    
-    %     clearvars -except PSI_ax pca_ax tt1 tt  iiii numb ampall ph_stim LS
+   clearvars -except PSI_ax pca_ax tt1 tt  iiii numb ampall ph_stim LS
     
 end
 
