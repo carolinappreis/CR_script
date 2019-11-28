@@ -1,43 +1,33 @@
 clear all
-all=[2 3 4 5 8 10 11 13 16 17];
+iiii=[2 3 4 5 8 10 11 13 17 18];
+iiii=[2 3 4 5 8 10 11 13 17 18];
 % iiii=[2 5 8];
 
-iiii=all(1:10);
-
-for numb=length(iiii);
-    clearvars -except iiii numb
-    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
-    
-    
-    in2=1; % analysing the "main tremor axis"
+in2=1;
+for numb=1:length(iiii);
+    close all
+    clearvars -except iiii numb in2 prm peaks psd_curves
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
+    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
     if in2==1
         in=3;
     elseif in2==2 % other axis 1
-        in=5;
+        in=5; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CHECK
     elseif in2==3 % other axis 2
-        in=6;
+        in=6; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CHECK
     end
     data=SmrData.WvData;
     samplerateold=SmrData.SR;
     tremor=(data(in,:));
     addon=92; addon_end=35;
     
-    time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
-    
-    %%% downsample
-    
-    ts=timeseries(tremor,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
+    ts=timeseries(data,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
-    tremor2(1:size(ts1.data,3))=ts1.data;
+    ds_data(1:size(ts1.data,1),1:size(ts1.data,3))=ts1.data;
     samplerate=1000;
-    tt=0:1/samplerate:(size(tremor2,2)-1)/samplerate;
-    
-    %
-    % plot(data(2,:))
-    % hold on
-    % plot(data(1,:))
+    tt=0:1/samplerate:(size(ds_data,2)-1)/samplerate;
+    tre_3=ds_data([3 5 6],:);
     
     
     
@@ -72,15 +62,31 @@ for numb=length(iiii);
                 ending(nn)=NaN;
             end
         else
-             start(nn)=st(nn);
-             ending(nn)=en(nn);
+            start(nn)=st(nn);
+            ending(nn)=en(nn);
         end
     end
     
     start=start(~isnan(start));
     ending=ending(~isnan(ending));
     
-    %%% when patient's hand is up
+    
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
+    
+    segmentb=round((dc_s{numb,:})*samplerate,1);
+    
+    [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
+    C=(filtfilt(d,e,tre_3'));
+    %     figure(1)
+    %     plot(zscore(tre_3(1,:)))
+    %     hold on
+    %     plot(zscore(C(:,2)))
+    %     for i=1:size(segmentb,2)
+    %         xline(segmentb(i),'r')
+    %         %             xline(segmente(i),'k')
+    %     end
+    %     box('off')
+    
     handup=[];
     for i=1:length(start)
         handup=[handup start(i):ending(i)]; %#ok<*AGROW>
@@ -88,119 +94,155 @@ for numb=length(iiii);
     clear i
     handup=sort(handup,'ascend');
     
+    for aa=1:3
+        [Pxx,F]=pwelch(tre_3(aa,handup),samplerate,[],samplerate,samplerate);
+        frange=F(3:10);
+        Pxxrange=Pxx(3:10);
+        Freqpeak(aa,:)=frange(find(Pxxrange==max(Pxxrange)));
+        Ppeak(aa,:)=max(Pxxrange);
+        ps_curves(aa,:)=Pxx;
+    end
+    peak_ax=[(Freqpeak(find(Ppeak==max(Ppeak)))) (find(Ppeak==max(Ppeak)))];
+    Fpeak=peak_ax(1);
     
-    
-    %%% tremor characteristics
-    [Pxx,F]=pwelch(tremor2(handup),samplerate,[],samplerate,samplerate);
-    
-    frange=F(3:10);
-    Pxxrange=Pxx(3:10);
-    
-    Fpeak=frange(find(Pxxrange==max(Pxxrange))); %#ok<*FNDSB>
+%     figure(2)
+%     plot(F(3:50),ps_curves(:,3:50)','LineWidth',2)
+%     legend({'CED2','CED4','CED5'})
+%     legend('boxoff')
+%     box('off')
     
     if (Fpeak-2)>=1
         [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
     else
         [b,a]=butter(2,[(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
     end
+    tf_3=filtfilt(b,a,tre_3')*10*9.81/0.5;
+    % tremor_or=zscore(tremor_or);
+    dummy=(hilbert(tf_3))';
+    envelope=abs(dummy);
+    zenv=(abs(hilbert(zscore(tf_3))))';
+    phase=angle(dummy);
+    frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     
-    tremor_or=filtfilt(b,a,tremor2)*10*9.81/0.5;
+    [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
+    C=(filtfilt(d,e,tre_3'));
     
-    % %% dc_shift
-    [d,e]=butter(3,(0.5)/(0.5*samplerateold),'low');
-    dc=(filtfilt(d,e,data(6,:))-2)*10;
-    % [l1 l2]=findpeaks(dc*-1);
-    % [h1 h2]=findpeaks(dc);
-    % [dh1 dh2]=sort(h1,'descend');
-    %
-    % for i=1:numel(start)
-    % h_up(1,i)=h2(dh2(i));
-    % end
-    
-    % load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
-    load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
-    %
-    %
-    close all
-    plot(time,data(2,:))
-    hold on
-    plot(time,data(1,:))
-    plot(time,dc,'LineWidth',1)
-    plot(time(floor((dc_s{numb,1})*samplerateold)),dc(floor((dc_s{numb,1})*samplerateold)),'ro')
-    
-    hu=dc_s{numb,1};
-    
-    envelope=abs(hilbert(tremor_or));
-    zenv=zscore(envelope);
-    
-    for rr=1:length(start)
-        change(1,rr)=(mean(envelope(ending(rr)-1000))-mean(envelope(start(rr)-1000)))./mean(envelope(start(rr)-1000));
-        amp_b(1,rr)=mean(envelope(start(rr)-1000));
-        amp_after(1,rr)=mean(envelope(ending(rr)-1000));
-        trace(rr,:)=envelope(start(rr)-5000:start(rr)+60000-1);
-        idx_t(rr,:)=[start(rr) start(rr)+60000];
+    for ax=1:3
         
-    end
-    
-    
-    close all
-    for i=1:size(trace,1)
-        subplot(size(trace,1),1,i)
-        plot(tt(idx_t(i,1)-30000:idx_t(i,2)),zenv(idx_t(i,1)-30000:idx_t(i,2)))
+%         f3=figure(3)
+%         subplot(3,1,ax)
+%         plot(zscore(tf_3(:,ax)))
+%         hold on
+%         plot(zscore(C(:,ax)))
+%         for i=1:size(segmentb,2)
+%             xline(segmentb(i),'r')
+%             %                 xline(segmente(i),'k')
+%         end
+%         box('off')
+        
+        
+        for rr=1:length(start)
+            change(ax,1,rr)=(mean(envelope(ax,ending(rr)-1000:ending(rr)))-mean(envelope(ax,start(rr)-1000:start(rr))))./mean(ax,ending(rr)-1000:ending(rr));
+            amp_start(ax,1,rr)=mean(envelope(ax,start(rr)-1000:start(rr)));
+            amp_end(ax,1,rr)=mean(envelope(ax,ending(rr)-1000:ending(rr)));
+            amp_bhu(ax,1,rr)=mean(envelope(ax,segmentb(rr)-1000:segmentb(rr)));
+           
+            
+        end
+        
+        if min(segmentb)<15000
+            segmentbp=segmentb(2:end);
+        else
+        segmentbp=segmentb;
+        end
+        
+%         ini=15000;
+ini=20000;
+        
+        gg=[];
+        for i=1:length(segmentbp)
+%             gg=[gg ;(zenv(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
+        gg=[gg ;(zenv(ax,(start(i)-ini):(start(i)+60000)))];
+        end
+        
+        f4=figure(4)
+        subplot(3,1,ax)
+        plot(median(gg,1),'Color',[0.5 0.5 0.5])
         hold on
-        xline(tt(start(i)),'g','LineWidth',2)
-        xline(tt(ending(i)),'g','LineWidth',2)
+        xline(ini,'g--','LineWidth',2)
+        title(['PLS pt',num2str(iiii(numb))])
         
-        xline(hu(i),'b','LineWidth',2)
-        box('off')
-        xlim([tt(idx_t(i,1)-30000) tt(idx_t(i,2))])
+    yy(numb,:)=smooth(median(gg,1));
+%     y=yy(numb,1:35000);
+    y=yy(numb,1:40000);
+    x=tt(1:length(y));
+    initial_params=[];
+    [param]=sigm_fit(x,y,initial_params)        % automatic initial_params
+    clear x y
+    
+    prm(numb,:)=param;
+    peaks(1,numb)=Fpeak;
+    psd_curves(numb,1:3,:)=ps_curves;
+    
     end
     
-    
-    
-    
-    % y=median(trace(:,1000:end-1));
-    % x=1:length(y);
-    %
-    % initial_params=[];
-    %
-    % [param]=sigm_fit(x,y,initial_params)        % automatic initial_params
-    
-    
-    % f1=figure;
-    % subplot(1,2,1)
-    % time=1:length(tremor_or);
-    % plot(time,tremor_or,'LineWidth',1,'Color',[0.5 0.5 0.5])
-    % xlim([0 300000])
-    % xticks(0:60000:300000)
-    % xticklabels({'0','1','2','3','4','5'})
-    % set(gca,'FontSize',14)
-    % title('filtered tremor')
-    % box('off')
-    % ylabel('Acceleration (m/s^2)')
-    % xlabel('Time (min) ')
-    % subplot(1,2,2)
-    % color_b1=[0.5 0.5 0.5];
-    % y2=median(trace);
-    % y1=y2+std(trace);
-    % y3=y2-std(trace);
-    % time=1:length(trace);
-    % p1=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b1)
-    % patch([time fliplr(time)], [y1 fliplr(y2)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
-    % patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
-    % set(gca,'FontSize',14)
-    % box('off')
-    % title('Avg envelope')
-    % xlim([0 61000])
-    % xticks(0:10000:61000)
-    % xticklabels({'0','10','20','30','40','50','60'})
-    % xlabel('Time (sec)')
-    % ylabel('Change in tremor severity (m/s^2)')
-    % f1.Units = 'centimeters';
-    % f1.OuterPosition= [10, 10, 24, 12];
-    % set(f1,'color','w');
-    % % cd('/Users/Carolina/OneDrive - Nexus365/arcs_share/peripheral')
-    % % % saveas(f1,['PLS_plots',num2str(iiii(numb)),'.png'])
-    
-    
+    timings=[median(amp_bhu,3) median(amp_start,3) median(amp_end,3)];
+
+% f1=figure;
+% plot((timings'),'.','MarkerSize',20)
+% hold on
+% plot((timings'),'LineWidth',0.5)
+% xlim([0 4])
+% xticks([1 2 3])
+% xticklabels({'bef handup','bef stim','end stim'})
+% xtickangle(45)
+% ylabel('Tremor severity ')
+% f1.Units = 'centimeters';
+% f1.OuterPosition= [10, 10, 10, 10];
+% set(gca,'FontSize',14)
+% set(f1,'color','w');
+% box('off')
+   
 end
+
+
+
+
+%
+%
+%     % f1=figure;
+%     % subplot(1,2,1)
+%     % time=1:length(tremor_or);
+%     % plot(time,tremor_or,'LineWidth',1,'Color',[0.5 0.5 0.5])
+%     % xlim([0 300000])
+%     % xticks(0:60000:300000)
+%     % xticklabels({'0','1','2','3','4','5'})
+%     % set(gca,'FontSize',14)
+%     % title('filtered tremor')
+%     % box('off')
+%     % ylabel('Acceleration (m/s^2)')
+%     % xlabel('Time (min) ')
+%     % subplot(1,2,2)
+%     % color_b1=[0.5 0.5 0.5];
+%     % y2=median(trace);
+%     % y1=y2+std(trace);
+%     % y3=y2-std(trace);
+%     % time=1:length(trace);
+%     % p1=plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',color_b1)
+%     % patch([time fliplr(time)], [y1 fliplr(y2)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
+%     % patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1],'FaceAlpha',[0.2],'EdgeColor','none')
+%     % set(gca,'FontSize',14)
+%     % box('off')
+%     % title('Avg envelope')
+%     % xlim([0 61000])
+%     % xticks(0:10000:61000)
+%     % xticklabels({'0','10','20','30','40','50','60'})
+%     % xlabel('Time (sec)')
+%     % ylabel('Change in tremor severity (m/s^2)')
+%     % f1.Units = 'centimeters';
+%     % f1.OuterPosition= [10, 10, 24, 12];
+%     % set(f1,'color','w');
+%     % % cd('/Users/Carolina/OneDrive - Nexus365/arcs_share/peripheral')
+%     % % % saveas(f1,['PLS_plots',num2str(iiii(numb)),'.png'])
+
+
