@@ -2,7 +2,7 @@ clear all
 close all
 iii=[1 2 3 4 5 8 10 11 12 13 16 17];
 in2=1;
-for numb= 1:length(iii);
+for numb= 11:length(iii);
     clearvars -except iii numb NS NS_i in2 yy psd_curves peaks prm
     %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
@@ -58,12 +58,12 @@ for numb= 1:length(iii);
     peak_ax=[(Freqpeak(find(Ppeak==max(Ppeak)))) (find(Ppeak==max(Ppeak)))];
     Fpeak=peak_ax(1);
     
-    figure()
-    plot(F(3:50),ps_curves(:,3:50)','LineWidth',2)
-    legend({'x','y','z'})
-    legend('boxoff')
-    box('off')
-    
+%     figure()
+%     plot(F(3:50),ps_curves(:,3:50)','LineWidth',2)
+%     legend({'x','y','z'})
+%     legend('boxoff')
+%     box('off')
+%     
     if (Fpeak-2)>=1
         [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
     else
@@ -78,56 +78,66 @@ for numb= 1:length(iii);
     frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     
     
-        [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
+    [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
     C=(filtfilt(d,e,tre_3'));
     figure()
     for jj=1:3
         subplot(3,1,jj)
-            plot(zscore(tf_3(:,jj)))
-            hold on
-            plot(zscore(C(jj,:)))
-            for i=1:size(segmentb,2)
-                xline(segmentb(i),'r')
-                xline(segmente(i),'k')
-            end
-            box('off')
+        plot(zscore(tf_3(:,jj)))
+        hold on
+        plot(zscore(C(:,jj)))
+        for i=1:size(segmentb,2)
+            xline(segmentb(i),'r')
+            xline(segmente(i),'k')
+        end
+        box('off')
     end
-    ini=1500;
+    
+    
+    if min(segmentb)<20000
+        segmentbp=segmentb(2:end);
+    else
+        segmentbp=segmentb;
+    end
+    
+    %         ini=15000;
+    ini=20000;
     for ax=1:3
         gg=[];
-        for i=1:length(segmentb)
-            gg=[gg ;(zenv(ax,(segmentb(i)-ini):(segmentb(i)+60000)))];
+        for i=1:length(segmentbp)
+            gg=[gg ;(zenv(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
         end
         
-            f5=figure(5)
-            subplot(3,1,ax)
-            plot(median(gg),'Color',[0.5 0.5 0.5])
-            hold on
-            xline(ini,'g--','LineWidth',2)
-            title(['NS pt',num2str(iii(numb))])
+        f5=figure(5)
+        subplot(3,1,ax)
+        plot(median(gg),'Color',[0.5 0.5 0.5])
+        hold on
+        xline(ini,'g--','LineWidth',2)
+        title(['NS pt',num2str(iii(numb))])
         
-        yy(numb,:)=smooth(median(gg,1));
-        y=yy(numb,1:40000);
-        x=tt(1:length(y));
-        initial_params=[];
-        [param]=sigm_fit(x,y,initial_params)        % automatic initial_params
-        clear x y
+% %         yy(numb,:)=smooth(median(gg,1));
+% %         y=yy(numb,1:40000);
+% %         x=tt(1:length(y));
+% %         initial_params=[];
+% %         [param]=sigm_fit(x,y,initial_params)        % automatic initial_params
+% %         clear x y
     end
-    
-        for i=1:length(segmentb)
-        x=[sum(envelope(1,segmentb(i):segmente(i)));sum(envelope(2,segmentb(i):segmente(i)));sum(envelope(3,segmentb(i):segmente(i)))];
-        end
-        f10=figure(10)
-        bar(x)
-        box('off')
-        f10.Units = 'centimeters';
-        f10.OuterPosition= [10, 10, 8, 8];
-        set(f10,'color','w');
-        close all
-    
-    prm(numb,:)=param;
-    peaks(1,numb)=Fpeak;
-    psd_curves(numb,1:3,:)=ps_curves;
+% %     
+% %     for i=1:length(segmentb)
+% %         x=[sum(envelope(1,segmentb(i):segmente(i)));sum(envelope(2,segmentb(i):segmente(i)));sum(envelope(3,segmentb(i):segmente(i)))];
+% %     end
+% %     f10=figure(10)
+% %     bar(x)
+% %     box('off')
+% %     f10.Units = 'centimeters';
+% %     f10.OuterPosition= [10, 10, 8, 8];
+% %     set(f10,'color','w');
+% %     close all
+% %     
+% %     prm(numb,:)=param;
+% %     peaks(1,numb)=Fpeak;
+% %     psd_curves(numb,1:3,:)=ps_curves;
+close all
 end
 
 % x=tt(1:length(yy));

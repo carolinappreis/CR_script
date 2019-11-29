@@ -2,6 +2,7 @@ clear all
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 SMR_File_To_Mat;
 
+
 in2=1; % analysing the "main tremor axis"
 
 if in2==1
