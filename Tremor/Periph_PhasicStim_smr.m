@@ -28,9 +28,11 @@ for i=1
     bar(0:30:330,100.*nanmedian(tt1{i,axmax}))
     hold on
     plot(0:30:330,100.*tt1{i,axmax},'.')
+    set(gca,'XTickLabelRotation',45)
     box('off')
     subplot(1,4,2)
     bar(0:30:330,100.*nanmedian(tt1{i,axmax}))
+    set(gca,'XTickLabelRotation',45)
     box('off')
     subplot(1,4,3)
     bar(1:3,a)
