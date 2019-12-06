@@ -244,11 +244,12 @@ load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
 load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 cl=blushred;
 
-for i=1:length(iiii)
+for i=4
+%     1:length(iiii)
     f1=figure()
     for axis=1:3
         subplot(1,3,axis)
-        bar(0:30:330,nanmedian(tt1{i,axis}),'FaceColor',cl,'EdgeColor',cl)
+        bar(0:30:330,nanmedian(tt2{i,axis}),'FaceColor',cl,'EdgeColor',cl)
         hold on
         yline(prctile(nostim(i,axis,:),99.7917),'k--','LineWidth',1)
         yline(prctile(nostim(i,axis,:),0.2083),'k--','LineWidth',1)

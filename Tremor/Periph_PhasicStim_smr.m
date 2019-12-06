@@ -21,8 +21,13 @@ Periph_PhaseDet;
 
 
 for i=1
-    a=hist(pca_ax{i,1},3);
-    axmax=find(a==max(a));
+         axmax=mode(pca_ax{i,1});
+        for xa=1:3
+        pl(1,xa)=numel(find(pca_ax{i,1}==xa));
+        pl(1,xa)=numel(find(pca_ax{i,1}==xa));
+        pl(1,xa)=numel(find(pca_ax{i,1}==xa));
+        end
+        
     f2=figure(i)
     subplot(1,4,1)
     bar(0:30:330,100.*nanmedian(tt1{i,axmax}))
@@ -35,7 +40,7 @@ for i=1
     set(gca,'XTickLabelRotation',45)
     box('off')
     subplot(1,4,3)
-    bar(1:3,a)
+    bar(1:3,pl)
     names = {'CED2'; 'CED5';'CED6'};
     set(gca,'xtick',[1:3],'xticklabel',names)
     box('off')
