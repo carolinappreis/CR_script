@@ -7,11 +7,11 @@ dc_s{5,1}=[1.196 155.6 291.4 432.4 594.3];
 dc_s{6,1}=[6.24 162.5 357.7 522.2 683.6];
 dc_s{7,1}=[24.04 177.1 342 577.4 722.4];
 dc_s{8,1}=[9.3 199];
-dc_s{9,1}=[10.77 293.9 477 751.4];% 30 ONE PULSE 330 one pulse
-dc_s{10,1}=[31.85 255.3];
+dc_s{9,1}=[30.282 306.067];%  330 one pulse
+dc_s{10,1}=[31.85 255.3];%330 5 pulses
 
- cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-%     cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+%  cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+   cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 
 save('before_PLS')
 

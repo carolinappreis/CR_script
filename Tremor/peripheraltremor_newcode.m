@@ -254,15 +254,8 @@ for numb=4
     
     
     for i=1
-%         a=hist(pca_ax{i,1},3);
-%         axmax=find(a==max(a));
-        axmax=mode(pca_ax{i,1});
-        for xa=1:3
-        pl(1,xa)=numel(find(pca_ax{i,1}==xa));
-        pl(1,xa)=numel(find(pca_ax{i,1}==xa));
-        pl(1,xa)=numel(find(pca_ax{i,1}==xa));
-        end
-        
+    a=hist(pca_ax{i,1},1:3)
+    axmax=find(a==max(a));
         for axis=1:3
             f2=figure(2)
             subplot(1,3,axis)

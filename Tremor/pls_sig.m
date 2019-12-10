@@ -4,11 +4,12 @@ iiii=[2 3 4 5 8 10 11 13 17 18];
 % iiii=[2 5 8];
 
 in2=1;
-for numb=1:length(iiii);
+for numb=9
+%     1:length(iiii);
     close all
     clearvars -except iiii numb in2 prm peaks psd_curves
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
-    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
+         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
     if in2==1
         in=3;
@@ -71,7 +72,9 @@ for numb=1:length(iiii);
     ending=ending(~isnan(ending));
     
     
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
+             load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
+
     
     segmentb=round((dc_s{numb,:})*samplerate,1);
     
@@ -129,20 +132,23 @@ for numb=1:length(iiii);
     
     for ax=1:3
         
-%         f3=figure(3)
-%         subplot(3,1,ax)
-%         plot(zscore(tf_3(:,ax)))
-%         hold on
-%         plot(zscore(C(:,ax)))
-%         for i=1:size(segmentb,2)
-%             xline(segmentb(i),'r')
-%             %                 xline(segmente(i),'k')
-%         end
-%         box('off')
+        f3=figure(3)
+        subplot(3,1,ax)
+        plot(zscore(tf_3(:,ax)))
+        hold on
+        plot(zscore(C(:,ax)))
+        for i=1:size(segmentb,2)
+            xline(segmentb(i),'r')
+            %                 xline(segmente(i),'k')
+        end
+        box('off')
         
+
+
+
         
         for rr=1:length(start)
-            change(ax,1,rr)=(mean(envelope(ax,ending(rr)-1000:ending(rr)))-mean(envelope(ax,start(rr)-1000:start(rr))))./mean(ax,ending(rr)-1000:ending(rr));
+            change(ax,1,rr)=(mean(envelope(ax,ending(rr)-1000:ending(rr)))-mean(envelope(ax,start(rr)-1000:start(rr))))./mean(envelope(ax,ending(rr)-1000:ending(rr)));
             amp_start(ax,1,rr)=mean(envelope(ax,start(rr)-1000:start(rr)));
             amp_end(ax,1,rr)=mean(envelope(ax,ending(rr)-1000:ending(rr)));
             amp_bhu(ax,1,rr)=mean(envelope(ax,segmentb(rr)-1000:segmentb(rr)));
@@ -161,8 +167,8 @@ ini=20000;
         
         gg=[];
         for i=1:length(segmentbp)
-%             gg=[gg ;(zenv(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
-        gg=[gg ;(zenv(ax,(start(i)-ini):(start(i)+60000)))];
+            gg=[gg ;(zenv(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
+%         gg=[gg ;(zenv(ax,(start(i)-ini):(start(i)+60000)))];
         end
         
         f4=figure(4)
@@ -188,20 +194,20 @@ ini=20000;
     
     timings=[median(amp_bhu,3) median(amp_start,3) median(amp_end,3)];
 
-% f1=figure;
-% plot((timings'),'.','MarkerSize',20)
-% hold on
-% plot((timings'),'LineWidth',0.5)
-% xlim([0 4])
-% xticks([1 2 3])
-% xticklabels({'bef handup','bef stim','end stim'})
-% xtickangle(45)
-% ylabel('Tremor severity ')
-% f1.Units = 'centimeters';
-% f1.OuterPosition= [10, 10, 10, 10];
-% set(gca,'FontSize',14)
-% set(f1,'color','w');
-% box('off')
+f1=figure;
+plot((timings'),'.','MarkerSize',20)
+hold on
+plot((timings'),'LineWidth',0.5)
+xlim([0 4])
+xticks([1 2 3])
+xticklabels({'bef handup','bef stim','end stim'})
+xtickangle(45)
+ylabel('Tremor severity ')
+f1.Units = 'centimeters';
+f1.OuterPosition= [10, 10, 10, 10];
+set(gca,'FontSize',14)
+set(f1,'color','w');
+box('off')
    
 end
 

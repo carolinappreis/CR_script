@@ -1,5 +1,8 @@
 clear all
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+
+
 SMR_File_To_Mat;
 
 
@@ -21,13 +24,9 @@ Periph_PhaseDet;
 
 
 for i=1
-         axmax=mode(pca_ax{i,1});
-        for xa=1:3
-        pl(1,xa)=numel(find(pca_ax{i,1}==xa));
-        pl(1,xa)=numel(find(pca_ax{i,1}==xa));
-        pl(1,xa)=numel(find(pca_ax{i,1}==xa));
-        end
-        
+    a=hist(pca_ax{i,1},1:3)
+    axmax=find(a==max(a));
+          
     f2=figure(i)
     subplot(1,4,1)
     bar(0:30:330,100.*nanmedian(tt1{i,axmax}))
@@ -40,7 +39,7 @@ for i=1
     set(gca,'XTickLabelRotation',45)
     box('off')
     subplot(1,4,3)
-    bar(1:3,pl)
+    bar(1:3,a)
     names = {'CED2'; 'CED5';'CED6'};
     set(gca,'xtick',[1:3],'xticklabel',names)
     box('off')
