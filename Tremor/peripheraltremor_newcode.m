@@ -1,13 +1,13 @@
 clear all
-iiii=[1 2 3 4 5 8 10 11 12 13 16 17];
+iiii=[1 2 3 4 5 8 10 11 12 13 16 17 19 20];
 % iiii=[2 5 8]; %% significant one
 % iiii=[ 2 3 4 5 8 10 11 13 16 17];
 
-for numb=4
+for numb=length(iiii)-1
 %     1:length(iiii);
     clearvars -except iiii numb
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
-    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
+%         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
     
     in2=1; % analysing the "main tremor axis"
     
@@ -143,9 +143,14 @@ for numb=4
         
     end
     
-    %%%% find runs with trigering issues (too few, too many pulses)
-    th1=(Fpeak*5)./2;
-    th2=(Fpeak*5)+round((Fpeak*5)./2);
+%     %%%% find runs with trigering issues (too few, too many pulses)
+%     th1=(Fpeak*5)./2;
+%     th2=(Fpeak*5)+round((Fpeak*5)./2);
+    
+        th1=(Fpeak*5*5)./2;
+    th2=(Fpeak*5*5)+round((Fpeak*5*5)./2);
+    
+    
     for it=1:length(indexes4)
         if numel(index(find(index==indexes4(it)):find(index==indexes3(it))))>=th1 && numel(index(find(index==indexes4(it)):find(index==indexes3(it))))<=th2
             indexes4(it)=indexes4(it);
@@ -256,6 +261,9 @@ for numb=4
     for i=1
     a=hist(pca_ax{i,1},1:3)
     axmax=find(a==max(a));
+    if length(axmax)>1
+        axmax=axmax(2)
+    end
         for axis=1:3
             f2=figure(2)
             subplot(1,3,axis)
@@ -277,7 +285,7 @@ for numb=4
         
         f4=figure(4)
         subplot(1,3,1)
-        bar(1:3,pl)
+        bar(1:3,a)
         names = {'CED2'; 'CED5';'CED6'};
         box('off')
         set(gca,'xtick',[1:3],'xticklabel',names)

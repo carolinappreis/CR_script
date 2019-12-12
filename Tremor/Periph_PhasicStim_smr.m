@@ -1,6 +1,6 @@
 clear all
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+ cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 
 
 SMR_File_To_Mat;

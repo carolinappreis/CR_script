@@ -9,7 +9,7 @@ run('peripheraltremor_newcode.m')
 
 run('NS_sigmoid.m')
 
-run('pls_sig.m')
+run('pls_sig.m')% runs 'code_before_PLScell.m' 
 
 run('NS_new')
 
