@@ -1,5 +1,5 @@
 clear all
-cd('/Users/hayriyecagnan/Downloads')
+cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\raw_data')
 SMR_File_To_Mat;
 
 in2=1; % analysing the "main tremor axis"
@@ -20,7 +20,7 @@ DBS_phasedetection_HC;
 
 
 for i=1:2
-    a=hist(pca_ax{i,1},3);
+    a=hist(pca_ax{i,1},1:3);
     axmax=find(a==max(a));
     f2=figure(i)
     subplot(1,4,1)

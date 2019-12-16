@@ -137,9 +137,10 @@ envelope=abs(hilbert(tremor_or));
 
 for rr=1:length(start)
     amp_b(1,rr)=mean(envelope(start(rr)-1000));
-    amp_after(1,rr)=mean(envelope(ending(rr)-1000));
-    trace(rr,:)=envelope(start(rr)-1000:start(rr)+100000-1);
-    idx_t(rr,:)=[bef_s(rr) ending(rr)];
+    amp_after(1,rr)=mean(envelope(ending(rr)-1000)); 
+    trace(rr,:)=envelope(start(rr)-1000:start(rr)+95000-1); %%% clean short spiral and remove 5s cut
+    idx_t(rr,:)=[bef_s(rr) ending(rr)-5000]; %%% clean short spiral and remove 5s cut
+    change(1,rr)=(mean(envelope(ending(rr)-1000))-mean(envelope(start(rr)-1000)))./mean(envelope(start(rr)-1000));
 end
 
 % [p,h]=ttest(amp_b,amp_after)
@@ -158,6 +159,7 @@ plot(time2,dc2,'LineWidth',1)
     for r=1:size(tap_in,1)
         for i=1:length(bef_s)
             xline(time2(start(i)),'g','LineWidth',2)
+            xline(time2(ending(i)),'g','LineWidth',2)
             if ~isnan(tap_in)
             xline(tap_in(r,i),'r--','LineWidth',0.5)
             xline(tap_out(r,i),'k--','LineWidth',0.5)
@@ -206,10 +208,10 @@ f1.OuterPosition= [10, 10, 24, 12];
 set(f1,'color','w');
 
 
-
-start-bef_s
-mean([tap_out(1,:)-tap_in(1,:) tap_out(2,:)-tap_in(2,:)])
-std([tap_out(1,:)-tap_in(1,:) tap_out(2,:)-tap_in(2,:)])
+% 
+% start-bef_s
+% mean([tap_out(1,:)-tap_in(1,:) tap_out(2,:)-tap_in(2,:)])
+% std([tap_out(1,:)-tap_in(1,:) tap_out(2,:)-tap_in(2,:)])
 
 
 
