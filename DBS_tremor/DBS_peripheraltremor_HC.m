@@ -27,21 +27,26 @@ for i=1:2
     bar(0:30:330,100.*nanmedian(tt1{i,axmax}))
     hold on
     plot(0:30:330,100.*tt1{i,axmax},'.')
+    set(gca,'XTickLabelRotation',45)
     box('off')
     subplot(1,4,2)
     bar(0:30:330,100.*nanmedian(tt1{i,axmax}))
+    set(gca,'XTickLabelRotation',45)
     box('off')
     subplot(1,4,3)
     bar(1:3,a)
     names = {'CED2'; 'CED5';'CED6'};
     set(gca,'xtick',[1:3],'xticklabel',names)
+    set(gca,'XTickLabelRotation',45)
     box('off')
     subplot(1,4,4)
     bar([1 2],[PSI_ax{i}(1,1);PSI_ax{i}(1,2)]);
     names = {'PSI 2 5'; 'PSI 2 6'};
     set(gca,'xtick',[1:2],'xticklabel',names)
+    set(gca,'XTickLabelRotation',45)
+    box('off')
     f2.Units = 'centimeters';
-    f2.OuterPosition= [10, 10, 60, 10];
+    f2.OuterPosition= [10, 10, 30, 8];
     set(f2,'color','w');
     if i==1
         title('condition1')
