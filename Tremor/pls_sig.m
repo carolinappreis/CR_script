@@ -14,8 +14,8 @@ for numb= 2
 %     1:length(iiii)-6;
      close all
     clearvars -except iiii numb in2 prm peaks psd_curves m_change time_all ns_ref
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
-    %          load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
+             load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
     if in2==1
         in=3;
@@ -78,8 +78,8 @@ for numb= 2
     ending=ending(~isnan(ending));
     
     
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
-    %              load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
+                  load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
     
     
     segmentb=round((dc_s{numb,:})*samplerate,1);

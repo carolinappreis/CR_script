@@ -122,7 +122,9 @@ for numb=length(iii);
     clearvars -except nostimout iii numb PC A1 B1 iii stim nostim in2
 end
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-save('cr_18.mat')
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+
+% save('cr_18.mat')
 % save 'newnonstim2.mat'
 
 % ANS_group=nostimout; clear nostimout
