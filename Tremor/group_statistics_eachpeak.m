@@ -13,11 +13,12 @@ for i=1:length(dum)
     pt=[pt find(iiii==dum(i))];
 end
 
-main=[1 1 3 1 3 3 3 3 1 1];
-% main=[1 1 1 1 1 1 1 1 1 1];
+ main=[1 1 3 1 3 3 3 3 1 1];
+%  main=[1 1 1 1 1 1 1 1 1 1];
 for pp=1:10
 a.ns(pp,:)=nostimout(pt(pp),main(pp),:); a.s(pp,:)=nanmedian(tt1{pt(pp),1}); 
 end
+
 
 % % load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_FRC.mat');load ('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\freq_NS.mat')
 % load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_FRC.mat'); load ('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/freq_NS.mat');
@@ -40,16 +41,20 @@ end
 
 if iii==0;
     sub=ref(idma,:);  % iii=0 amplifying effect;
+    sub1=a.ns(idma,:);  % iii=0 amplifying effect;
 else
     sub=ref(idmi,:);  % iii~=0 supressive effect;
+    sub1=a.ns(idmi,:);  % iii=0 amplifying effect;
 end
 
 for i=1:size(sub,1);
     
     if iii==0
         phase_peak(1,i)=find(sub(i,:)==max(sub(i,:)));
+        p_p_s(1,i)=find(sub1(i,:)==max(sub1(i,:)));
     else
         phase_peak(1,i)=find(sub(i,:)==min(sub(i,:)));
+        p_p_s(1,i)=find(sub1(i,:)==min(sub1(i,:)));
     end
     
     if phase_peak(i)==1;
@@ -61,7 +66,7 @@ for i=1:size(sub,1);
         
     else
         a_s_al(i,:)=[a.s(i,phase_peak(i):end) a.s(i,1:phase_peak(i)-1)];
-        a_ns_al(i,:)=[a.ns(i,phase_peak(i):end) a.ns(i,1:phase_peak(i)-1)];
+        a_ns_al(i,:)=[a.ns(i,p_p_s(i):end) a.ns(i,1:p_p_s(i)-1)];
         
         %f_s_al(i,:)=[f.s(i,phase_peak(i):end) f.s(i,1:phase_peak(i)-1)];
         %f_ns_al(i,:)=[f.ns(i,phase_peak(i):end) f.ns(i,1:phase_peak(i)-1)];
@@ -124,42 +129,15 @@ else
 end
 
 
-% if kstest(f_s_al(:,1)-f_ns_al(:,1))==1
-%     for i=1:12
-%         
-%         [p4(1,i),h4(1,i)]=signrank(f_s_al(:,i),f_ns_al(:,i));
-%         f.s_ns=[h4(1) p4(1)];
-%         
-%         [p5(1,i),h5(1,i)]=signrank(f_s_al(:,i),f_s2(:,i));
-%         f.s_180=[h5(1) p5(1)];
-%         
-%         [p6(1,i),h6(1,i)]=signrank(f_ns_al(:,i),f_ns2(:,i));
-%         f.ns_180=[h6(1) p6(1)];
-%     end
-%     test_f='wilcoxon';
-%     
-% else
-%     [p4,h4]=ttest(f_s_al,f_ns_al);
-%     f.s_ns=[p4(1) h4(1)];
-%     
-%     [p5,h5]=ttest(f_s_al,f_s2);
-%     f.s_180=[p5(1) h5(1)];
-%     
-%     [p6,h6]=ttest(f_ns_al,f_ns2);
-%     f.ns_180=[p6(1) h6(1)];
-%     
-%     test_f='ttest';
-%     
-% end
-
-clearvars -except a f
+clearvars -except a
 
 a.s_ns 
-% f.s_ns
+
 a.s_180
-% f.s_180
+
 a.ns_180
-% f.ns_180
+
+
 % for i=1:size(sub,1);
 %         new_as_al(i,:)=zscore(a_s_al(i,:));
 % end
