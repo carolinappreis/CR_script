@@ -14,7 +14,7 @@ for i=1:length(dum)
 end
 
 for pp=1:size(pt,2)
-  Sa(pp,:)=nanmedian(tt1{pt(pp),1})  
+  Sa(pp,:)=nanmedian(tt1{pt(pp),1})  ;
 end
 
 
@@ -130,6 +130,9 @@ f2.Units = 'centimeters';
 f2.OuterPosition= [10, 10, 12, 12];
 box('off')
 set(f2,'color','w');
+
+
+
 
 
 

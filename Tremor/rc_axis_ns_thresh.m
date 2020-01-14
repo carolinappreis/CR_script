@@ -242,7 +242,7 @@ for numb=1:length(iiii)
 end
 
 
-clearvars -except iiii tt1
+clearvars -except iiii tt1 LS
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % save('cleaned_rc12')
 

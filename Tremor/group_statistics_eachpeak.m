@@ -27,7 +27,7 @@ end
 % f.ns=NS(off,:); f.s=ttall(off,:); clearvars -except a f
 
 ref=a.s; %%% max amplitude change vs. max frequecy change
-iii=1; %%%%% amp (=0) vs. supressive effect
+iii=0; %%%%% amp (=0) vs. supressive effect
 
 idmi=[];
 idma=[];
@@ -98,28 +98,40 @@ for i=1:size(sub,1);
 end
 
 
+st=NaN(1,12);
+clear A; A=a_s_al; %b1{f,1};
+clear B; B=a_ns_al; %s1{f,1}(1:size(A,1),:);
+hayriye_c; st(1,:)=stats.prob; st2(1,:)=stats.posclusterslabelmat;
+beg=find(st(1,:)<0.05 & st2(1,:)~=0);
+if ~isempty(beg)
+    sig_rise_all=[beg(1) beg(end)];
+    
+end
+
+
+
 
 %%%%%%%%%%%%%%%%%%%check alignments
-% % for i=1:10
-% %     figure(1)
-% % subplot(1,10,i)
-% % bar(a.s(i,:))
-% % 
-% % 
-% % figure(2)
-% % subplot(1,10,i)
-% % bar(a.ns(i,:))
-% % 
-% % figure(3)
-% % subplot(1,10,i)
-% % bar(a_s_al(i,:))
-% % 
-% % 
-% % figure(4)
-% % subplot(1,10,i)
-% % bar(a_ns_al(i,:))
-% % end
-% % 
+for i=1:10
+    figure(1)
+subplot(1,10,i)
+bar(a.s(i,:))
+
+
+% figure(2)
+% subplot(1,10,i)
+% bar(a.ns(i,:))
+
+figure(3)
+subplot(1,10,i)
+bar(a_s_al(i,:))
+
+
+% figure(4)
+% subplot(1,10,i)
+% bar(a_ns_al(i,:))
+end
+
 
 
 
@@ -155,7 +167,7 @@ else
 end
 
 
-clearvars -except a
+% clearvars -except a
 
 a.s_ns 
 

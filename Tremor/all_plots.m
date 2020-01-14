@@ -67,43 +67,45 @@ for pp=1:size(pt,2)
     label_shift_1(pp,:)=squeeze(LS(pp,main(pp),:));
 end
 
+
+
 for i =1:size(smoo_main,1)
     
-    %smooth arc main axes
-    f1= figure(1) 
-    subplot(2,5,i)
-    bar(0:30:330,smoo_main(i,:),'FaceColor',cl,'EdgeColor',cl)
-    ylabel('Change in tremor severity')
-    xlabel('Stimulation phase (degrees)')
-    set(gca,'XTickLabelRotation',45)
-    set(gca,'FontSize',12)
-    box('off')
-    
-    
-    %raw ARC with NS thereshold for main axes
-    f2= figure(2)
-    subplot(2,5,i)
-    bar(0:30:330,raw_main(i,:),'FaceColor',cl,'EdgeColor',cl)
-    hold on
-    yline(prctile(nostim_1(i,:),99.7917),'k--','LineWidth',1)
-    yline(prctile(nostim_1(i,:),0.2083),'k--','LineWidth',1)
-    ylabel('Change in tremor severity')
-    xlabel('Stimulation phase (degrees)')
-    set(gca,'XTickLabelRotation',45)
-    set(gca,'FontSize',12)
-    box('off')
-    
-    
-    f3=figure(3);
-    subplot(2,5,i)
-    bar(0:30:330,squeeze(smoo_all(i,1,:)),'FaceColor',cl,'FaceAlpha',[0.3],'EdgeColor','none')
-    hold on 
-    plot(0:30:330,squeeze(smoo_all(i,2,:)),'k','LineWidth',1.5)
-    plot(0:30:330,squeeze(smoo_all(i,3,:)),'k','LineWidth',1.5)
-    ylabel('Change in tremor severity')
-    xlabel('Stimulation phase (degrees)')
-    set(gca,'XTickLabelRotation',45)
-    box('off')
+%     %smooth arc main axes
+%     f1= figure(1) 
+%     subplot(2,5,i)
+%     bar(0:30:330,smoo_main(i,:),'FaceColor',cl,'EdgeColor',cl)
+%     ylabel('Change in tremor severity')
+%     xlabel('Stimulation phase (degrees)')
+%     set(gca,'XTickLabelRotation',45)
+%     set(gca,'FontSize',12)
+%     box('off')
+%     
+%     
+%     %raw ARC with NS thereshold for main axes
+%     f2= figure(2)
+%     subplot(2,5,i)
+%     bar(0:30:330,raw_main(i,:),'FaceColor',cl,'EdgeColor',cl)
+%     hold on
+%     yline(prctile(nostim_1(i,:),99.7917),'k--','LineWidth',1)
+%     yline(prctile(nostim_1(i,:),0.2083),'k--','LineWidth',1)
+%     ylabel('Change in tremor severity')
+%     xlabel('Stimulation phase (degrees)')
+%     set(gca,'XTickLabelRotation',45)
+%     set(gca,'FontSize',12)
+%     box('off')
+%     
+%     
+%     f3=figure(3);
+%     subplot(2,5,i)
+%     bar(0:30:330,squeeze(smoo_all(i,1,:)),'FaceColor',cl,'FaceAlpha',[0.3],'EdgeColor','none')
+%     hold on 
+%     plot(0:30:330,squeeze(smoo_all(i,2,:)),'k','LineWidth',1.5)
+%     plot(0:30:330,squeeze(smoo_all(i,3,:)),'k','LineWidth',1.5)
+%     ylabel('Change in tremor severity')
+%     xlabel('Stimulation phase (degrees)')
+%     set(gca,'XTickLabelRotation',45)
+%     box('off')
     
     %raw ARC with Phase shift thereshold for main axes
     f4= figure(4)
