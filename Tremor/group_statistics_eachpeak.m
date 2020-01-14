@@ -1,9 +1,10 @@
 
 
 clear all
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
-
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
 
 cohort=[2 3 4 5 8 10 11 13 16 17];
 dum=intersect(iiii,cohort);
@@ -26,7 +27,7 @@ end
 % f.ns=NS(off,:); f.s=ttall(off,:); clearvars -except a f
 
 ref=a.s; %%% max amplitude change vs. max frequecy change
-iii=0; %%%%% amp (=0) vs. supressive effect
+iii=1; %%%%% amp (=0) vs. supressive effect
 
 idmi=[];
 idma=[];
@@ -95,6 +96,31 @@ for i=1:size(sub,1);
     end
     
 end
+
+
+
+%%%%%%%%%%%%%%%%%%%check alignments
+% % for i=1:10
+% %     figure(1)
+% % subplot(1,10,i)
+% % bar(a.s(i,:))
+% % 
+% % 
+% % figure(2)
+% % subplot(1,10,i)
+% % bar(a.ns(i,:))
+% % 
+% % figure(3)
+% % subplot(1,10,i)
+% % bar(a_s_al(i,:))
+% % 
+% % 
+% % figure(4)
+% % subplot(1,10,i)
+% % bar(a_ns_al(i,:))
+% % end
+% % 
+
 
 
 if kstest(a_s_al(:,1)-a_ns_al(:,1))==1

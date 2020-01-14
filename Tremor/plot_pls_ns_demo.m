@@ -17,11 +17,13 @@ end
 box('off')
 xlabel('time (sec)')
 xlim([0 100000])
-xticklabels({'0','10','20','30','40','50','60','70','80','90','100'})
+xticklabels({'0','20','40','60','80','100'})
 ylabel('tremor severity (m/s^2)')
 set(gca,'FontSize',12)
 f1.Units = 'centimeters';
 f1.OuterPosition= [10, 10, 30, 8];
+
+
 %run NS_sigmoid numb=2 (pt 3); breakpoint 124
 
 

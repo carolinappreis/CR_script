@@ -1,8 +1,9 @@
 clear all
 iii=[1 2 3 4 5 8 10 11 12 13 16 17 18];
 in2=1;
-for numb=length(iii);
-    clearvars -except iii PC A1 B1 numb nostim nostimout samplerate in2
+for numb=3
+%     1:length(iii);
+    clearvars -except iii PC A1 B1 numb nostim nostimout samplerate in2 cr
     %      load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
     
@@ -41,18 +42,18 @@ for numb=length(iii);
     
         [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
         C=(filtfilt(d,e,tre_3'));
-        figure()
-        for jj=1:3
-            subplot(3,1,jj)
-                plot(zscore(tre_3(jj,:)))
-                hold on
-                plot(zscore(C(jj,:)))
-                for i=1:size(segmentb,2)
-                    xline(segmentb(i),'r')
-                    xline(segmente(i),'k')
-                end
-                box('off')
-        end
+%         figure()
+%         for jj=1:3
+%             subplot(3,1,jj)
+%                 plot(zscore(tre_3(jj,:)))
+%                 hold on
+%                 plot(zscore(C(jj,:)))
+%                 for i=1:size(segmentb,2)
+%                     xline(segmentb(i),'r')
+%                     xline(segmente(i),'k')
+%                 end
+%                 box('off')
+%         end
     
     handup=[];
     for i=1:length(segmentb)
@@ -71,6 +72,7 @@ for numb=length(iii);
     end
     peak_ax=[(Freqpeak(find(Ppeak==max(Ppeak)))) (find(Ppeak==max(Ppeak)))];
     Fpeak=peak_ax(1);
+    cr(numb,:)=Fpeak;
     
 %     figure()
 %     plot(F(3:50),ps_curves(:,3:50)','LineWidth',2)
@@ -91,8 +93,7 @@ for numb=length(iii);
     phase=angle(dummy);
     frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     
-    
-    
+   
     for ax=1:3
             for j=1:5e4
                 ix=randi(length(segmentb),1);
@@ -101,7 +102,6 @@ for numb=length(iii);
                 end3=floor(begin3+5*samplerate);
                 baseline3(1,j)=(mean(envelope(ax,end3-1000:end3))-mean(envelope(ax,begin3-1000:begin3)))./mean(envelope(ax,begin3-1000:begin3)); %#ok<*SAGROW> %
                 % baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
-   
             end
             
         rep=10;
@@ -119,7 +119,7 @@ for numb=length(iii);
         end
         clear dum dum2 baseline3
     end
-    clearvars -except nostimout iii numb PC A1 B1 iii stim nostim in2
+    clearvars -except nostimout iii numb PC A1 B1 iii stim nostim in2 cr
 end
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')

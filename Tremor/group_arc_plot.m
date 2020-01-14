@@ -2,8 +2,8 @@ clear all
 
 
 iii=0; %%%%% amp (=0) vs. supressive effect
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
+ load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
 
 cohort=[2 3 4 5 8 10 11 13 16 17];
 dum=intersect(iiii,cohort);
@@ -14,7 +14,7 @@ for i=1:length(dum)
 end
 
 for pp=1:size(pt,2)
-  Sa(pp,:)=median(tt1{pt(pp),1})  
+  Sa(pp,:)=nanmedian(tt1{pt(pp),1})  
 end
 
 
@@ -69,8 +69,8 @@ end
 close all
 
     metric1=[a_s_al(:,8:12) a_s_al(:,1:7)];
-   load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-%     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+%    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
     cl=blushred;
     cl1=squash;
     
@@ -108,16 +108,16 @@ if iii==0
  
     
     f1=figure(1)
-    xlabel({'Aligment to phase with max';'tremor amplification'})
+    xlabel({'Alignment to phase with max';'tremor amplification'})
     f2=figure(2)
-    xlabel({'Aligment to phase with max';'tremor amplification'})
+    xlabel({'Alignment to phase with max';'tremor amplification'})
     
 else
     
     f1=figure(1)
-    xlabel({'Aligment to phase with max';'tremor supression'})
+    xlabel({'Alignment to phase with max';'tremor supression'})
     f2=figure(2)
-    xlabel({'Aligment to phase with max';'tremor supression'})
+    xlabel({'Alignment to phase with max';'tremor supression'})
   
 end
 
