@@ -48,8 +48,8 @@ for pp=1:size(pt,2)
         nostim_var(pp,kk,:)=var(nostim(pp,kk,:));
         test(pp,kk,:)=prctile(nostim(pp,kk,:),99.7917);
         raw(pp,kk,:)=nanmedian(tt1{pt(pp),kk});
-        ray_p(pp,kk,1)=circ_rtest(squeeze(nanmedian(tt1{pt(pp),kk})));
-        ray_test(pp,kk,1)=(circ_rtest(squeeze(nanmedian(tt1{pt(pp),kk}))))<0.05;
+        p (pp,kk,1) = kruskalwallis(tt1{pt(pp),kk});
+
     
     end
    
@@ -65,6 +65,22 @@ for pp=1:size(pt,2)
     raw_main(pp,:)=squeeze(nanmedian(tt1{pt(pp),1}));
     nostim_1(pp,:)=squeeze(nostim(pp,main(pp),:));
     label_shift_1(pp,:)=squeeze(LS(pp,main(pp),:));
+    non_uni=find(p(:,1)<0.05);
+    
+    %%%%work from here
+ARC=tt1{pt(pp),1}(1:cr,1:12);
+ARC2(1:cr,1)=mean(ARC(:,1:3),2);
+ARC2(1:cr,2)=mean(ARC(:,4:6),2);
+ARC2(1:cr,3)=mean(ARC(:,7:9),2);
+ARC2(1:cr,4)=mean(ARC(:,10:12),2);
+friedman(ARC2)
+figure()
+subplot(2,1,1)
+bar(median(ARC))
+subplot(2,1,2)
+bar(median(ARC2))
+
+    
 end
 
 

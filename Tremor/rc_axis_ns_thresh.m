@@ -229,7 +229,7 @@ for numb=1:length(iiii)
         tt1{numb,axx}=tt;
         
         for rr=1:100000
-        LS(numb,axx,rr)=nanmedian(tt(randi(length(start),1,10)));
+        LS(numb,axx,rr)=nanmedian(tt(randi(length(start1),1,10)));
         end
         
 
