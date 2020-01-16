@@ -1,61 +1,77 @@
 clear all
 close all
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
-load('smooth_arc3.mat')
-load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
+load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+%
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/labels_shift.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit_0120.mat')
+% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
 cl=blushred;
 
-% for i=1:size(smo_s,1);
-%     y= smo_s(i,:);
-%     clearvars -except i y rs_gauss rs_sin cl smo_s
-%     figure()
-%     bar(y,'FaceColor',cl,'EdgeColor',cl)
-%     hold on
-%     rsg=gauss_fit(y);
-%     rs_gauss(i,:)=rsg.rsquare;
-%     legend( 'ARC', 'gaussian fit', 'Location', 'NorthEast', 'Interpreter', 'none');
-%     legend('boxoff')
-%     xlabel( 'Stim phase', 'Interpreter', 'none' );
-%     ylabel( 'Amplitude change', 'Interpreter', 'none' );
-%     title(['P0', num2str(i), '_ rsquare: ',num2str(rs_gauss(i))])
-%     ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
-%     box('off')
-%     
-%     figure()
-%     bar(y,'FaceColor',cl,'EdgeColor',cl)
-%     hold on
-%     rss=sin_fit(y);
-%     rs_sin(i,:)=rss.rsquare;
-%     legend( 'ARC','Sin fit', 'Location', 'NorthEast', 'Interpreter', 'none');
-%     legend('boxoff')
-%     xlabel( 'Stim phase', 'Interpreter', 'none' );
-%     ylabel( 'Amplitude change', 'Interpreter', 'none' );
-%     title(['P0', num2str(i), '_ rsquare: ',num2str(rs_sin(i))])
-%     ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
-%     box('off')
-%     hold off
-% end
-% 
-% 
-% 
+%attention to number 13 and 14 of tt1 (they are the same pateint, 13 5
+%trials with 5 pulses stim and 14, 5 trials with 1 pulse stim
 
-for i=1:size(smo_s,1);
-    y= smo_s(i,:);
-    clearvars -except i y rs_gauss rs_sin cl smo_s
+
+%smoothed ARC'S
+% iiii=[1 2 3 4 5 8 10 11 12 13 16 17 19 20];
+
+cohort=[2 3 4 5 8 10 11 13 16 17];
+dum=intersect(iiii,cohort);
+
+pt=[];
+for i=1:length(dum)
+    pt=[pt find(iiii==dum(i))];
+end
+
+main=[1 1 3 1 3 3 3 3 1 1];
+%   main=[1 1 1 1 1 1 1 1 1 1];
+for pp=1:size(pt,2)
+    for kk=1:size(tt1,2)
+        
+        curve=nanmedian(tt1{pt(pp),kk},1);
+        SO=repmat(curve,1,3);
+        SOUT=repmat((squeeze(nostimout(pt(pp),kk,:)))',1,3);
+        for i=size(tt1{pt(pp),kk},2)+1:size(tt1{pt(pp),kk},2)*2
+            smooth_c(1,i-12)=sum(SO(1,(i-1:i+1)))./length(SO(1,(i-1:i+1)));
+            smooth_ns(1,i-12)=sum(SOUT(1,(i-1:i+1)))./length(SOUT(1,(i-1:i+1)));
+        end
+        
+        
+        smoo_all(pp,kk,:)=smooth_c;  clear smooth_c
+        nsmoo_all(pp,kk,:)=smooth_ns; clear smooth_ns
+        
+    end
+    
+    
+    
+    smoo_main(pp,:)=squeeze(smoo_all(pp,1,:));
+    nsmoo_main(pp,:)=squeeze(nsmoo_all(pp,1,:));
+    s_main(pp,:)=nanmedian(tt1{pt(pp),1},1);
+    ns_main(pp,:)=squeeze(nostimout(pt(pp),1,:));
+end
+
+
+%
+
+for i=1:size(s_main,1);
+    y= s_main(i,:);
+    clearvars -except i y rs_gauss rs_sin cl s_main rs_lin
     f1=figure(1)
     subplot(1,10,i)
     bar(y,'FaceColor',cl,'EdgeColor',cl)
     hold on
     rsg=gauss_fit(y);
-    rs_gauss(i,:)=rsg.adjrsquare;
-%     legend( 'ARC', 'gaussian fit', 'Location', 'NorthEast', 'Interpreter', 'none');
-%     legend('boxoff')
-%    xlabel( 'Stim phase', 'Interpreter', 'none' );
-%    ylabel( 'Amplitude change', 'Interpreter', 'none' );
-   title(['adjr^2: ',num2str(rs_gauss(i))])
-%   ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
+    rs_gauss(i,:)=[rsg.sse rsg.dfe];
+    %     legend( 'ARC', 'gaussian fit', 'Location', 'NorthEast', 'Interpreter', 'none');
+    %     legend('boxoff')
+    %    xlabel( 'Stim phase', 'Interpreter', 'none' );
+    %    ylabel( 'Amplitude change', 'Interpreter', 'none' );
+    title(['r^2: ',num2str(rsg.rsquare)])
+    %   ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
     xlabel('');ylabel('');legend('off')
     box('off')
     
@@ -64,30 +80,55 @@ for i=1:size(smo_s,1);
     bar(y,'FaceColor',cl,'EdgeColor',cl)
     hold on
     rss=sin_fit(y);
-    rs_sin(i,:)=rss.adjrsquare;
+    rs_sin(i,:)=[rss.sse rss.dfe];
     xlabel('');ylabel('');legend('off')
-%     legend( 'ARC','Sin fit', 'Location', 'NorthEast', 'Interpreter', 'none');
-%     legend('boxoff')
-%     xlabel( 'Stim phase', 'Interpreter', 'none' );
-%     ylabel( 'Amplitude change', 'Interpreter', 'none' );
-     title(['adjr^2: ',num2str(rs_sin(i))])
-%     ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
+    %     legend( 'ARC','Sin fit', 'Location', 'NorthEast', 'Interpreter', 'none');
+    %     legend('boxoff')
+    %     xlabel( 'Stim phase', 'Interpreter', 'none' );
+    %     ylabel( 'Amplitude change', 'Interpreter', 'none' );
+    title(['r^2: ',num2str(rss.rsquare)])
+    %     ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
     box('off')
     hold off
+    
+    
+    f3=figure(3)
+    subplot(1,10,i)
+    bar(y,'FaceColor',cl,'EdgeColor',cl)
+    hold on
+
+    %    legend( 'ARC','Sin fit', 'Location', 'NorthEast', 'Interpreter', 'none');
+    %    legend('boxoff')
+    %    xlabel( 'Stim phase', 'Interpreter', 'none' );
+    %    ylabel( 'Amplitude change', 'Interpreter', 'none' );
+    rsl=poli_fit(y);
+    rs_lin(i,:)=[rsl.sse rsl.dfe];
+    xlabel('');ylabel('');legend('off')
+    %     legend( 'ARC','Sin fit', 'Location', 'NorthEast', 'Interpreter', 'none');
+    %     legend('boxoff')
+    %     xlabel( 'Stim phase', 'Interpreter', 'none' );
+    %     ylabel( 'Amplitude change', 'Interpreter', 'none' );
+      title(['r^2: ',num2str(rsl.rsquare)])
+    %     ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
+    box('off')
+    hold off
+    
 end
 
-
-
-
-
-
-
-
-
-
-
-
-%
+for i=1:10
+    n=12;
+    r1=rs_sin(i,1);
+    r2=rs_lin(i,1);
+    df1=rs_gauss(i,2);
+    df2=rs_lin(i,2);
+    ctl_val=2.854;
+    F=((r1-r2)./(df2-df1))./((r2)./(n-df2))
+    
+  
+    
+    
+    
+end
 % for i=1:10
 % y=smo_s(i,:);
 % % bar(cr)

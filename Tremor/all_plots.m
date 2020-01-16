@@ -192,4 +192,18 @@ for hh=1:size(arc1,1)
 end
 
 
-
+% cr=squeeze(tt1{2,1});
+% cr1(1:10,1:12)=cr(1:10,1:12);
+% bins=[min(min(cr)) nanmedian(nanmedian(cr)) max(max(cr))];
+% [a1,ef1]=find(cr1<bins(2));
+% [a2,ef2]=find(cr1>=bins(2));
+% subplot(1,2,1)
+% rose(ang(ef1));
+% subplot(1,2,2)
+% rose(ang(ef2));
+% [circ_rtest(ang(ef1)); circ_rtest(ang(ef2))]
+% figure;
+% bar(0:30:330,nanmedian(cr))
+% hold on
+% plot(0:30:330,cr,'.')
+% yline(bins(2))
