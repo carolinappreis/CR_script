@@ -116,18 +116,14 @@ for i=1:size(s_main,1);
 end
 
 for i=1:10
-    n=12;
+    n=12
     r1=rs_sin(i,1);
     r2=rs_lin(i,1);
     df1=rs_gauss(i,2);
     df2=rs_lin(i,2);
-    ctl_val=2.854;
-    F=((r1-r2)./(df2-df1))./((r2)./(n-df2))
-    
-  
-    
-    
-    
+%     ctl_val=2.854;
+    F=((r1-r2)./(df2-df1))./((r2)./(n-df2));
+    fpdf(F,11,10)   
 end
 % for i=1:10
 % y=smo_s(i,:);
