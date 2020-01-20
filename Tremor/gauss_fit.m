@@ -1,4 +1,4 @@
-function [gof] = gauss_fit(y)
+function [gof,fitresult2] = gauss_fit(y)
 %CREATEFIT(Y)
 %  Create a fit.
 %
@@ -29,8 +29,8 @@ opts.StartPoint = [0.5 6 3];
 % Plot fit with data.
 % figure( 'Name', '1_sin' );
 % h = plot( fitresult, xData, yData );
-h=plot(fitresult);
-set(h,'LineWidth',2,'Color','k')
+h2=plot(fitresult);
+set(h2,'LineStyle',':','LineWidth',1.5,'Color','k')
 
 % legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
 % Label axes

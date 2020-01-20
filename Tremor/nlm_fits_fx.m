@@ -29,46 +29,30 @@ for pp=1:size(pt,2)
 end
 
 
-
-
+close all
+for i=1:10
 x = 1:12;
-y = s_main(1,:);
+y = s_main(i,:);
 
-beta0 = [0.5 6 3];
+beta0 = [(max(y)-min(y)) length(x)/2 2];
 mg = @(F,x)(F(1)*exp(-((x-F(2))/F(3)).^2));
 mdg = fitnlm(x,y,mg,beta0)
 
 
-beta1 = [max(y) 0.5];
-ms = @(F,x)(F(1)*sin(F(2)*x));
-mds = fitnlm(x,y,ms,beta1,'Options',opts)
+beta1 = [(max(y))];
+ms = @(F,x)(F(1)*sin(0.5*x));
+mds = fitnlm(x,y,ms,beta1)
 
-% mds=fitnlm(x,y,'Y ~ b1*sin(b2*X + b3)',beta1)
+
+subplot(2,5,i)
 bar(x,y)
 hold on
-% plot(x, mdg.Fitted,'r')
-plot(x,mds.Fitted,'r')
-
+plot(x, mdg.Fitted,'k','LineWidth',2)
+plot(x,mds.Fitted,'r','LineWidth',2)
+box('off')
+end
 %%%%--------------------
 
-StartPoint = [0.5 6 3];
-lb = [-Inf -Inf -3];
-ub = [Inf Inf 3];
-mg = @(F,x)(F(1)*exp(-((x-F(2))/F(3)).^2));
-model = lsqcurvefit(mg,StartPoint,x,y,lb,ub)
-
-StartPoint = [2 0.5543];
-lb = [-Inf 0.5];
-ub = [Inf 0.5];
-ms= @(F,x)(F(1)*sin(0.5*x));
-model = lsqcurvefit(ms,StartPoint,x,y,lb,ub)
-
-times = linspace(x(1),x(end));
-bar(x,y)
-hold on
-plot(times,ms(x,times),'b-')
-legend('Data','Fitted exponential')
-title('Data and Fitted Curve')
 
 
 

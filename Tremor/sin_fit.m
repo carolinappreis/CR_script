@@ -1,4 +1,4 @@
-function [gof] = sin_fit(y)
+function [gof,fitresult1] = sin_fit(y)
 %CREATEFIT(Y)
 %  Create a fit.
 %
@@ -33,8 +33,8 @@ opts.Upper = [Inf 0.5 0.2];
 % Plot fit with data.
 % figure( 'Name', '1_sin' );
 % h = plot( fitresult, xData, yData );
-h=plot(fitresult);
-set(h,'LineWidth',2,'Color','k')
+h1=plot(fitresult);
+set(h1,'LineWidth',1.5,'Color','k')
 
 % legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
 % Label axes

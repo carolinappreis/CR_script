@@ -3,8 +3,8 @@ close all
 % 
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
-
-
+load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+cl=blushred;
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/labels_shift.mat')
@@ -58,81 +58,61 @@ end
 
 
 
-cl=[0.5 0.5 0.5];
 
 for i=1:size(s_main,1);
     y= s_main(i,:);
-    clearvars -except i y rs_gauss rs_sin cl s_main rs_lin
-    f1=figure(1)
-    subplot(1,10,i)
-    bar(y,'FaceColor',cl,'EdgeColor',cl)
-    hold on
+    
     rsg=gauss_fit(y);
     rs_gauss(i,:)=[rsg.sse rsg.dfe];
-    %     legend( 'ARC', 'gaussian fit', 'Location', 'NorthEast', 'Interpreter', 'none');
-    %     legend('boxoff')
-    %    xlabel( 'Stim phase', 'Interpreter', 'none' );
-    %    ylabel( 'Amplitude change', 'Interpreter', 'none' );
-    title(['r^2: ',num2str(rsg.rsquare)])
-    %   ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
-    xlabel('');ylabel('');legend('off')
-    box('off')
-    
-    f2=figure(2)
-    subplot(1,10,i)
-    bar(y,'FaceColor',cl,'EdgeColor',cl)
-    hold on
+
+
     rss=sin_fit(y);
     rs_sin(i,:)=[rss.sse rss.dfe];
-    xlabel('');ylabel('');legend('off')
-    %     legend( 'ARC','Sin fit', 'Location', 'NorthEast', 'Interpreter', 'none');
-    %     legend('boxoff')
-    %     xlabel( 'Stim phase', 'Interpreter', 'none' );
-    %     ylabel( 'Amplitude change', 'Interpreter', 'none' );
-    title(['r^2: ',num2str(rss.rsquare)])
-    %     ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
-    box('off')
-    hold off
-    
-    
-    f3=figure(3)
-    subplot(1,10,i)
-    bar(y,'FaceColor',cl,'EdgeColor',cl)
-    hold on
 
-    %    legend( 'ARC','Sin fit', 'Location', 'NorthEast', 'Interpreter', 'none');
-    %    legend('boxoff')
-    %    xlabel( 'Stim phase', 'Interpreter', 'none' );
-    %    ylabel( 'Amplitude change', 'Interpreter', 'none' );
+
     rsl=poli_fit(y);
     rs_lin(i,:)=[rsl.sse rsl.dfe];
-    xlabel('');ylabel('');legend('off')
-    %     legend( 'ARC','Sin fit', 'Location', 'NorthEast', 'Interpreter', 'none');
-    %     legend('boxoff')
-    %     xlabel( 'Stim phase', 'Interpreter', 'none' );
-    %     ylabel( 'Amplitude change', 'Interpreter', 'none' );
-      title(['r^2: ',num2str(rsl.rsquare)])
-    %     ylim([-(max(abs(y)))-0.05 (max(abs(y))+0.05)])
-    box('off')
-    hold off
+
+end
+
+
+
+close all
+for i=5
+% 1:size(s_main,1)
     
+    rl=rs_lin(i,1);
+    rs=rs_sin(i,1);
+    rg=rs_gauss(i,1);
+    dfl=rs_lin(i,2);
+    dfs=rs_sin(i,2);
+    dfg=rs_gauss(i,2);
+    
+    F1=((rl-rs)./(dfl-dfs))./(rs./dfs);
+    F2=((rl-rg)./(dfl-dfg))./(rg./dfg);
+    
+    f_test(1,i)=fpdf(F1,dfl,dfs); 
+    f_test(2,i)=fpdf(F2,dfl,dfg); 
+    
+    stat_sig(1,i)=fpdf(F1,dfl,dfs)<0.05;
+    stat_sig(2,i)=fpdf(F2,dfl,dfg)<0.05; 
+    
+   y= s_main(i,:);
+   f1=figure(1)
+    subplot(2,5,i)
+    bar(y,'FaceColor',cl,'EdgeColor',cl)
+    hold on
+    poli_fit(y);
+   sin_fit(y);
+   gauss_fit(y);
+legend('off')
+   xlabel('');ylabel('')
+   box('off')
+ title({['p k-sin:' num2str(f_test(1,i))];['p k-gaus:' num2str(f_test(2,i))]})
 end
 
 
-
-
-for i=1:10
-    n=12;
-    r1=rs_lin(i,1);
-    r2=rs_sin(i,1);
-    df1=rs_gauss(i,2);
-    df2=rs_lin(i,2);
-    F=((r1-r2)./(df2-df1))./((r2)./(n-df2));
-    fpdf(F,11,10)   
-end
-
-
-
+{'First line';'Second line'}
 % for i=1:10
 % y=smo_s(i,:);
 % % bar(cr)

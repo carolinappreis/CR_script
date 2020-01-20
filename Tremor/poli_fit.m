@@ -21,7 +21,6 @@ ft = fittype( 'poly1' );
 opts = fitoptions( 'Method', 'LinearLeastSquares' );
 opts.Lower = [0 -Inf];
 opts.Upper = [0 Inf];
-opts.StartPoint = [0 mean(yData)];
 
 
 % Fit model to data.
@@ -31,7 +30,7 @@ opts.StartPoint = [0 mean(yData)];
 % figure( 'Name', '1_sin' );
 % h = plot( fitresult, xData, yData );
 h=plot(fitresult);
-set(h,'LineWidth',2,'Color','k')
+set(h,'LineStyle','--','LineWidth',1.5,'Color','k')
 
 % legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
 % Label axes
