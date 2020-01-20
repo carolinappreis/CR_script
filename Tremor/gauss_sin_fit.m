@@ -1,16 +1,16 @@
 clear all
 close all
 % 
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
-% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
 
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
+
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/labels_shift.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit_0120.mat')
-load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
-cl=blushred;
+% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
+
 
 %attention to number 13 and 14 of tt1 (they are the same pateint, 13 5
 %trials with 5 pulses stim and 14, 5 trials with 1 pulse stim
@@ -55,7 +55,10 @@ for pp=1:size(pt,2)
 end
 
 
-%
+
+
+
+cl=[0.5 0.5 0.5];
 
 for i=1:size(s_main,1);
     y= s_main(i,:);
@@ -115,16 +118,21 @@ for i=1:size(s_main,1);
     
 end
 
+
+
+
 for i=1:10
     n=12;
     r1=rs_lin(i,1);
     r2=rs_sin(i,1);
     df1=rs_gauss(i,2);
     df2=rs_lin(i,2);
-%     ctl_val=2.854;
     F=((r1-r2)./(df2-df1))./((r2)./(n-df2));
     fpdf(F,11,10)   
 end
+
+
+
 % for i=1:10
 % y=smo_s(i,:);
 % % bar(cr)

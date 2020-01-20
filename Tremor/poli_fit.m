@@ -21,6 +21,7 @@ ft = fittype( 'poly1' );
 opts = fitoptions( 'Method', 'LinearLeastSquares' );
 opts.Lower = [0 -Inf];
 opts.Upper = [0 Inf];
+opts.StartPoint = [0 mean(yData)];
 
 
 % Fit model to data.

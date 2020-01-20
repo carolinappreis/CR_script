@@ -144,6 +144,29 @@ set(f1,'color','w'); set(f2,'color','w');set(f3,'color','w');set(f4,'color','w')
 
 
 
+
+
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
+load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+cl=blushred;
+for i=1:10
+    figure(1)
+    subplot(2,5,i)
+    bar(0:30:330,raw_main(i,:),'FaceColor',cl,'EdgeColor',cl)
+    hold on
+    bar(0:30:330,nanmedian(tt1{i,1}),'FaceColor','none','EdgeColor','k')
+    ylabel('Change in tremor severity')
+    xlabel('Stimulation phase (degrees)')
+    set(gca,'XTickLabelRotation',45)
+    set(gca,'FontSize',12)
+    box('off')
+end
+
+
+
+
+
+
 %raw ARC with NS thereshold for 3 axis
 
 for i=1:size(pt,2)
