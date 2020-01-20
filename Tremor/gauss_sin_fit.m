@@ -1,15 +1,15 @@
 clear all
 close all
+% 
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
+% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-%
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/labels_shift.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit_0120.mat')
-% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
 cl=blushred;
 
 %attention to number 13 and 14 of tt1 (they are the same pateint, 13 5
@@ -34,24 +34,24 @@ for pp=1:size(pt,2)
         
         curve=nanmedian(tt1{pt(pp),kk},1);
         SO=repmat(curve,1,3);
-        SOUT=repmat((squeeze(nostimout(pt(pp),kk,:)))',1,3);
+%         SOUT=repmat((squeeze(nostimout(pt(pp),kk,:)))',1,3);
         for i=size(tt1{pt(pp),kk},2)+1:size(tt1{pt(pp),kk},2)*2
             smooth_c(1,i-12)=sum(SO(1,(i-1:i+1)))./length(SO(1,(i-1:i+1)));
-            smooth_ns(1,i-12)=sum(SOUT(1,(i-1:i+1)))./length(SOUT(1,(i-1:i+1)));
+%             smooth_ns(1,i-12)=sum(SOUT(1,(i-1:i+1)))./length(SOUT(1,(i-1:i+1)));
         end
         
         
         smoo_all(pp,kk,:)=smooth_c;  clear smooth_c
-        nsmoo_all(pp,kk,:)=smooth_ns; clear smooth_ns
+%         nsmoo_all(pp,kk,:)=smooth_ns; clear smooth_ns
         
     end
     
     
     
     smoo_main(pp,:)=squeeze(smoo_all(pp,1,:));
-    nsmoo_main(pp,:)=squeeze(nsmoo_all(pp,1,:));
+%     nsmoo_main(pp,:)=squeeze(nsmoo_all(pp,1,:));
     s_main(pp,:)=nanmedian(tt1{pt(pp),1},1);
-    ns_main(pp,:)=squeeze(nostimout(pt(pp),1,:));
+%     ns_main(pp,:)=squeeze(nostimout(pt(pp),1,:));
 end
 
 
@@ -116,9 +116,9 @@ for i=1:size(s_main,1);
 end
 
 for i=1:10
-    n=12
-    r1=rs_sin(i,1);
-    r2=rs_lin(i,1);
+    n=12;
+    r1=rs_lin(i,1);
+    r2=rs_sin(i,1);
     df1=rs_gauss(i,2);
     df2=rs_lin(i,2);
 %     ctl_val=2.854;
