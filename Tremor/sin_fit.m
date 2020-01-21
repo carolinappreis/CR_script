@@ -17,15 +17,15 @@ function [gof,fitresult1] = sin_fit(y)
 [xData, yData] = prepareCurveData( [], y );
 
 % Set up fittype and options.
-ft = fittype( 'a*sin(b*x)+c', 'independent', 'x', 'dependent', 'y' );
+ft = fittype( 'a*sin(b*x)', 'independent', 'x', 'dependent', 'y' );
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
-% opts.Lower = [-Inf 0.5 -Inf];
-% opts.StartPoint = [0.5 0.5543 0.658594407192643];
-% opts.Upper = [Inf 0.5 Inf];
-opts.Lower = [-Inf 0.5 -0.2];
-opts.StartPoint = [2 0.5543 0];
-opts.Upper = [Inf 0.5 0.2];
+% opts.Lower = [-Inf 0.5 -0.2];
+% opts.StartPoint = [2 0.5543 0];
+% opts.Upper = [Inf 0.5 0.2];
+opts.Lower = [-Inf 0.5 ];
+opts.StartPoint = [2 0.5543];
+opts.Upper = [Inf 0.5];
 
 % Fit model to data.
 [fitresult, gof] = fit( xData, yData, ft, opts );

@@ -1,4 +1,4 @@
-function [gof] = poli_fit(y)
+function [gof] = k_fit(y)
 %CREATEFIT(Y)
 %  Create a fit.
 %
@@ -17,10 +17,10 @@ function [gof] = poli_fit(y)
 [xData, yData] = prepareCurveData( [], y );
 
 % Set up fittype and options.
-ft = fittype( 'poly1' );
-opts = fitoptions( 'Method', 'LinearLeastSquares' );
-opts.Lower = [0 min(y)];
-opts.Upper = [0 max(y)];
+ft = fittype( 'a' );
+opts = fitoptions( 'Method', 'LinearInterpolant' );
+opts.Lower = [mean(y)];
+opts.Upper = [mean(y)];
 
 
 % Fit model to data.

@@ -4,10 +4,10 @@ clear all
 close all
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\labels_shift.mat')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\labels_shift.mat')
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit_0120.mat')
 load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-% 
+
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/labels_shift.mat')
@@ -32,6 +32,7 @@ end
 
   main=[1 1 3 1 3 3 3 3 1 1];
 %   main=[1 1 1 1 1 1 1 1 1 1];
+raw_main_s=[];
 for pp=1:size(pt,2)
     for kk=1:size(tt1,2)
         
@@ -46,11 +47,10 @@ for pp=1:size(pt,2)
         smoo_all(pp,kk,:)=smooth_c;  clear smooth_c
         nostim_all(pp,kk,:)=nostim(pp,kk,:);
         nostim_var(pp,kk,:)=var(nostim(pp,kk,:));
-        test(pp,kk,:)=prctile(nostim(pp,kk,:),99.7917);
         raw(pp,kk,:)=nanmedian(tt1{pt(pp),kk});
-        p (pp,kk,1) = kruskalwallis(tt1{pt(pp),kk});
 
-    
+%         p (pp,kk,1) = kruskalwallis(tt1{pt(pp),kk});
+
     end
    
 %     bar(nostim_var)
@@ -60,30 +60,37 @@ for pp=1:size(pt,2)
 %     boxplot(dum,'PlotStyle','compact')
     
     
-     
+    dd=tt1{pt(pp),1};
+    raw_main_s=[raw_main_s ; dd(~isnan(dd))]; clear dd
     smoo_main(pp,:)=squeeze(smoo_all(pp,1,:));
     raw_main(pp,:)=squeeze(nanmedian(tt1{pt(pp),1}));
     nostim_1(pp,:)=squeeze(nostim(pp,main(pp),:));
-    label_shift_1(pp,:)=squeeze(LS(pp,main(pp),:));
-    non_uni=find(p(:,1)<0.05);
-    
-    %%%%work from here
-ARC=tt1{pt(pp),1}(1:cr,1:12);
-ARC2(1:cr,1)=mean(ARC(:,1:3),2);
-ARC2(1:cr,2)=mean(ARC(:,4:6),2);
-ARC2(1:cr,3)=mean(ARC(:,7:9),2);
-ARC2(1:cr,4)=mean(ARC(:,10:12),2);
-friedman(ARC2)
-figure()
-subplot(2,1,1)
-bar(median(ARC))
-subplot(2,1,2)
-bar(median(ARC2))
+%     label_shift_1(pp,:)=squeeze(LS(pp,main(pp),:));
+%     non_uni=find(p(:,1)<0.05);
+%     
+%     %%%%work from here
+% ARC=tt1{pt(pp),1}(1:cr,1:12);
+% ARC2(1:cr,1)=mean(ARC(:,1:3),2);
+% ARC2(1:cr,2)=mean(ARC(:,4:6),2);
+% ARC2(1:cr,3)=mean(ARC(:,7:9),2);
+% ARC2(1:cr,4)=mean(ARC(:,10:12),2);
+% friedman(ARC2)
+% figure()
+% subplot(2,1,1)
+% bar(median(ARC))
+% subplot(2,1,2)
+% bar(median(ARC2))
 
     
 end
 
+cr=reshape(nostim_1,size(nostim_all,1)*size(nostim_all,3),1); 
+cr=abs(cr');
+cr2=abs(raw_main_s');
+[p,h] = ranksum(cr2,cr) % dist is not normal by hist and samples unpaired (dif size) so ranksum Mann-Withney 
 
+cr1=cr(randi(length(cr),1,length(cr2)));
+[p,h] = signrank(cr2,cr1)
 
 for i =1:size(smoo_main,1)
     

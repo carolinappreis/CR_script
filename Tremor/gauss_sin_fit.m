@@ -78,8 +78,7 @@ end
 
 
 close all
-for i=5
-% 1:size(s_main,1)
+for i=1:size(s_main,1)
     
     rl=rs_lin(i,1);
     rs=rs_sin(i,1);
@@ -112,7 +111,6 @@ legend('off')
 end
 
 
-{'First line';'Second line'}
 % for i=1:10
 % y=smo_s(i,:);
 % % bar(cr)

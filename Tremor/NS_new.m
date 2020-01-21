@@ -95,14 +95,25 @@ for numb=3
     
    
     for ax=1:3
-            for j=1:5e4
+%             for j=1:5e4
+%                 ix=randi(length(segmentb),1);
+%                 segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
+%                 begin3=segment;
+%                 end3=floor(begin3+5*samplerate);
+%                 baseline3(1,j)=(mean(envelope(ax,end3-1000:end3))-mean(envelope(ax,begin3-1000:begin3)))./mean(envelope(ax,begin3-1000:begin3)); %#ok<*SAGROW> %
+%                 % baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
+%             end
+%             
+            for j=1:1000
                 ix=randi(length(segmentb),1);
-                segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
+                segment=randi([1+1000 size(envelope,2)-5000],1);
                 begin3=segment;
                 end3=floor(begin3+5*samplerate);
                 baseline3(1,j)=(mean(envelope(ax,end3-1000:end3))-mean(envelope(ax,begin3-1000:begin3)))./mean(envelope(ax,begin3-1000:begin3)); %#ok<*SAGROW> %
                 % baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
-            end
+            end 
+            
+            
             
         rep=10;
         for i=1:1e6
