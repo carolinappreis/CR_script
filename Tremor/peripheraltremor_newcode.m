@@ -1,10 +1,10 @@
 clear all
-iiii=[1 2 3 4 5 8 10 11 12 13 16 17 19 20]; %17 is the last pateint; we have 17 with one pulse and 18 with 5 pulses at the same phase; 19:21 are the second visit of pateint 17 stimulation at 3 different phases with 1 pulse ; 22 and 23 are 2nd visit of pt 17 at 2 different phases with 5 pulses;
+% iiii=[1 2 3 4 5 8 10 11 12 13 16 17 19 20]; %17 is the last pateint; we have 17 with one pulse and 18 with 5 pulses at the same phase; 19:21 are the second visit of pateint 17 stimulation at 3 different phases with 1 pulse ; 22 and 23 are 2nd visit of pt 17 at 2 different phases with 5 pulses;
 
 % iiii=[2 5 8]; %% significant one
-% iiii=[ 2 3 4 5 8 10 11 13 16 17];
+iiii=[ 2 3 4 5 8 10 11 13 16 17];
 
-for numb=1:length(iiii)-2;
+for numb=1:length(iiii);
     clearvars -except iiii numb
 %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))

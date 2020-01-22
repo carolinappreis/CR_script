@@ -26,9 +26,11 @@ run('all_plots') %%%% to plot the curves of the pateints of interest
 run('plot_pls_ns') % absolute amplitude bef posture, before stim, end stim for ns and pls - data from NS_sigmoid and pls_sig
     run('plot_pls_ns_demo') % diagram of envelope
 
-
+run('nlm_fits_fx.m')  %to get fits from sine and gaussian models to raw response curves - are ARCs non-uniform?
 
     GROUP
     
 run('group_arc_plot') %% old code with freq names group_rc_smooth_before
+
+
 

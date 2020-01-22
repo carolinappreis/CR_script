@@ -1,9 +1,10 @@
 clear all
 iii=[1 2 3 4 5 8 10 11 12 13 16 17 18];
+
+%iii=[2 3 4 5 8 10 11 13 16 17];
 in2=1;
-for numb=3
-%     1:length(iii);
-    clearvars -except iii PC A1 B1 numb nostim nostimout samplerate in2 cr
+for numb=1:length(iii);
+    clearvars -except iii PC A1 B1 numb nostim nostimout samplerate in2 vr
     %      load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
     
@@ -40,20 +41,20 @@ for numb=3
     segmentb=hu{numb,:};
     segmente=hd{numb,:};
     
-        [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
-        C=(filtfilt(d,e,tre_3'));
-%         figure()
-%         for jj=1:3
-%             subplot(3,1,jj)
-%                 plot(zscore(tre_3(jj,:)))
-%                 hold on
-%                 plot(zscore(C(jj,:)))
-%                 for i=1:size(segmentb,2)
-%                     xline(segmentb(i),'r')
-%                     xline(segmente(i),'k')
-%                 end
-%                 box('off')
-%         end
+    [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
+    C=(filtfilt(d,e,tre_3'));
+    %         figure()
+    %         for jj=1:3
+    %             subplot(3,1,jj)
+    %                 plot(zscore(tre_3(jj,:)))
+    %                 hold on
+    %                 plot(zscore(C(jj,:)))
+    %                 for i=1:size(segmentb,2)
+    %                     xline(segmentb(i),'r')
+    %                     xline(segmente(i),'k')
+    %                 end
+    %                 box('off')
+    %         end
     
     handup=[];
     for i=1:length(segmentb)
@@ -74,11 +75,11 @@ for numb=3
     Fpeak=peak_ax(1);
     cr(numb,:)=Fpeak;
     
-%     figure()
-%     plot(F(3:50),ps_curves(:,3:50)','LineWidth',2)
-%     legend({'z','y','x'})
-%     legend('boxoff')
-%     box('off')
+    %     figure()
+    %     plot(F(3:50),ps_curves(:,3:50)','LineWidth',2)
+    %     legend({'z','y','x'})
+    %     legend('boxoff')
+    %     box('off')
     
     if (Fpeak-2)>=1
         [b,a]=butter(2,[(Fpeak-2)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)],'bandpass'); %15
@@ -93,45 +94,54 @@ for numb=3
     phase=angle(dummy);
     frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
     
-   
+    
     for ax=1:3
-%             for j=1:5e4
-%                 ix=randi(length(segmentb),1);
-%                 segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
-%                 begin3=segment;
-%                 end3=floor(begin3+5*samplerate);
-%                 baseline3(1,j)=(mean(envelope(ax,end3-1000:end3))-mean(envelope(ax,begin3-1000:begin3)))./mean(envelope(ax,begin3-1000:begin3)); %#ok<*SAGROW> %
-%                 % baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
-%             end
-%             
-            for j=1:1000
-                ix=randi(length(segmentb),1);
-                segment=randi([1+1000 size(envelope,2)-5000],1);
-                begin3=segment;
-                end3=floor(begin3+5*samplerate);
-                baseline3(1,j)=(mean(envelope(ax,end3-1000:end3))-mean(envelope(ax,begin3-1000:begin3)))./mean(envelope(ax,begin3-1000:begin3)); %#ok<*SAGROW> %
-                % baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
-            end 
-            
-            
-            
-        rep=10;
-        for i=1:1e6
-            dum=baseline3(randi(5e4,1,rep));
-            dum2=dum;
-            p(i)=nanmedian(dum2);
+        seg=[];
+        for vi=1:length(segmentb)
+            seg=[seg envelope(ax,segmentb(vi):segmente(vi))];
         end
-        nostim(numb,ax,:)=p;
-        clear p
-        for i=1:12
-            dum=baseline3(randi(5e4,1,rep));
-            dum2=dum;
-            nostimout(numb,ax,i)=nanmedian(dum2);
+        vr(numb,ax)=var(seg);
+        
+        
+        
+        time=1:length(envelope(1,:));
+        for j=1:5e4
+            ix=randi(length(segmentb),1);
+            segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
+            begin3=segment;
+            end3=floor(begin3+5*samplerate);
+            baseline3(1,j)=(mean(envelope(ax,end3-1000:end3))-mean(envelope(ax,begin3-1000:begin3)))./mean(envelope(ax,begin3-1000:begin3)); %#ok<*SAGROW> %
+            % baseline4(i,j)=(mean(frequency(end3-1000:end3))); %#ok<*SAGROW>
+            % %             plot(time,envelope(1,:))
+            % %             hold on
+            % %             xline(segment-1000)
+            % %             xline(segment+5000)
+            
         end
-        clear dum dum2 baseline3
+        
+        
+        % %         rep=10;
+        % %         for i=1:1e6
+        % %             dum=baseline3(randi(5e4,1,rep));
+        % %             dum2=dum;
+        % %             p(i)=nanmedian(dum2);
+        % %         end
+        % %         nostim(numb,ax,:)=p;
+        % %         clear p
+        % %         for i=1:12
+        % %             dum=baseline3(randi(5e4,1,rep));
+        % %             dum2=dum;
+        % %             nostimout(numb,ax,i)=nanmedian(dum2);
+        % %         end
+        % %         clear dum dum2 baseline3
     end
-    clearvars -except nostimout iii numb PC A1 B1 iii stim nostim in2 cr
+    
+    clearvars -except nostimout iii numb PC A1 B1 iii stim nostim in2 vr
 end
+% cohort=[2 3 4 5 6 7 8 10 11 12];
+% vr=vr(cohort,:);
+% bar(vr)
+
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 

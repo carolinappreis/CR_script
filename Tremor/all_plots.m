@@ -65,23 +65,7 @@ for pp=1:size(pt,2)
     smoo_main(pp,:)=squeeze(smoo_all(pp,1,:));
     raw_main(pp,:)=squeeze(nanmedian(tt1{pt(pp),1}));
     nostim_1(pp,:)=squeeze(nostim(pp,main(pp),:));
-%     label_shift_1(pp,:)=squeeze(LS(pp,main(pp),:));
-%     non_uni=find(p(:,1)<0.05);
-%     
-%     %%%%work from here
-% ARC=tt1{pt(pp),1}(1:cr,1:12);
-% ARC2(1:cr,1)=mean(ARC(:,1:3),2);
-% ARC2(1:cr,2)=mean(ARC(:,4:6),2);
-% ARC2(1:cr,3)=mean(ARC(:,7:9),2);
-% ARC2(1:cr,4)=mean(ARC(:,10:12),2);
-% friedman(ARC2)
-% figure()
-% subplot(2,1,1)
-% bar(median(ARC))
-% subplot(2,1,2)
-% bar(median(ARC2))
-
-    
+%     label_shift_1(pp,:)=squeeze(LS(pp,main(pp),:));    
 end
 
 cr=reshape(nostim_1,size(nostim_all,1)*size(nostim_all,3),1); 

@@ -39,11 +39,11 @@ y = s_main(i,:);
 
 if i==1
 opt=statset('MaxIter',1);
-beta0 = [(max(y)-min(y)) 6 1];
+beta0 = [(max(y)-min(y)) length(x)/2 1];
 mg = @(F,x)(F(1)*exp(-((x-F(2))/F(3)).^2));
 mdg = fitnlm(x,y,mg,beta0,'Options',opt)
 else
-beta0 = [(max(y)-min(y)) 6 1];
+beta0 = [(max(y)-min(y)) length(x)/2 1];
 mg = @(F,x)(F(1)*exp(-((x-F(2))/F(3)).^2));
 mdg = fitnlm(x,y,mg,beta0)
 end
