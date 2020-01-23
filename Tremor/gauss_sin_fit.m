@@ -71,7 +71,8 @@ for i=1:size(s_main,1);
 
 
     rsl=poli_fit(y);
-    rs_lin(i,:)=[rsl.sse rsl.dfe];
+%     rsl = fitlm(ones(size(y)),y,'y~1');
+    rs_lin(i,:)=[rsl.SSE rsl.DFE];
 
 end
 
