@@ -20,7 +20,6 @@ function [mdl] = poli_fit(y)
 % opts = fitoptions( 'Method', 'LinearLeastSquares' );
 % opts.Lower = [0 min(y)];
 % opts.Upper = [0 max(y)];
-t=[0 0 0 0];
 mdl = fitlm(xData,yData,'constant');
 
 

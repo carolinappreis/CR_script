@@ -37,7 +37,7 @@ for i=1:10
 x = 1:12;
 y = s_main(i,:);
 
-if i==1
+if i==1 
 opt=statset('MaxIter',1);
 beta0 = [(max(y)-min(y)) length(x)/2 1];
 mg = @(F,x)(F(1)*exp(-((x-F(2))/F(3)).^2));
@@ -56,12 +56,29 @@ beta1 = [(max(y))];
 ms = @(F,x)(F(1)*sin(0.5*x));
 mds = fitnlm(x,y,ms,beta1)
 
+mdk= fitlm(x,y,'constant');
+
+names={'constant';'sinusoidal';'gaussian'};
+
+models=([mdk.ModelCriterion.AIC mds.ModelCriterion.AIC mdg.ModelCriterion.AIC])';
+
+[f,h] = sort(models,'ascend')
+
+
+sig1(i,1)=abs(models(h(1)))-(abs(models(h(2))))<2
+sig2(i,1)=abs(models(h(1)))-(abs(models(h(3))))<2
+
+win(i,1)=h(1);
+
+
+
 f1=figure(1);
 subplot(2,5,i)
 bar(0:30:330,y,'FaceColor',cl,'EdgeColor',cl)
 hold on
 plot(0:30:330,mdg.Fitted,'k','LineWidth',2)
 plot(0:30:330,mds.Fitted,'r','LineWidth',2)
+plot(0:30:330,mdk.Fitted,'g','LineWidth',2)
 ylabel('Change in tremor severity')
 xlabel('Stimulation phase (degrees)')
 set(gca,'XTickLabelRotation',45)
