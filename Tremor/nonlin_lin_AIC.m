@@ -64,13 +64,14 @@ models=([mdk.ModelCriterion.AIC mds.ModelCriterion.AIC mdg.ModelCriterion.AIC])'
 
 [f,h] = sort(models,'ascend')
 
-
-sig1(i,1)=abs(models(h(1)))-(abs(models(h(2))))<2
-sig2(i,1)=abs(models(h(1)))-(abs(models(h(3))))<2
+%rule of thumb if not < no sig support of model 1 over model2
+sig1(i,1)=abs(models(h(1)))-(abs(models(h(2))))>2
+sig2(i,1)=abs(models(h(1)))-(abs(models(h(3))))>2
 
 win(i,1)=h(1);
 
-
+dum=sig1+sig2
+sig_wm=find(dum==2);
 
 f1=figure(1);
 subplot(2,5,i)

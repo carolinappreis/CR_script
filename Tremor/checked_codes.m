@@ -27,10 +27,10 @@ run('plot_pls_ns') % absolute amplitude bef posture, before stim, end stim for n
     run('plot_pls_ns_demo') % diagram of envelope
 
 run('nlm_fits_fx.m')  %to get fits from sine and gaussian models to raw response curves - are ARCs non-uniform?
+run('nonlin_lin_AIC.m') %to run gauss sin and k fits and do moel comparison with AIC 
 
     GROUP
     
 run('group_arc_plot') %% old code with freq names group_rc_smooth_before
-
 
 

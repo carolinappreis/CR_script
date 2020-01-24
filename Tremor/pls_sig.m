@@ -10,10 +10,9 @@ iiii=[2 3 4 5 8 10 11 13 16 17 18 19 20 21 22 23]; %17 is the last pateint; we h
 % iiii=[2 5 8];
 
 in2=1;
-for numb= 2
-%     1:length(iiii)-6;
+for numb=1:length(iiii)-6;
      close all
-    clearvars -except iiii numb in2 prm peaks psd_curves m_change time_all ns_ref
+    clearvars -except iiii numb in2 prm peaks psd_curves m_change time_all ns_ref st_NS
      load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
 %              load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
@@ -61,7 +60,7 @@ for numb= 2
     
     for nn=1:length(st)
         if nn>1
-            if (numel(st(nn):en(nn))>30000) && (numel(en(nn-1):st(nn))>30000)
+            if (numel(st(nn):en(nn))>30000) && (numel(en(nn-1):st(nn))>25000)
                 start(nn)=st(nn);
                 ending(nn)=en(nn);
             else
@@ -86,15 +85,15 @@ for numb= 2
     
     [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
     C=(filtfilt(d,e,tre_3'));
-%     figure(1)
-%     plot(zscore(tre_3(1,:)))
-%     hold on
-%     plot(zscore(C(:,1)))
-%     for i=1:size(segmentb,2)
-%         xline(segmentb(i),'r')
-%         %             xline(segmente(i),'k')
-%     end
-%     box('off')
+    figure(1)
+    plot(zscore(tre_3(1,:)))
+    hold on
+    plot(zscore(C(:,1)))
+    for i=1:size(segmentb,2)
+        xline(segmentb(i),'r')
+        %             xline(segmente(i),'k')
+    end
+    box('off')
     
     handup=[];
     for i=1:length(start)
@@ -138,16 +137,17 @@ for numb= 2
     
     for ax=1:3
         
-%         f3=figure(3)
-%         subplot(3,1,ax)
-%         plot(zscore(tf_3(:,ax)))
-%         hold on
-%         plot(zscore(C(:,ax)))
-%         for i=1:size(segmentb,2)
-%             xline(segmentb(i),'r')
-%             %                 xline(segmente(i),'k')
-%         end
-%         box('off')
+        f3=figure(3)
+        subplot(3,1,ax)
+        plot(zscore(tf_3(:,ax)))
+        hold on
+        plot(zscore(C(:,ax)))
+        for i=1:size(segmentb,2)
+            xline(segmentb(i),'r')
+            %                 xline(segmente(i),'k')
+            xline(start(i),'k')
+        end
+        box('off')
         ref=[];
         for rr=1:length(start)
 %             amp_start(ax,1,rr)=mean(envelope(ax,start(rr)-1000:start(rr)));
@@ -179,12 +179,12 @@ for numb= 2
   gg=[gg ;(zenv(ax,(start(i)-ini):(start(i)+60000)))];
         end
         
-        f4=figure(4)
-        subplot(3,1,ax)
-        plot(median(gg,1),'Color',[0.5 0.5 0.5])
-        hold on
-        xline(ini,'g--','LineWidth',2)
-        title(['PLS pt',num2str(iiii(numb))])
+%         f4=figure(4)
+%         subplot(3,1,ax)
+%         plot(median(gg,1),'Color',[0.5 0.5 0.5])
+%         hold on
+%         xline(ini,'g--','LineWidth',2)
+%         title(['PLS pt',num2str(iiii(numb))])
 %         
 %         yy(numb,:)=smooth(median(gg,1));
 %         %     y=yy(numb,1:35000);
@@ -220,6 +220,9 @@ ns_ref(numb,:)=mean(ref); clear ref
 %     set(f1,'color','w');
 %     box('off')
 %     close all
+
+start-segmentb
+st_NS(numb,1)=median(start-segmentb)
 end
 
 
