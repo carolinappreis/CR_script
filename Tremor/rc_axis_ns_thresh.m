@@ -101,7 +101,7 @@ for numb=1:length(iiii)
     tremorzf=filtfilt(b,a,tremorz);
     envelope=[abs(hilbert(tremorxf));abs(hilbert(tremoryf));abs(hilbert(tremorzf))];
     phase=[angle(hilbert(tremorxf));angle(hilbert(tremoryf));angle(hilbert(tremorzf))];
-    z_env=zscore(envelope);
+    z_env=[abs(hilbert(zscore(tremorxf)));abs(hilbert(zscore(tremoryf)));abs(hilbert(zscore(tremorzf)))];
     % figure()
     %     bar(sum(envelope'))
     %     box('off')
