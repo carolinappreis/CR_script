@@ -9,8 +9,8 @@ iii=[2 3 4 5 8 10 11 13 16 17];
 
 for numb=1:length(iii);
     clearvars -except iii numb arc1 arc2 
-    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+         load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
     in2=1; % analysing the "main tremor axis"
     if in2==1
         in=3;
@@ -185,10 +185,11 @@ for numb=1:length(iii);
         if (~isnan(start(i)))
             tremor_or3(i,1)=mean(envelope(1,start(i)-1000:start(i)));
             tremor_or2(i,1)=(mean(envelope(1,ending(i)-1000:ending(i)))-mean(envelope(1,start(i)-1000:start(i))))/mean(envelope(1,start(i)-1000:start(i)));
-            
+            env_pha(i,1:5000)=zenv(1,start(i):start(i)+5000-1);
         else
             tremor_or2(i,1)=NaN;
             tremor_or3(i,1)=NaN;
+            env_pha(i,1:5000)=NaN;
         end
     end
     

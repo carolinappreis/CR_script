@@ -2,6 +2,7 @@
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 load('param_ns_s.mat')
 [p,h]=ttest(id_param_NS,id_param_stim);
+h(3)
 median(id_param_NS(:,3))
 median(id_param_stim(:,3))
 
