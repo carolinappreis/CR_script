@@ -33,4 +33,6 @@ run('nonlin_lin_AIC.m') %to run gauss sin and k fits and do moel comparison with
     
 run('group_arc_plot') %% old code with freq names group_rc_smooth_before
 
+run('rampup_stim.m') % sigmoid fits to hand up stim trials (10 trials all partients) + ttest fromo stim/ns
+run('rampup_NS.m') % sigmoid fits to hand up 
 

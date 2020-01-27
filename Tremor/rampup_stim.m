@@ -1,12 +1,20 @@
+
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+load('param_ns_s.mat')
+[p,h]=ttest(id_param_NS,id_param_stim);
+median(id_param_NS(:,3))
+median(id_param_stim(:,3))
+
+
 clear all
 iiii=[1 2 3 4 5 8 10 11 12 13 16 17 19 20];
 % iiii=[2 5 8]; %% significant one
 iiii=[ 2 3 4 5 8 10 11 13 16 17];
- all=[];
+all=[];
 for numb=1:length(iiii)
-    clearvars -except iiii numb tt1 LS cr all
-    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
+    clearvars -except iiii numb tt1 LS cr all id_param
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
+    %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
     
     in2=1; % analysing the "main tremor axis"
     
@@ -123,35 +131,45 @@ for numb=1:length(iiii)
     
     st=floor((sp./samplerateold)*samplerate);
     en=floor((ep./samplerateold)*samplerate);
-
-        
-       
-         axx=1;
-            seg=10000;
-            for i=1:length(st)
-                if   st(i)>seg && (st(i)+seg-1)<=size(z_env,2)
-                    figure(1)
-                    all=[ all ; z_env(axx,st(i)-seg:st(i)+seg-1)]; 
-%                      plot(z_env(axx,st(i)-seg:st(i)+seg-1))
-%                      hold on
-                end
-            end
-
-        
-        %     close all
-        
-        clearvars -except PSI_ax pca_ax tt1  iiii numb ampall ph_stim LS cr all
-
+    
+    
+    numb_p=[];
+    axx=1;
+    seg=10000;
+    for i=1:length(st)
+        if   st(i)>seg && (st(i)+seg-1)<=size(z_env,2)
+            %                     figure(1)
+            all=[ all  smooth(z_env(axx,st(i)-seg:st(i)+seg-1))];
+            %                      plot(z_env(axx,st(i)-seg:st(i)+seg-1))
+            %                      hold on
+            numb_p=[numb_p  smooth(z_env(axx,st(i)-seg:st(i)+seg-1))];
+        end
     end
     
- 
-%     clearvars -except iiii tt1 LS
-%     cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-    % save('cleaned_rc12')
     
- 
-    y=median(all);
+    y=median(numb_p');
     x=1:length(y);
     initial_params=[];
-    [param]=sigm_fit(x,y,initial_params)        % automatic initial_params
+    [param]=sigm_fit(x,y,initial_params)        % automatic initial_params  "min", "max", "x50" and "slope"
     clear x y
+    %     close all
+    
+    id_param(numb,:)=param;
+    
+    clearvars -except PSI_ax pca_ax tt1  iiii numb ampall ph_stim LS cr all id_param
+    
+end
+m50=median(id_param(:,3));
+
+%     clearvars -except iiii tt1 LS
+%     cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% save('cleaned_rc12')
+
+
+y=median(all');
+x=1:length(y);
+initial_params=[];
+[param]=sigm_fit(x,y,initial_params)        % automatic initial_params  "min", "max", "x50" and "slope"
+clear x y
+
+
