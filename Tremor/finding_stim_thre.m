@@ -111,6 +111,7 @@ for numb=1:length(iiii)
     
     new=find(data(2,:)>4);
     difp=find((diff(new))>100000); % are you trying to threshold at 9.6 seconds?
+    % 104166 do change to see if we can move to 10 sec instead of 9.6 
     ep_1=[new(difp) new(end)];
     sp_1=[new(1) new(difp+1)];
     
