@@ -5,7 +5,7 @@ iiii=[ 2 3 4 5 8 10 11 13 16 17];
 
 for numb=1:length(iiii)
     
-    clearvars -except iiii numb m_all m_notrig m_lowtrig
+    clearvars -except iiii numb m_all m_notrig m_lowtrig th t_below var_th idx_var
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
     %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
     
@@ -48,9 +48,9 @@ for numb=1:length(iiii)
     indexes4=[index(1) index(find(diff(index)./samplerateold > 0.95)+1)];
     indexes3=[index(find(diff(index)./samplerateold > 0.95)) index(end)];
     
-    dd2=round(data(4,:)*100)./100;
+    initial_idx4=round(data(4,:)*100)./100;
     for i=1:length(indexes4)
-        xx(i)=round(dd2(indexes4(i))./0.1); %#ok<*SAGROW>
+        xx(i)=round(initial_idx4(indexes4(i))./0.1); %#ok<*SAGROW>
     end
     clear i
     
@@ -111,7 +111,7 @@ for numb=1:length(iiii)
     
     new=find(data(2,:)>4);
     difp=find((diff(new))>100000); % are you trying to threshold at 9.6 seconds?
-    % 104166 do change to see if we can move to 10 sec instead of 9.6 
+    % 104166 do change to see if we can move to 10 sec instead of 9.6
     ep_1=[new(difp) new(end)];
     sp_1=[new(1) new(difp+1)];
     
@@ -128,8 +128,8 @@ for numb=1:length(iiii)
         pp_all=[pp_all z_env(1,ss(jk):ee(jk))];
     end
     
-    dd1=indexes3;
-    dd2=indexes4;
+    initial_idx3=indexes3;
+    initial_idx4=indexes4;
     
     low_tre=[];
     for ik=1:length(sp) %%find double start and end points in a stimulation run
@@ -145,26 +145,51 @@ for numb=1:length(iiii)
         
     end
     
-    d1=dd1(find(isnan(indexes3)));
-    d2=dd2(find(isnan(indexes4)));
+    d1=initial_idx3(find(isnan(indexes3)));
+    d2=initial_idx4(find(isnan(indexes4)));
     d11=floor((d1./samplerateold)*samplerate);
     d22=floor((d2./samplerateold)*samplerate);
     
+    
+    
+    pt_s=[];pt_e=[];
     low_tre=[];
     for i =1:length(d11)
-        low_tre=[low_tre z_env(1,d11:d22)];
+        low_tre=[low_tre z_env(1,d11(i):d22(i))];
+        pt_s=[pt_s d11(i)];
+        pt_e=[pt_e d22(i)];
     end
+    clear d1 d2 d11 d22
+    
+    
+    if isempty(pt_e)
+        t_below(numb,:)=NaN;
+        th(numb,:)=NaN;
+    else
+        x=z_env(1,:);
+        q=[z_env(pt_s) z_env(pt_e)];
+        prtiles = invprctile(x,q);
+        t_below(numb,:)=mean(pt_e-pt_s);
+        th(numb,:)=mean(prtiles);
+        
+    end
+    
+    %    check
+    %    plot(z_env(1,:))
+    %    hold on
+    %    yline(prctile(z_env(1,:),th))
+    %    qvalues = prctile(x,p) % check if same values
+    
+    indexes4=indexes4(~isnan(indexes4));
+    indexes3=indexes3(~isnan(indexes3));
+    xx=xx(~isnan(xx));
     
     %%%% find runs with trigering issues (too few, too many pulses)
     th1=(Fpeak*5)./2;
     th2=(Fpeak*5)+round((Fpeak*5)./2);
     
-    ind_out=[];
+    
     for it=1:length(indexes4)
-        
-        strial=index(find(index==indexes4(it)):find(index==indexes3(it)));
-        nontrig=find(diff(strial)>(((Fpeak*5)/2)*samplerate)); %%% lack of triggering for more than half of stim time
-        
         if numel(index(find(index==indexes4(it)):find(index==indexes3(it))))>=th1 && numel(index(find(index==indexes4(it)):find(index==indexes3(it))))<=th2
             indexes4(it)=indexes4(it);
             indexes3(it)=indexes3(it);
@@ -173,32 +198,47 @@ for numb=1:length(iiii)
             indexes4(it)=NaN;
             indexes3(it)=NaN;
             xx(it)=NaN;
-            ind_out=[ind_out it];
+            %         nontrig=find(diff(strial)>(((Fpeak*5)/2)*samplerate)); %%% lack of triggering for more than half of stim time
         end
-        
-        
     end
     %%%%%%%%%%%%%%%
+    d1=initial_idx3(find(isnan(indexes3)));
+    d2=initial_idx4(find(isnan(indexes4)));
+    d11=floor((d1./samplerateold)*samplerate);
+    d22=floor((d2./samplerateold)*samplerate);
     
-    
-    %%% all rejected 5 sec
-    pp=[];
-    for jk=1:length(ind_out)
-        pp=[pp z_env(1,ss(ind_out(jk)):ee(ind_out(jk)))];
+    if ~isempty(d1)
+        
+        pp=[];
+        for jk=1:length(d11)
+            pp=[pp z_env(1,d22(jk):d11(jk))];
+            varb(1,jk)=var(z_env(1,d22(jk):d11(jk)));
+            idx_var{numb,1}=d22;
+        end
+    else
+        pp=NaN;
+        varb=NaN
     end
     
-%     figure(1)
-%     subplot(5,2,numb)
-%     histogram(pp_all,'FaceColor','w')
-%     hold on
-%     histogram(pp,'FaceColor','r')
+    
     m_notrig(numb,:)=median(low_tre);
     m_lowtrig(numb,:)=nanmedian(pp);
     m_all(numb,:)=nanmedian(pp_all);
+    var_thre(numb,:)=nanmedian(varb);
+    
+    figure(1)
+    subplot(5,2,numb)
+    histogram(pp_all,'FaceColor','w')
+    hold on
+    histogram(pp,'FaceColor','r')
+    histogram(low_tre,'FaceColor','g')
 end
 
 
-save('median_z_env.mat')
+clearvars -except iiii  m_all m_notrig m_lowtrig th t_below var_th idx_var
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+save('cleaned_tremor_prop.mat')
 
 
 

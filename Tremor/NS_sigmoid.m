@@ -4,10 +4,10 @@ close all
 iii=[2 3 4 5 8 10 11 13 16 17];
 in2=1;
 gg=[];
-
+main=[1 1 3 1 3 3 3 3 1 1];
 for numb= 1:length(iii);
     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\reference_pls_ns.mat')
-    clearvars -except iii numb NS NS_i in2 yy psd_curves peaks prm ns_ref time_ns gg
+    clearvars -except iii numb NS NS_i in2 yy psd_curves peaks prm ns_ref time_ns gg main
 %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
   load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
     
@@ -71,6 +71,8 @@ for numb= 1:length(iii);
     zenv=(abs(hilbert(zscore(tf_3))))';
     phase=angle(dummy);
     frequency=(smooth((1000/(2*pi))*diff(unwrap(angle(dummy))),500))';
+    
+    
     
     
     [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
@@ -145,7 +147,7 @@ for numb= 1:length(iii);
     %     close all
     
 %     timings=[median(amp_start,3) median(amp_end,3)];
-    main=[1 1 3 1 3 3 3 3 1 1];
+    
     time_ns(numb,:)=timings(main(numb),:);
     p_all(numb,:)=pr(main(numb),:);
     clear timings

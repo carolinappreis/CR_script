@@ -18,11 +18,12 @@ for pp=1:size(pt,2)
     Sa(pp,:)=nanmedian(tt1{pt(pp),1})  ;
 end
 
-% figure()
-% for i=1:10
-% subplot(5,2,i)
+figure()
+for i=1:10
+subplot(5,2,i)
+plot(seg_filt{i,1})
 % plot(ns_filt_mainax{i,1})
-% end
+end
 
 for y=1:size(Sa,1)
     sup=[];
@@ -81,30 +82,25 @@ NS=max([Pxx_ns_all(idx,:)]')
 all=[S ; A ; NS];
 
 figure;
-bar(1:3,[median(S) median(A) median(NS)],'FaceColor',[0 0.5 0.5],'EdgeColor','none')
+bar(1:3,[median(S) median(A) median(NS)],'FaceColor',[0 0.5 0.5],'FaceAlpha',0.5,'EdgeColor','none')
 hold on
-plot([S; A; NS],'.','MarkerSize',5,'Color','k')
+plot([S; A; NS],'x','MarkerSize',5,'Color','k')
+yticks([0:0.4:2])
 xlim([0 4])
 xticklabels({'AMP','SUP','NS'})
-ylim([0 31])
-yticks([1:2:30])
-breakyaxis([8 28]);
 box('off')
-ylabel('Peak pwelch')
-%  BreakPlot([median(S) median(A) median(NS)],[1:13,27:30],13,27,'Patch');
+ylabel('Theta power peak')
 
-% figure
-% plot(all,'k')
-% hold on
-% plot([S; A; NS],'.','MarkerSize',5,'Color','k')
-% xlim([0 4])
-% xticks([13])
-% xticklabels({'AMP','SUP','NS'})
-% ylim([0 31])
-% yticks([1:2:30])
-% box('off')
-
-
+figure
+plot(all,'Color',[0.5 0.5 0.5],'LineWidth',1)
+hold on
+plot([S; A; NS],'o','MarkerSize',5,'Color',[0 0.5 0.5])
+xlim([0 4])
+xticks([1:3])
+xticklabels({'AMP','SUP','NS'})
+box('off')
+ylabel('Zscore power peak')
+yticks([0:0.2:1.6])
 
 [p,h]=ttest(A,S)
 [p,h]=ttest(A,NS)

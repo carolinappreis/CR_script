@@ -245,9 +245,11 @@ for numb=1:length(iiii)
 %         
         
         %     close all
-        
+       
     end
+    stim_pha 
     clearvars -except PSI_ax pca_ax tt1  iiii numb ampall ph_stim LS seg_env seg_filt
+    
 end
 clearvars -except iiii tt1 seg_env seg_filt
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
