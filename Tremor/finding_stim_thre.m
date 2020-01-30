@@ -3,9 +3,10 @@ iiii=[1 2 3 4 5 8 10 11 12 13 16 17 19 20];
 % iiii=[2 5 8]; %% significant one
 iiii=[ 2 3 4 5 8 10 11 13 16 17];
 
-for numb=1:length(iiii)
+for numb=7
+%     1:length(iiii)
     
-    clearvars -except iiii numb m_all m_notrig m_lowtrig th t_below var_th idx_var
+    clearvars -except iiii numb m_all m_notrig m_lowtrig th t_below var_th t_var
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
     %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
     
@@ -54,8 +55,8 @@ for numb=1:length(iiii)
     end
     clear i
     
-    start=floor((indexes4./samplerateold)*samplerate)+addon;
-    ending=floor((indexes3./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+    start=floor((indexes4./samplerateold)*samplerate);
+    ending=floor((indexes3./samplerateold)*samplerate);%floor(5*samplerate);
     
     %%% when patient's hand is up
     handup=[];
@@ -100,15 +101,19 @@ for numb=1:length(iiii)
     tremorxf=filtfilt(b,a,tremorx);
     tremoryf=filtfilt(b,a,tremory);
     tremorzf=filtfilt(b,a,tremorz);
-    envelope=[abs(hilbert(tremorxf));abs(hilbert(tremoryf));abs(hilbert(tremorzf))];
+    env=[abs(hilbert(tremorxf));abs(hilbert(tremoryf));abs(hilbert(tremorzf))];
     phase=[angle(hilbert(tremorxf));angle(hilbert(tremoryf));angle(hilbert(tremorzf))];
     z_env=[abs(hilbert(zscore(tremorxf)));abs(hilbert(zscore(tremoryf)));abs(hilbert(zscore(tremorzf)))];
     % figure()
-    %     bar(sum(envelope'))
+    %     bar(sum(env'))
     %     box('off')
     
+    all_idxs=floor((index./samplerateold)*samplerate);
+    trg=zeros(1,length(env));
+    trg(all_idxs)=1;
+    ti=0:1/samplerate:(length(env)-1)/samplerate;
     
-    
+
     new=find(data(2,:)>4);
     difp=find((diff(new))>100000); % are you trying to threshold at 9.6 seconds?
     % 104166 do change to see if we can move to 10 sec instead of 9.6
@@ -119,17 +124,13 @@ for numb=1:length(iiii)
     start_t=1;
     sp=sp_1(1,start_t:end);
     ep=ep_1(1,start_t:end);
-    
-    ss=floor((indexes4./samplerateold)*samplerate);
-    ee=floor((indexes3./samplerateold)*samplerate);
-    
+
     pp_all=[];
-    for jk=1:length(ss)
-        pp_all=[pp_all z_env(1,ss(jk):ee(jk))];
+    for jk=1:length(start)
+%         pp_all=[pp_all env(1,start(jk):ending(jk))];
+        pp_all=[pp_all env(1,start(jk):ending(jk))];
     end
     
-    initial_idx3=indexes3;
-    initial_idx4=indexes4;
     
     low_tre=[];
     for ik=1:length(sp) %%find double start and end points in a stimulation run
@@ -145,40 +146,57 @@ for numb=1:length(iiii)
         
     end
     
-    d1=initial_idx3(find(isnan(indexes3)));
-    d2=initial_idx4(find(isnan(indexes4)));
-    d11=floor((d1./samplerateold)*samplerate);
-    d22=floor((d2./samplerateold)*samplerate);
-    
-    
-    
+    d1=find(isnan(indexes3));
+    d2=find(isnan(indexes4));
+    d11=ending(d1);
+    d22=start(d2);
+  
     pt_s=[];pt_e=[];
     low_tre=[];
     for i =1:length(d11)
-        low_tre=[low_tre z_env(1,d11(i):d22(i))];
+        low_tre=[low_tre env(1,d11(i):d22(i))];
+%         low_tre=[low_tre env(1,d11(i):d22(i))];
         pt_s=[pt_s d11(i)];
         pt_e=[pt_e d22(i)];
     end
-    clear d1 d2 d11 d22
     
     
+    figure(1)
+    plot(ti,trg)
+    hold on
+    plot(ti,env(1,:))
+    plot(ti(start),trg(1,start),'r.','MarkerSize',6)
+    plot(ti(ending),trg(1,ending),'k.','MarkerSize',6)
+    plot(ti(d22),trg(d22),'bd','MarkerSize',5)
+    plot(ti(d11),trg(d1),'gd','MarkerSize',5)
+ 
     if isempty(pt_e)
         t_below(numb,:)=NaN;
         th(numb,:)=NaN;
     else
-        x=z_env(1,:);
-        q=[z_env(pt_s) z_env(pt_e)];
+        x=env(1,:);
+        nn=(env(1,round(pt_s+1000/Fpeak)));
+        mm=(env(1,round(pt_e+1000/Fpeak)));
+        q=[nn mm];
+%         x=env(1,:);
+%         q=[env(pt_s) env(pt_e)];
         prtiles = invprctile(x,q);
-        t_below(numb,:)=mean(pt_e-pt_s);
-        th(numb,:)=mean(prtiles);
+        th(numb,:)=max(prtiles);
+        t_below(numb,:)=mean(d11-d22);
         
     end
     
+    clear d1 d2 d11 d22
     %    check
-    %    plot(z_env(1,:))
-    %    hold on
-    %    yline(prctile(z_env(1,:),th))
-    %    qvalues = prctile(x,p) % check if same values
+%        plot(trg)
+%        hold on
+%        plot(tremorxf,'LineWidth',0.5)
+%        plot(env(1,:),'LineWidth',2)
+%        yline(prctile(env(1,:),th))
+%        xline(pt_s)
+%        xline(pt_e)
+%        xline(pt_s+1000/Fpeak,'r','LineWidth',1.5)
+%        qvalues = prctile(x,prtiles) % check if same values
     
     indexes4=indexes4(~isnan(indexes4));
     indexes3=indexes3(~isnan(indexes3));
@@ -202,43 +220,68 @@ for numb=1:length(iiii)
         end
     end
     %%%%%%%%%%%%%%%
-    d1=initial_idx3(find(isnan(indexes3)));
-    d2=initial_idx4(find(isnan(indexes4)));
-    d11=floor((d1./samplerateold)*samplerate);
-    d22=floor((d2./samplerateold)*samplerate);
+    d1=find(isnan(indexes3));
+    d2=find(isnan(indexes4));
+    d11=ending(d1);
+    d22=start(d2);
     
-    if ~isempty(d1)
+    if ~isempty(d2)
         
         pp=[];
         for jk=1:length(d11)
-            pp=[pp z_env(1,d22(jk):d11(jk))];
-            varb(1,jk)=var(z_env(1,d22(jk):d11(jk)));
-            idx_var{numb,1}=d22;
+            pp=[pp env(1,d22(jk):d11(jk))];
+            varb(1,jk)=var(tremorxf(1,d22(jk):d11(jk)));
+            t_var(numb,1)=mean(d11-d22);
         end
     else
         pp=NaN;
-        varb=NaN
+        varb=NaN;
+        t_var(numb,1)=NaN;
     end
     
-    
+
+ figure(1)
+ hold on
+ plot(ti([d11 d22]),trg([d11 d22]),'g.','MarkerSize',5)
+ plot(ti,tremorxf)
+ 
+ %--------------------------------------------------
+ 
+ indexes4=indexes4(~isnan(indexes4));
+ indexes3=indexes3(~isnan(indexes3));
+ xx=xx(~isnan(xx));
+ 
+
+
+start1=floor((indexes4./samplerateold)*samplerate);
+ending2=floor((indexes3./samplerateold)*samplerate);%floor(5*samplerate);
+
+% figure(1)
+plot(ti,env(1,:))
+hold on
+plot(ti,trg)
+plot(ti(start1),trg(1,start1),'r*','MarkerSize',6)
+plot(ti(ending2),trg(1,ending2),'k*','MarkerSize',6)
+
+
     m_notrig(numb,:)=median(low_tre);
     m_lowtrig(numb,:)=nanmedian(pp);
     m_all(numb,:)=nanmedian(pp_all);
-    var_thre(numb,:)=nanmedian(varb);
+    var_th(numb,:)=nanmedian(varb);
     
-    figure(1)
-    subplot(5,2,numb)
-    histogram(pp_all,'FaceColor','w')
-    hold on
-    histogram(pp,'FaceColor','r')
-    histogram(low_tre,'FaceColor','g')
+    %     figure(1)
+    %     subplot(5,2,numb)
+    %     histogram(pp_all,'FaceColor','w')
+    %     hold on
+    %     histogram(pp,'FaceColor','r')
+    %     histogram(low_tre,'FaceColor','g')
 end
 
 
-clearvars -except iiii  m_all m_notrig m_lowtrig th t_below var_th idx_var
+clearvars -except iiii  m_all m_notrig m_lowtrig th t_below var_th t_var
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
-save('cleaned_tremor_prop.mat')
+% save('cleaned_tremor_prop.mat')
 
 
 
