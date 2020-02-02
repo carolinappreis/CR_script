@@ -1,13 +1,14 @@
 clear all
-iiii=[1 2 3 4 5 8 10 11 12 13 16 17 19 20];
+% iiii=[1 2 3 4 5 8 10 11 12 13 16 17 19 20];
 % iiii=[2 5 8]; %% significant one
 iiii=[ 2 3 4 5 8 10 11 13 16 17];
 
-for numb=1:length(iiii)
+for numb=7
+    %     1:length(iiii)
     
     clearvars -except iiii numb m_all m_notrig m_lowtrig th t_below var_th t_var
-    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
+         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
     
     in2=1; % analysing the "main tremor axis"
     
@@ -131,7 +132,7 @@ for numb=1:length(iiii)
     end
     
     
-    
+    low_tre=[];
     for ik=1:length(sp) %%find double start and end points in a stimulation run
         
         s=(find(([indexes4>=sp(ik)]+[indexes4<=ep(ik)])==2));
@@ -160,19 +161,18 @@ for numb=1:length(iiii)
     end
     
     
-    %     figure(1)
-    %     plot(ti,trg)
-    %     hold on
-    %     plot(ti,env(1,:))
-    %     plot(ti(start),trg(1,start),'r.','MarkerSize',6)
-    %     plot(ti(ending),trg(1,ending),'k.','MarkerSize',6)
-    %     plot(ti(d22),trg(d22),'bd','MarkerSize',5)
-    %     plot(ti(d11),trg(d1),'gd','MarkerSize',5)
+    figure(1)
+    plot(ti,trg)
+    hold on
+    plot(ti,env(1,:))
+    plot(ti(start),trg(1,start),'r.','MarkerSize',6)
+    plot(ti(ending),trg(1,ending),'k.','MarkerSize',6)
+    plot(ti(d22),trg(d22),'bd','MarkerSize',5)
+    plot(ti(d11),trg(d1),'gd','MarkerSize',5)
     
     if isempty(pt_e)
         t_below(numb,:)=NaN;
         th(numb,:)=NaN;
-        low_tre=NaN;
     else
         x=env(1,:);
         nn=(env(1,round(pt_s+1000/Fpeak)));
@@ -197,6 +197,9 @@ for numb=1:length(iiii)
     %        xline(pt_e)
     %        xline(pt_s+1000/Fpeak,'r','LineWidth',1.5)
     %        qvalues = prctile(x,prtiles) % check if same values
+    
+    indexes2=indexes4;
+    indexes1=indexes3;
     
     indexes4=indexes4(~isnan(indexes4));
     indexes3=indexes3(~isnan(indexes3));
@@ -224,7 +227,7 @@ for numb=1:length(iiii)
     d2=find(isnan(indexes4));
     d11=ending(d1);
     d22=start(d2);
-    
+
     
     
     if ~isempty(d2)
@@ -242,10 +245,10 @@ for numb=1:length(iiii)
     end
     
     
-    %     figure(1)
-    %     hold on
-    %     plot(ti([d11 d22]),trg([d11 d22]),'g.','MarkerSize',5)
-    %     plot(ti,tremorxf)
+    figure(1)
+    hold on
+    plot(ti([d11 d22]),trg([d11 d22]),'g.','MarkerSize',5)
+    plot(ti,tremorxf)
     
     %--------------------------------------------------
     
@@ -270,27 +273,25 @@ for numb=1:length(iiii)
     clear xx
     xx{1,1}=xx1;
     
-    %     % figure(1)
-    %     plot(ti,env(1,:))
-    %     hold on
-    %     plot(ti,trg)
-    %     plot(ti(start),trg(1,start),'r*','MarkerSize',6)
-    %     plot(ti(ending),trg(1,ending),'k*','MarkerSize',6)
+    % figure(1)
+    plot(ti,env(1,:))
+    hold on
+    plot(ti,trg)
+    plot(ti(start),trg(1,start),'r*','MarkerSize',6)
+    plot(ti(ending),trg(1,ending),'k*','MarkerSize',6)
     
     
-    m_notrig(numb,:)=nanmedian(low_tre);
+    m_notrig(numb,:)=median(low_tre);
     m_lowtrig(numb,:)=nanmedian(pp);
     m_all(numb,:)=nanmedian(pp_all);
     var_th(numb,:)=nanmedian(varb);
     
-    figure(1)
-%     subplot(5,2,numb)
-    histogram(pp_all,'FaceColor','w')
-    hold on
-    if ~isnan(pp)
-        histogram(pp,'FaceColor','r')
-    end
-        histogram(low_tre,'FaceColor','g')
+    %     figure(1)
+    %     subplot(5,2,numb)
+    %     histogram(pp_all,'FaceColor','w')
+    %     hold on
+    %     histogram(pp,'FaceColor','r')
+    %     histogram(low_tre,'FaceColor','g')
 end
 
 

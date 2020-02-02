@@ -4,10 +4,10 @@ clear all
 % iiii=[2 5 8]; %% significant one
 iiii=[ 2 3 4 5 8 10 11 13 16 17];
 
-for numb=1:length(iiii);
+for numb= 1:length(iiii);
     clearvars -except iiii numb
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
-%         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
+         load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
     
     in2=1; % analysing the "main tremor axis"
     
@@ -143,12 +143,12 @@ for numb=1:length(iiii);
         
     end
     
-%     %%%% find runs with trigering issues (too few, too many pulses)
-%     th1=(Fpeak*5)./2;
-%     th2=(Fpeak*5)+round((Fpeak*5)./2);
-    
-        th1=(Fpeak*5*5)./2;
-    th2=(Fpeak*5*5)+round((Fpeak*5*5)./2);
+    %%%% find runs with trigering issues (too few, too many pulses)
+    th1=(Fpeak*5)./2;
+    th2=(Fpeak*5)+round((Fpeak*5)./2);
+%     
+%         th1=(Fpeak*5*5)./2;
+%     th2=(Fpeak*5*5)+round((Fpeak*5*5)./2);
     
     
     for it=1:length(indexes4)
@@ -177,15 +177,15 @@ for numb=1:length(iiii);
         xx1=[xx1 xx(find(([indexes4>=sp(il)]+[indexes4<=ep(il)])==2))];
     end
     
-    
-    %     figure()
-    %     plot(time,data(4,:))
-    %     hold on
-    %     plot(time(index),data(4,index),'r.')
-    %     plot(time(start1),data(4,start1),'ko')
-    %     plot(time(ending1),data(4,ending1),'bo')
-    
-    
+%     
+%         figure()
+%         plot(time,data(4,:))
+%         hold on
+% %         plot(time(index),data(4,index),'r.')
+%         plot(time(start1),data(4,start1),'ko')
+%         plot(time(ending1),data(4,ending1),'bo')
+%     
+%     
     clear start ending
     start{1,1}=floor((start1./samplerateold)*samplerate)+addon;
     ending{1,1}=floor((ending1./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
