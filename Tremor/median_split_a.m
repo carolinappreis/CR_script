@@ -22,9 +22,8 @@ for numb=1:length(iii);
     data=SmrData.WvData;
     samplerateold=SmrData.SR;
     tremor=(data(in,:));
-    addon=92; addon_end=35;
-    
-    
+  
+
     ts=timeseries(data,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     ds_data(1:size(ts1.data,1),1:size(ts1.data,3))=ts1.data;
@@ -50,8 +49,8 @@ for numb=1:length(iii);
     end
     clear i
     
-    start=floor((indexes4./samplerateold)*samplerate)+addon;
-    ending=floor((indexes3./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+    start=floor((indexes4./samplerateold)*samplerate);
+    ending=floor((indexes3./samplerateold)*samplerate);%floor(5*samplerate);
     
     %%% when patient's hand is up
     handup=[];
@@ -173,8 +172,8 @@ for numb=1:length(iii);
     
     
     clear start ending
-    start=floor((start1./samplerateold)*samplerate)+addon;
-    ending=floor((ending1./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+    start=floor((start1./samplerateold)*samplerate);
+    ending=floor((ending1./samplerateold)*samplerate);%floor(5*samplerate);
     clear xx
     xx=xx1;
     
@@ -255,7 +254,7 @@ end
 % cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 % clearvars -except arc1 arc2 iii
-% save('arc_mediansplit_0120.mat')
+% save('arc_mediansplit_0220.mat')
 load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit_0120.mat')
 % load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')

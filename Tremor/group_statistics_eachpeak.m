@@ -3,7 +3,7 @@
 clear all
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
 
 cohort=[2 3 4 5 8 10 11 13 16 17];
@@ -27,7 +27,7 @@ end
 % f.ns=NS(off,:); f.s=ttall(off,:); clearvars -except a f
 
 ref=a.s; %%% max amplitude change vs. max frequecy change
-iii=0; %%%%% amp (=0) vs. supressive effect
+iii=1; %%%%% amp (=0) vs. supressive effect
 
 idmi=[];
 idma=[];
@@ -96,18 +96,18 @@ for i=1:size(sub,1);
     end
     
 end
-
-
-st=NaN(1,12);
-clear A; A=a_s_al; %b1{f,1};
-clear B; B=a_ns_al; %s1{f,1}(1:size(A,1),:);
-hayriye_c; st(1,:)=stats.prob; st2(1,:)=stats.posclusterslabelmat;
-beg=find(st(1,:)<0.05 & st2(1,:)~=0);
-if ~isempty(beg)
-    sig_rise_all=[beg(1) beg(end)];
-    
-end
-
+% 
+% 
+% st=NaN(1,12);
+% clear A; A=a_s_al; %b1{f,1};
+% clear B; B=a_ns_al; %s1{f,1}(1:size(A,1),:);
+% hayriye_c; st(1,:)=stats.prob; st2(1,:)=stats.posclusterslabelmat;
+% beg=find(st(1,:)<0.05 & st2(1,:)~=0);
+% if ~isempty(beg)
+%     sig_rise_all=[beg(1) beg(end)];
+%     
+% end
+% 
 
 
 

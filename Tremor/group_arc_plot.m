@@ -1,9 +1,9 @@
 clear all
 
 
-iii=0; %%%%% amp (=0) vs. supressive effect
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
- load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
+iii=1; %%%%% amp (=0) vs. supressive effect
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
+ load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
 
 cohort=[2 3 4 5 8 10 11 13 16 17];
 dum=intersect(iiii,cohort);
@@ -70,12 +70,16 @@ close all
 
     metric1=[a_s_al(:,8:12) a_s_al(:,1:7)];
 %    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-    cl=blushred;
+     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','stone','squash');
+    if iii==0
+     cl=blushred;
     cl1=squash;
     
-
-
+    else
+       cl=aegean;
+    cl1=stone;    
+    end
+    
 
 f1=figure(1)
 plot(metric1','Color',cl1)

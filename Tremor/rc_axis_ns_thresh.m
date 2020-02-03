@@ -20,8 +20,7 @@ for numb=1:length(iiii)
     data=SmrData.WvData;
     samplerateold=SmrData.SR;
     tremor=(data(in,:));
-    addon=92; addon_end=35;
-    
+
     time=0:1/samplerateold:(size(data,2)-1)/samplerateold;
     
     %     f1=figure(1)
@@ -53,8 +52,8 @@ for numb=1:length(iiii)
     end
     clear i
     
-    start=floor((indexes4./samplerateold)*samplerate)+addon;
-    ending=floor((indexes3./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+    start=floor((indexes4./samplerateold)*samplerate);
+    ending=floor((indexes3./samplerateold)*samplerate);%floor(5*samplerate);
     
     %%% when patient's hand is up
     handup=[];
@@ -172,8 +171,8 @@ for numb=1:length(iiii)
     end
     
     clear start ending
-    start{1,1}=floor((start1./samplerateold)*samplerate)+addon;
-    ending{1,1}=floor((ending1./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+    start{1,1}=floor((start1./samplerateold)*samplerate);
+    ending{1,1}=floor((ending1./samplerateold)*samplerate);%floor(5*samplerate);
     clear xx
     xx{1,1}=xx1;
     
@@ -239,10 +238,10 @@ for numb=1:length(iiii)
         end
         tt1{numb,axx}=tt;
         
-%         for rr=1:100000
-%             LS(numb,axx,rr)=nanmedian(tt(randi(length(start1),1,10)));
-%         end
-%         
+        for rr=1:100000
+            LS(numb,axx,rr)=nanmedian(tt(randi(length(start1),1,10)));
+        end
+        
         
         %     close all
        

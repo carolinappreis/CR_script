@@ -81,7 +81,7 @@ A=max([Pxx_a_all(idx,:)]')
 NS=max([Pxx_ns_all(idx,:)]')
 all=[S ; A ; NS];
 
-figure;
+f1=figure;
 bar(1:3,[median(S) median(A) median(NS)],'FaceColor',[0 0.5 0.5],'FaceAlpha',0.5,'EdgeColor','none')
 hold on
 plot([S; A; NS],'x','MarkerSize',5,'Color','k')
@@ -90,17 +90,29 @@ xlim([0 4])
 xticklabels({'AMP','SUP','NS'})
 box('off')
 ylabel('Theta power peak')
+f1.Units = 'centimeters';
+f1.OuterPosition= [10, 10, 8, 8];
+set(gca,'FontSize',12)
+set(f1,'color','w');
 
-figure
-plot(all,'Color',[0.5 0.5 0.5],'LineWidth',1)
+
+f2=figure
+for i=1:8
+cl= rand(1,3);
+plot(all(:,i),'Color',cl,'LineWidth',1)
 hold on
-plot([S; A; NS],'o','MarkerSize',5,'Color',[0 0.5 0.5])
+plot([S(i); A(i); NS(i)],'.','MarkerSize',15,'Color',cl)
 xlim([0 4])
 xticks([1:3])
 xticklabels({'AMP','SUP','NS'})
 box('off')
-ylabel('Zscore power peak')
+ylabel('Theta power peak')
 yticks([0:0.2:1.6])
+end
+f2.Units = 'centimeters';
+f2.OuterPosition= [10, 10, 8, 8];
+set(gca,'FontSize',12)
+set(f2,'color','w');
 
 [p,h]=ttest(A,S)
 [p,h]=ttest(A,NS)

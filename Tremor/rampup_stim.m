@@ -1,4 +1,4 @@
-
+% 
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 load('param_ns_s.mat')
 [p,h]=ttest(id_param_NS,id_param_stim);
@@ -13,7 +13,7 @@ iiii=[1 2 3 4 5 8 10 11 12 13 16 17 19 20];
 iiii=[ 2 3 4 5 8 10 11 13 16 17];
 all=[];
 for numb=1:length(iiii)
-    clearvars -except iiii numb tt1 LS cr all id_param
+    clearvars -except iiii numb tt1 LS cr all id_param_stim
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
     %     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
     
@@ -150,27 +150,34 @@ for numb=1:length(iiii)
     
     y=median(numb_p');
     x=1:length(y);
-    initial_params=[];
+   
+    if numb==4
+        initial_params=[ NaN NaN length(x)/2 NaN];
+    elseif numb==6
+        initial_params=[ y(1) y(length(x)) length(x)/2 NaN];
+    else
+         initial_params=[];
+    end
     [param]=sigm_fit(x,y,initial_params)        % automatic initial_params  "min", "max", "x50" and "slope"
     clear x y
     %     close all
     
-    id_param(numb,:)=param;
+    id_param_stim(numb,:)=param;
     
-    clearvars -except PSI_ax pca_ax tt1  iiii numb ampall ph_stim LS cr all id_param
+    clearvars -except PSI_ax pca_ax tt1  iiii numb ampall ph_stim LS cr all id_param_stim
     
 end
-m50=median(id_param(:,3));
-
-%     clearvars -except iiii tt1 LS
-%     cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-% save('cleaned_rc12')
-
-
-y=median(all');
-x=1:length(y);
-initial_params=[];
-[param]=sigm_fit(x,y,initial_params)        % automatic initial_params  "min", "max", "x50" and "slope"
-clear x y
-
+ m50=median(id_param_stim(:,3));
+% 
+% %     clearvars -except iiii tt1 LS
+% %     cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+% 
+% 
+% 
+% y=median(all');
+% x=1:length(y);
+% initial_params=[];
+% [param]=sigm_fit(x,y,initial_params)        % automatic initial_params  "min", "max", "x50" and "slope"
+% clear x y
+% 
 

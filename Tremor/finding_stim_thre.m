@@ -6,8 +6,8 @@ iiii=[ 2 3 4 5 8 10 11 13 16 17];
 for numb=1:length(iiii)
     
     clearvars -except iiii numb m_all m_notrig m_lowtrig th t_below var_th t_var
-    %     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
+       load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iiii(numb)),'_RS.mat'))
+%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iiii(numb)),'_RS.mat'))
     
     in2=1; % analysing the "main tremor axis"
     
@@ -57,6 +57,7 @@ for numb=1:length(iiii)
     start=floor((indexes4./samplerateold)*samplerate);
     ending=floor((indexes3./samplerateold)*samplerate);%floor(5*samplerate);
     
+  
     %%% when patient's hand is up
     handup=[];
     for i=1:length(start)
@@ -112,6 +113,13 @@ for numb=1:length(iiii)
     trg(all_idxs)=1;
     ti=0:1/samplerate:(length(env)-1)/samplerate;
     
+%     figure(1)
+%     plot(ti,env(1,:))
+%     hold on
+%     plot(ti,trg)
+%     plot(ti(start),trg(1,start),'r*','MarkerSize',6)
+%     plot(ti(ending),trg(1,ending),'k*','MarkerSize',6)
+    
     
     new=find(data(2,:)>4);
     difp=find((diff(new))>100000); % are you trying to threshold at 9.6 seconds?
@@ -160,14 +168,14 @@ for numb=1:length(iiii)
     end
     
     
-    %     figure(1)
-    %     plot(ti,trg)
-    %     hold on
-    %     plot(ti,env(1,:))
-    %     plot(ti(start),trg(1,start),'r.','MarkerSize',6)
-    %     plot(ti(ending),trg(1,ending),'k.','MarkerSize',6)
-    %     plot(ti(d22),trg(d22),'bd','MarkerSize',5)
-    %     plot(ti(d11),trg(d1),'gd','MarkerSize',5)
+%         figure(1)
+%         plot(ti,trg)
+%         hold on
+%         plot(ti,env(1,:))
+%         plot(ti(start),trg(1,start),'r.','MarkerSize',6)
+%         plot(ti(ending),trg(1,ending),'k.','MarkerSize',6)
+%         plot(ti(d22),trg(d22),'bd','MarkerSize',5)
+%         plot(ti(d11),trg(d1),'gd','MarkerSize',5)
     
     if isempty(pt_e)
         t_below(numb,:)=NaN;
@@ -242,10 +250,10 @@ for numb=1:length(iiii)
     end
     
     
-    %     figure(1)
-    %     hold on
-    %     plot(ti([d11 d22]),trg([d11 d22]),'g.','MarkerSize',5)
-    %     plot(ti,tremorxf)
+%         figure(1)
+%         hold on
+%         plot(ti([d11 d22]),trg([d11 d22]),'g.','MarkerSize',5)
+%         plot(ti,tremorxf)
     
     %--------------------------------------------------
     
@@ -270,12 +278,9 @@ for numb=1:length(iiii)
     clear xx
     xx{1,1}=xx1;
     
-    %     % figure(1)
-    %     plot(ti,env(1,:))
-    %     hold on
-    %     plot(ti,trg)
-    %     plot(ti(start),trg(1,start),'r*','MarkerSize',6)
-    %     plot(ti(ending),trg(1,ending),'k*','MarkerSize',6)
+    
+%     plot(ti(start),trg(1,start),'g.','MarkerSize',10)
+%     plot(ti(ending),trg(1,ending),'g.','MarkerSize',10)
     
     
     m_notrig(numb,:)=nanmedian(low_tre);
@@ -284,20 +289,38 @@ for numb=1:length(iiii)
     var_th(numb,:)=nanmedian(varb);
     
     figure(1)
-%     subplot(5,2,numb)
+   subplot(5,2,numb)
     histogram(pp_all,'FaceColor','w')
     hold on
     if ~isnan(pp)
         histogram(pp,'FaceColor','r')
     end
+    if  ~isnan(low_tre)
         histogram(low_tre,'FaceColor','g')
+    end
+
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
+% cohort=[2 3 4 5 8 10 11 13 16 17];
+% dum=intersect(iiii,cohort);
+% 
+% pt=[];
+% for i=1:length(dum)
+%     pt=[pt find(iiii==dum(i))];
+% end
+% 
+%   main=[1 1 3 1 3 3 3 3 1 1];
+%    figure(numb)
+%    histogram(nostim(pt(numb),main(numb),:),'FaceColor','w')
+%    hold on
+%    histogram(pp_all,'FaceColor','r')
+   
 end
 
 
 clearvars -except iiii  m_all m_notrig m_lowtrig th t_below var_th t_var
-cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
+ cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 % cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
-% save('cleaned_tremor_prop.mat')
+%  save('cleaned_tremor_prop.mat')
 
 
 

@@ -36,13 +36,7 @@ for numb= 1:length(iii);
     before_ns
       
     segmentb=hu{numb,:};
-    segmente=hd{numb,:};
-    
-     if numb==7
-         segmentb=segmentb(2:end);
-         segmente=segmente(2:end);
-     end
-     
+    segmente=hd{numb,:}; 
      
     handup=[];
     for i=1:length(segmentb)

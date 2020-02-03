@@ -1,7 +1,7 @@
 
 close all
 clear all
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
 load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 cl=blushred;
 
