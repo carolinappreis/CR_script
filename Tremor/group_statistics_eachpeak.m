@@ -27,7 +27,7 @@ end
 % f.ns=NS(off,:); f.s=ttall(off,:); clearvars -except a f
 
 ref=a.s; %%% max amplitude change vs. max frequecy change
-iii=1; %%%%% amp (=0) vs. supressive effect
+iii=0; %%%%% amp (=0) vs. supressive effect
 
 idmi=[];
 idma=[];
@@ -112,25 +112,25 @@ end
 
 
 %%%%%%%%%%%%%%%%%%%check alignments
-for i=1:10
-    figure(1)
-subplot(1,10,i)
-bar(a.s(i,:))
-
-
-% figure(2)
+% for i=1:10
+%     figure(1)
 % subplot(1,10,i)
-% bar(a.ns(i,:))
-
-figure(3)
-subplot(1,10,i)
-bar(a_s_al(i,:))
-
-
-% figure(4)
+% bar(a.s(i,:))
+% 
+% 
+% % figure(2)
+% % subplot(1,10,i)
+% % bar(a.ns(i,:))
+% 
+% figure(3)
 % subplot(1,10,i)
-% bar(a_ns_al(i,:))
-end
+% bar(a_s_al(i,:))
+% 
+% 
+% % figure(4)
+% % subplot(1,10,i)
+% % bar(a_ns_al(i,:))
+% end
 
 
 
