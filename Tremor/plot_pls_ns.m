@@ -1,7 +1,7 @@
 clear all
 close all
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\reference_pls_ns.mat')
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/reference_pls_ns.mat')
+ load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\reference_pls_ns.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/reference_pls_ns.mat')
 
 for i=1:10;
 f1=figure(1)

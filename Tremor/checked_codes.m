@@ -29,7 +29,7 @@ run('plot_pls_ns_demo') % diagram of envelope
 run('nlm_fits_fx.m')  %to get fits from sine and gaussian models to raw response curves - are ARCs non-uniform?
 run('nonlin_lin_AIC.m') %to run gauss sin and k fits and do moel comparison with AIC 
 
-%%%GROUP
+%%%--------------------------GROUP
     
 run('group_arc_plot') %% old code with freq names group_rc_smooth_before
 run ('group_statistics.m') %% stats same peak stim non stim
@@ -40,5 +40,11 @@ run('rampup_NS.m') % sigmoid fits to hand up
 
 run('pwelch_amp_sup_ns.m') %% will run file taken from 'NS_zscore_handuptimedomain.m'
 
-%%%%CLEANING DATA
+%%%phase-locked stim
+
+run('pls_group_sup.m') %%% plotting median tremor severity during sup 
+run('pls_group_amp.m') %%% plotting median tremor severity during amp
+run('pls_group_stats.m')
+
+%%%%----------------------CLEANING DATA
 run ('finding_stim_thre.m') % 3 pateints with thriggering issues - tremor characteristics found. 

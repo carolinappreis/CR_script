@@ -5,15 +5,14 @@
 %sigmoid fit of 20 seconds before and after hand up
 
 clear all
-iiii=[2 3 4 5 8 10 11 13 16 17 18 19 20 21 22 23]; %17 is the last pateint; we have 17 with one pulse and 18 with 5 pulses at the same phase; 19:21 are the second visit of pateint 17 stimulation at 3 different phases with 1 pulse ; 22 and 23 are 2nd visit of pt 17 at 2 different phases with 5 pulses;
-
-% iiii=[2 5 8];
-
+ iiii=[2 3 4 5 8 10 11 13 16 17 18 19 20 21 22 23]; %17 is the last pateint; we have 17 with one pulse and 18 with 5 pulses at the same phase; 19:21 are the second visit of pateint 17 stimulation at 3 different phases with 1 pulse ; 22 and 23 are 2nd visit of pt 17 at 2 different phases with 5 pulses; iiii=[2 3 4 5 8 10 11 13 16 17];
+%   iiii=[2 3 13 17];
+f=1;
 in2=1;
-for numb=1:length(iiii)-6;
+for numb=1:length(iiii)
      close all
     clearvars -except iiii numb in2 prm peaks psd_curves m_change time_all ns_ref st_NS
-     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS\p0',num2str(iiii(numb)),'_PLS.mat'))
+     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_combined\P0',num2str(iiii(numb)),'_PLSc.mat'))
 %              load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
     if in2==1
@@ -150,13 +149,13 @@ for numb=1:length(iiii)-6;
         box('off')
         ref=[];
         for rr=1:length(start)
-%             amp_start(ax,1,rr)=mean(envelope(ax,start(rr)-1000:start(rr)));
-%             amp_end(ax,1,rr)=mean(envelope(ax,ending(rr)-1000:ending(rr)));
-%             amp_bhu(ax,1,rr)=mean(envelope(ax,segmentb(rr)-1000:segmentb(rr)));
-            amp_start(ax,1,rr)=mean(zenv(ax,start(rr)-5000:start(rr)));
-            amp_end(ax,1,rr)=mean(zenv(ax,ending(rr)-5000:ending(rr)));
+            amp_start(ax,1,rr)=mean(envelope(ax,start(rr)-1000:start(rr)));
+            amp_end(ax,1,rr)=mean(envelope(ax,ending(rr)-1000:ending(rr)));
+            amp_bhu(ax,1,rr)=mean(envelope(ax,segmentb(rr)-1000:segmentb(rr)));
+            amp_start(ax,1,rr)=mean(zenv(ax,start(rr)-1000:start(rr)));
+            amp_end(ax,1,rr)=mean(zenv(ax,ending(rr)-1000:ending(rr)));
             amp_bhu(ax,1,rr)=mean(zenv(ax,segmentb(rr)-1000:segmentb(rr)));
-            change(ax,rr)=(mean(envelope(ax,ending(rr)-5000:ending(rr)))-mean(envelope(ax,start(rr)-5000:start(rr))))./mean(envelope(ax,start(rr)-5000:start(rr)));
+            change(ax,rr)=(mean(envelope(ax,ending(rr)-1000:ending(rr)))-mean(envelope(ax,start(rr)-1000:start(rr))))./mean(envelope(ax,start(rr)-1000:start(rr)));
             ref=[ref (start(rr)-segmentb(rr))];
         end
         
@@ -173,7 +172,7 @@ for numb=1:length(iiii)-6;
         
         
         gg=[];
-        for i=1:length(segmentbp)
+        for i=1:length(start)
 %             gg=[gg ;(zenv(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
             %  gg=[gg ;(envelope(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
   gg=[gg ;(zenv(ax,(start(i)-ini):(start(i)+60000)))];
@@ -201,9 +200,9 @@ for numb=1:length(iiii)-6;
     end
 %     
 m_change(numb,:)=round(mean(change,2),1); clear change 
- timings=[median(amp_bhu,3) median(amp_start,3) median(amp_end,3)];
-time_pls(numb,:)=timings(1,:);
-ns_ref(numb,:)=mean(ref); clear ref
+%  timings=[median(amp_bhu,3) median(amp_start,3) median(amp_end,3)];
+% time_pls(numb,:)=timings(1,:);
+% ns_ref(numb,:)=mean(ref); clear ref
 %     
 %     f1=figure;
 %     plot((timings'),'.','MarkerSize',20)
@@ -221,8 +220,8 @@ ns_ref(numb,:)=mean(ref); clear ref
 %     box('off')
 %     close all
 
-start-segmentb
-st_NS(numb,1)=median(start-segmentb)
+% start-segmentb
+% st_NS(numb,1)=median(start-segmentb)
 end
 
 

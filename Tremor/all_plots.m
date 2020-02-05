@@ -78,7 +78,7 @@ end
 
 for i =1:size(smoo_main,1)
     
-%     %smooth arc main axes
+% %     %smooth arc main axes
     f1= figure(1) 
     subplot(2,5,i)
     bar(0:30:330,smoo_main(i,:),'FaceColor',cl,'EdgeColor',cl)
@@ -127,6 +127,8 @@ for i =1:size(smoo_main,1)
     set(gca,'FontSize',12)
     box('off')
     
+    up(i,1)=prctile(nostim_1(i,:),99.7917);
+    down(i,1)=prctile(nostim_1(i,:),0.2083);
 end
 
 f1.Units = 'centimeters';f2.Units = 'centimeters';f3.Units = 'centimeters';f4.Units = 'centimeters';

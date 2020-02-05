@@ -1,7 +1,7 @@
 clear all
 
 
-iii=0; %%%%% amp (=0) vs. supressive effect
+
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/seg_env_perphase.mat')
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\NS_filt_mainax.mat')
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\seg_env_perphase.mat')
@@ -81,22 +81,22 @@ A=max([Pxx_a_all(idx,:)]')
 NS=max([Pxx_ns_all(idx,:)]')
 all=[S ; A ; NS];
 
-f1=figure;
-bar(1:3,[median(S) median(A) median(NS)],'FaceColor',[0 0.5 0.5],'FaceAlpha',0.5,'EdgeColor','none')
+f1=figure(1);
+subplot(1,2,1)
+bar(1:3,[median(S) median(A) median(NS)],'FaceColor',[0.13,0.22,0.27],'FaceAlpha',0.4,'EdgeColor','none')
 hold on
-plot([S; A; NS],'x','MarkerSize',5,'Color','k')
+plot([S; A; NS],'.','MarkerSize',10,'Color','k')
 yticks([0:0.4:2])
 xlim([0 4])
 xticklabels({'AMP','SUP','NS'})
 box('off')
 ylabel('Theta power peak')
-f1.Units = 'centimeters';
-f1.OuterPosition= [10, 10, 8, 8];
+% f1.Units = 'centimeters';
+% f1.OuterPosition= [10, 10, 8, 8];
 set(gca,'FontSize',12)
 set(f1,'color','w');
-
-
-f2=figure
+f1=figure(1);
+subplot(1,2,2)
 for i=1:8
 cl= rand(1,3);
 plot(all(:,i),'Color',cl,'LineWidth',1)
@@ -109,10 +109,8 @@ box('off')
 ylabel('Theta power peak')
 yticks([0:0.2:1.6])
 end
-f2.Units = 'centimeters';
-f2.OuterPosition= [10, 10, 8, 8];
 set(gca,'FontSize',12)
-set(f2,'color','w');
+set(f1,'color','w');
 
 [p,h]=ttest(A,S)
 [p,h]=ttest(A,NS)
