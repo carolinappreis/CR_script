@@ -2,7 +2,7 @@ function [param,stat]=sigm_fit(x,y,fixed_params,initial_params,plot_flag)
 % Optimization of parameters of the sigmoid function
 %
 % Syntax:
-%       [param]=sigm_fit(x,y)       
+%       [param]=sigm_fit(x,y)
 %
 %       that is the same that
 %       [param]=sigm_fit(x,y,[],[],[])     % no fixed_params, automatic initial_params
@@ -57,7 +57,7 @@ end
 
 automatic_initial_params=[quantile(y,0.05) quantile(y,0.95) NaN 1];
 if sum(y==quantile(y,0.5))==0
-    temp=x(y==quantile(y(2:end),0.5));    
+    temp=x(y==quantile(y(2:end),0.5));
 else
     temp=x(y==quantile(y,0.5));
 end
@@ -66,14 +66,14 @@ automatic_initial_params(3)=temp(1);
 if nargin==2 %simplest valid input
     fixed_params=NaN(1,4);
     initial_params=automatic_initial_params;
-    plot_flag=1;    
+    plot_flag=1;
 end
 if nargin==3
     initial_params=automatic_initial_params;
-    plot_flag=1;    
+    plot_flag=1;
 end
 if nargin==4
-    plot_flag=1;    
+    plot_flag=1;
 end
 
 if exist('fixed_params','var')
@@ -109,12 +109,12 @@ for i=1:4;
     end
     if i==1; f_str=[f_str ' + (']; end
     if i==2;
-        if isnan(fixed_params(1))            
-            f_str=[f_str '-param(1) )./ (   1 + 10.^( (']; 
+        if isnan(fixed_params(1))
+            f_str=[f_str '-param(1) )./ (   1 + 10.^( ('];
         else
-            f_str=[f_str '-' num2str(fixed_params(1)) ')./ (1 + 10.^((']; 
+            f_str=[f_str '-' num2str(fixed_params(1)) ')./ (1 + 10.^(('];
         end
-    end    
+    end
     if i==3; f_str=[f_str ' - xval ) *']; end
     if i==4; f_str=[f_str ' )   );']; end
 end
@@ -144,25 +144,26 @@ for i=1:4;
         param(i)=BETA(free_param_count);
     else
         param(i)=fixed_params(i);
-    end    
+    end
 end
-    
-if plot_flag==1 
-    f1=figure;
-    x_vector=min(x):(max(x)-min(x))/100:max(x);
-    plot(x,y,'k','LineWidth',1)
-    hold on
-    plot(x_vector,f(param(isnan(fixed_params)),x_vector),'r-','LineWidth',3)
 
-ind = interp1(x_vector,1:length(x_vector),param(3),'nearest');
-if ~isnan(ind)
-p=f(param(isnan(fixed_params)),x_vector);
-plot(x_vector(ind),p(ind),'go','MarkerSize',10,'MarkerFaceColor','g');
-end
-xlim([min(x) max(x)])
-f1.Units = 'centimeters';
-f1.OuterPosition= [10, 10, 8, 10];
-set(gca,'FontSize',14)
-set(f1,'color','w');
-box('off')
+% if plot_flag==1
+%     f1=figure;
+%     x_vector=min(x):(max(x)-min(x))/100:max(x);
+%     plot(x,y,'k','LineWidth',1)
+%     hold on
+%     plot(x_vector,f(param(isnan(fixed_params)),x_vector),'r-','LineWidth',3)
+%     
+%     ind = interp1(x_vector,1:length(x_vector),param(3),'nearest');
+%     if ~isnan(ind)
+%         p=f(param(isnan(fixed_params)),x_vector);
+%         plot(x_vector(ind),p(ind),'go','MarkerSize',10,'MarkerFaceColor','g');
+%     end
+%     xlim([min(x) max(x)])
+%     f1.Units = 'centimeters';
+%     f1.OuterPosition= [10, 10, 8, 10];
+%     set(gca,'FontSize',14)
+%     set(f1,'color','w');
+%     box('off')
+% end
 end
