@@ -60,7 +60,6 @@ for i=1:2
     else
         title('condition2')
     end
-    p(1,i)=kruskalwallis(tt1{i,axmax});
 end
 
 
