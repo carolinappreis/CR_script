@@ -10,8 +10,8 @@ all=[];
 for numb= 1:length(iiii)
     clearvars -except iiii all f numb id_param_pls param_pls_1min good bad
     %     close all
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_combined\P0',num2str(iiii(numb)),'_PLSc.mat'))
-    %              load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_combined\P0',num2str(iiii(numb)),'_PLSc.mat'))
+                  load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
     data=SmrData.WvData;
     samplerateold=SmrData.SR;
@@ -148,8 +148,8 @@ for numb= 1:length(iiii)
         ending=ending(dum);
     end
     
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
-    % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
+     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
     segmentb=round((dc_s{numb,:})*samplerate,1);
     
     %     [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
@@ -204,7 +204,7 @@ for numb= 1:length(iiii)
         [param2]=sigm_fit(x,y,initial_params)        % automatic initial_params  "min", "max", "x50" and "slope"
         clear x y
         hold on
-        xline(start(i)-segmentb(i))
+%         xline(start(i)-segmentb(i))
  
         if param1(3)>0 && param1(3)<start(1) && param2(3)>0 && param2(3)<ending(1) && param2(3)>(start(i)-segmentb(i))
         good{numb,1}(:,i)=i;
@@ -213,7 +213,6 @@ for numb= 1:length(iiii)
         bad{numb,1}(:,i)=i;
         good{numb,1}(:,i)=NaN;
         end
-    
         close all
     end
     id_param_pls(numb,:)=param1;
@@ -223,3 +222,19 @@ for numb= 1:length(iiii)
     
 end
 % m50=median(id_param_pls(:,3));
+
+
+for i=1:10
+    dum=good{i,1};
+    dumdum=bad{i,1};
+    good1{i,1}(1,:)=(dum(~isnan(dum)));
+    if length(isnan(dumdum))~=1 && length(dumdum)~=1
+    bad1{i,1}(1,:)=(dumdum(~isnan(dumdum)));
+    else
+    bad1{i,1}=[];
+    end
+        
+    clear dum dumdum
+end
+
+clearvars -except good1 bad1 iiii param_pls_1min is_param_pls
