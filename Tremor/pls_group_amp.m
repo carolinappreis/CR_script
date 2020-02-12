@@ -1,5 +1,5 @@
 clear all
-iiii=[2 5 17];
+iiii=[2 4 5 17];
 
 f=1;
 for numb=1:size(iiii,2);
@@ -132,7 +132,7 @@ cl=blushred;
 
 f1=figure(1);
 subplot(1,2,1)
-plot(1:4,amp','.','MarkerSize',7,'Color',cl1)
+plot(1:4,amp','.','MarkerSize',9,'Color',cl1)
 hold on
 plot(median(amp,1),'lineWidth',3,'Color',cl)
 xlim([0 5])
@@ -151,4 +151,9 @@ run('pls_group_sup.m')
 
 
 f1.Units = 'centimeters';
-f1.OuterPosition= [10, 10, 10, 10];
+f1.OuterPosition= [10, 10, 20, 10];
+
+
+m_a=median(amp,1);
+m_s=median(sup,1);
+[p,h]=ttest(m_a,m_s)

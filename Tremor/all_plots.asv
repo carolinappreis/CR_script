@@ -211,9 +211,7 @@ end
 for hh=1:size(tt1,1)
     f1=figure(1)
     subplot(2,5,hh)
-    bar(0:30:330,nanmedian(tt1{hh,1}),'FaceColor',cl,'EdgeColor',cl);
-    hold on
-    plot(0:30:330,(tt1{hh,1}),'k.');
+    bar(0:30:330,y);
     box('off')
     ylabel({'Change in tremor severity'})
     xlabel({'Stimulation phase (degrees)'})
@@ -221,6 +219,7 @@ for hh=1:size(tt1,1)
     f1.Units = 'centimeters';
     f1.OuterPosition= [10, 10, 50, 15];
     set(gca,'XTickLabelRotation',45)
+    set(gca,'FontSize',12)
     set(f1,'color','w');   
 end
 

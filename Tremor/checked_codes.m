@@ -37,6 +37,7 @@ run('group_statistics_eachpeak.m') %% stats each main peak
 
 run('rampup_stim.m') % sigmoid fits to hand up stim trials (10 trials all partients) + ttest fromo stim/ns
 run('rampup_NS.m') % sigmoid fits to hand up 
+run('rampup_onemin_PLS.m')
 
 run('pwelch_amp_sup_ns.m') %% will run file taken from 'NS_zscore_handuptimedomain.m'
 
@@ -44,7 +45,7 @@ run('pwelch_amp_sup_ns.m') %% will run file taken from 'NS_zscore_handuptimedoma
 
 run('pls_group_sup.m') %%% plotting median tremor severity during sup 
 run('pls_group_amp.m') %%% plotting median tremor severity during amp
-run('pls_group_stats.m')
+
 
 %%%%----------------------CLEANING DATA
 run ('finding_stim_thre.m') % 3 pateints with thriggering issues - tremor characteristics found. 

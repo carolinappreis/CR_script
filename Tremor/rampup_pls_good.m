@@ -5,13 +5,14 @@ clear all
  iiii=[2 3 4 5 8 10 11 13 16 17];
 % iiii=[2 8 17];
 f=1;
-
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\good_bad_pls.mat')
 all=[];
 for numb= 1:length(iiii)
-    clearvars -except iiii all f numb id_param_pls param_pls_1min good bad
+    clearvars -except iiii all f numb id_param_pls param_pls_1min good1 bad1
     %     close all
      load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_combined\P0',num2str(iiii(numb)),'_PLSc.mat'))
-%                   load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
+                
+% load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
     data=SmrData.WvData;
     samplerateold=SmrData.SR;
@@ -176,49 +177,35 @@ for numb= 1:length(iiii)
     
     axx=1;
     seg=5000;
-    for i=1:length(start)
-%         figure
-%         plot(tf_3(1,segmentb(i):segmentb(i)+seg2-1))
-%         hold on 
-%         plot(envelope(1,segmentb(i):segmentb(i)+seg2-1))
-%         xline(start(i),'LineWidth',2)
-       
-        if   segmentb(i)>seg && (segmentb(i)+seg-1)<=size(z_env,2)
-            y=smooth(z_env(axx,segmentb(i)-seg:start(i)));
+    for i=1:size(good1{numb,1},2)
+        dum=good1{numb,1};
+        if   segmentb(dum(i))>seg && (segmentb(dum(i))+seg-1)<=size(z_env,2)
+            y=smooth(z_env(axx,segmentb(dum(i))-seg:start(dum(i))));
 
         else
-            y=smooth(z_env(axx,segmentb(i):start(i)));
+            y=smooth(z_env(axx,segmentb(dum(i)):start(dum(i))));
 
         end
-%          all=[ all  smooth(z_env(axx,segmentb(i)-seg:segmentb(i)+seg-1))];
-        
+ 
         x=1:length(y);
         initial_params=[];
         [param1]=sigm_fit(x,y,initial_params)        % automatic initial_params  "min", "max", "x50" and "slope"
         clear x y
         
         
-        y=smooth(z_env(axx,segmentb(i):ending(i)));
+        y=smooth(z_env(axx,segmentb(dum(i)):ending(dum(i))));
         x=1:length(y);
         initial_params=[];
         [param2]=sigm_fit(x,y,initial_params)        % automatic initial_params  "min", "max", "x50" and "slope"
         clear x y
         hold on
-%         xline(start(i)-segmentb(i))
- 
-        if param1(3)>0 && param1(3)<start(1) && param2(3)>0 && param2(3)<ending(1) && param2(3)>(start(i)-segmentb(i))
-        good{numb,1}(:,i)=i;
-        bad{numb,1}(:,i)=NaN;
-        else
-        bad{numb,1}(:,i)=i;
-        good{numb,1}(:,i)=NaN;
-        end
-        close all
+        xline(start(i)-segmentb(i))
+
     end
     id_param_pls(numb,:)=param1;
     param_pls_1min(numb,:)=param2;
     
-    clearvars -except iiii numb id_param_pls all param_pls_1min good bad
+    clearvars -except iiii numb id_param_pls all param_pls_1min good1 bad1
     
 end
 % m50=median(id_param_pls(:,3));

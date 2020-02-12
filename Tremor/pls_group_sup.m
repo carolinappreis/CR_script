@@ -1,5 +1,5 @@
-clear all
-iiii=[3 4 8 10 11 13 16];
+clearvars -except amp
+iiii=[3 8 10 11 13 16];
 f=1;
 
 for numb=1:size(iiii,2);
@@ -118,7 +118,7 @@ for numb=1:size(iiii,2);
     
     sup(f,:)=mean(change);
     
-    clearvars -except iiii all numb sup f rep
+    clearvars -except iiii all numb sup f rep amp
     f=f+1;
 end
 
@@ -131,7 +131,7 @@ cl1=[0.5 0.5 0.5];
 
 f1=figure(1);
 subplot(1,2,2)
-plot(1:4,sup','.','MarkerSize',7,'Color',cl1)
+plot(1:4,sup','.','MarkerSize',9,'Color',cl1)
 hold on
 plot(median(sup,1),'lineWidth',3,'Color',cl)
 xlim([0 5])

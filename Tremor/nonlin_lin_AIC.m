@@ -72,24 +72,24 @@ win(i,1)=h(1);
 
 dum=sig1+sig2
 sig_wm=find(dum==2);
-
-f1=figure(1);
-subplot(2,5,i)
-bar(0:30:330,y,'FaceColor',cl,'EdgeColor',cl)
-hold on
-plot(0:30:330,mdg.Fitted,'k','LineWidth',2)
-plot(0:30:330,mds.Fitted,'r','LineWidth',2)
-plot(0:30:330,mdk.Fitted,'g','LineWidth',2)
-ylabel('Change in tremor severity')
-xlabel('Stimulation phase (degrees)')
-set(gca,'XTickLabelRotation',45)
-set(gca,'FontSize',12)
-box('off')
+mmm(i,1:3)=round(models,2);
+% f1=figure(1);
+% subplot(2,5,i)
+% bar(0:30:330,y,'FaceColor',cl,'EdgeColor',cl)
+% hold on
+% plot(0:30:330,mdg.Fitted,'k','LineWidth',2)
+% plot(0:30:330,mds.Fitted,'r','LineWidth',2)
+% plot(0:30:330,mdk.Fitted,'g','LineWidth',2)
+% ylabel('Change in tremor severity')
+% xlabel('Stimulation phase (degrees)')
+% set(gca,'XTickLabelRotation',45)
+% set(gca,'FontSize',12)
+% box('off')
 end
 %%%%--------------------
-f1.Units = 'centimeters';
-f1.OuterPosition= [10, 10, 55, 15];
-set(f1,'color','w');
+% f1.Units = 'centimeters';
+% f1.OuterPosition= [10, 10, 55, 15];
+% set(f1,'color','w');
 
 
 

@@ -147,23 +147,23 @@ for i=1:4;
     end
 end
 
-% if plot_flag==1
-%     f1=figure;
-%     x_vector=min(x):(max(x)-min(x))/100:max(x);
-%     plot(x,y,'k','LineWidth',1)
-%     hold on
-%     plot(x_vector,f(param(isnan(fixed_params)),x_vector),'r-','LineWidth',3)
-%     
-%     ind = interp1(x_vector,1:length(x_vector),param(3),'nearest');
-%     if ~isnan(ind)
-%         p=f(param(isnan(fixed_params)),x_vector);
-%         plot(x_vector(ind),p(ind),'go','MarkerSize',10,'MarkerFaceColor','g');
-%     end
-%     xlim([min(x) max(x)])
-%     f1.Units = 'centimeters';
-%     f1.OuterPosition= [10, 10, 8, 10];
-%     set(gca,'FontSize',14)
-%     set(f1,'color','w');
-%     box('off')
-% end
+if plot_flag==1
+    f1=figure;
+    x_vector=min(x):(max(x)-min(x))/100:max(x);
+    plot(x,y,'k','LineWidth',1)
+    hold on
+    plot(x_vector,f(param(isnan(fixed_params)),x_vector),'r-','LineWidth',3)
+    
+    ind = interp1(x_vector,1:length(x_vector),param(3),'nearest');
+    if ~isnan(ind)
+        p=f(param(isnan(fixed_params)),x_vector);
+        plot(x_vector(ind),p(ind),'go','MarkerSize',10,'MarkerFaceColor','g');
+    end
+    xlim([min(x) max(x)])
+    f1.Units = 'centimeters';
+    f1.OuterPosition= [10, 10, 8, 10];
+    set(gca,'FontSize',14)
+    set(f1,'color','w');
+    box('off')
+end
 end
