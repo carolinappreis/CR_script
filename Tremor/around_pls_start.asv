@@ -150,37 +150,25 @@ for numb= 1:length(iiii)
     
      
     axx=1;
-    seg=5000;
+    seg=10000;
+    n=0;
     for i=1:length(start)
-        z=envelope(axx,start(i)-seg:start(i)+seg);
+        z=envelope(axx,start(i)-seg:start(i));
         [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
         C=(filtfilt(d,e,z));
-        sig=diff(zscore(C));
+        sig=zscore(diff(C));
         idx(1,:)=find(sig>=1.96 | sig<=-1.96);
-        
-        
-        
-        
-        x=1:length(y);
-        initial_params=[];
-        [param1]=sigm_fit(x,y,initial_params)        % automatic initial_params  "min", "max", "x50" and "slope"
-        clear x y
-        hold on
-%         xline(start(i)-segmentb(i))
- 
-        if param1(3)>0 && param1(3)<start(1) && param2(3)>0 && param2(3)<ending(1)
-        good{numb,1}(:,i)=i;
-        bad{numb,1}(:,i)=NaN;
+
+        if ~isempty(idx)
+        good{numb,1}(1,n)=i;
         else
-        bad{numb,1}(:,i)=i;
-        good{numb,1}(:,i)=NaN;
+        bad{numb,1}(i,:)=i;
         end
-        close all
+        close all 
+        clear z d e C sig idx 
     end
-    id_param_pls(numb,:)=param1;
-    param_pls_1min(numb,:)=param2;
-    
-    clearvars -except iiii numb id_param_pls all param_pls_1min good bad
+ 
+    clearvars -except iiii numb good bad
     
 end
 % m50=median(id_param_pls(:,3));

@@ -37,23 +37,14 @@ for i=1:10
 x = 1:12;
 y = s_main(i,:);
 
-if i==1
-opt=statset('MaxIter',1);
-beta0 = [(max(y)-min(y)) length(x)/2 1];
-mg = @(F,x)(F(1)*exp(-((x-F(2))/F(3)).^2));
-mdg = fitnlm(x,y,mg,beta0,'Options',opt)
-elseif i==9
-beta0 = [min(y) 4 1];
-mg = @(F,x)(F(1)*exp(-((x-F(2))/F(3)).^2));
-mdg = fitnlm(x,y,mg,beta0) 
-else
+
 beta0 = [(max(y)-min(y)) length(x)/2 1];
 mg = @(F,x)(F(1)*exp(-((x-F(2))/F(3)).^2));
 mdg = fitnlm(x,y,mg,beta0)
-end
 
-beta1 = [(max(y))];
-ms = @(F,x)(F(1)*sin(0.5*x));
+
+beta1 = [(max(y)) length(x)/2];
+ms = @(F,x)(F(1)*sin(0.5*x+F(2)));
 mds = fitnlm(x,y,ms,beta1)
 
 f1=figure(1);
