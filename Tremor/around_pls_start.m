@@ -2,16 +2,16 @@
 clear all
 
 % iiii=[2 3 4 5 8 10 11 13 16 17 18 19 20 21 22 23]; %17 is the last pateint; we have 17 with one pulse and 18 with 5 pulses at the same phase; 19:21 are the second visit of pateint 17 stimulation at 3 different phases with 1 pulse ; 22 and 23 are 2nd visit of pt 17 at 2 different phases with 5 pulses; iiii=[2 3 4 5 8 10 11 13 16 17];
- iiii=[2 3 4 5 8 10 11 13 16 17];
-% iiii=[2 8 17];
+% iiii=[2 3 4 5 8 10 11 13 16 17];
+iiii=[3 5 8 17];
 f=1;
 
 all=[];
 for numb= 1:length(iiii)
     clearvars -except iiii all f numb id_param_pls param_pls_1min good bad
     %     close all
-     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_combined\P0',num2str(iiii(numb)),'_PLSc.mat'))
-%                   load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
+    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_combined\P0',num2str(iiii(numb)),'_PLSc.mat'))
+    %                   load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
     data=SmrData.WvData;
     samplerateold=SmrData.SR;
@@ -148,26 +148,43 @@ for numb= 1:length(iiii)
         ending=ending(dum);
     end
     
-     
+    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
+    %      load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
+    segmentb=round((dc_s{numb,:})*samplerate,1);
+    
     axx=1;
-    seg=10000;
-    n=0;
-    for i=1:length(start)
-        z=envelope(axx,start(i)-seg:start(i));
-        [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
-        C=(filtfilt(d,e,z));
-        sig=zscore(diff(C));
-        idx(1,:)=find(sig>=1.96 | sig<=-1.96);
+    
+    n=1;
+    m=1;
+    
 
-        if ~isempty(idx)
-        good{numb,1}(1,n)=i;
+    %         lm=LinearModel.fit(x,y)
+    for i=1:length(start)
+        
+        [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
+        C=(filtfilt(d,e,envelope(axx,segmentb(i):ending(i)+10000)));
+        x=1:length(C);
+        y=zscore(C);
+        
+        if start(i)-segmentb(i)> 10000
+        sig=y(start(i)-segmentb(i))-y(start(i)-segmentb(i)-10000);
+
+        if  sig>=1.96 | sig<=-1.96
+            bad{numb,1}(1,n)=i;
+            n=n+1;
         else
-        bad{numb,1}(i,:)=i;
+            good{numb,1}(1,m)=i;
+            m=m+1;
         end
-        close all 
-        clear z d e C sig idx 
+        tt=1:length(envelope(axx,:));
+        plot(tt,envelope(axx,:))
+        hold on
+        plot(tt(start(i)-10000:start(i)),envelope(axx,start(i)-10000:start(i)))
+        close all
+        clear sig 
+        end
     end
- 
+    
     clearvars -except iiii numb good bad
     
 end
@@ -179,11 +196,11 @@ for i=1:10
     dumdum=bad{i,1};
     good1{i,1}(1,:)=(dum(~isnan(dum)));
     if length(isnan(dumdum))~=1 && length(dumdum)~=1
-    bad1{i,1}(1,:)=(dumdum(~isnan(dumdum)));
+        bad1{i,1}(1,:)=(dumdum(~isnan(dumdum)));
     else
-    bad1{i,1}=[];
+        bad1{i,1}=[];
     end
-        
+    
     clear dum dumdum
 end
 

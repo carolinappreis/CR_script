@@ -5,7 +5,9 @@ close all
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\labels_shift.mat','LS')
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\ns_median_split.mat','ns_msplit')
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit_0220.mat','arc1','arc2')
+
 load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
@@ -24,19 +26,19 @@ cl=blushred;
 
 % cohort=[2 3 4 5 8 10 11 13 16 17];
 % dum=intersect(iii,cohort);
-% 
+%
 % pt=[];
 % for i=1:length(dum)
 %     pt=[pt find(iii==dum(i))];
 % end
-% 
+%
 % for i=1:size(pt,2)
 %     for ii=1:3
 %     ns(i,ii,:)=nostim(pt(i),ii,:);
 %     nsout(i,ii,:)=nostimout(pt(i),ii,:);
 %     end
 % end
-% 
+%
 % clear nostim
 % nostim=ns;
 % clear nostimout
@@ -60,37 +62,37 @@ for ik=1:size(tt1,1)
         smoo_all(ik,kk,:)=smooth_c;  clear smooth_c
         nostim_var(ik,kk,:)=var(nostim(ik,kk,:));
         raw(ik,kk,:)=nanmedian(tt1{ik,kk});
-
-%         p (ik,kk,1) = kruskalwallis(tt1{ik,kk});
-    ns_mat1(ik,kk,:)=squeeze(nostim(ik,ns_mat{ik,1}(kk),:));
+        
+        %         p (ik,kk,1) = kruskalwallis(tt1{ik,kk});
+        ns_mat1(ik,kk,:)=squeeze(nostim(ik,ns_mat{ik,1}(kk),:));
     end
-   
-%     bar(nostim_var)
-%     figure(2)
-%     bar(test)
-% %     dum=(squeeze(nostim_all(ik,:,:)))';
-%     boxplot(dum,'PlotStyle','compact')
-
+    
+    %     bar(nostim_var)
+    %     figure(2)
+    %     bar(test)
+    % %     dum=(squeeze(nostim_all(ik,:,:)))';
+    %     boxplot(dum,'PlotStyle','compact')
+    
     smoo_main(ik,:)=squeeze(smoo_all(ik,1,:));
     raw_main(ik,:)=squeeze(nanmedian(tt1{ik,1}));
     nostim_1(ik,:)=squeeze(nostim(ik,main(ik),:));
-    label_shift_1(ik,:)=squeeze(LS(ik,main(ik),:));   
-   
+    label_shift_1(ik,:)=squeeze(LS(ik,main(ik),:));
+    
 end
 
 for i =1:size(smoo_main,1)
     
-% %     %smooth arc main axes
-    f1= figure(1) 
+    % %     %smooth arc main axes
+    f1= figure(1)
     subplot(2,5,i)
     bar(0:30:330,smoo_main(i,:),'FaceColor',cl,'EdgeColor',cl)
     ylabel('Change in tremor severity')
     xlabel('Stimulation phase (degrees)')
     set(gca,'XTickLabelRotation',45)
     box('off')
-%     
-%     
-%     %raw ARC with NS thereshold for main axes
+    %
+    %
+    %     %raw ARC with NS thereshold for main axes
     f2= figure(2)
     subplot(2,5,i)
     bar(0:30:330,raw_main(i,:),'FaceColor',cl,'EdgeColor',cl)
@@ -101,12 +103,12 @@ for i =1:size(smoo_main,1)
     xlabel('Stimulation phase (degrees)')
     set(gca,'XTickLabelRotation',45)
     box('off')
-%     
+    %
     
     f3=figure(3);
     subplot(2,5,i)
     bar(0:30:330,squeeze(smoo_all(i,1,:)),'FaceColor',cl,'FaceAlpha',[0.3],'EdgeColor','none')
-    hold on 
+    hold on
     plot(0:30:330,squeeze(smoo_all(i,2,:)),'k','LineWidth',1.5)
     plot(0:30:330,squeeze(smoo_all(i,3,:)),'k','LineWidth',1.5)
     ylabel('Change in tremor severity')
@@ -153,7 +155,7 @@ set(f1,'color','w'); set(f2,'color','w');set(f3,'color','w');set(f4,'color','w')
 %     set(gca,'FontSize',12)
 %     box('off')
 % end
-% 
+%
 
 
 
@@ -176,14 +178,13 @@ for i=1:size(tt1,1)
         f1.OuterPosition= [10, 10, 12, 12];
         set(gca,'XTickLabelRotation',45)
         box('off')
-           
+        
     end
     f1.Units = 'centimeters';
     f1.OuterPosition= [10, 10, 30, 8];
     set(f1,'color','w');
-      
+    
 end
-
 
 
 % ARC median splot
@@ -193,8 +194,8 @@ for hh=1:size(arc1,1)
     y=[arc1(hh,:);arc2(hh,:)]';
     b = bar(0:30:330,y);
     yline(0,'LineWidth',1)
-%     ylim([-0.75 0.75])
-%     yticks([ -1:0.25:1])
+    %     ylim([-0.75 0.75])
+    %     yticks([ -1:0.25:1])
     box('off')
     ylabel({'Change in tremor severity'})
     xlabel({'Stimulation phase (degrees)'})
@@ -203,7 +204,67 @@ for hh=1:size(arc1,1)
     f1.OuterPosition= [10, 10, 50, 15];
     set(gca,'XTickLabelRotation',45)
     set(gca,'FontSize',12)
-    set(f1,'color','w');   
+    set(f1,'color','w');
+end
+
+
+%%% ARC median splot plus thresh
+
+for hh=1:size(arc1,1)
+    f1=figure(1)
+    subplot(2,5,hh)
+    y=arc1(hh,:);
+    bar(0:30:330,y);
+    hold on
+    yline(prctile(ns_msplit(hh,1,:),99.7917),'k--','LineWidth',1)
+    yline(prctile(ns_msplit(hh,1,:),0.2083),'k--','LineWidth',1)
+    yline(0,'LineWidth',1)
+    %     ylim([-0.75 0.75])
+    %     yticks([ -1:0.25:1])
+    box('off')
+    ylabel({'Change in tremor severity'})
+    xlabel({'Stimulation phase (degrees)'})
+    
+    f1.Units = 'centimeters';
+    f1.OuterPosition= [10, 10, 50, 15];
+    set(gca,'XTickLabelRotation',45)
+    set(gca,'FontSize',12)
+    set(f1,'color','w');
+    
+    
+    if max(y)>= prctile(ns_msplit(hh,1,:),99.7917) | min(y)<=prctile(ns_msplit(hh,1,:),0.2083)
+        sig_a1(hh,1,:)=1;
+    else
+        sig_a1(hh,1,:)=0;
+    end
+    
+    
+    f2=figure(2)
+    subplot(2,5,hh)
+    y=arc2(hh,:);
+    bar(0:30:330,y);
+    hold on
+    yline(prctile(ns_msplit(hh,2,:),99.7917),'k--','LineWidth',1)
+    yline(prctile(ns_msplit(hh,2,:),0.2083),'k--','LineWidth',1)
+    yline(0,'LineWidth',1)
+    %     ylim([-0.75 0.75])
+    %     yticks([ -1:0.25:1])
+    box('off')
+    ylabel({'Change in tremor severity'})
+    xlabel({'Stimulation phase (degrees)'})
+    
+    f2.Units = 'centimeters';
+    f2.OuterPosition= [10, 10, 50, 15];
+    set(gca,'XTickLabelRotation',45)
+    set(gca,'FontSize',12)
+    set(f2,'color','w');
+    
+        if max(y)>= prctile(ns_msplit(hh,2,:),99.7917) | min(y)<=prctile(ns_msplit(hh,2,:),0.2083)
+        sig_a2(hh,1,:)=1;
+    else
+        sig_a2(hh,1,:)=0;
+    end
+    
 end
 
 
@@ -221,7 +282,7 @@ for hh=1:size(tt1,1)
     f1.Units = 'centimeters';
     f1.OuterPosition= [10, 10, 50, 15];
     set(gca,'XTickLabelRotation',45)
-    set(f1,'color','w');   
+    set(f1,'color','w');
 end
 
 

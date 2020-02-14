@@ -15,6 +15,7 @@ run('pls_sig.m')
 % runs 'code_before_PLScell.m' 
 
 run('NS_new') %%%% HC to generate .mat baseline do non stim 
+run('NS_mediansplit') %%%% HC to generate .mat baseline do non stim 
 
 run('rc_axis_ns_thresh')%%%% HC To generate .mat file with arcs 
 
