@@ -11,10 +11,11 @@ run('peripheraltremor_newcode.m')
 
 run('NS_sigmoid.m')
 
-run('pls_sig.m')
-% runs 'code_before_PLScell.m' 
+run('only_sig_clean_pls.m') % runs 'code_before_PLScell.m' 
+% old version run('pls_sig.m')
 
-run('NS_new') %%%% HC to generate .mat baseline do non stim 
+
+run('NS_matched') %%%% HC to generate .mat baseline do non stim 
 run('NS_mediansplit') %%%% HC to generate .mat baseline do non stim 
 
 run('rc_axis_ns_thresh')%%%% HC To generate .mat file with arcs 
