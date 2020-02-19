@@ -1,116 +1,91 @@
 clear all
 close all
-% 
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12.mat')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim2.mat')
+%
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
 load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 cl=blushred;
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/labels_shift.mat')
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit_0120.mat')
-% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
-
-
-%attention to number 13 and 14 of tt1 (they are the same pateint, 13 5
-%trials with 5 pulses stim and 14, 5 trials with 1 pulse stim
-
-
-%smoothed ARC'S
-% iiii=[1 2 3 4 5 8 10 11 12 13 16 17 19 20];
-
-cohort=[2 3 4 5 8 10 11 13 16 17];
-dum=intersect(iiii,cohort);
-
-pt=[];
-for i=1:length(dum)
-    pt=[pt find(iiii==dum(i))];
-end
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim10.mat')
 
 main=[1 1 3 1 3 3 3 3 1 1];
-%   main=[1 1 1 1 1 1 1 1 1 1];
-for pp=1:size(pt,2)
+for pp=1:size(tt1,1)
     for kk=1:size(tt1,2)
         
-        curve=nanmedian(tt1{pt(pp),kk},1);
+        curve=nanmedian(tt1{pp,kk},1);
         SO=repmat(curve,1,3);
-%         SOUT=repmat((squeeze(nostimout(pt(pp),kk,:)))',1,3);
-        for i=size(tt1{pt(pp),kk},2)+1:size(tt1{pt(pp),kk},2)*2
+        %         SOUT=repmat((squeeze(nostimout(pp,kk,:)))',1,3);
+        for i=size(tt1{pp,kk},2)+1:size(tt1{pp,kk},2)*2
             smooth_c(1,i-12)=sum(SO(1,(i-1:i+1)))./length(SO(1,(i-1:i+1)));
-%             smooth_ns(1,i-12)=sum(SOUT(1,(i-1:i+1)))./length(SOUT(1,(i-1:i+1)));
+            %             smooth_ns(1,i-12)=sum(SOUT(1,(i-1:i+1)))./length(SOUT(1,(i-1:i+1)));
         end
         
         
         smoo_all(pp,kk,:)=smooth_c;  clear smooth_c
-%         nsmoo_all(pp,kk,:)=smooth_ns; clear smooth_ns
+        %         nsmoo_all(pp,kk,:)=smooth_ns; clear smooth_ns
         
     end
     
-    
-    
     smoo_main(pp,:)=squeeze(smoo_all(pp,1,:));
-%     nsmoo_main(pp,:)=squeeze(nsmoo_all(pp,1,:));
-    s_main(pp,:)=nanmedian(tt1{pt(pp),1},1);
-%     ns_main(pp,:)=squeeze(nostimout(pt(pp),1,:));
+    %     nsmoo_main(pp,:)=squeeze(nsmoo_all(pp,1,:));
+    s_main(pp,:)=nanmedian(tt1{pp,1},1);
+    %     ns_main(pp,:)=squeeze(nostimout(pp,1,:));
 end
-
-
 
 
 
 
 for i=1:size(s_main,1);
-    y= s_main(i,:);
-    
-    rsg=gauss_fit(y);
-    rs_gauss(i,:)=[rsg.sse rsg.dfe];
-
-
-    rss=sin_fit(y);
-    rs_sin(i,:)=[rss.sse rss.dfe];
-
-
-    rsl=poli_fit(y);
-%     rsl = fitlm(ones(size(y)),y,'y~1');
-    rs_lin(i,:)=[rsl.SSE rsl.DFE];
-
-end
-
-
-
-close all
-for i=1:size(s_main,1)
-    
-    rl=rs_lin(i,1);
-    rs=rs_sin(i,1);
-    rg=rs_gauss(i,1);
-    dfl=rs_lin(i,2);
-    dfs=rs_sin(i,2);
-    dfg=rs_gauss(i,2);
-    
-    F1=((rl-rs)./(dfl-dfs))./(rs./dfs);
-    F2=((rl-rg)./(dfl-dfg))./(rg./dfg);
-    
-    f_test(1,i)=fpdf(F1,dfl,dfs); 
-    f_test(2,i)=fpdf(F2,dfl,dfg); 
-    
-    stat_sig(1,i)=fpdf(F1,dfl,dfs)<0.05;
-    stat_sig(2,i)=fpdf(F2,dfl,dfg)<0.05; 
-    
-   y= s_main(i,:);
-   f1=figure(1)
+    y= s_main(i,:);  
+    f1=figure(1)
     subplot(2,5,i)
     bar(y,'FaceColor',cl,'EdgeColor',cl)
     hold on
-    poli_fit(y);
-   sin_fit(y);
-   gauss_fit(y);
-legend('off')
-   xlabel('');ylabel('')
-   box('off')
- title({['p k-sin:' num2str(f_test(1,i))];['p k-gaus:' num2str(f_test(2,i))]})
+    [rsg,rsg_g,rsg_o]=gauss_fit(y);
+    [rss,rss_g,rsg_o]=sin_fit(y);
+    
+    % [EstMdl,EstParamCov,logL,info] = estimate(rsg,y)
+    % [E,V,logL] = infer(mdk,Y)
+    % aic = aicbic(logL,numParam)
+    
+    x=0:length(y)-1;
+    mdk= fitlm(x,y,'constant');
+    plot(mdk.Fitted,'k-.','LineWidth',1.5)
+%     2*mdk.NumEstimatedCoefficients-2*log(mdk.LogLikelihood)
+%     aicbic(mdk.LogLikelihood,mdk.NumEstimatedCoefficients)
+%     mdk.ModelCriterion.AIC
+%     mdk.ModelCriterion.AICc
+    xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'});
+    ylabel('Change in tremor severity')
+    xlabel('Stimulation phase (degrees)')
+    set(gca,'XTickLabelRotation',45)
+    set(gca,'FontSize',12)
+    box('off')
+    legend('off')
 end
 
+f1.Units = 'centimeters';
+f1.OuterPosition= [10, 10, 55, 15];
+set(f1,'color','w');
+
+
+% close all
+% for i=1:size(s_main,1)
+%
+%    y= s_main(i,:);
+%    f1=figure(1)
+%     subplot(2,5,i)
+%     bar(y,'FaceColor',cl,'EdgeColor',cl)
+%     hold on
+%     poli_fit(y);
+%    sin_fit(y);
+%    gauss_fit(y);
+% legend('off')
+%    xlabel('');ylabel('')
+%    box('off')
+%  title({['p k-sin:' num2str(f_test(1,i))];['p k-gaus:' num2str(f_test(2,i))]})
+% end
+%
 
 % for i=1:10
 % y=smo_s(i,:);

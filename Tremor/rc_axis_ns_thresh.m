@@ -100,12 +100,19 @@ for numb=1:length(iiii)
     tremorzf=filtfilt(b,a,tremorz);
     envelope=[abs(hilbert(tremorxf));abs(hilbert(tremoryf));abs(hilbert(tremorzf))];
     phase=[angle(hilbert(tremorxf));angle(hilbert(tremoryf));angle(hilbert(tremorzf))];
+    for pt=1:3;
+    frequency=(smooth((1000/(2*pi))*diff(unwrap(phase(pt,:))),500))';
+    end
     z_env=[abs(hilbert(zscore(tremorxf)));abs(hilbert(zscore(tremoryf)));abs(hilbert(zscore(tremorzf)))];
     z_filt=[zscore(tremorxf);zscore(tremoryf);zscore(tremorzf)];
     % figure()
     %     bar(sum(envelope'))
     %     box('off')
     
+    
+   
+
+
     
     close all
     

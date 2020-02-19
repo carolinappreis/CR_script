@@ -2,25 +2,14 @@ clear all
 % iii=[1 2 3 4 5 8 10 11 12 13 16 17 18];
 
 iii=[2 3 4 5 8 10 11 13 16 17];
-in2=1;
 for numb=1:length(iii);
-    clearvars -except iii PC A1 B1 numb nostim nostimout samplerate in2 vr
+    clearvars -except iii PC A1 B1 numb nostim nostimout samplerate  vr
     %      load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(iii(numb)),'_baseline.mat'))
     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(iii(numb)),'_baseline.mat'))
     
-    if in2==1
-        in=3;
-    elseif in2==2 % other axis 1
-        in=5; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CHECK
-    elseif in2==3 % other axis 2
-        in=6;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CHECK
-    end
+
     data=SmrData.WvData;
     samplerateold=SmrData.SR;
-    tremor=(data(in,:));
-    addon=92; addon_end=35;
-    
-    
     ts=timeseries(data,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     ds_data(1:size(ts1.data,1),1:size(ts1.data,3))=ts1.data;
@@ -126,7 +115,7 @@ for numb=1:length(iii);
         % %         clear dum dum2 baseline3
     end
     
-    clearvars -except nostimout iii numb PC A1 B1 iii stim nostim in2 vr
+    clearvars -except nostimout iii numb PC A1 B1 iii stim nostim vr
 end
 % cohort=[2 3 4 5 6 7 8 10 11 12];
 % vr=vr(cohort,:);

@@ -45,7 +45,7 @@ mdg = fitnlm(x,y,mg,beta0)
 
 beta1 = [(max(y)) length(x)/2];
 ms = @(F,x)(F(1)*sin(0.5*x+F(2)));
-mds = fitnlm(x,y,ms,beta1)
+mds = fitlm(x,y,ms,beta1)
 
 f1=figure(1);
 subplot(2,5,i)

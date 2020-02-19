@@ -1,4 +1,4 @@
-function [gof,fitresult2] = gauss_fit(y)
+function [fitobj,goodness,output] = gauss_fit(y)
 %CREATEFIT(Y)
 %  Create a fit.
 %
@@ -25,11 +25,11 @@ opts.Lower = [-Inf -4 -3];
 opts.StartPoint = [0.5 6 3.5];
 
 % Fit model to data.
-[fitresult, gof,goodness] = fit( xData, yData, ft, opts );
+[fitobj,goodness,output] = fit( xData, yData, ft, opts );
 % Plot fit with data.
 % figure( 'Name', '1_sin' );
 % h = plot( fitresult, xData, yData );
-h2=plot(fitresult);
+h2=plot(fitobj);
 set(h2,'LineStyle',':','LineWidth',1.5,'Color','k')
 
 % legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );

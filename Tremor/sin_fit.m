@@ -1,4 +1,4 @@
-function [gof,fitresult, quatro] = sin_fit(y)
+function [fitresult,gof,goodness] = sin_fit(y)
 %CREATEFIT(Y)
 %  Create a fit.
 %
@@ -17,18 +17,18 @@ function [gof,fitresult, quatro] = sin_fit(y)
 [xData, yData] = prepareCurveData( [], y );
 
 % Set up fittype and options.
-ft = fittype( 'a*sin(b*x+c)', 'independent', 'x', 'dependent', 'y' );
+ft = fittype( 'a*sin(0.5*x+b)', 'independent', 'x', 'dependent', 'y' );
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
-opts.Lower = [min(y) 0.5 -0.5 ];
-opts.StartPoint = [mean(y) 0.55 6];
-opts.Upper = [max(y)+mean(y) 0.5 0.5];
+opts.Lower = [min(y) 4 ];
+opts.StartPoint = [mean(y) 6];
+opts.Upper = [+Inf 8];
 % opts.Lower = [-Inf 0.5 ];
 % opts.StartPoint = [2 0.5543];
 % opts.Upper = [Inf 0.5];
 
 % Fit model to data.
-[fitresult, gof,quatro] = fit( xData, yData, ft, opts );
+[fitresult,gof,goodness] = fit( xData, yData, ft, opts );
 
 % Plot fit with data.
 % figure( 'Name', '1_sin' );

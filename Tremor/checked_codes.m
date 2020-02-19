@@ -30,6 +30,7 @@ run('plot_pls_ns') % absolute amplitude bef posture, before stim, end stim for n
 % data from only_sig_clean_pls & only_sig_ns OLD verison: data from NS_sigmoid and pls_sig
 run('plot_pls_ns_demo') % diagram of envelope
 
+run('gauss_sin_fit.m') % fits using fit funtion instead of fitnlm
 run('nlm_fits_fx.m')  %to get fits from sine and gaussian models to raw response curves - are ARCs non-uniform?
 run('nonlin_lin_AIC.m') %to run gauss sin and k fits and do moel comparison with AIC 
 
