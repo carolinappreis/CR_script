@@ -25,7 +25,9 @@ run('median_split_a')
 run('all_plots') %%%% to plot the curves of the pateints of interest
 % arcs from rc_axis_ns_threshold; thresholds from NS_new; median split from medial_split_a
 
-run('plot_pls_ns') % absolute amplitude bef posture, before stim, end stim for ns and pls - data from NS_sigmoid and pls_sig
+run('plot_pls_ns') % absolute amplitude bef posture, before stim, end stim for ns and pls -
+
+% data from only_sig_clean_pls & only_sig_ns OLD verison: data from NS_sigmoid and pls_sig
 run('plot_pls_ns_demo') % diagram of envelope
 
 run('nlm_fits_fx.m')  %to get fits from sine and gaussian models to raw response curves - are ARCs non-uniform?

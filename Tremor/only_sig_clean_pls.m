@@ -150,14 +150,28 @@ for numb=1:length(iiii)
     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
     % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
     
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\good_bad_pls.mat','good')
+%     stay=good{numb,1};
+
     cell_b=[2 3 4 5 8 10 11 13 16 17];
     ha=find(iiii(numb)==(cell_b));
     segmentb=round((dc_s{ha,:})*samplerate,1);
+    if numb==3
+        segmentb(2)=[];
+        start(2)=[];
+    end
+
     
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\good_bad_pls.mat','good')
-    stay=good{numb,1};
-    segmentb=segmentb(stay);
-    start=start(stay);
+        [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
+    C=(filtfilt(d,e,tre_3'));
+    figure()
+    plot(zscore(tre_3(1,:)))
+    hold on
+    plot(zscore(C(:,1)))
+    for i=1:size(segmentb,2)
+        xline(segmentb(i),'r')
+    end
+    box('off')
 
     for ax=1:3
         ref1=[];
@@ -216,3 +230,5 @@ for numb=1:length(iiii)
     ee(numb,:)=mean(amp_end,2);
     pls_b(numb,:)=mean(ref1);
 end
+
+ cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
