@@ -30,7 +30,7 @@ opts.StartPoint = [0.5 6 3.5];
 % figure( 'Name', '1_sin' );
 % h = plot( fitresult, xData, yData );
 h2=plot(fitobj);
-set(h2,'LineStyle',':','LineWidth',1.5,'Color','k')
+set(h2,'LineWidth',1.5,'Color','k')
 
 % legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
 % Label axes

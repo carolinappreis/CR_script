@@ -34,15 +34,30 @@ end
 
 
 
-
+a=[];
 for i=1:size(s_main,1);
     y= s_main(i,:);  
     f1=figure(1)
     subplot(2,5,i)
-    bar(y,'FaceColor',cl,'EdgeColor',cl)
+    bar(y,'FaceColor',cl,'EdgeColor',cl,'HandleVisibility','off')
     hold on
     [rsg,rsg_g,rsg_o]=gauss_fit(y);
-    [rss,rss_g,rsg_o]=sin_fit(y);
+    N=rsg_o.numobs;
+    SS=rsg_g.rmse  ;
+    K=rsg_o.numparam;
+    
+    a(i,1) = N .* log(SS./N) + 2 .* K;
+    a(i,1) = a(i,1) + (2.*K.*(K+1)) ./ (N - K - 1);
+    
+    
+    [rss,rss_g,rss_o]=sin_fit(y);
+    N=rss_o.numobs;
+    SS=rss_g.rmse ;
+    K=rss_o.numparam;
+    a(i,2) = N .* log(SS./N) + 2 .* K;
+    a(i,2) = a(i,2) + (2.*K.*(K+1)) ./ (N - K - 1);
+    
+    
     
     % [EstMdl,EstParamCov,logL,info] = estimate(rsg,y)
     % [E,V,logL] = infer(mdk,Y)
@@ -50,18 +65,34 @@ for i=1:size(s_main,1);
     
     x=0:length(y)-1;
     mdk= fitlm(x,y,'constant');
+    if sum(diff(mdk.Fitted))==0
+    yline(mdk.Fitted(1),'k-.','LineWidth',1.5)
+    else
     plot(mdk.Fitted,'k-.','LineWidth',1.5)
-%     2*mdk.NumEstimatedCoefficients-2*log(mdk.LogLikelihood)
+    end
+    
 %     aicbic(mdk.LogLikelihood,mdk.NumEstimatedCoefficients)
 %     mdk.ModelCriterion.AIC
 %     mdk.ModelCriterion.AICc
+    N=mdk.NumObservations;
+    SS=mdk.SSR;
+    K=mdk.NumEstimatedCoefficients;
+    
+    a(i,3) = N .* log(SS./N) + 2 .* K;
+    a(i,3) = a(i,3) + (2.*K.*(K+1)) ./ (N - K - 1);
+ 
+    
     xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'});
     ylabel('Change in tremor severity')
     xlabel('Stimulation phase (degrees)')
     set(gca,'XTickLabelRotation',45)
     set(gca,'FontSize',12)
     box('off')
-    legend('off')
+    legend({'gaussian fit','sinusoidal fit','constant fit'},'Location','northwest')
+    legend('boxoff')
+    set(legend,'FontSize',9)
+legend('off')
+    
 end
 
 f1.Units = 'centimeters';

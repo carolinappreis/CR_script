@@ -45,7 +45,7 @@ run('rampup_NS.m') % sigmoid fits to hand up
 run('rampup_onemin_PLS.m')
 
 run('pwelch_amp_sup_ns.m') %% will run file taken from 'NS_zscore_handuptimedomain.m'
-
+run('pwelch_3plot.m')
 %%%phase-locked stim
 
 run('pls_group_sup.m') %%% plotting median tremor severity during sup 

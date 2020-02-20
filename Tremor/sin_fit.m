@@ -34,7 +34,7 @@ opts.Upper = [+Inf 8];
 % figure( 'Name', '1_sin' );
 % h = plot( fitresult, xData, yData );
 h1=plot(fitresult);
-set(h1,'LineWidth',1.5,'Color','k')
+set(h1,'LineStyle',':','LineWidth',1.5,'Color','k')
 
 % legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
 % Label axes
