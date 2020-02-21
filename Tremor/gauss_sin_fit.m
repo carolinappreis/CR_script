@@ -5,8 +5,8 @@ load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
 load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 cl=blushred;
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim10.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim10.mat')
 
 main=[1 1 3 1 3 3 3 3 1 1];
 for pp=1:size(tt1,1)
@@ -43,19 +43,21 @@ for i=1:size(s_main,1);
     hold on
     [rsg,rsg_g,rsg_o]=gauss_fit(y);
     N=rsg_o.numobs;
-    SS=rsg_g.rmse  ;
+    SS=(rsg_g.rmse)^2  ;
     K=rsg_o.numparam;
+    DFE=rsg_g.dfe;
+    Var = DFE/N*SS;
+    L = -( sum((y'-rsg(1:length(y))).^2)/Var + N*log(2*pi) + N*log(Var))/2;
+%       L = -( sum((y-yfit).^2)/Var + model.NumObservations*log(2*pi) + model.NumObservations*log(Var))/2;
+    aic = aicbic(log(L),K)
     
-    a(i,1) = N .* log(SS./N) + 2 .* K;
-    a(i,1) = a(i,1) + (2.*K.*(K+1)) ./ (N - K - 1);
     
     
     [rss,rss_g,rss_o]=sin_fit(y);
     N=rss_o.numobs;
     SS=rss_g.rmse ;
     K=rss_o.numparam;
-    a(i,2) = N .* log(SS./N) + 2 .* K;
-    a(i,2) = a(i,2) + (2.*K.*(K+1)) ./ (N - K - 1);
+
     
     
     
@@ -75,12 +77,22 @@ for i=1:size(s_main,1);
 %     mdk.ModelCriterion.AIC
 %     mdk.ModelCriterion.AICc
     N=mdk.NumObservations;
-    SS=mdk.SSR;
+    SS=mdk.MSE;
     K=mdk.NumEstimatedCoefficients;
-    
-    a(i,3) = N .* log(SS./N) + 2 .* K;
-    a(i,3) = a(i,3) + (2.*K.*(K+1)) ./ (N - K - 1);
+    DFE=mdk.DFE;
  
+    Var = DFE/N*SS;
+    L = -( sum((y'-rsg(1:length(y))).^2)/Var + N*log(2*pi) + N*log(Var))/2;
+    L = sum(((-(y'-rsg(1:length(y))).^2))./(2*(Var^2))) 
+    L = sum((((y'-rsg(1:length(y))).^2))./(2*(SS^2))) 
+    
+
+%       L = -( sum((y-yfit).^2)/Var + model.NumObservations*log(2*pi) + model.NumObservations*log(Var))/2;
+    aic = aicbic(log(L),K)
+    
+    
+    
+    
     
     xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'});
     ylabel('Change in tremor severity')
