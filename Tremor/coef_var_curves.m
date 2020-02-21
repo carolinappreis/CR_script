@@ -68,7 +68,8 @@ for numb= 1:length(iii);
             dum2=[dum2 ; bins(i).* ones(length(dum),1)];
             amp_bined=[amp_bined  ((ns_amp(dum)-nanmean(ns_amp))./nanmean(ns_amp))];
             m_amp_b(i,:)= nanmean(ns_amp(dum));
-            m_n_amp(i,:)=nanmean((ns_amp(dum)-nanmean(ns_amp))./nanmean(ns_amp));
+%             m_n_amp(i,:)=nanmean((ns_amp(dum)-nanmean(ns_amp))./nanmean(ns_amp));
+ m_n_amp(i,:)=nanmean(ns_amp(dum)./nanmean(ns_amp));
         end
         
         %         figure(1)
@@ -87,18 +88,20 @@ cl=stone;
 for i=1:10
     f1=figure(1)
     subplot(2,5,i)
-    y=amp_bins(i,:);
+    y=amp_n_bins(i,:);
     bar(y,'FaceColor',cl,'EdgeColor',cl)
     hold on
     [rsg,rsg_g,rsg_o]=gauss_fit(y)
+    ylim([0 1.5])
     xticks([1:2:14])
     xticklabels({'2','3','4','5','6','7','8'});
-    ylabel({'Change in ';'tremor severity'})
+    ylabel({'change in ';'tremor severity'})
     xlabel('frequency(Hz)')
     set(gca,'FontSize',12)
     box('off')
     legend('off')
     cv(i,:)= getCV(rsg(1:length(y)));
+%     cv(i,:)=rsg.c;
     std_r(i,:)= rsg_g.rmse;  % Root Mean Squared Error
     clear y rsg rsg_o rsg_g
 end
@@ -109,7 +112,7 @@ set(f1,'color','w');
 
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
 for i=1:size(tt1,1)
-    m_change(i,1)=mean(abs(nanmedian(tt1{i,1})))*100;
+    m_change(i,1)=sum(abs(nanmedian(tt1{i,1})))*100;
     max_change(i,1)=max(abs(nanmedian(tt1{i,1})))*100;
 end
 

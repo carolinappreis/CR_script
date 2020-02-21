@@ -34,6 +34,8 @@ run('gauss_sin_fit.m') % fits using fit funtion instead of fitnlm
 run('nlm_fits_fx.m')  %to get fits from sine and gaussian models to raw response curves - are ARCs non-uniform?
 run('nonlin_lin_AIC.m') %to run gauss sin and k fits and do moel comparison with AIC 
 
+run('coef_var_curves.m')  
+
 %%%--------------------------GROUP
     
 run('group_arc_plot') %% old code with freq names group_rc_smooth_before

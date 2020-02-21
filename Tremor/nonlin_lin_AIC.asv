@@ -47,8 +47,8 @@ for i= 1:10
     K=mdg.NumEstimatedCoefficients;
     DFE=mdg.DFE;
     
-    L = sum((((y'-mdg.Fitted).^2))./(2*(SS^2)));
-    aic(3) =real( aicbic(log(L),K));
+    L = sum((-((y'-mdg.Fitted).^2))./(2*(SS^2)));
+    aic(3) = aicbic(log(L),K);
     
     %%%%--------------------
     beta1 = [(max(y)) length(x)];
@@ -61,8 +61,8 @@ for i= 1:10
     K=mds.NumEstimatedCoefficients;
     DFE=mds.DFE;
     
-    L = sum((((y'-mds.Fitted).^2))./(2*(SS^2)));
-    aic(2) = real(aicbic(log(L),K));
+    L = sum((-((y'-mds.Fitted).^2))./(2*(SS^2)));
+    aic(2) = aicbic(log(L),K);
     
     %%%%--------------------
     
@@ -72,8 +72,8 @@ for i= 1:10
     K=mdk.NumEstimatedCoefficients;
     DFE=mdk.DFE;
     
-    L = sum((((y'-mdk.Fitted).^2))./(2*(SS^2)));
-    aic(1) = real(aicbic(log(L),K));
+    L = sum((-((y'-mdk.Fitted).^2))./(2*(SS^2)));
+    aic(1) = aicbic(log(L),K);
     
 
     names={'constant';'sinusoidal';'gaussian'};

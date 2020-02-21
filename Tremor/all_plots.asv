@@ -112,7 +112,6 @@ for i =1:size(smoo_main,1)
     hold on
     plot(0:30:330,squeeze(smoo_all(i,2,:)),'k','LineWidth',1.5)
     plot(0:30:330,squeeze(smoo_all(i,3,:)),'k','LineWidth',1.5)
-    ylim([-0.8 0.8])
     ylabel('Change in tremor severity')
     xlabel('Stimulation phase (degrees)')
     set(gca,'XTickLabelRotation',45)
@@ -205,7 +204,7 @@ for hh=1:size(arc1,1)
     f1.Units = 'centimeters';
     f1.OuterPosition= [10, 10, 50, 15];
     set(gca,'XTickLabelRotation',45)
-%     set(gca,'FontSize',12)
+    set(gca,'FontSize',12)
     set(f1,'color','w');
 end
 
