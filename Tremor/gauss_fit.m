@@ -20,9 +20,9 @@ function [fitobj,goodness,output] = gauss_fit(y)
 ft = fittype( 'a*exp(-((x-b)/c).^2)' );
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
-opts.Upper = [Inf 8 3.5];
-opts.Lower = [-Inf -4 -3];
-opts.StartPoint = [0.5 6 3.5];
+opts.Upper = [Inf 10 4];
+opts.Lower = [-Inf 2 3];
+opts.StartPoint = [max(y) 6 3.5];
 
 % Fit model to data.
 [fitobj,goodness,output] = fit( xData, yData, ft, opts );

@@ -48,10 +48,10 @@ for i=1:size(s_main,1);
     K=rsg_o.numparam;
     DFE=rsg_g.dfe;
     Var = DFE/N*SS;
-    L = -( sum((y'-rsg(1:length(y))).^2)/Var + N*log(2*pi) + N*log(Var))/2;
-%     L = sum((-((y'-rsg(1:length(y))).^2))./(2*(SS^2)));
-    aic(3) = real(aicbic(log(L),K));
-    clear N SS K L 
+%     Ll = -( sum((y'-rsg(1:length(y))).^2)/Var + N*log(2*pi) + N*log(Var))/2;
+     Ll = sum((-((y'-rsg(1:length(y))).^2))./(2*(SS^2)));
+    aic(3) = real(aicbic((Ll),K));
+    clear N SS K Ll 
     
     [rss,rss_g,rss_o]=sin_fit(y);
     N=rss_o.numobs;
@@ -59,10 +59,10 @@ for i=1:size(s_main,1);
     K=rss_o.numparam;
     DFE=rss_g.dfe;
     Var = DFE/N*SS;
-    L = -( sum((y'-rss(1:length(y))).^2)/Var + N*log(2*pi) + N*log(Var))/2;
-%     L = sum((-((y'-rss(1:length(y))).^2))./(2*(SS^2)));
-    aic(2) = real(aicbic(log(L),K));
-    clear N SS K L 
+%     Ll = -( sum((y'-rss(1:length(y))).^2)/Var + N*log(2*pi) + N*log(Var))/2;
+    Ll = sum((-((y'-rss(1:length(y))).^2))./(2*(SS^2)));
+    aic(2) = real(aicbic((Ll),K));
+    clear N SS K Ll 
 
     
     x=0:length(y)-1;
@@ -87,9 +87,13 @@ for i=1:size(s_main,1);
     K=mdk.NumEstimatedCoefficients;
     DFE=mdk.DFE;
     Var = DFE/N*SS;
-    L = -( sum((y'-mdk.Fitted).^2)/Var + N*log(2*pi) + N*log(Var))/2;
-%     L = sum((-((y'-mdk.Fitted).^2))./(2*(SS^2)));
-    aic(1) = real(aicbic(log(L),K));
+%     Ll = -( sum((y'-mdk.Fitted).^2)/Var + N*log(2*pi) + N*log(Var))/2;
+    Ll = sum((-((y'-mdk.Fitted).^2))./(2*(SS^2)));
+    aic(1) = -2*Ll + 2*K;
+%     real(aicbic(Ll,K));
+    
+    win(i,1)=find(aic==(min(aic)));
+    clear aic
 
     xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'});
     ylabel('Change in tremor severity')
