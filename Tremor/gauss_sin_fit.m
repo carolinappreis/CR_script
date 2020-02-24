@@ -1,13 +1,13 @@
 clear all
 close all
-%
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
-% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
-% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-% cl=blushred;
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim10.mat')
-cl=[0.5 0.5 0.5];
+
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
+load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+cl=blushred;
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim10.mat')
+% cl=[0.5 0.5 0.5];
 
 main=[1 1 3 1 3 3 3 3 1 1];
 for pp=1:size(tt1,1)
@@ -37,7 +37,7 @@ end
 
 aic=[];
 for i=1:size(s_main,1);
-    y= s_main(i,:);  
+    y= s_main(i,:);
     f1=figure(1)
     subplot(2,5,i)
     bar(y,'FaceColor',cl,'EdgeColor',cl,'HandleVisibility','off')
@@ -48,10 +48,10 @@ for i=1:size(s_main,1);
     K=rsg_o.numparam;
     DFE=rsg_g.dfe;
     Var = DFE/N*SS;
-%     Ll = -( sum((y'-rsg(1:length(y))).^2)/Var + N*log(2*pi) + N*log(Var))/2;
-     Ll = sum((-((y'-rsg(1:length(y))).^2))./(2*(SS^2)));
-    aic(3) = real(aicbic((Ll),K));
-    clear N SS K Ll 
+%      Ll = -( sum((y'-rsg(1:length(y))).^2)/Var + N*log(2*pi) + N*log(Var))/2;
+    Ll = sum((-((y'-rsg(1:length(y))).^2))./(2*(SS^2)));
+    aic(3) = aicbic((Ll),K);
+    clear N SS K Ll Var
     
     [rss,rss_g,rss_o]=sin_fit(y);
     N=rss_o.numobs;
@@ -61,26 +61,26 @@ for i=1:size(s_main,1);
     Var = DFE/N*SS;
 %     Ll = -( sum((y'-rss(1:length(y))).^2)/Var + N*log(2*pi) + N*log(Var))/2;
     Ll = sum((-((y'-rss(1:length(y))).^2))./(2*(SS^2)));
-    aic(2) = real(aicbic((Ll),K));
-    clear N SS K Ll 
-
+    aic(2) = aicbic((Ll),K);
+    clear N SS K Ll Var
+    
     
     x=0:length(y)-1;
     mdk= fitlm(x,y,'constant');
     if sum(diff(mdk.Fitted))==0
-    yline(mdk.Fitted(1),'k-.','LineWidth',1.5)
+        yline(mdk.Fitted(1),'k-.','LineWidth',1.5)
     else
-    plot(mdk.Fitted,'k-.','LineWidth',1.5)
+        plot(mdk.Fitted,'k-.','LineWidth',1.5)
     end
     
-%     aicbic(mdk.LogLikelihood,mdk.NumEstimatedCoefficients)
-%     mdk.ModelCriterion.AIC
-%     mdk.ModelCriterion.AICc
+    %     aicbic(mdk.LogLikelihood,mdk.NumEstimatedCoefficients)
+    %     mdk.ModelCriterion.AIC
+    %     mdk.ModelCriterion.AICc
     N=mdk.NumObservations;
     SS=mdk.MSE;
     K=mdk.NumEstimatedCoefficients;
     DFE=mdk.DFE;
- 
+    
     mdk= fitlm(x,y,'constant');
     N=mdk.NumObservations;
     SS=mdk.MSE;
@@ -88,13 +88,13 @@ for i=1:size(s_main,1);
     DFE=mdk.DFE;
     Var = DFE/N*SS;
 %     Ll = -( sum((y'-mdk.Fitted).^2)/Var + N*log(2*pi) + N*log(Var))/2;
-    Ll = sum((-((y'-mdk.Fitted).^2))./(2*(SS^2)));
-    aic(1) = -2*Ll + 2*K;
-%     real(aicbic(Ll,K));
+         Ll = sum((-((y'-mdk.Fitted).^2))./(2*(SS^2)));
+    %     aic(1) = -2*Ll + 2*K;
+    aic(1)=aicbic(Ll,K);
     
     win(i,1)=find(aic==(min(aic)));
     clear aic
-
+    
     xticklabels({'0','30','60','90','120','150','180','210','240','270','300','330'});
     ylabel('Change in tremor severity')
     xlabel('Stimulation phase (degrees)')
@@ -104,7 +104,7 @@ for i=1:size(s_main,1);
     legend({'gaussian fit','sinusoidal fit','constant fit'},'Location','northwest')
     legend('boxoff')
     set(legend,'FontSize',9)
-legend('off')
+    legend('off')
     
 end
 
