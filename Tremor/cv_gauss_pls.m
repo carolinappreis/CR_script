@@ -110,25 +110,65 @@ f1.Units = 'centimeters';
 f1.OuterPosition= [10, 10, 50, 15];
 set(f1,'color','w');
 
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\pls_prop.mat')
-iii=[2 3 4 5 8 10 11 13 16 17];
-cr=intersect(iii,sig);
-for i=1:size(cr,2)
-  cr2(i,:)=find(iii==cr(i));
+load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
+for i=1:size(tt1,1)
+    m_change(i,1)=sum(abs(nanmedian(tt1{i,1})))*100;
+    max_change(i,1)=max(abs(nanmedian(tt1{i,1})))*100;
+    min_change(i,1)=min(nanmedian(tt1{i,1}))*100;
 end
 
 
-
-
-ef_pls=abs(m_change(:,1));
-cv_pls=cv(cr2);
-
-f1=figure(5)
-y2=plot(cv_pls,ef_pls,'k.','MarkerSize',10);
+f1=figure(2)
+y2=plot(cv,min_change,'k.','MarkerSize',10);
 y3=lsline;
 set(y3,'LineWidth',1.5,'Color','red')
 box('off')
-[r,p]=corrcoef(cv_pls,ef_pls)
+[r,p]=corrcoef(cv,min_change)
+legend(y3,num2str(r(1,2)),'box','off')
+xlabel('coefficient of variation')
+ylabel('modulatory effects (%)')
+set(gca,'FontSize',12)
+f1.Units = 'centimeters';
+f1.OuterPosition= [10, 10, 8, 10];
+set(f1,'color','w');
+
+f1=figure(3)
+y2=plot(cv,max_change,'k.','MarkerSize',10);
+y3=lsline;
+set(y3,'LineWidth',1.5,'Color','red')
+box('off')
+[r,p]=corrcoef(cv,max_change)
+legend(y3,num2str(r(1,2)),'box','off')
+xlabel('coefficient of variation')
+ylabel('max modulatory effect (%)')
+set(gca,'FontSize',12)
+f1.Units = 'centimeters';
+f1.OuterPosition= [10, 10, 8, 10];
+set(f1,'color','w');
+
+f1=figure(4)
+y2=plot(cv,m_change,'k.','MarkerSize',10);
+y3=lsline;
+set(y3,'LineWidth',1.5,'Color','red')
+box('off')
+[r,p]=corrcoef(cv,m_change)
+legend(y3,num2str(r(1,2)),'box','off')
+xlabel('coefficient of variation')
+ylabel('mean modulatory effect (%)')
+set(gca,'FontSize',12)
+f1.Units = 'centimeters';
+f1.OuterPosition= [10, 10, 8, 10];
+set(f1,'color','w');
+
+sup=min_change([2:3 5:10]);
+cv_sup=cv([2:3 5:10]);
+
+f1=figure(5)
+y2=plot(cv_sup,sup,'k.','MarkerSize',10);
+y3=lsline;
+set(y3,'LineWidth',1.5,'Color','red')
+box('off')
+[r,p]=corrcoef(cv_sup,sup)
 legend(y3,num2str(r(1,2)),'box','off')
 xlabel('coefficient of variation')
 ylabel('supressive effect (%)')

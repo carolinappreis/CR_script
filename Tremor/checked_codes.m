@@ -3,7 +3,7 @@
 
 cd('C:\Users\creis\Documents\GitHub\CR_script\Tremor')
 cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
-
+cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 
 run('Periph_PhasicStim_smr.m') 
 
@@ -36,6 +36,9 @@ run('nonlin_lin_AIC.m') %to run gauss sin and k fits and do moel comparison with
 
 run('coef_var_curves.m')  
 
+
+run('only_sig_clean_pls.m') % temporal evolution phase locked
+run('only_sig_ns.m')%temporal evolution no stim
 %%%--------------------------GROUP
     
 run('group_arc_plot') %% old code with freq names group_rc_smooth_before

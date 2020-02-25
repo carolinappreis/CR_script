@@ -66,7 +66,7 @@ for i=1:length(idx);
 end
 
 
-close all
+% close all
 
     metric1=[a_s_al(:,8:12) a_s_al(:,1:7)];
 %    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
@@ -80,9 +80,67 @@ close all
     cl1=stone;    
     end
     
-
-f1=figure(1)
+% 
+% f1=figure(1)
+% plot(metric1','Color',cl1)
+% ylim([-0.4 0.4])
+% xlim([1 12])
+% xticks([ 3 6 9 12])
+% xticklabels({'-90','0','90','180'})
+% box('off')
+% hold on
+% plot(mean(metric1),'k','LineWidth',4,'Color', cl)
+% yline(0,'k', 'LineWidth',1,'LineStyle','--')
+% ylabel({'Change in tremor severity'})
+% set(gca,'FontSize',14)
+% 
+% 
+% 
+% 
+% 
+% f2=figure(2)
+% bar(mean(metric1),'LineWidth',1,'FaceColor',cl,'EdgeColor',cl)
+% ylim([-0.4 0.4])
+% xlim([0 13])
+% xticks([ 3 6 9 12])
+% xticklabels({'-90','0','90','180'})
+% box('off')
+% box('off')
+% ylabel({'Change in tremor severity'})
+% set(gca,'FontSize',14)
+% 
+% 
+% if iii==0
+%  
+%     
+%     f1=figure(1)
+%     xlabel({'Alignment to phase with max';'tremor amplification'})
+%     f2=figure(2)
+%     xlabel({'Alignment to phase with max';'tremor amplification'})
+%     
+% else
+%     
+%     f1=figure(1)
+%     xlabel({'Alignment to phase with max';'tremor supression'})
+%     f2=figure(2)
+%     xlabel({'Alignment to phase with max';'tremor supression'})
+%   
+% end
+% 
+% f1.Units = 'centimeters';
+% f1.OuterPosition= [10, 10, 12, 12];
+% box('off')
+% set(f1,'color','w');
+% 
+% f2.Units = 'centimeters';
+% f2.OuterPosition= [10, 10, 12, 12];
+% box('off')
+% set(f2,'color','w');
+% 
+figure(10)
+subplot(1,2,2)
 plot(metric1','Color',cl1)
+ylim([-0.4 0.4])
 xlim([1 12])
 xticks([ 3 6 9 12])
 xticklabels({'-90','0','90','180'})
@@ -91,53 +149,8 @@ hold on
 plot(mean(metric1),'k','LineWidth',4,'Color', cl)
 yline(0,'k', 'LineWidth',1,'LineStyle','--')
 ylabel({'Change in tremor severity'})
+xlabel({'Alignment to phase with max';'tremor supression'})
 set(gca,'FontSize',14)
-
-
-
-
-
-f2=figure(2)
-bar(mean(metric1),'LineWidth',1,'FaceColor',cl,'EdgeColor',cl)
-xlim([0 13])
-xticks([ 3 6 9 12])
-xticklabels({'-90','0','90','180'})
-box('off')
-box('off')
-ylabel({'Change in tremor severity'})
-set(gca,'FontSize',14)
-
-
-if iii==0
- 
-    
-    f1=figure(1)
-    xlabel({'Alignment to phase with max';'tremor amplification'})
-    f2=figure(2)
-    xlabel({'Alignment to phase with max';'tremor amplification'})
-    
-else
-    
-    f1=figure(1)
-    xlabel({'Alignment to phase with max';'tremor supression'})
-    f2=figure(2)
-    xlabel({'Alignment to phase with max';'tremor supression'})
-  
-end
-
-f1.Units = 'centimeters';
-f1.OuterPosition= [10, 10, 12, 12];
-box('off')
-set(f1,'color','w');
-
-f2.Units = 'centimeters';
-f2.OuterPosition= [10, 10, 12, 12];
-box('off')
-set(f2,'color','w');
-
-
-
-
 
 
 % cr=mean(metric1);

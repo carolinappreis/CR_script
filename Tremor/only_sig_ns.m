@@ -78,7 +78,8 @@ for numb= 1:length(iii);
         ns_bhu(1,i)=mean(z_env(main(numb),segmentb(i)-1000:segmentb(i)));
         ns_start(1,i)=mean(z_env(main(numb),(segmentb(i)+pls_b(numb)-1000):(segmentb(i)+pls_b(numb))));
         ns_end(1,i)=mean(z_env(main(numb),segmente(i)-5000:segmente(i)-4000));
-        n_change(1,i)=(mean(envelope(main(numb),segmente(i)-1000:segmente(i)))-mean(envelope(main(numb),segmentb(i)-1000:segmentb(i))))./mean(envelope(main(numb),segmentb(i)-1000:segmentb(i)));
+        m=segmentb(i)+pls_b(numb);
+        n_change(1,i)=(mean(envelope(main(numb),segmente(i)-1000:segmente(i)))-mean(envelope(main(numb),m-1000:m)))./mean(envelope(main(numb),m-1000:m));
     end
     ns_change(numb,:)=mean(n_change); clear change
     ns_hu(numb,:)=mean(ns_bhu,2);
