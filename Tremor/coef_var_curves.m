@@ -69,7 +69,7 @@ for numb= 1:length(iii);
             amp_bined=[amp_bined  ((ns_amp(dum)-nanmean(ns_amp))./nanmean(ns_amp))];
             m_amp_b(i,:)= nanmean(ns_amp(dum));
 %             m_n_amp(i,:)=nanmean((ns_amp(dum)-nanmean(ns_amp))./nanmean(ns_amp));
- m_n_amp(i,:)=nanmean(ns_amp(dum)./nanmean(ns_amp));
+            m_n_amp(i,:)=nanmedian(ns_amp(dum)./nanmedian(ns_amp));
         end
         
         %         figure(1)
