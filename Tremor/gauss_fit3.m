@@ -1,4 +1,4 @@
-function [fitobj,goodness,output] = gauss_fit2(x,y)
+function [fitobj,goodness,output] = gauss_fit(y)
 %CREATEFIT(Y)
 %  Create a fit.
 %
@@ -14,24 +14,23 @@ function [fitobj,goodness,output] = gauss_fit2(x,y)
 
 
 %% Fit: '1_sin'.
-% [xData, yData] = prepareCurveData( [], y );
+[xData, yData] = prepareCurveData( [], y );
+
 % Set up fittype and options.
-%  ft = fittype( 'a*exp(-((x-b)/(2*c)).^2)' );
- ft = fittype( 'a*exp(-0.5*((x-b)/c).^2)' );
+ft = fittype( 'a*exp(-((x-b)/c).^2)' );
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
-opts.Upper = [Inf Inf  Inf];
-opts.Lower = [0 0 0];
-opts.StartPoint = [max(y) nanmean(x) nanmean(x)+3];
- y=y';x=x';
- xData=x(find(~isnan(y))); yData=y(~isnan(y));
+opts.Upper = [Inf 10 Inf];
+opts.Lower = [-Inf 2 -Inf];
+opts.StartPoint = [max(y) 6 3.5];
+
 % Fit model to data.
 [fitobj,goodness,output] = fit( xData, yData, ft, opts );
 % Plot fit with data.
 % figure( 'Name', '1_sin' );
 % h = plot( fitresult, xData, yData );
 h2=plot(fitobj);
-set(h2,'LineWidth',1.5,'Color','k')
+set(h2,'LineWidth',1.5,'Color','r')
 
 % legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
 % Label axes

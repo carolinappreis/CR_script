@@ -5,21 +5,15 @@ iii=1; %%%%% amp (=0) vs. supressive effect
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
  load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
 
-cohort=[2 3 4 5 8 10 11 13 16 17];
-dum=intersect(iiii,cohort);
 
-pt=[];
-for i=1:length(dum)
-    pt=[pt find(iiii==dum(i))];
-end
 
-for pp=1:size(pt,2)
-  Sa(pp,:)=nanmedian(tt1{pt(pp),1})  ;
+for pp=1:size(tt1,1)
+  Sa(pp,:)=nanmedian(tt1{pp,1})  ;
 end
 
 
 sm=[Sa Sa Sa];
-for ii=1:size(sm,1)
+for ii=1:size(tt1,1)
     for i=size(Sa,2)+1:size(Sa,2)*2
         a.s(ii,i-12)=sum(sm(ii,(i-1:i+1)))./length(sm(ii,(i-1:i+1)));
     end
@@ -27,7 +21,8 @@ end
 
 
 
-ref=a.s; %%% max amplitude change vs. max frequecy change
+% ref=a.s; %%% max amplitude change vs. max frequecy change  %%% smoothed
+ref=Sa; %% non smoothed
 
 idmi=[];
 idma=[];

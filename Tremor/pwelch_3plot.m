@@ -166,7 +166,7 @@ ylabel('Tremor power peak')
 
 end
 f1.Units ='centimeters';
-f1.OuterPosition= [10, 10, 30, 20];
+f1.OuterPosition= [5, 5, 30, 20];
 set(f1,'color','w');
 
 

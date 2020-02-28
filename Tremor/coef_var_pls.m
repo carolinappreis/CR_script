@@ -67,7 +67,7 @@ for numb= 1:length(iii);
             dum=find(ns_freq>bins(i) & ns_freq<=bins(i+1));
             dum2=[dum2 ; bins(i).* ones(length(dum),1)];
             amp_bined=[amp_bined  ((ns_amp(dum)-nanmean(ns_amp))./nanmean(ns_amp))];
-            m_amp_b(i,:)= nanmean(ns_amp(dum));
+%             m_amp_b(i,:)= nanmean(ns_amp(dum));
 %             m_n_amp(i,:)=nanmean((ns_amp(dum)-nanmean(ns_amp))./nanmean(ns_amp));
             m_n_amp(i,:)=nanmedian(ns_amp(dum)./nanmedian(ns_amp));
         end
@@ -77,32 +77,31 @@ for numb= 1:length(iii);
         %         bar(m_amp_b);
     end
     
-    amp_bins(numb,:)=m_amp_b;
+%     amp_bins(numb,:)=m_amp_b;
     amp_n_bins(numb,:)=m_n_amp;
 end
 
-clearvars -except amp_bins amp_n_bins
+clearvars -except amp_bins amp_n_bins bins
 load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','stone');
 cl=stone;
 
-for i=1:10
-    f1=figure(1)
+for i=1:size(amp_n_bins,1)
+    f1=figure(2)
     subplot(2,5,i)
     y=amp_n_bins(i,:);
-    bar(y,'FaceColor',cl,'EdgeColor',cl)
+    x=bins(1:end-2);
+    bar(x,y,'FaceColor',cl,'EdgeColor',cl)
     hold on
-    [rsg,rsg_g,rsg_o]=gauss_fit2(y)
+    [rsg,rsg_g,rsg_o]=gauss_fit2(x,y)
     ylim([0 1.5])
     xticks([1:2:14])
-    xticklabels({'2','3','4','5','6','7','8'});
+%     xticklabels({'2','3','4','5','6','7','8'});
     ylabel({'change in ';'tremor severity'})
     xlabel('frequency(Hz)')
     set(gca,'FontSize',12)
     box('off')
     legend('off')
-    cv(i,:)= getCV(rsg(1:length(y)));
-%     cv(i,:)=rsg.c;
-    std_r(i,:)= rsg_g.rmse;  % Root Mean Squared Error
+    cv(i,:)=abs(rsg.c)./rsg.b;
     clear y rsg rsg_o rsg_g
 end
 
@@ -111,6 +110,7 @@ f1.OuterPosition= [10, 10, 50, 15];
 set(f1,'color','w');
 
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\pls_prop.mat')
+sig=iiii;
 iii=[2 3 4 5 8 10 11 13 16 17];
 cr=intersect(iii,sig);
 for i=1:size(cr,2)
