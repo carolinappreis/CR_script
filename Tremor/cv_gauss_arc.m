@@ -112,7 +112,7 @@ set(f1,'color','w');
 
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
 for i=1:size(tt1,1)
-    sum_change(i,1)=sum(abs(nanmedian(tt1{i,1})))*100;
+    mean_change(i,1)=nanmean(abs(nanmedian(tt1{i,1})))*100;
     mag_change(i,1)=(max(nanmedian(tt1{i,1}))-min(nanmedian(tt1{i,1})));
     sup_change(i,1)=min(nanmedian(tt1{i,1}))*100;
 end
@@ -121,16 +121,16 @@ sig=[2 4 5 10];
 
 f1=figure(3)
 subplot(1,3,1)
-y2=plot(cv,sum_change,'k.','MarkerSize',10);
+y2=plot(cv,mean_change,'k.','MarkerSize',10);
 y3=lsline;
 hold on
-y2=plot(cv(sig),sum_change(sig),'ko','MarkerSize',5);
+y2=plot(cv(sig),mean_change(sig),'ko','MarkerSize',5);
 set(y3,'LineWidth',1.5,'Color','red')
 box('off')
-[r,p]=corrcoef(cv,sum_change)
+[r,p]=corrcoef(cv,mean_change)
 legend(y3,['r= ', num2str(r(1,2))],'box','off')
 xlabel('coefficient of variation')
-ylabel('total modulatory effect (%)')
+ylabel('mean modulatory effect (%)')
 set(gca,'FontSize',12)
 f1.Units = 'centimeters';
 f1.OuterPosition= [10, 10, 8, 10];
