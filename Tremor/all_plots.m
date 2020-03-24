@@ -2,19 +2,20 @@
 
 clear all
 close all
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\labels_shift.mat','LS')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\ns_median_split.mat','ns_msplit')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit_0220.mat','arc1','arc2')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\labels_shift.mat','LS')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\ns_median_split.mat','ns_msplit')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\arc_mediansplit_0220.mat','arc1','arc2')
+% 
+% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
 
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/labels_shift.mat')
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit_0120.mat')
-% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim10.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/labels_shift.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/ns_median_split.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit_0220.mat')
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash');
 cl=blushred;
 
 %attention to number 13 and 14 of tt1 (they are the same pateint, 13 5
@@ -79,6 +80,9 @@ for ik=1:size(tt1,1)
     label_shift_1(ik,:)=squeeze(LS(ik,main(ik),:));
     
 end
+
+mean(nanmean(vertcat(tt1{1:10,1})))*100
+std(nanmean(vertcat(tt1{1:10,1})))*100
 
 for i =1:size(smoo_main,1)
     

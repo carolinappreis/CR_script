@@ -187,8 +187,8 @@ for numb= 1:length(iiii);
 %     
 %     
     clear start ending
-    start{1,1}=floor((start1./samplerateold)*samplerate)+addon;
-    ending{1,1}=floor((ending1./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+    start{1,1}=floor((start1./samplerateold)*samplerate);
+    ending{1,1}=floor((ending1./samplerateold)*samplerate);%floor(5*samplerate);
     clear xx
     xx{1,1}=xx1;
     
