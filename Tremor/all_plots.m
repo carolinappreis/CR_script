@@ -198,9 +198,9 @@ for hh=1:size(arc1,1)
     f1=figure(1)
     subplot(2,5,hh)
     y=[arc1(hh,:);arc2(hh,:)]';
-    b = bar(0:30:330,y);
+    b = bar(0:30:330,y,'EdgeColor','none');
     yline(0,'LineWidth',1)
-        ylim([-0.75 0.75])
+     ylim([-max(max(y)) max(max(y))])
     %     yticks([ -1:0.25:1])
     box('off')
     ylabel({'Change in tremor severity'})

@@ -25,8 +25,8 @@ for i=1:length(indexes4)
 end
 clear i
 
-start=floor((indexes4./samplerateold)*samplerate)+addon;
-ending=floor((indexes3./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+start=floor((indexes4./samplerateold)*samplerate);
+ending=floor((indexes3./samplerateold)*samplerate);%floor(5*samplerate);
 
 %%% when patient's hand is up
 handup=[];
@@ -149,8 +149,8 @@ phase=[angle(hilbert(tremorxf));angle(hilbert(tremoryf));angle(hilbert(tremorzf)
     
     
     clear start ending
-    start{1,1}=floor((start1./samplerateold)*samplerate)+addon;
-    ending{1,1}=floor((ending1./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+    start{1,1}=floor((start1./samplerateold)*samplerate);
+    ending{1,1}=floor((ending1./samplerateold)*samplerate);%floor(5*samplerate);
     clear xx
     xx{1,1}=xx1;
     

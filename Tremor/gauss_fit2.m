@@ -18,6 +18,8 @@ function [fitobj,goodness,output] = gauss_fit2(x,y)
 % Set up fittype and options.
 %  ft = fittype( 'a*exp(-((x-b)/(2*c)).^2)' );
  ft = fittype( 'a*exp(-0.5*((x-b)/c).^2)' );
+% ' @(x,pha)x(1)*exp(-((pha-x(2))/(2*x(3))).^2)';
+ 
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
 opts.Upper = [Inf Inf  Inf];

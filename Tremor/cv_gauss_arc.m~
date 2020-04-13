@@ -157,36 +157,17 @@ f1.OuterPosition= [10, 10, 8, 10];
 set(f1,'color','w');
 
 subplot(1,3,2)
-% y2=plot(cv,-(sup_change),'k.','MarkerSize',10);
-% y3=lsline;
-% hold on
-% y2=plot(cv(sig),-(sup_change(sig)),'ko','MarkerSize',8);
-% set(y3,'LineWidth',1.5,'Color','red')
-% box('off')
-% [r,p]=corrcoef(cv,-(sup_change))
-% legend(y3,['r= ', num2str(r)],'box','off')
-% xlabel('coefficient of variation')
-% ylabel('supressive modulatory effect (%)')
-% set(gca,'FontSize',12)
-sup=-sup_change;
-cv_sup=cv;
-sup(sup<0)=NaN;
-cv_sup(sup<0)=NaN;
-y2=plot(cv_sup,sup,'k.','MarkerSize',10);
+y2=plot(cv,-(sup_change),'k.','MarkerSize',10);
 y3=lsline;
 hold on
-y2=plot(cv_sup(sig),sup(sig),'ko','MarkerSize',8);
+y2=plot(cv(sig),-(sup_change(sig)),'ko','MarkerSize',8);
 set(y3,'LineWidth',1.5,'Color','red')
 box('off')
-[r,p]=corrcoef(cv_sup,sup)
-legend(y3,num2str(r),'box','off')
+[r,p]=corrcoef(cv,-(sup_change))
+legend(y3,['r= ', num2str(r)],'box','off')
 xlabel('coefficient of variation')
-ylabel('supressive effect only (%)')
+ylabel('supressive modulatory effect (%)')
 set(gca,'FontSize',12)
-f1.Units = 'centimeters';
-f1.OuterPosition= [10, 10, 8, 10];
-set(f1,'color','w');
-
 
 
 subplot(1,3,3)
@@ -233,6 +214,21 @@ set(gca,'FontSize',12)
 % f1.OuterPosition= [10, 10, 25, 10];
 % set(f1,'color','w');
 
+sup=-sup_change([2:3 5:10]);
+cv_sup=cv([2:3 5:10]);
+f1=figure(5)
+y2=plot(cv_sup,sup,'k.','MarkerSize',10);
+y3=lsline;
+set(y3,'LineWidth',1.5,'Color','red')
+box('off')
+[r,p]=corrcoef(cv_sup,sup)
+legend(y3,num2str(r(1,2)),'box','off')
+xlabel('coefficient of variation')
+ylabel('supressive effect only (%)')
+set(gca,'FontSize',12)
+f1.Units = 'centimeters';
+f1.OuterPosition= [10, 10, 8, 10];
+set(f1,'color','w');
 
 % clearvars -except iii numb ns_filt_mainax in2
 % clear numb in2

@@ -1,13 +1,13 @@
 clear all
 close all
 
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
-load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-cl=blushred;
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim10.mat')
-% cl=[0.5 0.5 0.5];
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
+% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
+% cl=blushred;
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim10.mat')
+cl=[0.5 0.5 0.5];
 
 main=[1 1 3 1 3 3 3 3 1 1];
 for pp=1:size(tt1,1)
