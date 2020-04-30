@@ -99,20 +99,20 @@ for numb=1:length(iii);
         end
         
         
-        % %         rep=10;
-        % %         for i=1:1e6
-        % %             dum=baseline3(randi(5e4,1,rep));
-        % %             dum2=dum;
-        % %             p(i)=nanmedian(dum2);
-        % %         end
-        % %         nostim(numb,ax,:)=p;
-        % %         clear p
-        % %         for i=1:12
-        % %             dum=baseline3(randi(5e4,1,rep));
-        % %             dum2=dum;
-        % %             nostimout(numb,ax,i)=nanmedian(dum2);
-        % %         end
-        % %         clear dum dum2 baseline3
+                rep=10;
+                for i=1:1e6
+                    dum=baseline3(randi(5e4,1,rep));
+                    dum2=dum;
+                    p(i)=nanmedian(dum2);
+                end
+                nostim(numb,ax,:)=p;
+                clear p
+                for i=1:12
+                    dum=baseline3(randi(5e4,1,rep));
+                    dum2=dum;
+                    nostimout(numb,ax,i)=nanmedian(dum2);
+                end
+                clear dum dum2 baseline3
     end
     
     clearvars -except nostimout iii numb PC A1 B1 iii stim nostim vr

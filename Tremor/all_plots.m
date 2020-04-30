@@ -166,7 +166,6 @@ set(f1,'color','w'); set(f2,'color','w');set(f3,'color','w');set(f4,'color','w')
 
 
 
-
 %raw ARC with NS thereshold for 3 axis
 
 for i=1:size(tt1,1)
@@ -290,6 +289,105 @@ for hh=1:size(tt1,1)
     set(gca,'XTickLabelRotation',45)
     set(f1,'color','w');
 end
+
+
+
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash');
+
+f1=figure(1);
+color_b1=[blushred; aegean; stone];
+p=2
+for hh=1:size(tt1,1)
+    subplot(2,5,hh)
+dr=tt1{hh,1};
+y2=nanmedian(dr,1);
+% sem = nanstd(dr)./ sqrt(size(y2,2));
+% stdev = nanstd(dr,1);
+stdev=prctile(dr,75);
+bar(0:30:330,y2,'FaceColor',color_b1(p,:),'EdgeColor',color_b1(p,:),'FaceAlpha',[0.50],'EdgeAlpha',[0.50]);
+hold on
+bin=[0:30:330];
+for i = 1:length(bin)
+    errorbar(bin(i), y2(:,i), stdev(:,i), 'Color',color_b1(p,:), 'linestyle', 'none');
+end
+ylim([-(max(abs(stdev)+y2)) max(abs(stdev)+y2)])
+% ylim([-1.5 1.5])
+box('off')
+    ylabel({'Change in tremor severity'})
+    xlabel({'Stimulation phase (degrees)'})
+    f1.Units = 'centimeters';
+    f1.OuterPosition= [0, 0, 40, 15];
+    set(gca,'FontName','Arial','XTickLabelRotation',45)
+    set(f1,'color','w');
+    
+end
+
+
+
+p=2;
+f1=figure(1)
+%ARC sem/std patch
+for hh=1:size(tt1,1)
+    subplot(2,5,hh)
+dr=tt1{hh,1};
+y2=nanmedian(dr,1);
+% y1=y2+nanstd(dr,1);
+% y3=y2-nanstd(dr,1);
+% sem = nanstd(dr)./ sqrt(size(y2,2));
+% stdev = nanstd(dr,1);
+y1=prctile(dr,75);
+y3=prctile(dr,25);
+time=0:30:330;
+patch([time fliplr(time)], [y1 fliplr(y2)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
+hold on
+patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
+% plot(y2,'.', 'MarkerSize',20,'Color',color_b1(p,:))
+stem(time,y2,'.', 'LineWidth',1,'MarkerSize',10,'Color',color_b1(p,:))
+hold on
+yline(0)
+
+
+ylim([-(max(y1)) max(y1)])
+xlim([-5 335])
+xticks([0:30:330])
+% for i = 1:12
+%     errorbar(i, y2(:,i), y1(:,i), 'Color',color_b1(p,:), 'linestyle', 'none');
+% end
+% ylim([-(round(max(stdev+y2),2)) round(max(stdev+y2),2)])
+% box('off')
+
+set(gca,'FontSize',12)
+box('off')
+
+box('off')
+    ylabel({'Change in tremor severity'})
+    xlabel({'Stimulation phase (degrees)'})
+    f1.Units = 'centimeters';
+    f1.OuterPosition= [0, 0, 40, 15];
+    set(gca,'FontName','Arial','XTickLabelRotation',45)
+    set(f1,'color','w');
+end
+
+
+
+
+y2 = nanmedian(dr);
+stdev = nanstd(dr)./ sqrt(size(y2,2));
+% stem(y2,'.', 'LineWidth',2,'MarkerSize',20,'Color',color_b1{1,1})
+plot(y2,'.', 'MarkerSize',20,'Color',color_b1{1,1})
+hold on
+yline(0)
+for i = 1:12
+    errorbar(i, y2(:,i), stdev(:,i), 'Color',[0.5 0.5 0.5], 'linestyle', 'none');
+end
+ylim([-(round(max(stdev+y2),2)) round(max(stdev+y2),2)])
+box('off')
+
+ylim([-1.5 1.5])
+xlim([1 12])
+
+
+
 
 
 % cr=squeeze(tt1{2,1});

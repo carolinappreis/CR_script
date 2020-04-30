@@ -45,16 +45,10 @@ for i= 1:10
     mdp3=fitlm(x,y,'poly3')
     mdp4=fitlm(x,y,'poly4')
     mdk= fitlm(x,y,'constant');
-    SS=mdk.MSE;
-    K=mdk.NumEstimatedCoefficients;
-    DFE=mdk.DFE;
-    
-    L = sum((((y'-mdk.Fitted).^2))./(2*(SS^2)));
-    aic(1) = real(aicbic(log(L),K));
-    
-
-    names={'constant';'sinusoidal';'gaussian'};
-    models=([mdk.ModelCriterion.AIC mds.ModelCriterion.AIC mdg.ModelCriterion.AIC])';
+    plot(mdp2.Fitted,'b','LineWidth',1.5)
+    plot(mdp3.Fitted,'r','LineWidth',1.5)
+    plot(mdp4.Fitted,'g','LineWidth',1.5)
+    plot(mdk.Fitted,'k','LineWidth',1.5)
     
     rsqr(i,:)=[ mdp2.Rsquared.Adjusted mdp3.Rsquared.Adjusted  mdp4.Rsquared.Adjusted ];
     F_stat(i,:)=[ coefTest(mdp2)  coefTest(mdp3)  coefTest(mdp4)];

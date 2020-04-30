@@ -2,11 +2,10 @@ clear all
 close all
 
 iii=[2 3 4 5 8 10 11 13 16 17];
-for numb=5
-%     1:length(iii);
-    clearvars -except iii numb arc1 arc2 
-%          load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
-  load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
+for numb=1:length(iii);
+    clearvars -except iii numb arc1 arc2 a_prior ampi1 ampi2 arc1 arc2 a_trials
+    %          load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(iii(numb)),'_RS.mat'))
+    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(iii(numb)),'_RS.mat'))
     in2=1; % analysing the "main tremor axis"
     if in2==1
         in=3;
@@ -18,8 +17,8 @@ for numb=5
     data=SmrData.WvData;
     samplerateold=SmrData.SR;
     tremor=(data(in,:));
-  
-
+    
+    
     ts=timeseries(data,0:(1/samplerateold):((size(data,2)-1)/samplerateold));
     ts1=resample(ts,0:0.001:((size(data,2)-1)/samplerateold),'linear');
     ds_data(1:size(ts1.data,1),1:size(ts1.data,3))=ts1.data;
@@ -173,108 +172,106 @@ for numb=5
     clear xx
     xx=xx1;
     
-    % amplitude
-    tremor_or2=NaN(length(start),1);
-    tremor_or3=NaN(length(start),1);
-    for i=1:length(start)
-        if (~isnan(start(i)))
-            tremor_or3(i,1)=mean(envelope(1,start(i)-1000:start(i)));
-            tremor_or2(i,1)=(mean(envelope(1,ending(i)-1000:ending(i)))-mean(envelope(1,start(i)-1000:start(i))))/mean(envelope(1,start(i)-1000:start(i)));
-            env_pha(i,1:5000)=zenv(1,start(i):start(i)+5000-1);
-        else
-            tremor_or2(i,1)=NaN;
-            tremor_or3(i,1)=NaN;
-            env_pha(i,1:5000)=NaN;
+    for ax=1:3
+        % amplitude
+        tremor_or2=NaN(length(start),1);
+        tremor_or3=NaN(length(start),1);
+        for i=1:length(start)
+            if (~isnan(start(i)))
+                tremor_or3(i,1)=mean(envelope(ax,start(i)-1000:start(i)));
+                tremor_or2(i,1)=(mean(envelope(ax,ending(i)-1000:ending(i)))-mean(envelope(ax,start(i)-1000:start(i))))/mean(envelope(ax,start(i)-1000:start(i)));
+                env_pha(i,1:5000)=zenv(ax,start(i):start(i)+5000-1);
+            else
+                tremor_or2(i,1)=NaN;
+                tremor_or3(i,1)=NaN;
+                env_pha(i,1:5000)=NaN;
+            end
         end
-    end
-    
-    
-    a_prior(numb,1)= nanmedian(tremor_or3);
-    %%% criteria for outliers
-    
-    %     idx_outl=find(tremor_or2>(mean(tremor_or2+2*(std(tremor_or2))))|tremor_or2<(mean(tremor_or2-2*(std(tremor_or2)))));
-    %     tremor_or2(idx_outl,1)=NaN;
-    %     tremor_or3(idx_outl,1)=NaN;
-    %     xx(1,idx_outl)=NaN;
-    %
-    
-    amp_1=NaN(2,round(size(tremor_or3,1)./2));
-    ch_a1=NaN(2,round(size(tremor_or3,1)./2));
-    pha_idx=NaN(2,round(size(tremor_or3,1)./2));
-    m=1;
-    n=1;
-    for i=1:length(start)
-        if tremor_or3(i)<=nanmedian(tremor_or3)
-            amp_1(1,n)= tremor_or3(i);
-            ch_a1(1,n)= tremor_or2(i);
-            pha_idx(1,n)=xx(i);
-            n=n+1;
-            
-        else
-            amp_1(2,m)= tremor_or3(i);
-            ch_a1(2,m)= tremor_or2(i);
-            pha_idx(2,m)=xx(i);
-            m=m+1;
-            
+        
+        
+        
+        %%% criteria for outliers
+        
+        %     idx_outl=find(tremor_or2>(mean(tremor_or2+2*(std(tremor_or2))))|tremor_or2<(mean(tremor_or2-2*(std(tremor_or2)))));
+        %     tremor_or2(idx_outl,1)=NaN;
+        %     tremor_or3(idx_outl,1)=NaN;
+        %     xx(1,idx_outl)=NaN;
+        %
+        
+        amp_1=NaN(2,round(size(tremor_or3,1)./2));
+        ch_a1=NaN(2,round(size(tremor_or3,1)./2));
+        pha_idx=NaN(2,round(size(tremor_or3,1)./2));
+        m=1;
+        n=1;
+        for i=1:length(start)
+            if tremor_or3(i)<=nanmedian(tremor_or3)
+                amp_1(1,n)= tremor_or3(i);
+                ch_a1(1,n)= tremor_or2(i);
+                pha_idx(1,n)=xx(i);
+                n=n+1;
+                
+            else
+                amp_1(2,m)= tremor_or3(i);
+                ch_a1(2,m)= tremor_or2(i);
+                pha_idx(2,m)=xx(i);
+                m=m+1;
+                
+            end
         end
-    end
-    
-    clear tt1 tt2 amp1 amp2
-    tt1=NaN(20,12);
-    amp1=NaN(20,12);
-    tt2=NaN(20,12);
-    amp2=NaN(20,12);
-    
-    for i=1:12
-        tt1(1:sum(pha_idx(1,:)==i),i)=ch_a1(1,find(pha_idx(1,:)==i));
-        amp1(1:sum(pha_idx(1,:)==i),i)=amp_1(1,find(pha_idx(1,:)==i));
-        tt2(1:sum(pha_idx(2,:)==i),i)=ch_a1(2,find(pha_idx(2,:)==i));
-        amp2(1:sum(pha_idx(2,:)==i),i)=amp_1(2,find(pha_idx(2,:)==i));
-    end
-    
-    effect1=nanmedian(tt1);
-    effect2=nanmedian(tt2);
-    
-    ef_1=repmat(effect1,1,3);
-    ef_2=repmat(effect2,1,3);
-    
-    %     for i=size(effect1,2)+1:size(effect1,2)*2
-    %         arc1(numb,i-12)=nansum(ef_1(1,(i-1:i+1)))./length(ef_1(1,(i-1:i+1)));
-    %         arc2(numb,i-12)=nansum(ef_2(1,(i-1:i+1)))./length(ef_2(1,(i-1:i+1)));
-    %     end
-    
-    for i=size(effect1,2)+1:size(effect1,2)*2
-        arc1(numb,i-12)=sum(ef_1(1,(i-1:i+1)))./length(ef_1(1,(i-1:i+1)));
-        arc2(numb,i-12)=sum(ef_2(1,(i-1:i+1)))./length(ef_2(1,(i-1:i+1)));
+        
+        clear tt1 tt2 amp1 amp2
+        tt1=NaN(20,12);
+        amp1=NaN(20,12);
+        tt2=NaN(20,12);
+        amp2=NaN(20,12);
+        
+        for i=1:12
+            tt1(1:sum(pha_idx(1,:)==i),i)=ch_a1(1,find(pha_idx(1,:)==i));
+            amp1(1:sum(pha_idx(1,:)==i),i)=amp_1(1,find(pha_idx(1,:)==i));
+            tt2(1:sum(pha_idx(2,:)==i),i)=ch_a1(2,find(pha_idx(2,:)==i));
+            amp2(1:sum(pha_idx(2,:)==i),i)=amp_1(2,find(pha_idx(2,:)==i));
+        end
+        
+        ampi1{numb,ax}=tt1;
+        ampi2{numb,ax}=tt2;
+        
+        arc1(numb,ax,:)=nanmedian(tt1);
+        arc2(numb,ax,:)=nanmedian(tt2);
+%         
+%         effect1=nanmedian(tt1);
+%         effect2=nanmedian(tt2);
+%         
+%         ef_1=repmat(effect1,1,3);
+%         ef_2=repmat(effect2,1,3);
+%         
+%         %     for i=size(effect1,2)+1:size(effect1,2)*2
+%         %         arc1(numb,i-12)=nansum(ef_1(1,(i-1:i+1)))./length(ef_1(1,(i-1:i+1)));
+%         %         arc2(numb,i-12)=nansum(ef_2(1,(i-1:i+1)))./length(ef_2(1,(i-1:i+1)));
+%         %     end
+%         
+%         for i=size(effect1,2)+1:size(effect1,2)*2
+%             arc1_1(1,i-12)=sum(ef_1(1,(i-1:i+1)))./length(ef_1(1,(i-1:i+1)));
+%             arc2_1(1,i-12)=sum(ef_2(1,(i-1:i+1)))./length(ef_2(1,(i-1:i+1)));
+%         end
+%         
+%         arc1(numb,ax,:)=arc1_1;
+%         arc2(numb,ax,:)=arc2_1;
+        a_prior(numb,ax,1)= nanmedian(tremor_or3);
+        a_trials{numb,ax}=tremor_or3;
+        clearvars -except iii numb arc1 arc2 a_prior start ending envelope zenv xx ampi1 ampi2 arc1 arc2 a_trials
     end
 end
 
-% cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
-% cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
-% clearvars -except arc1 arc2 iii
-% save('arc_mediansplit_0220.mat')
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/arc_mediansplit_0220.mat')
-% load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','squash');
-load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
+
+
+
+%%%%----------------
+%%% plots
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+load('3ax_asplit_prior.mat')
 
 cl=blushred;
 cl1=squash;
-
-for i=1:size(arc1,1)
-    f1=figure(1)
-    subplot(2,5,i)
-    bar(arc2(i,:),'FaceColor',cl,'EdgeColor',cl)
-    box('off')
-    hold on
-    bar(arc1(i,:),'LineStyle','--','LineWidth',1,'FaceColor','none','EdgeColor','k')
-    box('off')
-end
-
-f1.Units = 'centimeters';
-f1.OuterPosition= [10, 10, 60, 6];
-set(gca,'FontSize',9)
-set(f1,'color','w');
-
 
 
 
@@ -286,40 +283,62 @@ cl2=[0.7 0.7 0.7];
 
 
 for hh=1:size(arc1,1)
-    f1=figure(1)
-    subplot(2,5,hh)
-    y=[arc1(hh,:);arc2(hh,:)]';
-    b = bar(0:30:330,y);
-    yline(0,'LineWidth',1)
-    ylim([-0.75 0.75])
-    yticks([ -1:0.25:1])
-    box('off')
-    ylabel('Change in tremor severity')
-    xlabel('Stimulation phase (degrees)')
+        f1=figure(1)
+        subplot(2,5,hh)
+        y=[squeeze(arc1(hh,1,:))' ; squeeze(arc2(hh,1,:))'];
+        b = bar(0:30:330,y','EdgeColor','none');
+        yline(0,'LineWidth',1)
+        ylim([-max(max(y)) max(max(y))])
+        %     yticks([ -1:0.25:1])
+        box('off')
+        ylabel({'Change in tremor severity'})
+        xlabel({'Stimulation phase (degrees)'})
+
     
     f1.Units = 'centimeters';
-    f1.OuterPosition= [10, 10, 12, 12];
+    f1.OuterPosition= [10, 10, 50, 15];
     set(gca,'XTickLabelRotation',45)
-    set(gca,'FontSize',14)
+    %     set(gca,'FontSize',12)
     set(f1,'color','w');
+end
+
+for hh=1:size(arc1,1)
+    figure(hh)
+    for a=1:3
+        f1=figure(1)
+        subplot(1,3,a)
+        y=[squeeze(arc1(hh,a,:))' ; squeeze(arc2(hh,a,:))'];
+        b = bar(0:30:330,y','EdgeColor','none');
+        yline(0,'LineWidth',1)
+        ylim([-max(max(y)) max(max(y))])
+        %     yticks([ -1:0.25:1])
+        box('off')
+        ylabel({'Change in tremor severity'})
+        xlabel({'Stimulation phase (degrees)'})
+    end
     
-    
+    f1.Units = 'centimeters';
+    f1.OuterPosition= [10, 10, 50, 15];
+    set(gca,'XTickLabelRotation',45)
+    %     set(gca,'FontSize',12)
+    set(f1,'color','w');
 end
 
 
 
-f1=figure()
-y=[arc1{hh,1};arc2{hh,1}]';
-b = bar(0:30:330,y);
-yline(0,'LineWidth',1)
-ylim([-0.75 0.75])
-yticks([ -1:0.25:1])
+
+clear all
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/a_acrosstrials.mat')
+
+for i=1:10
+    for ii=1:3
+y=a_trials{i,ii};
+x=(1:length(y))';
+y2=plot(x,y,'k.');
+y3=lsline;
+set(y3,'LineWidth',2,'Color','red')
 box('off')
-ylabel('Change in tremor severity')
-xlabel('Stimulation phase (degrees)')
-    
-f1.Units = 'centimeters';
-f1.OuterPosition= [10, 10, 12, 12];
-set(gca,'XTickLabelRotation',45)
-set(gca,'FontSize',14)
-set(f1,'color','w');
+c2=corrcoef(x,y)
+legend(y3,[num2str(c2)],'box','off')
+    end
+end

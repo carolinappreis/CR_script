@@ -23,6 +23,7 @@ run('NS_mediansplit') %%%% HC to generate .mat baseline do non stim
 run('rc_axis_ns_thresh')%%%% HC To generate .mat file with arcs 
 
 run('median_split_a') 
+run('ax3_mediansplit')% for 3 axis median split arc's; also amplitude before stim across trials and of indiviudal trials; 
 
 run('all_plots') %%%% to plot the curves of the pateints of interest
 % arcs from rc_axis_ns_threshold; thresholds from NS_new; median split from medial_split_a
@@ -40,8 +41,10 @@ run('coef_var_arc.m')
 run('coef_var_pls.m')
 
 
-run('only_sig_clean_pls.m') % temporal evolution phase locked
+run('only_sig_clean_pls.m') % temporal evolution phase locked plus change in tremor's sevrity
 run('only_sig_ns.m')%temporal evolution no stim
+
+run('corr_amp_before_after_stim') % 2nd part! correlation trials vs. tremor severity. Mat files come from this .m file plus ns_amphandup.m &  only_sig_clean, pls
 %%%--------------------------GROUP
     
 run('group_arc_plot') %% old code with freq names group_rc_smooth_before
@@ -59,6 +62,13 @@ run('pwelch_3plot.m')
 run('pls_group_sup.m') %%% plotting median tremor severity during sup 
 run('pls_group_amp.m') %%% plotting median tremor severity during amp
 
+run('prediction_median.m') % do arc's predict dirrectinality found in phase-locked?
+
+run('Clusters_periphstim.m') % cluster code BA
+run('Periph_PhaseDet_auto.m') % output
+run('cluster_all_plots.m') %plots
+run('adapted_clusters_data.m')
+run('adapted_clusters_plots.m')% matching main clusters to baseline - output data_matchcluster
 
 %%%%----------------------CLEANING DATA
 run ('finding_stim_thre.m') % 3 pateints with thriggering issues - tremor characteristics found. 

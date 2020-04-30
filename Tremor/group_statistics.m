@@ -1,8 +1,8 @@
 
 
 clear all
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
 
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
 load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')

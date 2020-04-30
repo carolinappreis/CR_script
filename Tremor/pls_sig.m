@@ -13,8 +13,8 @@ for numb=1:length(iiii)
     close all
     clearvars -except iiii numb in2 prm peaks psd_curves m_change time_all ns_ref st_NS
     %     close all
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_combined\P0',num2str(iiii(numb)),'_PLSc.mat'))
-    %              load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_combined\P0',num2str(iiii(numb)),'_PLSc.mat'))
+               load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
     if in2==1
         in=3;
@@ -161,24 +161,24 @@ for numb=1:length(iiii)
         ending=ending(dum);
     end
     
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
-    % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
+     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
     
     segmentb=round((dc_s{numb,:})*samplerate,1);
     
-    [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
-    C=(filtfilt(d,e,tre_3(1,:)));
-    figure
-    plot(zscore(C))
-    hold on
-    plot(zscore(tf_3(1,:)))
-    hold on
-    for i=1:size(start,2)
-        xline(segmentb(i),'k')
-        xline(start(i),'r')
-    end
-    box('off')
-    
+%     [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
+%     C=(filtfilt(d,e,tre_3(1,:)));
+%     figure
+%     plot(zscore(C))
+%     hold on
+%     plot(zscore(tf_3(1,:)))
+%     hold on
+%     for i=1:size(start,2)
+%         xline(segmentb(i),'k')
+%         xline(start(i),'r')
+%     end
+%     box('off')
+%     
 %     figure(2)
 %     plot(data(1,:))
 %     hold on
@@ -198,47 +198,49 @@ for numb=1:length(iiii)
         end
         
         
-        
-        if min(segmentb)<15000
-            segmentbp=segmentb(2:end);
-        else
-            segmentbp=segmentb;
-        end
-        
-        %         ini=15000;
-        ini=20000;
-        
-        
-        gg=[];
-        for i=1:length(start)
-            %             gg=[gg ;(z_env(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
-            %  gg=[gg ;(envelope(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
-            gg=[gg ;(z_env(ax,(start(i)-ini):(start(i)+60000)))];
-        end
-        
-        %         f4=figure(4)
-        %         subplot(3,1,ax)
-        %         plot(median(gg,1),'Color',[0.5 0.5 0.5])
-        %         hold on
-        %         xline(ini,'g--','LineWidth',2)
-        %         title(['PLS pt',num2str(iiii(numb))])
-        %
-        %         yy(numb,:)=smooth(median(gg,1));
-        %         %     y=yy(numb,1:35000);
-        %         y=yy(numb,1:40000);
-        %         x=tt(1:length(y));
-        %         initial_params=[];
-        %         [param]=sigm_fit(x,y,initial_params)        % automatic initial_params
-        %         clear x y
-        
-        %         prm(numb,:)=param;
-        %         peaks(1,numb)=Fpeak;
-        %         psd_curves(numb,1:3,:)=ps_curves;
-        %
+% %         
+% %         if min(segmentb)<15000
+% %             segmentbp=segmentb(2:end);
+% %         else
+% %             segmentbp=segmentb;
+% %         end
+% %         
+% %         %         ini=15000;
+% %         ini=20000;
+% %         
+% %         
+% %         gg=[];
+% %         for i=1:length(start)
+% %             %             gg=[gg ;(z_env(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
+% %             %  gg=[gg ;(envelope(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
+% %             gg=[gg ;(z_env(ax,(start(i)-ini):(start(i)+60000)))];
+% %         end
+% %         
+% %         %         f4=figure(4)
+% %         %         subplot(3,1,ax)
+% %         %         plot(median(gg,1),'Color',[0.5 0.5 0.5])
+% %         %         hold on
+% %         %         xline(ini,'g--','LineWidth',2)
+% %         %         title(['PLS pt',num2str(iiii(numb))])
+% %         %
+% %         %         yy(numb,:)=smooth(median(gg,1));
+% %         %         %     y=yy(numb,1:35000);
+% %         %         y=yy(numb,1:40000);
+% %         %         x=tt(1:length(y));
+% %         %         initial_params=[];
+% %         %         [param]=sigm_fit(x,y,initial_params)        % automatic initial_params
+% %         %         clear x y
+% %         
+% %         %         prm(numb,:)=param;
+% %         %         peaks(1,numb)=Fpeak;
+% %         %         psd_curves(numb,1:3,:)=ps_curves;
+% %         %
     end
-    %
+% %     %
     m_change(numb,:)=round(mean(change,2),1); clear change
 end
+
+r=1
 %  timings=[median(amp_bhu,3) median(amp_start,3) median(amp_end,3)];
 % time_pls(numb,:)=timings(1,:);
 % ns_ref(numb,:)=mean(ref); clear ref

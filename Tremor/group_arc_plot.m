@@ -2,8 +2,8 @@ clear all
 
 
 iii=1; %%%%% amp (=0) vs. supressive effect
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
- load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
+ load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
 
 
 
@@ -64,8 +64,8 @@ end
 % close all
 
     metric1=[a_s_al(:,8:12) a_s_al(:,1:7)];
-%    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash')
-     load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','stone','squash');
+  load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash');
+%      load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','stone','squash');
     if iii==0
      cl=blushred;
     cl1=squash;

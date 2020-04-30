@@ -20,13 +20,9 @@ for pp=1:size(tt1,1)
             smooth_c(1,i-12)=sum(SO(1,(i-1:i+1)))./length(SO(1,(i-1:i+1)));
             %             smooth_ns(1,i-12)=sum(SOUT(1,(i-1:i+1)))./length(SOUT(1,(i-1:i+1)));
         end
-        
-        
         smoo_all(pp,kk,:)=smooth_c;  clear smooth_c
-        %         nsmoo_all(pp,kk,:)=smooth_ns; clear smooth_ns
-        
+        %         nsmoo_all(pp,kk,:)=smooth_ns; clear smooth_ns 
     end
-    
     smoo_main(pp,:)=squeeze(smoo_all(pp,1,:));
     %     nsmoo_main(pp,:)=squeeze(nsmoo_all(pp,1,:));
     s_main(pp,:)=nanmedian(tt1{pp,1},1);

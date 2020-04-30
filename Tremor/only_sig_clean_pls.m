@@ -3,15 +3,15 @@ close all
 
 clear all
 % iiii=[2 3 4 5 8 10 11 13 16 17 18 19 20 21 22 23]; %17 is the last pateint; we have 17 with one pulse and 18 with 5 pulses at the same phase; 19:21 are the second visit of pateint 17 stimulation at 3 different phases with 1 pulse ; 22 and 23 are 2nd visit of pt 17 at 2 different phases with 5 pulses; iiii=[2 3 4 5 8 10 11 13 16 17];
-% iiii=[2 3 4 5 8 10 11 13 16 17];
-iiii=[3 5 8 17];
+iiii=[2 3 4 5 8 10 11 13 16 17];
+% iiii=[3 5 8 17];
 f=1;
 for numb=1:length(iiii)
     close all
-    clearvars -except iiii numb  prm peaks psd_curves m_change  ns_ref st_NS pls_b hu ss ee
+    clearvars -except iiii numb  prm peaks psd_curves m_change  ns_ref st_NS pls_b hu ss ee pls_amp_t
     %     close all
-    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_combined\P0',num2str(iiii(numb)),'_PLSc.mat'))
-    %              load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
+%     load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\PLS_combined\P0',num2str(iiii(numb)),'_PLSc.mat'))
+                  load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/PLS/p0',num2str(iiii(numb)),'_PLS.mat'))
     
     data=SmrData.WvData;
     samplerateold=SmrData.SR;    
@@ -136,19 +136,19 @@ for numb=1:length(iiii)
     start=floor((indexes4./samplerateold)*samplerate);
     ending=floor((indexes3./samplerateold)*samplerate);%floor(5*samplerate);
     
-%     if numb==3
-%         dum=([1:4 6:length(start)]);
-%         start=start(dum);
-%         ending=ending(dum);
-%         
-%     elseif numb==7
-%         dum=([1:3 5:length(start)]);
-%         start=start(dum);
-%         ending=ending(dum);
-%     end
+    if numb==3
+        dum=([1:4 6:length(start)]);
+        start=start(dum);
+        ending=ending(dum);
+        
+    elseif numb==7
+        dum=([1:3 5:length(start)]);
+        start=start(dum);
+        ending=ending(dum);
+    end
     
-    load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
-    % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
+%     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\before_PLS.mat')
+ load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/before_PLS.mat')
     
 %     load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\good_bad_pls.mat','good')
 %     stay=good{numb,1};
@@ -164,25 +164,25 @@ for numb=1:length(iiii)
     
         [d,e]=butter(2,[0.5/(0.5*samplerate) ],'low'); %15
     C=(filtfilt(d,e,tre_3'));
-    figure()
-    plot(zscore(tre_3(1,:)))
-    hold on
-    plot(zscore(C(:,1)))
-    for i=1:size(segmentb,2)
-        xline(segmentb(i),'r')
-    end
-    box('off')
+%     figure()
+%     plot(zscore(tre_3(1,:)))
+%     hold on
+%     plot(zscore(C(:,1)))
+%     for i=1:size(segmentb,2)
+%         xline(segmentb(i),'r')
+%     end
+%     box('off')
 
     for ax=1:3
         ref1=[];
         for rr=1:length(start)
-%             amp_start(ax,1,rr)=mean(envelope(ax,start(rr)-1000:start(rr)));
+             amp_start(ax,rr)=mean(envelope(ax,start(rr)-1000:start(rr)));
 %             amp_end(ax,1,rr)=mean(envelope(ax,ending(rr)-1000:ending(rr)));
 %             amp_bhu(ax,1,rr)=mean(envelope(ax,segmentb(rr)-1000:segmentb(rr)));
-            amp_start(ax,rr)=mean(z_env(ax,start(rr)-1000:start(rr)));
+%             amp_start(ax,rr)=mean(z_env(ax,start(rr)-1000:start(rr)));
             amp_end(ax,rr)=mean(z_env(ax,ending(rr)-1000:ending(rr)));
             amp_bhu(ax,rr)=mean(z_env(ax,segmentb(rr)-1000:segmentb(rr)));
-            change(ax,rr)=(mean(envelope(ax,ending(rr)-1000:ending(rr)))-mean(envelope(ax,start(rr)-1000:start(rr))))./mean(envelope(ax,start(rr)-1000:start(rr)));
+            change(ax,rr)=(mean(envelope(ax,ending(rr)-5000:ending(rr)-4000))-mean(envelope(ax,start(rr)-1000:start(rr))))./mean(envelope(ax,start(rr)-1000:start(rr)));
             ref1=[ref1 (start(rr)-segmentb(rr))];
         end
         
@@ -222,13 +222,17 @@ for numb=1:length(iiii)
         %         peaks(1,numb)=Fpeak;
         %         psd_curves(numb,1:3,:)=ps_curves;
         %
+        
+        pls_amp_t{numb,ax}=amp_start';
     end
     %
-    m_change(numb,:)=round(mean(change,2),1); clear change
-    hu(numb,:)=mean(amp_bhu,2);
-    ss(numb,:)=mean(amp_start,2);
-    ee(numb,:)=mean(amp_end,2);
-    pls_b(numb,:)=mean(ref1);
+%     m_change(numb,:)=round(mean(change,2),1); clear change
+%     hu(numb,:)=mean(amp_bhu,2);
+%     ss(numb,:)=nanmean(amp_start,2);
+%     ee(numb,:)=mean(amp_end,2);
+%     pls_b(numb,:)=mean(ref1);
+    
+ 
 end
 
  cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
