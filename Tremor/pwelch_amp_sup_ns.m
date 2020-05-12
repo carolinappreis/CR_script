@@ -1,8 +1,11 @@
 clear all
 
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/seg_env_perphase.mat')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\NS_filt_mainax.mat')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\seg_env_perphase.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/NS_filt_mainax.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/seg_env_perphase.mat')
+
+
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\NS_filt_mainax.mat')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\seg_env_perphase.mat')
 
 cohort=[2 3 4 5 8 10 11 13 16 17];
 dum=intersect(iiii,cohort);
@@ -73,7 +76,9 @@ for y=1:size(Sa,1)
     clear Pxx_a
     clear Pxx_s
 end
- load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','stone','squash');
+%  load('C:\Users\creis\Documents\GitHub\CR_script\colour_pal.mat','blushred','aegean','stone','squash');
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','squash','aegean','stone');
+
 samplerate=1000;
 idx=find(~isnan(Pxx_s_all(:,1)));
 dumm={'Pxx_a_all';'Pxx_s_all';'Pxx_ns_all'};

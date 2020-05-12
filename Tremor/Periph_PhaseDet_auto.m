@@ -8,6 +8,8 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/clusters_BA'
 % load(strcat('/Users/beatrizarruda/OneDrive - Nexus365/Peripheral Stim/Matlab Outputs/',method,'/C_RS'))
 TT1_C1 = cell(length(cohort),3);
 TT1_C2 = cell(length(cohort),3);
+TT1_A1 = cell(length(cohort),3);
+TT1_A2 = cell(length(cohort),3);
 
 if strcmp(method, 'ward-power') || strcmp(method, 'ward-pca2') || strcmp(method, 'ward-pca3')
     method = 'ward';
@@ -15,6 +17,15 @@ end
 
 Nc1 = NaN(length(cohort),1);
 Nc2 = NaN(length(cohort),1);
+seg_zenv1=cell(length(cohort),12);
+seg_env1=cell(length(cohort),12);
+seg_zfilt1=cell(length(cohort),12);
+seg_filt1=cell(length(cohort),12);
+seg_zenv2=cell(length(cohort),12);
+seg_env2=cell(length(cohort),12);
+seg_zfilt2=cell(length(cohort),12);
+seg_filt2=cell(length(cohort),12);
+
 
 for iii = 1:length(cohort)
     
@@ -115,8 +126,12 @@ for iii = 1:length(cohort)
     tremorxf = filtfilt(b, a, tremorx);
     tremoryf = filtfilt(b, a, tremory);
     tremorzf = filtfilt(b, a, tremorz);
+    filtt=[tremorxf;tremoryf; tremorzf];
     envelope = [abs(hilbert(tremorxf)); abs(hilbert(tremoryf)); abs(hilbert(tremorzf))];
     phase = [angle(hilbert(tremorxf)); angle(hilbert(tremoryf)); angle(hilbert(tremorzf))];
+    tremor_zs = [zscore(tremorx);zscore(tremory); zscore(tremorz)];
+    filt_zs = [filtfilt(b, a,tremor_zs(1,:)); filtfilt(b, a,tremor_zs(2,:)); filtfilt(b, a,tremor_zs(3,:));];
+    env_zs = [abs(hilbert(filt_zs(1,:))); abs(hilbert(filt_zs(2,:))); abs(hilbert(filt_zs(3,:)))];
     
     new = find(data(2, :) > 4);
     difp = find((diff(new)) > 100000); % are you trying to threshold at 9.6 seconds?
@@ -198,7 +213,7 @@ for iii = 1:length(cohort)
     
     
     
-    f2 = figure()
+    %     f2 = figure()
     
     
     
@@ -234,16 +249,33 @@ for iii = 1:length(cohort)
         
         tremor_or2_c = NaN(length(start_c), 1);
         tremor_pc_c = NaN(length(start_c), 1);
+        bs_env = NaN(length(start_c), 1);
+        
         
         for axx = 1:3
             for i = 1:length(start_c)
                 if (~isnan(start_c(i)))
                     tremor_or2_c(axx, i, 1) = (mean(envelope(axx, ending_c(i)-1000:ending_c(i))) - mean(envelope(axx, start_c(i) - 1000:start_c(i)))) / mean(envelope(axx, start_c(i) - 1000:start_c(i)));
                     tremor_pc_c(1, i) = (mean(envelope(ma_c(i), ending_c(i)-1000:ending_c(i))) - mean(envelope(ma_c(i), start_c(i) - 1000:start_c(i)))) / mean(envelope(ma_c(i), start_c(i) - 1000:start_c(i)));
+                    z_env(axx,i,1:5000)=env_zs(axx,start{hh,1}(i):start{hh,1}(i)+5000-1);
+                    z_filt(axx,i,1:5000)=filt_zs(axx,start{hh,1}(i):start{hh,1}(i)+5000-1);
+                    n_env(axx,i,1:5000)=envelope(axx,start{hh,1}(i):start{hh,1}(i)+5000-1);
+                    n_filt(axx,i,1:5000)=filtt(axx,start{hh,1}(i):start{hh,1}(i)+5000-1);
+                    
+                    bs_env(axx,i,1)=mean(envelope(axx,start{hh,1}(i)-1000:start{hh,1}(i)));
+                    
+                    
                     xx_c(i) = xx_c(i);
                 else
                     tremor_or2_c(axx, i, 1) = NaN;
                     tremor_pc_c(i, 1) = NaN;
+                    z_env(axx,i,1:5000)=NaN;
+                    z_filt(axx,i,1:5000)=NaN;
+                    n_env(axx,i,1:5000)=NaN;
+                    n_filt(axx,i,1:5000)=NaN;
+                    
+                    bs_env(axx,i,1)=NaN;
+                    
                     xx_c(i) = NaN;
                 end
             end
@@ -251,15 +283,27 @@ for iii = 1:length(cohort)
             tt_c = NaN(20, 12);
             yy_c = xx_c(:);
             tt_pc_c = NaN(20, 12);
+            tt_abstim = NaN(20, 12);
+            
             
             for i = 1:12
                 tt_c(1:sum(yy_c == i), i) = tremor_or2_c(axx, find(yy_c == i));
+                tt_abstim(1:sum(yy_c == i), i) = bs_env(axx, find(yy_c == i));
                 tt_pc_c(1:sum(yy_c == i), i) = tremor_pc_c(1, find(yy_c == i));
+                if length(c)>=10
+                    seg_zenv1{iii,i}(axx,:,:)=squeeze(z_env(axx,find(yy_c==i),:));
+                    seg_zfilt1{iii,i}(axx,:,:)=squeeze(z_filt(axx,find(yy_c==i),:));
+                    seg_env1{iii,i}(axx,:,:)=squeeze(n_env(axx,find(yy_c==i),:));
+                    seg_filt1{iii,i}(axx,:,:)=squeeze(n_filt(axx,find(yy_c==i),:));
+                end
+                
                 tt_c(tt_c == 0) = NaN;
+                tt_abstim(tt_abstim==0)=NaN;
                 tt_pc_c(tt_pc_c == 0) = NaN;
             end
             
             tt1_c{hh, axx} = tt_c;
+            tt1_abs{hh,axx}=tt_abstim;
         end
         
         
@@ -271,47 +315,50 @@ for iii = 1:length(cohort)
         clear yy ma;
         
         %%
-        % Plots
-        for i = 1
-            a_c = hist(pca_ax_c{i, 1}, 1:3);
-            axmax_c = find(a_c == max(a_c));
-            subplot(2, 4, 1)
-            temp = tt1_c{i, axmax_c};
-            bar(0:30:330, 100 .* nanmedian(temp))
-            hold on
-            plot(0:30:330, 100 .* temp,'.')
-            set(gca, 'XTickLabelRotation', 45)
-            box('off')
-            ylabel('Cluster 1')
-            subplot(2, 4, 2)
-            bar(0:30:330, 100 .* nanmedian(temp))
-            set(gca,'XTickLabelRotation', 45)
-            box('off')
-            subplot(2, 4, 3)
-            bar(1:3, a_c)
-            names = {'CED2'; 'CED5';'CED6'};
-            set(gca, 'xtick', [1:3], 'xticklabel', names)
-            box('off')
-            subplot(2, 4, 4)
-            bar([1 2], [PSI_ax_c{i}(1, 1); PSI_ax_c{i}(1, 2)]);
-            names = {'PSI 2 5'; 'PSI 2 6'};
-            box('off')
-            
-            set(gca, 'xtick', [1:2], 'xticklabel', names)
-            f2.Units = 'centimeters';
-            f2.OuterPosition = [4, 5, 45, 20];
-            set(f2, 'color', 'w');
-        end
+        %         % Plots
+        %         for i = 1
+        %             a_c = hist(pca_ax_c{i, 1}, 1:3);
+        %             axmax_c = find(a_c == max(a_c));
+        %             subplot(2, 4, 1)
+        %             temp = tt1_c{i, axmax_c};
+        %             bar(0:30:330, 100 .* nanmedian(temp))
+        %             hold on
+        %             plot(0:30:330, 100 .* temp,'.')
+        %             set(gca, 'XTickLabelRotation', 45)
+        %             box('off')
+        %             ylabel('Cluster 1')
+        %             subplot(2, 4, 2)
+        %             bar(0:30:330, 100 .* nanmedian(temp))
+        %             set(gca,'XTickLabelRotation', 45)
+        %             box('off')
+        %             subplot(2, 4, 3)
+        %             bar(1:3, a_c)
+        %             names = {'CED2'; 'CED5';'CED6'};
+        %             set(gca, 'xtick', [1:3], 'xticklabel', names)
+        %             box('off')
+        %             subplot(2, 4, 4)
+        %             bar([1 2], [PSI_ax_c{i}(1, 1); PSI_ax_c{i}(1, 2)]);
+        %             names = {'PSI 2 5'; 'PSI 2 6'};
+        %             box('off')
+        %
+        %             set(gca, 'xtick', [1:2], 'xticklabel', names)
+        %             f2.Units = 'centimeters';
+        %             f2.OuterPosition = [4, 5, 45, 20];
+        %             set(f2, 'color', 'w');
+        %         end
         
         if length(c) >= 10
             TT1_C1{iii, 1} = tt1_c{1, 1};
             TT1_C1{iii, 2} = tt1_c{1, 2};
             TT1_C1{iii, 3} = tt1_c{1, 3};
+            TT1_A1{iii, 1} = tt1_abs{1, 1};
+            TT1_A1{iii, 2} = tt1_abs{1, 2};
+            TT1_A1{iii, 3} = tt1_abs{1, 3};
         end
         
     end
     
-    clearvars -except cohort iii start ending envelope phase tremorxf tremoryf tremorzf xx hh C_RS c_2 f2 TT1_C1 TT1_C2 Nc1 Nc2
+    clearvars -except cohort iii start ending envelope phase tremorxf tremoryf tremorzf xx hh C_RS c_2 f2 TT1_A1 TT1_A2 TT1_C1 TT1_C2 Nc1 Nc2 seg_env1 seg_filt1 seg_env2 seg_filt2 seg_zenv1 seg_zfilt1 seg_zenv2 seg_zfilt2 env_zs filt_zs filtt
     
     %% %%%%%% Cluster 2 %%%%%%
     if ~isempty(c_2)
@@ -345,16 +392,33 @@ for iii = 1:length(cohort)
         
         tremor_or2_c = NaN(length(start_c), 1);
         tremor_pc_c = NaN(length(start_c), 1);
+        bs_env = NaN(length(start_c), 1);
+        
         
         for axx = 1:3
             for i = 1:length(start_c)
                 if (~isnan(start_c(i)))
                     tremor_or2_c(axx, i, 1) = (mean(envelope(axx, ending_c(i)-1000:ending_c(i))) - mean(envelope(axx, start_c(i) - 1000:start_c(i)))) / mean(envelope(axx, start_c(i) - 1000:start_c(i)));
                     tremor_pc_c(1, i) = (mean(envelope(ma_c(i), ending_c(i)-1000:ending_c(i))) - mean(envelope(ma_c(i), start_c(i) - 1000:start_c(i)))) / mean(envelope(ma_c(i), start_c(i) - 1000:start_c(i)));
+                    z_env(axx,i,1:5000)=env_zs(axx,start{hh,1}(i):start{hh,1}(i)+5000-1);
+                    z_filt(axx,i,1:5000)=filt_zs(axx,start{hh,1}(i):start{hh,1}(i)+5000-1);
+                    n_env(axx,i,1:5000)=envelope(axx,start{hh,1}(i):start{hh,1}(i)+5000-1);
+                    n_filt(axx,i,1:5000)=filtt(axx,start{hh,1}(i):start{hh,1}(i)+5000-1);
+                    
+                    bs_env(axx,i,1)=mean(envelope(axx,start{hh,1}(i)-1000:start{hh,1}(i)));
+                    
+                    
                     xx_c(i) = xx_c(i);
                 else
                     tremor_or2_c(axx, i, 1) = NaN;
                     tremor_pc_c(i, 1) = NaN;
+                    z_env(axx,i,1:5000)=NaN;
+                    z_filt(axx,i,1:5000)=NaN;
+                    n_env(axx,i,1:5000)=NaN;
+                    n_filt(axx,i,1:5000)=NaN;
+                    
+                    bs_env(axx,i,1)=NaN;
+                    
                     xx_c(i) = NaN;
                 end
             end
@@ -362,15 +426,27 @@ for iii = 1:length(cohort)
             tt_c = NaN(20, 12);
             yy_c = xx_c(:);
             tt_pc_c = NaN(20, 12);
+            tt_abstim = NaN(20, 12);
+            
             
             for i = 1:12
                 tt_c(1:sum(yy_c == i), i) = tremor_or2_c(axx, find(yy_c == i));
+                tt_abstim(1:sum(yy_c == i), i) = bs_env(axx, find(yy_c == i));
                 tt_pc_c(1:sum(yy_c == i), i) = tremor_pc_c(1, find(yy_c == i));
+                if length(c)>=10
+                    seg_zenv2{iii,i}(axx,:,:)=squeeze(z_env(axx,find(yy_c==i),:));
+                    seg_zfilt2{iii,i}(axx,:,:)=squeeze(z_filt(axx,find(yy_c==i),:));
+                    seg_env2{iii,i}(axx,:,:)=squeeze(n_env(axx,find(yy_c==i),:));
+                    seg_filt2{iii,i}(axx,:,:)=squeeze(n_filt(axx,find(yy_c==i),:));
+                end
+                
                 tt_c(tt_c == 0) = NaN;
+                tt_abstim(tt_abstim==0)=NaN;
                 tt_pc_c(tt_pc_c == 0) = NaN;
             end
             
-            tt1_c{hh, axx} = tt_c;
+            tt2_c{hh, axx} = tt_c;
+            tt2_abs{hh,axx}=tt_abstim;
         end
         
         
@@ -383,49 +459,52 @@ for iii = 1:length(cohort)
         
         %%
         % Plots
-        for i = 1
-            a_c = hist(pca_ax_c{i, 1}, 1:3);
-            axmax_c = find(a_c == max(a_c));
-            subplot(2, 4, 5)
-            temp = tt1_c{i, axmax_c};
-            bar(0:30:330, 100 .* nanmedian(temp))
-            hold on
-            plot(0:30:330, 100 .* temp,'.')
-            set(gca, 'XTickLabelRotation', 45)
-            box('off')
-            ylabel('Cluster 2')
-            subplot(2, 4, 6)
-            bar(0:30:330, 100 .* nanmedian(temp))
-            set(gca,'XTickLabelRotation', 45)
-            box('off')
-            subplot(2, 4, 7)
-            bar(1:3, a_c)
-            names = {'CED2'; 'CED5';'CED6'};
-            set(gca, 'xtick', [1:3], 'xticklabel', names)
-            box('off')
-            subplot(2, 4, 8)
-            bar([1 2], [PSI_ax_c{i}(1, 1); PSI_ax_c{i}(1, 2)]);
-            names = {'PSI 2 5'; 'PSI 2 6'};
-            box('off')
-            
-            set(gca, 'xtick', [1:2], 'xticklabel', names)
-            f2.Units = 'centimeters';
-            f2.OuterPosition = [4, 5, 45, 20];
-            set(f2, 'color', 'w');
-        end
-        
+        %         for i = 1
+        %             a_c = hist(pca_ax_c{i, 1}, 1:3);
+        %             axmax_c = find(a_c == max(a_c));
+        %             subplot(2, 4, 5)
+        %             temp = tt1_c{i, axmax_c};
+        %             bar(0:30:330, 100 .* nanmedian(temp))
+        %             hold on
+        %             plot(0:30:330, 100 .* temp,'.')
+        %             set(gca, 'XTickLabelRotation', 45)
+        %             box('off')
+        %             ylabel('Cluster 2')
+        %             subplot(2, 4, 6)
+        %             bar(0:30:330, 100 .* nanmedian(temp))
+        %             set(gca,'XTickLabelRotation', 45)
+        %             box('off')
+        %             subplot(2, 4, 7)
+        %             bar(1:3, a_c)
+        %             names = {'CED2'; 'CED5';'CED6'};
+        %             set(gca, 'xtick', [1:3], 'xticklabel', names)
+        %             box('off')
+        %             subplot(2, 4, 8)
+        %             bar([1 2], [PSI_ax_c{i}(1, 1); PSI_ax_c{i}(1, 2)]);
+        %             names = {'PSI 2 5'; 'PSI 2 6'};
+        %             box('off')
+        %
+        %             set(gca, 'xtick', [1:2], 'xticklabel', names)
+        %             f2.Units = 'centimeters';
+        %             f2.OuterPosition = [4, 5, 45, 20];
+        %             set(f2, 'color', 'w');
+        %         end
+        %
         if length(c) >= 10
-            TT1_C2{iii, 1} = tt1_c{1, 1};
-            TT1_C2{iii, 2} = tt1_c{1, 2};
-            TT1_C2{iii, 3} = tt1_c{1, 3};
+            TT1_C2{iii, 1} = tt2_c{1, 1};
+            TT1_C2{iii, 2} = tt2_c{1, 2};
+            TT1_C2{iii, 3} = tt2_c{1, 3};
+            TT1_A2{iii, 1} = tt2_abs{1, 1};
+            TT1_A2{iii, 2} = tt2_abs{1, 2};
+            TT1_A2{iii, 3} = tt2_abs{1, 3};
         end
         
     end
-    filename=['arc_clusters',num2str(iii),'.fig'];
-    saveas(gcf,filename)
-     filename=['arc_clusters',num2str(iii),'.svg'];
-    saveas(gcf,filename)
+    %     filename=['arc_clusters',num2str(iii),'.fig'];
+    %     saveas(gcf,filename)
+    %     filename=['arc_clusters',num2str(iii),'.svg'];
+    %     saveas(gcf,filename)
     
-    clearvars -except cohort iii C_RS TT1_C1 TT1_C2 Nc1 Nc2
+    clearvars -except cohort iii C_RS TT1_C1 TT1_C2  TT1_A1 TT1_A2 Nc1 Nc2 seg_env1 seg_filt1 seg_env2 seg_filt2 seg_zenv1 seg_zfilt1 seg_zenv2 seg_zfilt2
     close all
 end

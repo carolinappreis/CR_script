@@ -6,7 +6,15 @@ cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor')
 cd('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data')
 cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 
+%%%--- master_code
 
+cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor/cluster_code')
+
+
+
+
+
+%%%---------
 run('Periph_PhasicStim_smr.m') 
 
 run('peripheraltremor_newcode.m')
@@ -33,9 +41,10 @@ run('plot_pls_ns') % absolute amplitude bef posture, before stim, end stim for n
 % data from only_sig_clean_pls & only_sig_ns OLD verison: data from NS_sigmoid and pls_sig
 run('plot_pls_ns_demo') % diagram of envelope
 
+run('model_fit_eval') % Polynomial fits to ARC's ; R2, Fstats & AICc
 run('gauss_sin_fit.m') % fits using fit funtion instead of fitnlm
 run('nlm_fits_fx.m')  %to get fits from sine and gaussian models to raw response curves - are ARCs non-uniform?
-run('nonlin_lin_AIC.m') %to run gauss sin and k fits and do moel comparison with AIC 
+
 
 run('coef_var_arc.m')  
 run('coef_var_pls.m')

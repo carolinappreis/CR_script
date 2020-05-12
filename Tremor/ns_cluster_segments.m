@@ -1,15 +1,6 @@
 clear all, close all
 cohort = [ 2 3 4 5 8 10 11 13 16 17];
 
-nostim_c1 = NaN(length(cohort),3,1e6);
-nostim_c2 = NaN(length(cohort),3,1e6);
-
-nostimout_c1 = NaN(length(cohort),3,12);
-nostimout_c2 = NaN(length(cohort),3,12);
-
-C_all = cell(length(cohort),1);
-C_RS = cell(length(cohort),1);
-C_NS = cell(length(cohort),1);
 
 main=[1 1 3 1 3 3 3 3 1 1];
 method = 'ward'; %% Cluster method - change it here
@@ -184,7 +175,7 @@ for iii = 1:length(cohort)
     end
     
     %% Baseline
-    clearvars -except iii cohort fig fig2 pc_trials C_all C_RS C_NS PC A1 B1 nostimout_c1 nostim_c1 nostimout_c2 nostim_c2 main method
+    clearvars -except iii cohort pxx_z_zpad fig fig2 pc_trials C_all C_RS C_NS PC A1 B1 nostimout_c1 nostim_c1 nostimout_c2 nostim_c2 main method
     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(cohort(iii)),'_baseline.mat'))
     %    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(cohort(iii)),'_baseline.mat'))
     rng('default') % set random seed for consistency
@@ -251,7 +242,10 @@ for iii = 1:length(cohort)
     tremorzf = filtfilt(b, a, tremorz);
     
     envelope = [abs(hilbert(tremorxf)); abs(hilbert(tremoryf)); abs(hilbert(tremorzf))];
-    baseline = [tremorxf; tremoryf; tremorzf];
+%     baseline = [tremorxf; tremoryf; tremorzf];
+    ztremor=[zscore(tremorx);zscore(tremory);zscore(tremorz)];
+    baseline=[filtfilt(b, a, ztremor(1,:)); filtfilt(b, a, ztremor(2,:));filtfilt(b, a, ztremor(3,:))];
+    
     before_ns
     
     segmentb=hu{iii,:};
@@ -260,6 +254,7 @@ for iii = 1:length(cohort)
     % Pre-allocating for speed
     baseline3 = NaN(3,5e4);
     for_cluster = NaN(3,5e4,5001);
+    env_cluster = NaN(3,5e4);
     
     for j = 1:5e4
         ix=randi(length(segmentb),1);
@@ -269,8 +264,9 @@ for iii = 1:length(cohort)
         for ax = 1:3
             %         begin_idx(ax,j) = begin3;
             %         end_idx(ax,j) = end3;
-            baseline3(ax,j) = (mean(envelope(ax,end3-1000:end3))-mean(envelope(ax, begin3-1000:begin3)))./mean(envelope(ax, begin3-1000:begin3));
+            %             baseline3(ax,j) = (mean(envelope(ax,end3-1000:end3))-mean(envelope(ax, begin3-1000:begin3)))./mean(envelope(ax, begin3-1000:begin3));
             for_cluster(ax,j,:) = baseline(ax, begin3:end3);
+            env_cluster(ax,j) = mean(envelope(ax, begin3-1000:begin3));
         end
     end
     
@@ -284,9 +280,8 @@ for iii = 1:length(cohort)
     %
     Z = linkage([pc_trials_ns; pc_trials], method);
     c = cluster(Z, 'Maxclust', 2);
-    c_rs = c(5e4+1:end); % cluster indices for random stim
-
-    %
+    %     c_ns = c(1:5e4); % cluster indices for random stim
+    
     idx_b_c1 = []; idx_b_c2 = [];
     for i = 1:5e4 % taking the baseline cluster indices
         if c(i) == 1
@@ -296,83 +291,32 @@ for iii = 1:length(cohort)
         end
     end
     
-    baseline3_c1 = baseline3(:,idx_b_c1);
-    baseline3_c2 = baseline3(:,idx_b_c2);
+    chosen=[2;2;1;2;2;1;2;2;2;2]; %%%% from adapted_clusters_data; chosen cluster
+    qq=eval(['idx_b_c' num2str(chosen(iii))]);
+    dum=squeeze(for_cluster(main(iii),qq,:));
     
-    %
-    if ~isempty(idx_b_c1)
-        for ax = 1:3
-            rep = 10;
-            baseline3_temp = baseline3_c1(ax,:);
-            for i = 1:1e6
-                dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
-                dum2 = dum;
-                p(i) = nanmedian(dum2);
-            end
-            
-            nostim_c1(iii,ax,:) = p;
-            clear p
-            
-            for i = 1:12
-                dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
-                dum2 = dum;
-                nostimout_c1(iii,ax,i) = nanmedian(dum2);
-            end
-            
-            clear dum dum2 baseline3 baseline3_temp
-        end
-        
-    end
+%     [Pxx,F] = pwelch(dum',[],[],[],samplerate);
+%     c=mean(Pxx,2);
+%     plot(F,c)
+%     xlim([0 50])
     
+% %     dum2=reshape(dum',1,(size(dum,1)*size(dum,2)));
+%          qqc=mean(squeeze(for_cluster(main(iii),qq,:)),1);
+
+% %     [Pxx,F] = pwelch(qqc,samplerate*2,[],[],samplerate);
+%         [Pxx,F] = pwelch(qqc,[],[],[],samplerate);
+%         plot(F,Pxx)
+%         hold on
+
+
     
-    if ~isempty(idx_b_c2)
-        for ax = 1:3
-            rep = 10;
-            baseline3_temp = baseline3_c2(ax,:);
-            for i = 1:1e6
-                dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
-                dum2 = dum;
-                p(i) = nanmedian(dum2);
-            end
-            
-            nostim_c2(iii,ax,:) = p;
-            clear p
-            
-            for i = 1:12
-                dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
-                dum2 = dum;
-                nostimout_c2(iii,ax,i) = nanmedian(dum2);
-            end
-            
-            clear dum dum2 baseline3 baseline3_temp
-        end
-        
-    end
-    %% Linkage
-    figure(iii + 2)
-    set(gcf, 'color', 'w', 'Position', [300,300,1200,300])
+%     baseline_comp(iii,:)=c;
+    dumdrns=padarray(dum,[0 2000],0,'both');
+    [Pxx_ns,F]=pwelch(dumdrns',[],[],[],samplerate);
+    Pxx_ns=(mean(Pxx_ns,2))';
+
+    pxx_z_zpad(iii,:)=Pxx_ns;
     
-    subplot(1,3,1)
-    scatter3([pc_trials_ns(:, 1); pc_trials(:, 1)], [pc_trials_ns(:, 2); pc_trials(:, 2)], [pc_trials_ns(:, 3); pc_trials(:, 3)], 10, c)
-    title(sprintf('Patient %d - Combined', cohort(iii)))
+    clearvars -except pxx_z_zpad  cohort iii C_all C_RS C_NS PC A1 B1 iii nostimout_c1 nostim_c1 nostimout_c2 nostim_c2 randstim_change method main
     
-    subplot(1,3,2)
-    scatter3(pc_trials_ns(1:5e4, 1), pc_trials_ns(1:5e4, 2), pc_trials_ns(1:5e4, 3), 10, c(1:5e4))
-    title('Resampled Baseline')
-    
-    subplot(1,3,3)
-    scatter3(pc_trials(:, 1), pc_trials(:, 2), pc_trials(:, 3), 10, c_rs)
-    title('Random Stim')
-    
-    cd('/Users/Carolina/OneDrive - Nexus365/PERI-STIM/Main/figures/clusters')
-    filename=['cluster_',num2str(iii)];
-    saveas(gcf,filename)
-    
-    C_RS{iii,1} = c_rs;
-    C_NS{iii,1} = c(1:5e4);
-    C_all{iii,1} = c;
-    %%
-    clearvars -except fig fig2 cohort iii C_all C_RS C_NS PC A1 B1 iii nostimout_c1 nostim_c1 nostimout_c2 nostim_c2 randstim_change method
 end
-
-

@@ -1,11 +1,11 @@
 
 
 clear all
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12.mat')
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim2.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cleaned_rc12_noaddon.mat')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/newnonstim10.mat')
 
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
-load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\cleaned_rc12_noaddon.mat')
+% load('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\newnonstim10.mat')
 
 
 
@@ -21,7 +21,7 @@ end
 % f.ns=NS(off,:); f.s=ttall(off,:); clearvars -except a f
 
 ref=a.s; %%% max amplitude change vs. max frequecy change
-iii=1; %%%%% amp (=0) vs. supressive effect
+iii=0; %%%%% amp (=0) vs. supressive effect
 
 idmi=[];
 idma=[];
