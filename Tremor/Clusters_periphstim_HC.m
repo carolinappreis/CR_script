@@ -4,8 +4,8 @@ cohort = [ 2 3 4 5 8 10 11 13 16 17];
 nostim_c1 = NaN(length(cohort),3,1e6);
 nostim_c2 = NaN(length(cohort),3,1e6);
 
-nostimout_c1 = NaN(length(cohort),3,12);
-nostimout_c2 = NaN(length(cohort),3,12);
+% nostimout_c1 = NaN(length(cohort),3,12);
+% nostimout_c2 = NaN(length(cohort),3,12);
 
 C_all = cell(length(cohort),1);
 C_RS = cell(length(cohort),1);
@@ -15,8 +15,7 @@ main=[1 1 3 1 3 3 3 3 1 1];
 method = 'ward'; %% Cluster method - change it here
 % Options: ward, average, complete, single, weighted.
 
-for iii = 2
-%     1:length(cohort)
+for iii = 5:length(cohort)
     
     % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(cohort(iii)),'_RS.mat'))
     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(cohort(iii)),'_RS.mat'))
@@ -264,14 +263,14 @@ for iii = 2
     
     for j = 1:5e4
         ix=randi(length(segmentb),1);
-        segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
+        segment=randi([round(segmentb(ix)+1000) round(segmente(ix)-5000)],1);
         begin3=segment;
         end3=floor(begin3+5*samplerate);
-        for ax = 1
+        for ax = 1:3
             %         begin_idx(ax,j) = begin3;
             %         end_idx(ax,j) = end3;
             baseline3(ax,j) = (mean(envelope(ax,end3-1000:end3))-mean(envelope(ax, begin3-1000:begin3)))./mean(envelope(ax, begin3-1000:begin3));
-%             for_cluster(ax,j,:) = baseline(ax, begin3:end3);
+            for_cluster(ax,j,:) = baseline(ax, begin3:end3);
         end
     end
     
@@ -288,14 +287,8 @@ for iii = 2
     c_rs = c(5e4+1:end); % cluster indices for random stim
 
     %
-    idx_b_c1 = []; idx_b_c2 = [];
-    for i = 1:5e4 % taking the baseline cluster indices
-        if c(i) == 1
-            idx_b_c1 = [idx_b_c1 i];
-        else % c(i) == 2
-            idx_b_c2 = [idx_b_c2 i];
-        end
-    end
+    idx_b_c1=find(c(1:5e4)==1);
+    idx_b_c2=find(c(1:5e4)==2);
     
     baseline3_c1 = baseline3(:,idx_b_c1);
     baseline3_c2 = baseline3(:,idx_b_c2);
@@ -305,24 +298,21 @@ for iii = 2
         for ax = 1:3
             rep = 10;
             baseline3_temp = baseline3_c1(ax,:);
-            for i = 1:1e6
-                dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
-                dum2 = dum;
-                p(i) = nanmedian(dum2);
-            end
+            dum = baseline3_temp(randi(length(baseline3_temp), 1e6, rep));
+            dum2 = dum;
+            p = nanmedian(dum2,2);
             
             nostim_c1(iii,ax,:) = p;
             clear p
             
-            for i = 1:12
-                dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
-                dum2 = dum;
-                nostimout_c1(iii,ax,i) = nanmedian(dum2);
-            end
+%             for i = 1:12
+%                 dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
+%                 dum2 = dum;
+%                 nostimout_c1(iii,ax,i) = nanmedian(dum2);
+%             end
             
-            clear dum dum2 baseline3 baseline3_temp
-        end
-        
+            clear dum dum2 baseline3_temp
+        end 
     end
     
     
@@ -330,22 +320,22 @@ for iii = 2
         for ax = 1:3
             rep = 10;
             baseline3_temp = baseline3_c2(ax,:);
-            for i = 1:1e6
-                dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
-                dum2 = dum;
-                p(i) = nanmedian(dum2);
-            end
+            
+            dum = baseline3_temp(randi(length(baseline3_temp), 1e6, rep));
+            dum2 = dum;
+            p = nanmedian(dum2,2);
+            
             
             nostim_c2(iii,ax,:) = p;
             clear p
             
-            for i = 1:12
-                dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
-                dum2 = dum;
-                nostimout_c2(iii,ax,i) = nanmedian(dum2);
-            end
+            %             for i = 1:12
+            %                 dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
+            %                 dum2 = dum;
+            %                 nostimout_c2(iii,ax,i) = nanmedian(dum2);
+            %             end
             
-            clear dum dum2 baseline3 baseline3_temp
+            clear dum dum2 baseline3_temp
         end
         
     end
@@ -365,7 +355,6 @@ for iii = 2
     scatter3(pc_trials(:, 1), pc_trials(:, 2), pc_trials(:, 3), 10, c_rs)
     title('Random Stim')
     
-    cd('/Users/Carolina/OneDrive - Nexus365/PERI-STIM/Main/figures/clusters')
     filename=['cluster_',num2str(iii)];
     saveas(gcf,filename)
     

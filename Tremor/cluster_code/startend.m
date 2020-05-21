@@ -1,4 +1,4 @@
-function [afilt, bfilt, start, ending, xx ]= startend(data,tremor_ds,samplerateold,samplerate,iii,co,start,ending)
+function [afilt, bfilt, start, ending, yy]= startend(data,tremor_ds,samplerateold,samplerate,iii,co,start,ending,yy)
 
 
 if co==1
@@ -19,8 +19,8 @@ if co==1
     
     
     for aa = 1:3
-        [Pxx,F] = pwelch(tremor_ds(aa,handup), samplerate, [], samplerate, samplerate);
-%         [Pxx,F] = pwelch(tremor_ds(aa,:), samplerate, [], samplerate, samplerate);
+%         [Pxx,F] = pwelch(tremor_ds(aa,handup), samplerate, [], samplerate, samplerate);
+         [Pxx,F] = pwelch(tremor_ds(aa,:), samplerate, [], samplerate, samplerate);
         
         frange = F(3:10);
         Pxxrange = Pxx(3:10);
@@ -38,10 +38,11 @@ if co==1
         [afilt, bfilt] = butter(2, [(1)/(0.5*samplerate) (Fpeak+2)/(0.5*samplerate)], 'bandpass'); %15
     end
     
-    xx=NaN;
+    yy{iii,co}=NaN;
     
 %----------------------------------------------------------------------------------------------
 else
+    
     % determine stimulation time points
     index = [];
     for i = 2:size(data, 2)-1
@@ -147,11 +148,11 @@ else
         xx1 = [xx1 xx(find(([indexes4 >= sp(il)] + [indexes4 <= ep(il)]) == 2))];
     end
     
-    clear start ending
+
     start{iii,co}= floor((start1 ./ samplerateold) * samplerate);%+addon;
     ending{iii,co} = floor((ending1 ./ samplerateold) * samplerate);%+addon+addon_end;%floor(5*samplerate);
     clear xx
-    xx{iii,co} = xx1;
+    yy{iii,co} = xx1;
     
 %----------------------------------------------------------------------------------------------
     

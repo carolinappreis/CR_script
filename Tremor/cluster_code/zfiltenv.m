@@ -1,26 +1,28 @@
-function [s]=zfiltenv(data,afilt,bfilt,co,iii)
+function [s]=zfiltenv(data,afilt,bfilt,co,iii,s)
 
 
 for i=1:size(data,1)
     if co==1
         ns_mat={[1 2 3];[1 2 3];[3 2 1];[1 2 3];[3 2 1];[3 2 1];[3 2 1];[3 2 1];[1 2 3];[1 2 3]};
-        s.raw(i,:)=data(ns_mat{iii,1}(i),:);
+        s.raw{iii,co}(i,:)=data(ns_mat{iii,1}(i),:);
     else
-        s.raw(i,:)=data(i,:);
+        s.raw{iii,co}(i,:)=data(i,:);
     end
-    s.filt(i,:)=filtfilt(bfilt,afilt,s.raw(i,:))*10*9.81/0.5;
-%     s.filt(i,:)=filtfilt(bfilt,afilt,s.raw(i,:));
-    s.env(i,:)=abs(hilbert(s.filt(i,:)));
-    s.phase(i,:)=angle(hilbert(s.filt(i,:)));
-    s.freq(i,:)=(smooth((1000/(2*pi))*diff(unwrap(s.phase(i,:))),500))';
+%     s.filt{iii,co}(i,:)=filtfilt(bfilt,afilt,s.raw{iii,co}(i,:))*10*9.81/0.5;
+    s.filt{iii,co}(i,:)=filtfilt(bfilt,afilt,s.raw{iii,co}(i,:));
+    s.env{iii,co}(i,:)=abs(hilbert(s.filt{iii,co}(i,:)));
+    s.phase{iii,co}(i,:)=angle(hilbert(s.filt{iii,co}(i,:)));
+    s.freq{iii,co}(i,:)=(smooth((1000/(2*pi))*diff(unwrap(s.phase{iii,co}(i,:))),500))';
     
-    s.z(i,:)=zscore(s.raw(i,:));
-    s.zfilt(i,:)=filtfilt(bfilt,afilt,s.z(i,:))*10*9.81/0.5;
-%     s.zfilt(i,:)=filtfilt(bfilt,afilt,s.z(i,:));
-    s.zenv(i,:)=abs(hilbert(s.zfilt(i,:)));
-    s.zphase(i,:)=angle(hilbert(s.zfilt(i,:)));
-    s.zfreq(i,:)=(smooth((1000/(2*pi))*diff(unwrap(s.zphase(i,:))),500))';
-       
+    s.z{iii,co}(i,:)=zscore(s.raw{iii,co}(i,:));
+%    s.zfilt{iii,co}(i,:)=filtfilt(bfilt,afilt,s.z{iii,co}(i,:))*10*9.81/0.5;
+     s.zfilt{iii,co}(i,:)=filtfilt(bfilt,afilt,s.z{iii,co}(i,:));
+    s.zenv{iii,co}(i,:)=abs(hilbert(s.zfilt{iii,co}(i,:)));
+    s.zphase{iii,co}(i,:)=angle(hilbert(s.zfilt{iii,co}(i,:)));
+    s.zfreq{iii,co}(i,:)=(smooth((1000/(2*pi))*diff(unwrap(s.zphase{iii,co}(i,:))),500))';
+     
+%     s.afilt(iii,:)=afilt;
+%     s.bfilt(iii,:)=bfilt;
 end
 end
 

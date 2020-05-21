@@ -15,12 +15,11 @@ main=[1 1 3 1 3 3 3 3 1 1];
 method = 'ward'; %% Cluster method - change it here
 % Options: ward, average, complete, single, weighted.
 
-for iii = 2
-%     1:length(cohort)
+for iii = 2%1:length(cohort)
     
     % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(cohort(iii)),'_RS.mat'))
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(cohort(iii)),'_RS.mat'))
-    
+    %load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(cohort(iii)),'_RS.mat'))
+    load(strcat('/Users/hayriyecagnan/Downloads/DATA/DATA/P0',num2str(cohort(iii)),'_RS.mat'))
     
     in2 = 1; % analysing the "main tremor axis"
     
@@ -186,8 +185,10 @@ for iii = 2
     
     %% Baseline
     clearvars -except iii cohort fig fig2 pc_trials C_all C_RS C_NS PC A1 B1 nostimout_c1 nostim_c1 nostimout_c2 nostim_c2 main method
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(cohort(iii)),'_baseline.mat'))
+    %load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(cohort(iii)),'_baseline.mat'))
     %    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(cohort(iii)),'_baseline.mat'))
+    load(strcat('/Users/hayriyecagnan/Downloads/DATA/DATA/P0',num2str(cohort(iii)),'_NS.mat'))
+    
     rng('default') % set random seed for consistency
     
     in2 = 1; % analysing the "main tremor axis"
@@ -253,6 +254,7 @@ for iii = 2
     
     envelope = [abs(hilbert(tremorxf)); abs(hilbert(tremoryf)); abs(hilbert(tremorzf))];
     baseline = [tremorxf; tremoryf; tremorzf];
+    %before_ns_old
     before_ns
     
     segmentb=hu{iii,:};
@@ -267,11 +269,11 @@ for iii = 2
         segment=randi([segmentb(ix)+1000 segmente(ix)-5000],1);
         begin3=segment;
         end3=floor(begin3+5*samplerate);
-        for ax = 1
+        for ax = 1:3
             %         begin_idx(ax,j) = begin3;
             %         end_idx(ax,j) = end3;
             baseline3(ax,j) = (mean(envelope(ax,end3-1000:end3))-mean(envelope(ax, begin3-1000:begin3)))./mean(envelope(ax, begin3-1000:begin3));
-%             for_cluster(ax,j,:) = baseline(ax, begin3:end3);
+            for_cluster(ax,j,:) = baseline(ax, begin3:end3);
         end
     end
     
@@ -304,7 +306,7 @@ for iii = 2
     if ~isempty(idx_b_c1)
         for ax = 1:3
             rep = 10;
-            baseline3_temp = baseline3_c1(ax,:);
+            baseline3_temp = baseline3_c1(1,:);
             for i = 1:1e6
                 dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
                 dum2 = dum;
@@ -329,7 +331,7 @@ for iii = 2
     if ~isempty(idx_b_c2)
         for ax = 1:3
             rep = 10;
-            baseline3_temp = baseline3_c2(ax,:);
+            baseline3_temp = baseline3_c2(1,:);
             for i = 1:1e6
                 dum = baseline3_temp(randi(length(baseline3_temp), 1, rep));
                 dum2 = dum;
@@ -349,31 +351,31 @@ for iii = 2
         end
         
     end
-    %% Linkage
-    figure(iii + 2)
-    set(gcf, 'color', 'w', 'Position', [300,300,1200,300])
-    
-    subplot(1,3,1)
-    scatter3([pc_trials_ns(:, 1); pc_trials(:, 1)], [pc_trials_ns(:, 2); pc_trials(:, 2)], [pc_trials_ns(:, 3); pc_trials(:, 3)], 10, c)
-    title(sprintf('Patient %d - Combined', cohort(iii)))
-    
-    subplot(1,3,2)
-    scatter3(pc_trials_ns(1:5e4, 1), pc_trials_ns(1:5e4, 2), pc_trials_ns(1:5e4, 3), 10, c(1:5e4))
-    title('Resampled Baseline')
-    
-    subplot(1,3,3)
-    scatter3(pc_trials(:, 1), pc_trials(:, 2), pc_trials(:, 3), 10, c_rs)
-    title('Random Stim')
-    
-    cd('/Users/Carolina/OneDrive - Nexus365/PERI-STIM/Main/figures/clusters')
-    filename=['cluster_',num2str(iii)];
-    saveas(gcf,filename)
-    
-    C_RS{iii,1} = c_rs;
-    C_NS{iii,1} = c(1:5e4);
-    C_all{iii,1} = c;
-    %%
-    clearvars -except fig fig2 cohort iii C_all C_RS C_NS PC A1 B1 iii nostimout_c1 nostim_c1 nostimout_c2 nostim_c2 randstim_change method
+%     %% Linkage
+%     figure(iii + 2)
+%     set(gcf, 'color', 'w', 'Position', [300,300,1200,300])
+%     
+%     subplot(1,3,1)
+%     scatter3([pc_trials_ns(:, 1); pc_trials(:, 1)], [pc_trials_ns(:, 2); pc_trials(:, 2)], [pc_trials_ns(:, 3); pc_trials(:, 3)], 10, c)
+%     title(sprintf('Patient %d - Combined', cohort(iii)))
+%     
+%     subplot(1,3,2)
+%     scatter3(pc_trials_ns(1:5e4, 1), pc_trials_ns(1:5e4, 2), pc_trials_ns(1:5e4, 3), 10, c(1:5e4))
+%     title('Resampled Baseline')
+%     
+%     subplot(1,3,3)
+%     scatter3(pc_trials(:, 1), pc_trials(:, 2), pc_trials(:, 3), 10, c_rs)
+%     title('Random Stim')
+%     
+%     cd('/Users/Carolina/OneDrive - Nexus365/PERI-STIM/Main/figures/clusters')
+%     filename=['cluster_',num2str(iii)];
+%     saveas(gcf,filename)
+%     
+%     C_RS{iii,1} = c_rs;
+%     C_NS{iii,1} = c(1:5e4);
+%     C_all{iii,1} = c;
+%     %%
+%     clearvars -except fig fig2 cohort iii C_all C_RS C_NS PC A1 B1 iii nostimout_c1 nostim_c1 nostimout_c2 nostim_c2 randstim_change method
 end
 
 
