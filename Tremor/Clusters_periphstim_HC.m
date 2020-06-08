@@ -15,7 +15,8 @@ main=[1 1 3 1 3 3 3 3 1 1];
 method = 'ward'; %% Cluster method - change it here
 % Options: ward, average, complete, single, weighted.
 
-for iii = 5:length(cohort)
+for iii =10
+%     1:length(cohort)
     
     % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(cohort(iii)),'_RS.mat'))
     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(cohort(iii)),'_RS.mat'))
@@ -269,7 +270,7 @@ for iii = 5:length(cohort)
         for ax = 1:3
             %         begin_idx(ax,j) = begin3;
             %         end_idx(ax,j) = end3;
-            baseline3(ax,j) = (mean(envelope(ax,end3-1000:end3))-mean(envelope(ax, begin3-1000:begin3)))./mean(envelope(ax, begin3-1000:begin3));
+%             baseline3(ax,j) = (mean(envelope(ax,end3-1000:end3))-mean(envelope(ax, begin3-1000:begin3)))./mean(envelope(ax, begin3-1000:begin3));
             for_cluster(ax,j,:) = baseline(ax, begin3:end3);
         end
     end

@@ -1,16 +1,13 @@
-function [nc]=plots_nc(out,iii)
-
+function [nc]=plots_nc(out)
+for iii=1:10
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash');
 color_b1=[blushred; aegean; stone];
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/data_matchcluster_ns','nostim')
 
 m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
-p=2;nostim1=nostim;
+p=2;
 dr=squeeze(out.change_nc{iii,2}{1,m_ax});
-nostim=squeeze(nostim1(iii,m_ax,:));
-%  nostim=squeeze(out.change_nc{iii,1}(m_ax,:));
-
-
+% nostim=squeeze(nostim1(iii,m_ax,:));
+nostim=squeeze(out.change_nc{iii,1}(m_ax,:));
 
 n=[];
 data=nanmedian(dr);
@@ -21,8 +18,6 @@ if ~isempty(find(data > prctile(nostim, 99.7917) | data< prctile(nostim, 0.2083)
 else
     phase=NaN;
 end
-
-
 
 nc=figure(20)
 subplot(2,5,iii)
@@ -41,7 +36,7 @@ if ~isnan(phase)
 end
 yline(prctile(nostim,99.7917),'k--','LineWidth',1)
 yline(prctile(nostim,0.2083),'k--','LineWidth',1)
-ylim([-(max(y1)) max(y1)])
+ylim([-1 1])
 xlim([-5 335])
 xticks([0:30:330])
 box('off')
@@ -49,5 +44,5 @@ ylabel({'Change in tremor severity'})
 xlabel({'Stimulation phase (degrees)'})
 set(gca,'FontSize',12)
 set(gca,'FontName','Arial','XTickLabelRotation',45)
-
+end
 end

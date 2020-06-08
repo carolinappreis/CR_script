@@ -10,10 +10,6 @@ cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 
 cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor/cluster_code')
 
-
-
-
-
 %%%---------
 run('Periph_PhasicStim_smr.m') 
 

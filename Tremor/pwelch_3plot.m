@@ -30,12 +30,12 @@
 
 clear all
 
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/data_matchcluster.mat','tt1','segevz','main_clust')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/data_matchcluster.mat','tt1','segev','main_clust')
 % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/zscore_bl_seg.mat')
 
 
 Sa=squeeze(tt1(:,1,:));
-seg_filt=segevz;
+seg_filt=segev;
 % nstim_filt=baseline_seg;
 
 for y=1:size(Sa,1)
