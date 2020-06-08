@@ -1,13 +1,12 @@
-clear all; close all
+clear; close 
 cohort = [ 2 3 4 5 8 10 11 13 16 17];
 cond={'NS';'RS';'PLS'};
 clust=struct; out=struct; start=cell(10,3); ending=cell(10,3); yy=cell(10,3); h_up=cell(10,3); s=struct;
 rng('default')
 gen=(rng);
 % 
-  load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_trials.mat','clust_trials');clust.idx=clust_trials;
-  load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_master_output.mat');
-
+%   load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_trials.mat','clust_trials');clust.idx=clust_trials;
+%  load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_master_output.mat');
 for iii =1:length(cohort)
     clearvars -except  cohort cond iii clust s start ending yy out gen h_up
     all=[];
@@ -27,7 +26,7 @@ for iii =1:length(cohort)
         
     end
     
-%        [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
+   [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
     
     for co=1:size(cond,1)
         [out]=mod_c(clust,out,co,iii,s,h_up);   %%%% tremor amplitude change with clustering

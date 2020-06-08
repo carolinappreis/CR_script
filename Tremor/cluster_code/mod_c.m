@@ -35,21 +35,20 @@ if co==1
     st=out.sns{iii,co}; et=out.ens{iii,co};
     sig=[2 4 5 7 10];
     if ismember(iii,sig)
-        z_seg1=NaN(length(st),4);
+        z_seg1=NaN(length(st),3);
         
         for i=1:length(st)
             if (~isnan(st(i))) && (st(i)-5000)>0
-                ghost=[st(i)-5000:et(i)-5000];
-                dum=round(length(ghost)/3);
-                dum1=[st(i)-5000+dum;et(i)-5000-dum];
-                z_seg1(i,:)=[mean(zenv(m_ax,st(i)-5000:st(i))) mean(zenv(m_ax,dum1(1)-5000:dum1(1))) mean(zenv(m_ax,dum1(2)-5000:dum1(2)))  mean(zenv(m_ax,et(i)-5000:et(i)))];
+                ghost=[st(i)+5000:et(i)-5000];
+                dum=st(i)+5000+round(length(ghost)/2);
+                z_seg1(i,:)=[mean(zenv(m_ax,st(i):st(i)+5000)) mean(zenv(m_ax,dum-5000:dum)) mean(zenv(m_ax,et(i)-5000:et(i)))];
                 clear ghost dum dum1
             end
         end
-        out.ns4(iii,:)=median(z_seg1);
+        out.ns3(iii,:)=median(z_seg1);
         out.ns_hu{iii,1}=z_sig(m_ax,h_up{iii,co});
     else
-        out.ns4(iii,:)=NaN(1,4);
+        out.ns3(iii,:)=NaN(1,3);
         out.ns_hu{iii,1}=[];
     end
     
@@ -98,11 +97,11 @@ if co==1
     
 else
     
-    st=out.start_c{iii,co};
-    et=out.ending_c{iii,co};
-    yyt=out.yy{iii,co};
-    
     if co==2
+        
+        st=out.start_c{iii,co};
+        et=out.ending_c{iii,co};
+        yyt=out.yy{iii,co};
         
         for ax=1:3
             tremor_or2=NaN(1,length(st));
@@ -185,24 +184,29 @@ else
         end
         
     else
+        
         sig=[2 4 5 7 10];
         if ismember(iii,sig)
-            z_seg1=NaN(length(st),4);
+            load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/hu_hd_pls.mat','st')
+            st=st{find(sig==iii),1};
+            et=out.ending_c{iii,co};
+            z_seg1=NaN(length(st),3);
             
             for i=1:length(st)
-                if (~isnan(st(i)))
-                    ghost=[st(i)-5000:et(i)-5000];
-                    dum=round(length(ghost)/3);
-                    dum1=[st(i)-5000+dum;et(i)-5000-dum];
-                    z_seg1(i,:)=[mean(zenv(m_ax,st(i)-5000:st(i))) mean(zenv(m_ax,dum1(1)-5000:dum1(1))) mean(zenv(m_ax,dum1(2)-5000:dum1(2)))  mean(zenv(m_ax,et(i)-5000:et(i)))];
+                if (~isnan(st(i))) && (st(i)-5000)>0
+                    ghost=[st(i)+5000:et(i)-5000];
+                    dum=st(i)+5000+round(length(ghost)/2);
+                    z_seg1(i,:)=[mean(zenv(m_ax,st(i):st(i)+5000)) mean(zenv(m_ax,dum-5000:dum)) mean(zenv(m_ax,et(i)-5000:et(i)))];
                     clear ghost dum dum1
                 end
             end
-            out.pls4(iii,:)=median(z_seg1);
+            out.pls3(iii,:)=median(z_seg1);
             out.pls_hu{iii,1}=z_sig(m_ax,h_up{iii,co});
         else
-            out.pls4(iii,:)=NaN(1,4);
+            out.pls3(iii,:)=NaN(1,3);
             out.pls_hu{iii,1}=[];
         end
     end
 end
+
+

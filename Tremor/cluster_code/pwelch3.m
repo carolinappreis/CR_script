@@ -27,12 +27,13 @@ for i=1:size(dumm,1)
     clear cr pxxrange dum
 end
 % kstest(ASNS(1,:)-ASNS(3,:))==1
-[p,stats.power_a_s]=ttest(pASNS(1,:),pASNS(2,:));
-[p,stats.power_a_ns]=ttest(pASNS(1,:),pASNS(3,:));
-[p,stats.power_s_ns]=ttest(pASNS(2,:),pASNS(3,:));
-[p,stats.freq_a_s]=ttest(fASNS(1,:),fASNS(2,:))
-[p,stats.freq_a_ns]=ttest(fASNS(1,:),fASNS(3,:))
-[p,stats.freq_s_ns]=ttest(fASNS(2,:),fASNS(3,:))
+
+[p,stats.power_ns_s]=ttest(pASNS(1,:),pASNS(2,:))
+[p,stats.power_ns_a]=ttest(pASNS(1,:),pASNS(3,:))
+[p,stats.power_s_a]=ttest(pASNS(2,:),pASNS(3,:))
+[p,stats.freq_ns_s]=ttest(fASNS(1,:),fASNS(2,:));
+[p,stats.freq_ns_a]=ttest(fASNS(1,:),fASNS(3,:));
+[p,stats.freq_s_a]=ttest(fASNS(2,:),fASNS(3,:));
 
 
 close all
@@ -134,6 +135,9 @@ for i=1:size(dumm,1)
     
     clear cr1 cr pxxrange dum
 end
+
+[p,stats.power_ns_pls]=ttest(pASNS(1,:),pASNS(2,:))
+[p,stats.freq_ns_pls]=ttest(fASNS(1,:),fASNS(2,:))
 
 
 f1=figure(12);

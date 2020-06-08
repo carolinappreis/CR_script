@@ -213,16 +213,17 @@ for ii=1:size(arc.value,2)
 end
 
 %%% PLS vs NS
-yu=find(~isnan(out.pls4(:,1)));
+yu=find(~isnan(out.pls3(:,1)));
 for o=1:length(yu)
     subplot(1,5,o)
-    plot(out.ns4(yu(o),:),'k.-','LineWidth',2)
+    plot(out.ns3(yu(o),:),'.-','Color',stone,'LineWidth',2,'MarkerSize',10)
     hold on
-    plot(out.pls4(yu(o),:),'r.-','LineWidth',2)
-    xlim([0.5 4.5])
+    plot(out.pls3(yu(o),:),'.-','Color',blushred,'LineWidth',2,'MarkerSize',10)
+    xlim([0.5 3.5])
     box('off')
-    ylabel({'tremor severity (zscore)'})
-    %%% add xticklabels
+    ylabel({'Tremor severity';'(zscore)'})
+    xticklabels({'start','middle','end'})
+    xtickangle(45)
 end
 
 
