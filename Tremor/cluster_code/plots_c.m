@@ -4,10 +4,9 @@ for iii=1:10
     
     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
     color_b1=[blushred; aegean; stone];
-    % load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/clust_master_output.mat')
     
     
-    %%%%  plot arc's main axis with significant threshold
+    %%  plot arc's main axis with significant threshold
     %%% for type=1:2
     type=1;
     feature={'out.change_c';'out.changef'};
@@ -52,7 +51,7 @@ for iii=1:10
     
     
     
-    %%%% plot ampsplit-arc main axis no thresholds
+    %% plot ampsplit-arc main axis no thresholds
     
     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/NS_all.mat','ns_ba_split');
     
@@ -103,44 +102,66 @@ for iii=1:10
     
     clear i
     
-    %%% arc_smothed all axes
-    for ax=1:3
-        raw_s=squeeze(median(out.change_c{iii,2}{ax,1}));
-        raw_ns=squeeze(out.change_c{iii,1}(ax,:));
-        sig=find(raw_s > prctile(raw_ns, 99.7917) | raw_s< prctile(raw_ns, 0.2083));
-        
-        raw_s1=repmat(raw_s,1,3);
-        for i=size(raw_s,2)+1:size(raw_s,2)*2
-            smo_s(1,i-12)=sum(raw_s1(1,(i-1:i+1)))./length(raw_s1(1,(i-1:i+1)));
+    %% arc_smothed all axes
+    
+    
+        t_sig=[];
+        degs=[0:30:330];
+        for ax=1:3
+            raw_s=squeeze(median(out.change_c{iii,2}{ax,1}));
+            raw_ns=squeeze(out.change_c{iii,1}(ax,:));
+            sig=find(raw_s > prctile(raw_ns, 99.7917) | raw_s< prctile(raw_ns, 0.2083));
+            t_sig=[t_sig degs(sig)];
+            
+            raw_s1=repmat(raw_s,1,3);
+            for i=size(raw_s,2)+1:size(raw_s,2)*2
+                smo_s(1,i-12)=sum(raw_s1(1,(i-1:i+1)))./length(raw_s1(1,(i-1:i+1)));
+            end
+            
+            %choice=smo_s;
+            choice=raw_s;
+            
+            figure(11);
+            subplot(2,5,iii)
+            plot(1:12,choice,'Color',color_b1(ax,:),'LineWidth',1.5)
+            hold on
+            if ~isempty(sig)
+                plot(sig,choice(1,sig),'*','MarkerSize',5,'Color','r')
+            end
+            xticks([1:12])
+            xticklabels([0:30:330])
+            %         ylim([-1.5 1.5])
+            ylim([-1 1])
+            ylabel('Change in tremor severity')
+            xlabel('Stimulation phase (degrees)')
+            set(gca,'XTickLabelRotation',45)
+            box('off')
+            clear sig raw_s raw_ns smo_s
         end
+        tall_sig{iii,1}=deg2rad(t_sig);
         
-        choice=smo_s;
-        
-        figure(11);
+    for iii=1:10    
+        f1=figure(12)
         subplot(2,5,iii)
-        plot(1:12,choice,'Color',color_b1(ax,:),'LineWidth',1.5)
-        hold on
-        if ~isempty(sig)
-            plot(sig,choice(1,sig),'*','MarkerSize',5,'Color','r')
-        end
-        xticks([1:12])
-        xticklabels([0:30:330])
-        %         ylim([-1.5 1.5])
-        ylim([-1 1])
-        ylabel('Change in tremor severity')
-        xlabel('Stimulation phase (degrees)')
-        set(gca,'XTickLabelRotation',45)
-        box('off')
-        clear sig raw_s raw_ns smo_s
+        polarhistogram(tall_sig{iii,1}',20,'FaceColor','red','FaceAlpha',.8,'EdgeColor','none')
+        ax=gca;
+        ax.RLim=[0 3];
+        ax.RTick=[0 1 2 3];
+        ax.GridLineStyle = '--';
+        ax.RGrid='off'
+        ax.GridAlpha = 0.3;
+        ax.Box = 'off';
+        
     end
     
-    %%%% gaussian fit to tremor properties & correlation with arc features
+    
+    %% gaussian fit to tremor properties & correlation with arc features
     
     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','stone');
     cl=stone;
     
     
-    f1=figure(12)
+    f1=figure(13)
     subplot(2,5,iii)
     y=out.amp_n_bins(iii,:);
     x=out.bins(1:end-2);
@@ -174,14 +195,14 @@ for iii=1:10
     %     arc.value(iii,4,1)=max(d1)*100;
     arc.label={'mean effect';'effect range';'supressive effect'};
     clear d1
-    %%%%------
+    
     
 end
 
 
 for ii=1:size(arc.value,2)
     
-    f1=figure(13)
+    f1=figure(14)
     subplot(1,size(arc.value,2),ii)
     
     dum=find(~isnan((arc.value(:,ii))));
@@ -212,7 +233,9 @@ for ii=1:size(arc.value,2)
     
 end
 
-%%% PLS vs NS
+%% PLS vs NS
+
+figure(15)
 yu=find(~isnan(out.pls3(:,1)));
 for o=1:length(yu)
     subplot(1,5,o)

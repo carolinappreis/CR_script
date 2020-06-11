@@ -5,11 +5,12 @@ load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_trials.mat'
 
 main=[1 1 3 1 3 3 3 3 1 1];
 ns_mat=[[1 2 3]; [1 2 3]; [3 2 1]; [1 2 3];[3 2 1]; [3 2 1]; [3 2 1]; [3 2 1]; [1 2 3]; [1 2 3]];
+idx_ns=cell(10,1);
 
-for iii = 10
+for iii =1:10
 %     1:length(cohort)
     %%% Baseline
-    clearvars -except iii cohort main method nostim tt1_all ns_mat pxx_z_zpad clust_trials clust_win ns
+    clearvars -except iii cohort main method nostim tt1_all ns_mat pxx_z_zpad clust_trials clust_win ns idx_ns
     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(cohort(iii)),'_baseline.mat'))
     %    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(cohort(iii)),'_baseline.mat'))
     rng('default') % set random seed for consistency
@@ -103,31 +104,27 @@ for iii = 10
     
     
     if length(clust_trials{iii,1})==5e4
-        cr=(ztremor(main(iii),handup))';  
+         cr1=(ztremor(main(iii),handup))';
+          cr=handup';
     else
-%         dum1=idx_cseg(clust_trials{iii,1},:)';
-% 
-%         dum2=for_cluster(clust_trials{iii,1},:)';
-hh=find(C_NS{iii,1}==2);
-
-        dum1=idx_cseg(hh,:)';
-        dum2=for_cluster(hh,:)';
-        
-%         dum1=idx_cseg';
-%         dum2=for_cluster';
+        dum1=idx_cseg(clust_trials{iii,1},:)';
+        dum2=for_cluster(clust_trials{iii,1},:)';
         
         indi=dum1(:);
         val=dum2(:);
         
-        [indi_c2, ia, ic] = unique(indi,'stable');
-        val_c2=val(ia,1);
+        [indi_c, ia, ic] = unique(indi,'stable');
+         cr1=val(ia,1);
+        cr=sort(indi_c,'ascend');
     end
-    
 
     
 %     [Pxx_ns,F]=pwelch(cr,[],[],2*samplerate,samplerate);
 % 
 %     pxx_z_zpad(iii,:)=Pxx_ns;
+
+idx_ns{iii,1}=cr;
+ns{iii,1}=cr1;
     
-    clearvars -except cohort iii nostim tt1_all main method ns_mat pxx_z_zpad clust_trials clust_win ns
+    clearvars -except cohort iii nostim tt1_all main method ns_mat pxx_z_zpad clust_trials clust_win ns idx_ns
 end

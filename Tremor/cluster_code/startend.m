@@ -14,7 +14,7 @@ ending{iii,co}=round(hd{iii,:});
 % when patient's hand is up
 handup = [];
 for i = 1:length(start{iii,co})
-    handup = [handup start{iii,co}:ending{iii,co}]; %#ok<*AGROW>
+    handup = [handup start{iii,co}(i):ending{iii,co}(i)]; %#ok<*AGROW>
 end
 clear i
 handup = sort(handup,'ascend');

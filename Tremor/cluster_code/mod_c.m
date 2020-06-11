@@ -10,28 +10,32 @@ zenv=s.zenv{iii,co};
 
 if co==1
     %%% tremor properties hist- frequency and amplitude
-    
-    ns_amp=envelope(m_ax,h_up{iii,co});
-    ns_freq=freqi(m_ax,h_up{iii,co});
+    load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/ns_seg_pxx.mat','idx_ns')
+    ns_amp=envelope(m_ax,idx_ns{iii,co});
+    ns_freq=freqi(m_ax,idx_ns{iii,co});
     %     [min(ns_freq) max(ns_freq)];
-    dum2=[];
     bins=2:0.5:9;
     for i=1:length(bins)
         if i+1<length(bins)
             dum=find(ns_freq>bins(i) & ns_freq<=bins(i+1));
-            dum2=[dum2 ; bins(i).* ones(length(dum),1)];
             if ~isempty (dum)
-                m_n_amp(1,i)=nanmedian(ns_amp(dum)./nanmedian(ns_amp));
+                m_n_amp(1,i)=nanmedian(ns_amp(dum));
             else
                 m_n_amp(1,i)=NaN;
             end
+            clear dum
         end
     end
-    
-    out.amp_n_bins(iii,:)=m_n_amp;
+
+    out.amp_n_bins(iii,:)=m_n_amp./max(m_n_amp);
     out.bins=bins;
     
-    %%%% median power ns
+    figure(30)
+    subplot(2,5,iii)
+    plot(ns_amp)  
+    
+    %%%% median power ns --- because it used to be compared with PLS no
+    %%%% need for clustering
     st=out.sns{iii,co}; et=out.ens{iii,co};
     sig=[2 4 5 7 10];
     if ismember(iii,sig)
@@ -55,9 +59,9 @@ if co==1
     %%% baseline 50000 - taken from code ttrials
     rep = 10;
     for ax=1:3
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/NS_all','seg_bl')
-        baseline3=seg_bl(iii,ax,(clust.idx{iii,co}));
-        dum = baseline3(randi(length(baseline3), 1e6, rep));
+        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/NS_all','change_bl')
+        bb=change_bl(iii,ax,(clust.idx{iii,co}));
+        dum = bb(randi(length(bb), 1e6, rep));
         out.change_c{iii,co}(ax,:)=nanmedian(dum,2); clear dum
         clear dum dum2 baseline3
     end
@@ -208,5 +212,4 @@ else
         end
     end
 end
-
 
