@@ -37,7 +37,7 @@ end
 
 
 close all
-f1=figure(11);
+f1=figure(16);
 subplot(1,3,1)
 i=[];
 for i=1:3
@@ -140,7 +140,7 @@ end
 [p,stats.freq_ns_pls]=ttest(fASNS(1,:),fASNS(2,:))
 
 
-f1=figure(12);
+f1=figure(17);
 subplot(1,3,1)
 for i=1:2
     dr=squeeze(sASNS(i,:,:));

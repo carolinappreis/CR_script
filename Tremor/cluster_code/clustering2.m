@@ -1,18 +1,18 @@
 
 function [clust,out]=clustering2(out,iii,clust,start,ending,yy)
 
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/clustering_xc.mat','x_all')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/aux_out.mat','x_all')
 
 %%%----- cluster analysis
 all1=x_all{iii,1};
 runs{1,1}=1:5e4;
 runs{1,2}=5e4+1:size(all1,1);
-
+k=2;
 
 Z = linkage(all1,'ward');
-c = cluster(Z, 'Maxclust', 2);
+c = cluster(Z, 'Maxclust', k);
 
-for i=1:2
+for i=1:k
     clust.C{iii,i}=c(runs{1,i});
     clust.count{iii,1}(:,i)=[numel(find(clust.C{iii,i}==1)); numel(find(clust.C{iii,i}==2))];
     clust.percent{iii,1}(:,i)=[numel(find(clust.C{iii,i}==1))./length(runs{1,i})*100; numel(find(clust.C{iii,i}==2))./length(runs{1,i})*100];
@@ -25,8 +25,8 @@ for i=1:2
 end
 
 
-for h=1:size(clust.C,2)
-    for i=1:2
+for h=1:size(clust.C,2) %% baseline vs. random stim
+    for i=1:k  %% cluster 1 vs. cluster 2
         clus=find(clust.C{iii,h}==i);
         clust.mslh(iii,h,i)=mean(p{h,1}(clus)); clear clus
     end
@@ -34,16 +34,16 @@ end
 
 %%% ----- decision tree for which cluster vs non-cluster
 
-mr=[clust.count{iii,1}(1,2) clust.count{iii,1}(2,2)];
-if mr(1)~=mr(2)
-    clust.win(iii,1)=find(mr==(max(mr)));
+rm=[clust.count{iii,1}(1,2) clust.count{iii,1}(2,2)];
+if rm(1)~=rm(2)
+    clust.win(iii,1)=find(rm==(max(rm)));
 else
-    pr=[clust.mslh(iii,2,1)  clust.mslh(iii,2,2)];
-    clust.win(iii,1)=find(pr==(max(pr)));
+    bs=[clust.count{iii,1}(1,1) clust.count{iii,1}(2,1)];
+    clust.win(iii,1)=find(bs==(max(bs)));
 end
 
 
-if clust.mslh(iii,1,clust.win(iii,1))>0.75
+if clust.mslh(iii,1,clust.win(iii,1))>0.75 && clust.mslh(iii,2,clust.win(iii,1))>0.75 
     clust.win(iii,1)=clust.win(iii,1);
     
     clust.idx{iii,1}=find(clust.C{iii,1}==clust.win(iii,1));
@@ -57,7 +57,7 @@ else
 end
 
 
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/NS_all','bs_end','bs_begin')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/aux_out.mat','bs_end','bs_begin')
 
 co=1;
 out.start_c{iii,co}=bs_begin(iii,clust.idx{iii,co});
@@ -77,23 +77,21 @@ out.yy{iii,co}=yy{iii,co};
 
 
 
+figure(5);
+subplot(2,5,iii)
+bar(clust.percent{iii,1},'EdgeColor','none')
+box('off')
+legend({'NS','RS'},'Location','northwest')
+legend('boxoff')
+ylabel('percentage of trials')
+if clust.win(iii)==1
+    xticklabels({'cluster1*','cluster2'})
+elseif clust.win(iii)==2
+    xticklabels({'cluster1','cluster2*'})
 
-
-% figure(5);
-% subplot(2,5,iii)
-% bar(clust.percent{iii,1},'EdgeColor','none')
-% box('off')
-% legend({'NS','RS'},'Location','northwest')
-% legend('boxoff')
-% ylabel('percentage of trials')
-% if clust.win(iii)==1
-%     xticklabels({'cluster1*','cluster2'})
-% elseif clust.win(iii)==2
-%     xticklabels({'cluster1','cluster2*'})
-%
-% else
-%     xticklabels({'cluster1','cluster2'})
-% end
+else
+    xticklabels({'cluster1','cluster2'})
+end
 
 
 % if ~isnan(clust.mslh(iii,clust.win(iii))) & clust.mslh(iii,clust.win(iii))<0.5

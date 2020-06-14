@@ -38,8 +38,8 @@ for iii=1:10
     if ~isnan(phase)
         plot(time(phase),y2(phase),'.','Color',color_b1(1,:),'MarkerSize',10)
     end
-    %     yline(prctile(nostim,99.7917),'k--','LineWidth',1)
-    %     yline(prctile(nostim,0.2083),'k--','LineWidth',1)
+    yline(prctile(nostim,99.7917),'k--','LineWidth',1)
+    yline(prctile(nostim,0.2083),'k--','LineWidth',1)
     ylim([-1 1])
     xlim([-5 335])
     xticks([0:30:330])
@@ -72,8 +72,8 @@ for iii=1:10
         else
             pha{i,1}=NaN;
         end
-        %         dum=datas;
-        dum=smo_m;
+        dum=datas;
+        %         dum=smo_m;
         %         yline(0,'LineWidth',0.5,'Color', [0.5 0.5 0.5])
         hold on
         stem(1:12,dum(i,:),'.', 'LineWidth',2,'MarkerSize',10,'Color',pp(i,:))
@@ -103,47 +103,49 @@ for iii=1:10
     clear i
     
     %% arc_smothed all axes
-    
-    
-        t_sig=[];
-        degs=[0:30:330];
-        for ax=1:3
-            raw_s=squeeze(median(out.change_c{iii,2}{ax,1}));
-            raw_ns=squeeze(out.change_c{iii,1}(ax,:));
-            sig=find(raw_s > prctile(raw_ns, 99.7917) | raw_s< prctile(raw_ns, 0.2083));
-            t_sig=[t_sig degs(sig)];
-            
-            raw_s1=repmat(raw_s,1,3);
-            for i=size(raw_s,2)+1:size(raw_s,2)*2
-                smo_s(1,i-12)=sum(raw_s1(1,(i-1:i+1)))./length(raw_s1(1,(i-1:i+1)));
-            end
-            
-            %choice=smo_s;
-            choice=raw_s;
-            
-            figure(11);
-            subplot(2,5,iii)
-            plot(1:12,choice,'Color',color_b1(ax,:),'LineWidth',1.5)
-            hold on
-            if ~isempty(sig)
-                plot(sig,choice(1,sig),'*','MarkerSize',5,'Color','r')
-            end
-            xticks([1:12])
-            xticklabels([0:30:330])
-            %         ylim([-1.5 1.5])
-            ylim([-1 1])
-            ylabel('Change in tremor severity')
-            xlabel('Stimulation phase (degrees)')
-            set(gca,'XTickLabelRotation',45)
-            box('off')
-            clear sig raw_s raw_ns smo_s
-        end
-        tall_sig{iii,1}=deg2rad(t_sig);
+  
+ for iii=1:10
+     t_sig=[];
+    degs=[0:30:330];
+    for ax=1:3
+        raw_s=squeeze(median(out.change_c{iii,2}{ax,1}));
+        raw_ns=squeeze(out.change_c{iii,1}(ax,:));
+        sig=find(raw_s > prctile(raw_ns, 99.7917) | raw_s< prctile(raw_ns, 0.2083));
+        t_sig=[t_sig degs(sig)];
         
-    for iii=1:10    
-        f1=figure(12)
+        raw_s1=repmat(raw_s,1,3);
+        for i=size(raw_s,2)+1:size(raw_s,2)*2
+            smo_s(1,i-12)=sum(raw_s1(1,(i-1:i+1)))./length(raw_s1(1,(i-1:i+1)));
+        end
+        
+        %choice=smo_s;
+        choice=raw_s;
+        
+        figure(11);
         subplot(2,5,iii)
-        polarhistogram(tall_sig{iii,1}',20,'FaceColor','red','FaceAlpha',.8,'EdgeColor','none')
+        plot(1:12,choice,'Color',color_b1(ax,:),'LineWidth',1.5)
+        hold on
+        if ~isempty(sig)
+            plot(sig,choice(1,sig),'*','MarkerSize',5,'Color','r')
+        end
+        xticks([1:12])
+        xticklabels([0:30:330])
+        %         ylim([-1.5 1.5])
+        ylim([-1.5 1.5])
+        ylabel('Change in tremor severity')
+        xlabel('Stimulation phase (degrees)')
+        set(gca,'XTickLabelRotation',45)
+        box('off')
+        clear sig raw_s raw_ns smo_s
+    end
+    tall_sig{iii,1}=t_sig;
+    
+    t_s=tall_sig(~(cellfun('isempty',tall_sig)));
+    
+    f1=figure(12) %%% error - not plotting first subplot correctly
+    for k=1:size(t_s,1)
+        subplot(1,size(t_s,1),k)
+        polarhistogram(deg2rad(t_s{k,1}),30,'FaceColor','red','FaceAlpha',.8,'EdgeColor','none')
         ax=gca;
         ax.RLim=[0 3];
         ax.RTick=[0 1 2 3];
@@ -151,12 +153,13 @@ for iii=1:10
         ax.RGrid='off'
         ax.GridAlpha = 0.3;
         ax.Box = 'off';
-        
+        clear x
     end
+end
+ 
     
     
     %% gaussian fit to tremor properties & correlation with arc features
-    
     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','stone');
     cl=stone;
     
@@ -249,6 +252,20 @@ for o=1:length(yu)
     xtickangle(45)
 end
 
+figure(16)
+plot(out.ns3(yu,:)','o','Color',stone,'MarkerSize',5)
+hold on
+plot(out.pls3(yu,:)','o','Color',blushred,'MarkerSize',5)
+plot(median(out.ns3(yu,:)),'.-','Color',stone,'LineWidth',2,'MarkerSize',15)
+plot(median(out.pls3(yu,:)),'.-','Color',blushred,'LineWidth',2,'MarkerSize',15)
+xlim([0.5 3.5])
+xticks([1 2 3])
+box('off')
+ylabel({'Tremor severity';'(zscore)'})
+xticklabels({'start','middle','end'})
+xtickangle(45)
+set(gca,'FontSize',12)
 
+[f,h]=ttest(out.ns3(yu,:),out.pls3(yu,:))
 
 end

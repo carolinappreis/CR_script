@@ -9,8 +9,29 @@ phase=s.phase{iii,co};
 zenv=s.zenv{iii,co};
 
 if co==1
+    load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/aux_out.mat','bs_end','bs_begin','amp_bbl','change_bl')
+    
+    
     %%% tremor properties hist- frequency and amplitude
-    load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/ns_seg_pxx.mat','idx_ns')
+    if ~isnan(clust.win(iii,1))
+        idx_ns{iii,1}=h_up{iii,co};
+        out.ns{iii,1}=z_sig(m_ax,h_up{iii,co});
+        
+    else
+        st= out.start_c{iii,co};
+        ed= out.ending_c{iii,co};
+        for j=1:length(st)
+            idx_cseg(:,j)=st(j):ed(j);
+            val_cluster(:,j)=z_sig(m_ax,st(j):ed(j));
+        end
+        indi=idx_cseg(:);
+        val=val_cluster(:);
+        
+        [indi_c, ia] = unique(indi);
+        idx_ns{iii,1}=indi_c;
+        out.ns{iii,1}=val(ia,1);
+    end
+    
     ns_amp=envelope(m_ax,idx_ns{iii,co});
     ns_freq=freqi(m_ax,idx_ns{iii,co});
     %     [min(ns_freq) max(ns_freq)];
@@ -26,13 +47,40 @@ if co==1
             clear dum
         end
     end
-
+    
     out.amp_n_bins(iii,:)=m_n_amp./max(m_n_amp);
     out.bins=bins;
     
-    figure(30)
-    subplot(2,5,iii)
-    plot(ns_amp)  
+    %%% baseline 50000 - taken from aux_master.m
+    
+    rep = 10;
+    for ax=1:3
+        bb(ax,:)=change_bl(iii,ax,(clust.idx{iii,co}));
+        ba(ax,:)=amp_bbl(iii,(clust.idx{iii,co}));
+        dum = bb(randi(length(bb), 1e6, rep));
+        out.change_c{iii,co}(ax,:)=nanmedian(dum,2); clear dum
+        clear dum dum2 baseline3
+    end
+    
+    
+    %%%baseline median split
+    
+    ns_a=NaN(2,1e6);
+    
+    seg=bb(m_ax,:);
+    ba1=ba(m_ax,:);
+    
+    a_1=seg(1,find(ba1<=median(ba1)));
+    a_2=seg(1,find(ba1>median(ba1)));
+    
+    rep = 10;
+    dum1 = a_1(randi(length(a_1), 1e6, rep));
+    dum2 = a_2(randi(length(a_2), 1e6, rep));
+    ns_a(1,:) = (nanmedian(dum1,2))';
+    ns_a(2,:) = (nanmedian(dum2,2))';
+    clear dum1 dum2
+    
+    out.ns_ms{iii,1}=ns_a;
     
     %%%% median power ns --- because it used to be compared with PLS no
     %%%% need for clustering
@@ -55,49 +103,6 @@ if co==1
         out.ns3(iii,:)=NaN(1,3);
         out.ns_hu{iii,1}=[];
     end
-    
-    %%% baseline 50000 - taken from code ttrials
-    rep = 10;
-    for ax=1:3
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/NS_all','change_bl')
-        bb=change_bl(iii,ax,(clust.idx{iii,co}));
-        dum = bb(randi(length(bb), 1e6, rep));
-        out.change_c{iii,co}(ax,:)=nanmedian(dum,2); clear dum
-        clear dum dum2 baseline3
-    end
-    
-    %             rep = 10;
-    %         baseline3_temp = baseline3(ns_mat(iii,ax),:);
-    %         dum = baseline3_temp(randi(length(baseline3_temp), 1e6, rep));
-    %         dum2 = dum;
-    %         p = nanmedian(dum2,2);
-    %
-    %         nostim(iii,ax,:) = p;
-    %
-    %         clear dum dum2 p baseline3_temp
-    
-    
-    
-    % %     rng('default') % set random seed for consistency
-    % %     envelope=s.env{iii,co};
-    % %
-    % %
-    % %     st=start{iii,co}(clust.idx{iii,co});
-    % %
-    % %
-    % %     baseline3 = NaN(3,size(st,2));
-    % %     for j = 1:size(st,2)
-    % %         begin3=st(j);
-    % %         end3=floor(begin3+5*samplerate);
-    % %         for ax = 1:3
-    % %             baseline3(ax,j) = (mean(envelope(ax,end3-1000:end3))-mean(envelope(ax, begin3-1000:begin3)))./mean(envelope(ax, begin3-1000:begin3));
-    % %         end
-    % %     end
-    % %     rep=10;
-    % %     for ax=1:size(s.raw,1)
-    % %         dum = baseline3(randi(length(baseline3), 1e6, rep));
-    % %         out.change{iii,co}(ax,:)=nanmedian(dum,2); clear dum
-    % %     end
     
 else
     

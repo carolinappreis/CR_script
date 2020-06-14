@@ -15,11 +15,11 @@ for iii=1:10
     mdp3=fitlm(x,y,'poly3')
     mdp4=fitlm(x,y,'poly4')
     mdk= fitlm(x,y,'constant');
-    plot(mdp1.Fitted,'k','LineWidth',1.5)
+    plot(mdp1.Fitted,'y','LineWidth',1.5)
     plot(mdp2.Fitted,'b','LineWidth',1.5)
     plot(mdp3.Fitted,'r','LineWidth',1.5)
     plot(mdp4.Fitted,'g','LineWidth',1.5)
-    %plot(mdk.Fitted,'k','LineWidth',1.5)
+    plot(mdk.Fitted,'k','LineWidth',1.5)
     xticks([1:12])
     xticklabels([0:30:330])
     a = get(gca,'XTickLabel');
@@ -33,9 +33,9 @@ for iii=1:10
     set(gca,'FontName','Arial','XTickLabelRotation',50)
     
     
-    rsqr(iii,:)=[ mdp1.Rsquared.Adjusted mdp2.Rsquared.Adjusted mdp3.Rsquared.Adjusted  mdp4.Rsquared.Adjusted ];
+    rsqr(iii,:)=[ mdk.Rsquared.Adjusted mdp1.Rsquared.Adjusted mdp2.Rsquared.Adjusted mdp3.Rsquared.Adjusted  mdp4.Rsquared.Adjusted ];
     
-    F_stat=[ coefTest(mdp1) coefTest(mdp2) coefTest(mdp3)  coefTest(mdp4)];
+    F_stat=[ coefTest(mdk) coefTest(mdp1) coefTest(mdp2) coefTest(mdp3)  coefTest(mdp4)];
     [r_val r_idx]=sort(rsqr(iii,:),'descend');
     out.win_m(iii,:)=[r_idx(1) r_val(1) F_stat(r_idx(1))];
 %     

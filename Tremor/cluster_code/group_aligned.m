@@ -51,7 +51,7 @@ for cr=1:2
           arc{cr,1}=s_al;
     end
    
-    f1=figure(12)
+    f1=figure(18)
     subplot(2,1,cr)
     % main peak at 180 deg
     dr=[s_al(:,8:12) s_al(:,1:7)];
