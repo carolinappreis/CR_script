@@ -7,6 +7,7 @@ freqi=s.freq{iii,co};
 phase=s.phase{iii,co};
 % zenv=s.zenv{iii,co}.*(10*9.81/0.5);
 zenv=s.zenv{iii,co};
+env_acc=s.env_acc{iii,co};
 
 if co==1
     load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/aux_out.mat','bs_end','bs_begin','amp_bbl','change_bl')
@@ -115,6 +116,7 @@ else
         for ax=1:3
             tremor_or2=NaN(1,length(st));
             tremor_or3=NaN(1,length(st));
+            tremor_or4=NaN(1,length(st));
             tremor_f2=NaN(20,5001);
             tremor_f22=NaN(20,5001);
             z_seg1=NaN(length(st),5000);
@@ -123,6 +125,7 @@ else
                 if (~isnan(st(i)))
                     tremor_or2(1,i)=(mean(envelope(ax,et(i)-1000:et(i)))-mean(envelope(ax,st(i)-1000:st(i))))/mean(envelope(ax,st(i)-1000:st(i)));
                     tremor_or3(1,i)=mean(envelope(ax,st(i)-1000:st(i)));
+                    tremor_or4(1,i)=mean(env_acc(ax,et(i)-1000:et(i)));
                     
                     tremor_f2(i,1:(et(i)-st(i)+1))=unwrap(phase(ax,st(i):et(i)));
                     tremor_f22(i,1:(et(i)-st(i)+1))=(phase(ax,st(i))+(0:1:(et(i)-st(i)))*2*pi/(1000./mean(freqi(ax,st(i)-1000:st(i)))));
@@ -132,6 +135,7 @@ else
                 else
                     tremor_or2(1,i)=NaN;
                     tremor_or3(1,i)=NaN;
+                    tremor_or4(1,i)=NaN;
                     
                     tremor_f22(i,1:5001)=NaN;
                     tremor_f2(i,1:5001)=NaN;
@@ -164,6 +168,7 @@ else
             end
             
             tt=NaN(20,12);
+            ee=NaN(20,12);
             
             tt1=NaN(20,12);
             amp1=NaN(10,12);
@@ -173,6 +178,8 @@ else
             
             for i=1:12
                 tt(1:sum(yyt==i),i)=tremor_or2(1,find(yyt==i));
+                ee(1:sum(yyt==i),i)=tremor_or4(1,find(yyt==i));
+
                 tt(tt==0)=NaN;
                 ttf(1:sum(yyt==i),i)=tremor_k(find(yyt==i));
                 
@@ -187,6 +194,7 @@ else
             out.arc1{iii,co}{ax,1}=tt1;
             out.arc2{iii,co}{ax,1}=tt2;
             out.change_c{iii,co}{ax,1}=tt;
+            out.end_env{iii,co}{ax,1}=ee;
             out.fchange{iii,co}{ax,1}=ttf;
             
             clear tremor_or2 tremor_or3 tt tt1 tt2 ttf tremor_f2 tremor_f22

@@ -1,7 +1,7 @@
 
 function [clust,out]=clustering2(out,iii,clust,start,ending,yy)
 
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/aux_out.mat','x_all')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/aux_out.mat','x_all','pc1_exp')
 
 %%%----- cluster analysis
 all1=x_all{iii,1};
@@ -23,7 +23,7 @@ for i=1:k
     [l h]=silhouette(all1(runs{1,i},:),clust.C{iii,i});
     p{i,1}=l;clear l h
 end
-
+out.bsilh{iii,1}=p{1,1};
 
 for h=1:size(clust.C,2) %% baseline vs. random stim
     for i=1:k  %% cluster 1 vs. cluster 2
@@ -45,15 +45,15 @@ end
 
 if clust.mslh(iii,1,clust.win(iii,1))>0.75 && clust.mslh(iii,2,clust.win(iii,1))>0.75 
     clust.win(iii,1)=clust.win(iii,1);
-    
-    clust.idx{iii,1}=find(clust.C{iii,1}==clust.win(iii,1));
-    clust.idx{iii,2}=find(clust.C{iii,2}==clust.win(iii,1));
-    
+    for b=1:2
+    clust.idx{iii,b}=find(clust.C{iii,b}==clust.win(iii,1));
+    end
 else
     clust.win(iii,1)=NaN;
     
-    clust.idx{iii,1}=1:length(clust.C{iii,1});
-    clust.idx{iii,2}=1:length(clust.C{iii,2});
+    for b=1:2
+    clust.idx{iii,b}=1:length(clust.C{iii,b});
+    end
 end
 
 

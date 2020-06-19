@@ -1,12 +1,12 @@
 function [r,p]=plots_c(out)
+m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
+color_b1=[blushred; aegean; stone];
+
+
+%%  plot arc's main axis with significant threshold\
+
 for iii=1:10
-    m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
-    
-    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
-    color_b1=[blushred; aegean; stone];
-    
-    
-    %%  plot arc's main axis with significant threshold
     %%% for type=1:2
     type=1;
     feature={'out.change_c';'out.changef'};
@@ -48,16 +48,19 @@ for iii=1:10
     xlabel({'Stimulation phase (degrees)'})
     set(gca,'FontSize',9)
     set(gca,'FontName','Arial','XTickLabelRotation',45)
-    
-    
-    
-    %% plot ampsplit-arc main axis no thresholds
-    
-    load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/NS_all.mat','ns_ba_split');
-    
+end
+
+
+%% plot median split-arc main axis no thresholds
+
+m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
+color_b1=[blushred; aegean; stone];
+
+for iii=1:10
     figure(10)
     subplot(2,5,iii)
-    pp=[azure;sapphire];
+    pp=[sapphire;azure];
     
     y=[];clear i
     for i=1:2
@@ -66,7 +69,7 @@ for iii=1:10
         for ti=size(datas,2)+1:size(datas,2)*2
             smo_m(i,ti-12)=sum(raw(i,(ti-1:ti+1)))./length(raw(i,(ti-1:ti+1)));
         end
-        nsdatas(i,:)=squeeze(eval(['ns_ba_split(' num2str(iii) ',' num2str(i) ',:)']))';
+        nsdatas(i,:)=squeeze(eval(['out.ns_ms{' num2str(iii) ',1}(' num2str(i) ',:)']))';
         if ~isempty(find(datas(i,:) > prctile(nsdatas(i,:), 99.7917) | datas(i,:)< prctile(nsdatas(i,:), 0.2083)))
             pha{i,1}=find(datas(i,:) > prctile(nsdatas(i,:), 99.7917) | datas(i,:)< prctile(nsdatas(i,:), 0.2083));
         else
@@ -78,8 +81,8 @@ for iii=1:10
         hold on
         stem(1:12,dum(i,:),'.', 'LineWidth',2,'MarkerSize',10,'Color',pp(i,:))
         
-        %         yline(prctile(nsdatas(i,:),99.7917),'--','Color',pp(i,:))
-        %         yline(prctile(nsdatas(i,:),0.2083),'--','Color',pp(i,:))
+%                 yline(prctile(nsdatas(i,:),99.7917),'--','Color',pp(i,:))
+%                 yline(prctile(nsdatas(i,:),0.2083),'--','Color',pp(i,:))
         %         ll=round(max([abs(min(min(dum))) abs(max(max(dum)))]),1)+0.1;
         %         ylim([-ll ll]);
         xticks([1:12])
@@ -101,14 +104,20 @@ for iii=1:10
     set(gca,'FontName','Arial','XTickLabelRotation',45)
     
     clear i
-    
-    %% arc_smothed all axes
-  
- for iii=1:10
-     t_sig=[];
+end
+%% arcs/arc_smothed all axes
+
+m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
+color_b1=[blushred; aegean; stone];
+
+
+for iii=1:10
+    t_sig=[];
     degs=[0:30:330];
     for ax=1:3
         raw_s=squeeze(median(out.change_c{iii,2}{ax,1}));
+        enve=squeeze(median(out.end_env{iii,2}{ax,1}));
         raw_ns=squeeze(out.change_c{iii,1}(ax,:));
         sig=find(raw_s > prctile(raw_ns, 99.7917) | raw_s< prctile(raw_ns, 0.2083));
         t_sig=[t_sig degs(sig)];
@@ -120,7 +129,9 @@ for iii=1:10
         
         %choice=smo_s;
         choice=raw_s;
-        
+        a_arc(1,ax)=abs(sum(raw_s));
+        a_env(1,ax)=abs(sum(enve));
+        a_abs(1,ax)=mean(enve);
         figure(11);
         subplot(2,5,iii)
         plot(1:12,choice,'Color',color_b1(ax,:),'LineWidth',1.5)
@@ -139,6 +150,12 @@ for iii=1:10
         clear sig raw_s raw_ns smo_s
     end
     tall_sig{iii,1}=t_sig;
+    ax_mod(iii,:)=a_arc./sum(a_arc)*100;
+    amp_mod(iii,:)=a_env./sum(a_env)*100;
+    amp_abs(iii,:)=a_abs;
+    ax_abs(iii,:)=a_arc;
+    ax_max(iii,1)=find(ax_mod(iii,:)==(max(ax_mod(iii,:))));
+    m_max(iii,1)=find(amp_mod(iii,:)==(max(amp_mod(iii,:))));
     
     t_s=tall_sig(~(cellfun('isempty',tall_sig)));
     
@@ -156,18 +173,81 @@ for iii=1:10
         clear x
     end
 end
- 
+
+% figure(13)
+% subplot(2,2,1)
+% bar(ax_mod)
+% xlabel('patients')
+% ylabel('tremor change(%)')
+% legend('main axis','axis2','axis3')
+% ylim([0 100])
+% legend('boxoff')
+% box('off')
+% subplot(2,2,2)
+% bar([numel(find(ax_max==1)) numel(find(ax_max==2|ax_max==3))])
+% xticklabels({'main axis','other axes'})
+% set(gca,'FontName','Arial','XTickLabelRotation',45)
+% ylabel('patients')
+% ylim([0 10])
+% box('off')
+% subplot(2,2,3)
+% bar(amp_mod)
+% xlabel('patients')
+% ylabel('tremor severity(%)')
+% legend('main axis','axis2','axis3')
+% ylim([0 100])
+% legend('boxoff')
+% box('off')
+% subplot(2,2,4)
+% bar([numel(find(m_max==1)) numel(find(m_max==2|m_max==3))])
+% ylim([0 10])
+% xticklabels({'main axis','other axes'})
+% set(gca,'FontName','Arial','XTickLabelRotation',45)
+% ylabel('patients')
+% box('off')
+
+figure(13)
+subplot(2,2,1)
+bar(ax_abs)
+xlabel('patients')
+ylabel({'median change in';'tremor severity'})
+legend('main axis','axis2','axis3')
+legend('boxoff')
+box('off')
+subplot(2,2,2)
+bar([numel(find(ax_max==1)) numel(find(ax_max==2|ax_max==3))])
+xticklabels({'main axis','other axes'})
+set(gca,'FontName','Arial','XTickLabelRotation',45)
+ylabel('patients')
+ylim([0 10])
+box('off')
+subplot(2,2,3)
+bar(amp_abs)
+xlabel('patients')
+ylabel({'median tremor ';'severity (m/s^2'})
+legend('main axis','axis2','axis3')
+legend('boxoff')
+box('off')
+subplot(2,2,4)
+bar([numel(find(m_max==1)) numel(find(m_max==2|m_max==3))])
+ylim([0 10])
+xticklabels({'main axis','other axes'})
+set(gca,'FontName','Arial','XTickLabelRotation',45)
+ylabel('patients')
+box('off')
+
+
+%% gaussian fit to tremor properties & correlation with arc features
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','stone');
+cl=stone;
+for iii=1:10
     
-    
-    %% gaussian fit to tremor properties & correlation with arc features
-    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','stone');
-    cl=stone;
-    
-    
-    f1=figure(13)
+    f1=figure(14)
     subplot(2,5,iii)
     y=out.amp_n_bins(iii,:);
+    width(iii,:)=sum(~isnan(y));
     x=out.bins(1:end-2);
+    
     bar(x,y,'FaceColor',cl,'EdgeColor',cl)
     hold on
     [rsg,rsg_g,rsg_o]=gauss_fit2(x,y)
@@ -198,18 +278,16 @@ end
     %     arc.value(iii,4,1)=max(d1)*100;
     arc.label={'mean effect';'effect range';'supressive effect'};
     clear d1
-    
-    
 end
-
 
 for ii=1:size(arc.value,2)
     
-    f1=figure(14)
+    f1=figure(15)
     subplot(1,size(arc.value,2),ii)
     
     dum=find(~isnan((arc.value(:,ii))));
     x=cv(dum);
+%     x=width(dum);
     y=arc.value(dum,ii);
     
     [fitresult] = fit( x, y, 'poly1' );
@@ -238,34 +316,34 @@ end
 
 %% PLS vs NS
 
-figure(15)
-yu=find(~isnan(out.pls3(:,1)));
-for o=1:length(yu)
-    subplot(1,5,o)
-    plot(out.ns3(yu(o),:),'.-','Color',stone,'LineWidth',2,'MarkerSize',10)
-    hold on
-    plot(out.pls3(yu(o),:),'.-','Color',blushred,'LineWidth',2,'MarkerSize',10)
-    xlim([0.5 3.5])
-    box('off')
-    ylabel({'Tremor severity';'(zscore)'})
-    xticklabels({'start','middle','end'})
-    xtickangle(45)
+% % figure(16)
+% % yu=find(~isnan(out.pls3(:,1)));
+% % for o=1:length(yu)
+% %     subplot(1,5,o)
+% %     plot(out.ns3(yu(o),:),'.-','Color',stone,'LineWidth',2,'MarkerSize',10)
+% %     hold on
+% %     plot(out.pls3(yu(o),:),'.-','Color',blushred,'LineWidth',2,'MarkerSize',10)
+% %     xlim([0.5 3.5])
+% %     box('off')
+% %     ylabel({'Tremor severity';'(zscore)'})
+% %     xticklabels({'start','middle','end'})
+% %     xtickangle(45)
+% % end
+% % 
+% % figure(17)
+% % plot(out.ns3(yu,:)','o','Color',stone,'MarkerSize',5)
+% % hold on
+% % plot(out.pls3(yu,:)','o','Color',blushred,'MarkerSize',5)
+% % plot(median(out.ns3(yu,:)),'.-','Color',stone,'LineWidth',2,'MarkerSize',15)
+% % plot(median(out.pls3(yu,:)),'.-','Color',blushred,'LineWidth',2,'MarkerSize',15)
+% % xlim([0.5 3.5])
+% % xticks([1 2 3])
+% % box('off')
+% % ylabel({'Tremor severity';'(zscore)'})
+% % xticklabels({'start','middle','end'})
+% % xtickangle(45)
+% % set(gca,'FontSize',12)
+% % 
+% % [f,h]=ttest(out.ns3(yu,:),out.pls3(yu,:))
 end
 
-figure(16)
-plot(out.ns3(yu,:)','o','Color',stone,'MarkerSize',5)
-hold on
-plot(out.pls3(yu,:)','o','Color',blushred,'MarkerSize',5)
-plot(median(out.ns3(yu,:)),'.-','Color',stone,'LineWidth',2,'MarkerSize',15)
-plot(median(out.pls3(yu,:)),'.-','Color',blushred,'LineWidth',2,'MarkerSize',15)
-xlim([0.5 3.5])
-xticks([1 2 3])
-box('off')
-ylabel({'Tremor severity';'(zscore)'})
-xticklabels({'start','middle','end'})
-xtickangle(45)
-set(gca,'FontSize',12)
-
-[f,h]=ttest(out.ns3(yu,:),out.pls3(yu,:))
-
-end

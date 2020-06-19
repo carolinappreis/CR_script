@@ -5,7 +5,7 @@ clust=struct; out=struct; start=cell(10,3); ending=cell(10,3); yy=cell(10,3); h_
 rng('default')
 gen=(rng);
 %
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
+  load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
 for iii = 1:length(cohort)
     clearvars -except  cohort cond iii clust s start ending yy out gen h_up
     all=[];
@@ -21,19 +21,19 @@ for iii = 1:length(cohort)
         
         [s]=zfiltenv(d,bfilt,afilt,co,iii,s); clear afilt bfilt
         
-                if ~isnan(clust.win(iii,1))
-                    [p1]=cluster_intime(clust,s,iii,co,out);
-                end
+        if ~isnan(clust.win(iii,1))
+            [out]=cluster_intime(clust,s,iii,co,out);
+        end
         
         %  [start,ending,out,yy]=mod_nc(start,ending,co,samplerate,iii,s,yy,out,gen); %%%tremor amplitude change without clustering
     end
     
-%         [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
-%     
-%         for co=1:size(cond,1)
-%             [out]=mod_c(clust,out,co,iii,s,h_up);   %%%% tremor amplitude change with clustering
-%         end
-%     
+         [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
+    
+        for co=1:size(cond,1)
+            [out]=mod_c(clust,out,co,iii,s,h_up);   %%%% tremor amplitude change with clustering
+        end
+    
 end
 clearvars -except out clust
 
@@ -46,8 +46,5 @@ stats=struct;
 [stats]=pwelch3(out,stats);  % stat comparison between power and freq between amplification supression and no stim
 [stats]=group_aligned(out,stats);  % group ARC - stats
 % % [nc]=plots_nc(out); %plots ARCs without clustering ---- needs fx mod_nc
-
-
-
 
 

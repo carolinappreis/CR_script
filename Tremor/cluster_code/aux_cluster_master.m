@@ -17,7 +17,7 @@ main=[1 1 3 1 3 3 3 3 1 1];
 ns_mat=[[1 2 3]; [1 2 3]; [3 2 1]; [1 2 3];[3 2 1]; [3 2 1]; [3 2 1]; [3 2 1]; [1 2 3]; [1 2 3]];
 
 
-for iii = 1:10
+for iii = 2:10
     
     % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(cohort(iii)),'_RS.mat'))
     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(cohort(iii)),'_RS.mat'))
@@ -335,7 +335,7 @@ for iii = 1:10
     
     %
     x_all{iii,1}=[pc_trials_ns; pc_trials];
-    pc1_exp{iii,1}=[(explained_ns(:,1))' (explained_rs(:,1))'];
+    pc1_exp{iii,1}(1:3,:)=[(explained_ns(:,1:3))' (explained_rs(:,1:3))'];
     clearvars -except  cohort iii nostim tt1_all main ns_mat amp_bbl bs_begin bs_end  change_bl x_all pc1_exp
 end
 

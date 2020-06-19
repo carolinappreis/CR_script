@@ -22,9 +22,9 @@ function [fitobj,goodness,output] = gauss_fit2(x,y)
  
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
-opts.Upper = [Inf Inf  2.5];
-opts.Lower = [-Inf -Inf 0.5];
-opts.StartPoint = [max(y) nanmean(x) 2];
+opts.Upper = [Inf nanmean(x)+1.75  1];
+opts.Lower = [-Inf nanmean(x)-1.75 0.25];
+opts.StartPoint = [max(y) nanmean(x) 0.5];
  y=y';x=x';
  xData=x(find(~isnan(y))); yData=y(~isnan(y));
 % Fit model to data.

@@ -37,7 +37,7 @@ end
 
 
 close all
-f1=figure(16);
+f1=figure(18);
 subplot(1,3,1)
 i=[];
 for i=1:3
@@ -106,7 +106,7 @@ f1.OuterPosition= [5, 5, 30, 20];
 set(f1,'color','w');
 
 
-% %%%% PLS and NS
+%% PLS and NS
 
 
 clearvars -except out stats
@@ -140,7 +140,7 @@ end
 [p,stats.freq_ns_pls]=ttest(fASNS(1,:),fASNS(2,:))
 
 
-f1=figure(17);
+f1=figure(19);
 subplot(1,3,1)
 for i=1:2
     dr=squeeze(sASNS(i,:,:));
