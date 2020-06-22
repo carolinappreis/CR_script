@@ -5,7 +5,7 @@ color_b1=[blushred; aegean; stone];
 
 
 %%  plot arc's main axis with significant threshold\
-for iii=1:size(out.start_c,1)
+for iii=1:10
     %%% for type=1:2
     type=1;
     feature={'out.change_c';'out.changef'};
@@ -23,12 +23,7 @@ for iii=1:size(out.start_c,1)
     end
     
     figure(7+type)
-    if size(out.start_c,1)==4
-        subplot(1,4,iii)
-    else
-        subplot(2,5,iii)
-    end
-    
+    subplot(2,5,iii)
     y2=data;
     y1=prctile(dr,75);
     y3=prctile(dr,25);
@@ -42,8 +37,8 @@ for iii=1:size(out.start_c,1)
     if ~isnan(phase)
         plot(time(phase),y2(phase),'.','Color',color_b1(1,:),'MarkerSize',10)
     end
-    %     yline(prctile(nostim,99.7917),'k--','LineWidth',1)
-    %     yline(prctile(nostim,0.2083),'k--','LineWidth',1)
+%     yline(prctile(nostim,99.7917),'k--','LineWidth',1)
+%     yline(prctile(nostim,0.2083),'k--','LineWidth',1)
     ylim([-1 1])
     xlim([-5 335])
     xticks([0:30:330])
@@ -61,13 +56,9 @@ m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
 color_b1=[blushred; aegean; stone];
 
-for iii=1:size(out.start_c,1)
+for iii=1:10
     f1=figure(10)
-    if size(out.start_c,1)==4
-        subplot(1,4,iii)
-    else
-        subplot(2,5,iii)
-    end
+    subplot(2,5,iii)
     pp=[sapphire;azure];
     
     y=[];clear i
@@ -110,27 +101,27 @@ for iii=1:size(out.start_c,1)
     xlabel({'Stimulation phase (degrees)'})
     set(gca,'FontSize',12)
     set(gca,'FontName','Arial','XTickLabelRotation',45)
-    set(f1,'color','w');
+     set(f1,'color','w');
     
     clear i
 end
 
-f1=figure(31)
-b=bar(median(abs(modms)),'FaceColor','flat','FaceAlpha',.6,'EdgeColor','none','BarWidth',1)
-b.CData(1,:) = pp(1,:);
-b.CData(2,:) = pp(2,:);
-hold on
-plot(abs(modms)','k.')
-xticklabels({'low amp','high amp'})
-xlabel({'tremor state'})
-ylabel({'mean magnitude';'of modulation'})
-box('off')
-ylim([0 0.8 ])
-set(f1,'color','w');
-set(gca,'FontSize',12);
-ttest(abs(modms(:,1)),abs(modms(:,2)))
+    f1=figure(31)
+    b=bar(median(abs(modms)),'FaceColor','flat','FaceAlpha',.6,'EdgeColor','none','BarWidth',1)
+    b.CData(1,:) = pp(1,:);
+    b.CData(2,:) = pp(2,:);
+    hold on
+    plot(abs(modms)','k.')
+    xticklabels({'low amp','high amp'})
+    xlabel({'tremor state'})
+    ylabel({'mean magnitude';'of modulation'})
+    box('off')
+    ylim([0 0.8 ])
+    set(f1,'color','w');
+    set(gca,'FontSize',12);
+     ttest(abs(modms(:,1)),abs(modms(:,2)))
 %     ttest(modms(:,1),modms(:,2))
-
+    
 %     er = errorbar(1:2,median(modms),prctile(modms,5),prctile(modms,95));
 %     er.Color = [0 0 0];
 %     er.LineStyle = 'none';
@@ -142,7 +133,7 @@ load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aeg
 color_b1=[stone;ax2;ax3];
 
 
-for iii=1:size(out.start_c,1)
+for iii=1:10
     t_sig=[];
     degs=[0:30:330];
     for ax=1:3
@@ -163,13 +154,7 @@ for iii=1:size(out.start_c,1)
         a_env(1,ax)=abs(sum(enve));
         a_abs(1,ax)=mean(enve);
         f1=figure(11);
-        
-        if size(out.start_c,1)==4
-            subplot(1,4,iii)
-        else
-            subplot(2,5,iii)
-        end
-        
+        subplot(2,5,iii)
         plot(1:12,choice,'Color',color_b1(ax,:),'LineWidth',1.5)
         hold on
         %         if ~isempty(sig)
@@ -305,14 +290,10 @@ set(f1,'color','w');
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','stone');
 cl=stone;
 m_ax=1;
-for iii=1:size(out.start_c,1)10
+for iii=1:10
     
     f1=figure(14)
-    if size(out.start_c,1)==4
-    subplot(1,4,iii)
-    else
     subplot(2,5,iii)
-    end
     y=out.amp_n_bins(iii,:);
     width(iii,:)=sum(~isnan(y));
     x=out.bins(1:end-2);

@@ -4,9 +4,9 @@ load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aeg
 color_b1=[stone ; blushred];
 m_ax=1;
 
-for iii=1:10
-ref(iii,:)=nanmean(squeeze(out.change_c{iii,2}{1,m_ax}));
-ref_ns(iii,:)=squeeze(out.change_c{iii,1}(m_ax,:));
+for iii=1:size(out.start_c,1)
+    ref(iii,:)=nanmean(squeeze(out.change_c{iii,2}{m_ax,1}));
+    ref_ns(iii,:)=squeeze(out.change_c{iii,1}(m_ax,:));
 end
 
 cr1=mean(prctile(ref_ns,99.7917,2));
@@ -48,9 +48,8 @@ for cr=1:2
             check(ii,:)=[phase_peak(ii):size(s_al,2) 1:phase_peak(ii)-1];
             
         end
-          arc{cr,1}=s_al;
+        arc{cr,1}=s_al;
     end
-   
     f1=figure(19)
     subplot(2,1,cr)
     % main peak at 180 deg
@@ -69,8 +68,8 @@ for cr=1:2
     if ~isempty(h)
         plot(time(h),y2(h),'.','MarkerSize',14,'Color',color_b1(2,:))
     end
-        yline(cr2,'--')
-        yline(cr1,'--')
+            yline(cr2,'--')
+            yline(cr1,'--')
     xlim([1 12])
     xticks([ 3 6 9 12])
     xticklabels({'-90','0','90','180'})
@@ -80,21 +79,29 @@ for cr=1:2
     else
         xlabel({'Alignment to phase with max';'tremor supression'})
     end
+    ylim([-0.82 0.82])
+    set(f1,'color','w');
+
     
-    
-%     clearvars -except ref ref_ns id_a id_s res color_b1 f1 cr ref_nostim cr2 cr1 arc
+    %     clearvars -except ref ref_ns id_a id_s res color_b1 f1 cr ref_nostim cr2 cr1 arc
 end
+
 % kstest(arc1-dr1)==1
 
 dr1=prctile(ref_ns(id_a,:),95,2);
 dr2=prctile(ref_ns(id_s,:), 5,2);
 
-arc1=arc{1,1}(id_a,1);
-arc2=arc{2,1}(id_s,1);
-
-[stats.group_amp,h]=signrank(arc1,dr1);
-
-[stats.group_sup,h]=signrank(arc2,dr2);
+for g=1:size(arc{1,1},2)
+    arc1=arc{1,1}(id_a,g);
+    arc2=arc{2,1}(id_s,g);
+    [j,h]=signrank(arc1,dr1);
+    stats.group_amp(1,g)=j; 
+    stats.group_amp(2,g)=j<(0.05/12);clear j h
+    [j,h]=signrank(arc2,dr2);
+    stats.group_sup(1,g)=j;
+    stats.group_sup(2,g)=j<(0.05/12);
+    clear arc1 arc2 j h
+end
 
 end
 

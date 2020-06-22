@@ -1,8 +1,12 @@
 function[out]=polyfit(out)
-for iii=1:10
+for iii=1:size(out.start_c,1)
     m_ax=1;
-    figure(7)
+    f1=figure(7)
+    if size(out.start_c,1)==4
+    subplot(1,4,iii)
+    else
     subplot(2,5,iii)
+    end
     x = 1:12;
     y = squeeze(nanmedian(out.change_c{iii,2}{1,m_ax}));
     bar(x,y,'FaceColor',[0.5 0.5 0.5],'EdgeColor','none','FaceAlpha',0.5)
@@ -31,7 +35,8 @@ for iii=1:10
     ylabel({'Change in tremor severity'},'FontSize',12)
     xlabel({'Stimulation phase (degrees)'},'FontSize',12)
     set(gca,'FontName','Arial','XTickLabelRotation',50)
-    
+    set(f1,'color','w');
+
     
     rsqr(iii,:)=[ mdk.Rsquared.Adjusted mdp1.Rsquared.Adjusted mdp2.Rsquared.Adjusted mdp3.Rsquared.Adjusted  mdp4.Rsquared.Adjusted ];
     

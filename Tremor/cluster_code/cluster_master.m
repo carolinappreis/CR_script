@@ -8,7 +8,7 @@ gen=(rng);
   load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
 for iii = 1:length(cohort)
     clearvars -except  cohort cond iii clust s start ending yy out gen h_up
-    all=[];
+
     for co=1:size(cond,1)
         
         load(strcat('/Users/Carolina/OneDrive - Nexus365/PERI-STIM/DATA/P0',num2str(cohort(iii)),'_',num2str(cond{co,1}),'.mat'))
@@ -21,14 +21,14 @@ for iii = 1:length(cohort)
         
         [s]=zfiltenv(d,bfilt,afilt,co,iii,s); clear afilt bfilt
         
-        if ~isnan(clust.win(iii,1))
-            [out]=cluster_intime(clust,s,iii,co,out);
-        end
+%         if ~isnan(clust.win(iii,1))
+%             [out]=cluster_intime(clust,s,iii,co,out);
+%         end
         
         %  [start,ending,out,yy]=mod_nc(start,ending,co,samplerate,iii,s,yy,out,gen); %%%tremor amplitude change without clustering
     end
     
-         [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
+%          [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
     
         for co=1:size(cond,1)
             [out]=mod_c(clust,out,co,iii,s,h_up);   %%%% tremor amplitude change with clustering
