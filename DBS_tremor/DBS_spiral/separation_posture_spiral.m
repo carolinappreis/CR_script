@@ -34,17 +34,18 @@ for i=1:size(tremor3,1)
     t3(i,:)=filtfilt(m,n,tremor3(i,:));
 end
 
-%%%% plot to asjuhu NS_BE_P
-% subplot(3,1,1)
-% plot(tremor3(1,:))
-% subplot(3,1,2)
-% plot(t2(1,:))
-% subplot(3,1,3)
-% plot(t2(3,:))
+%% plot to asjuhu NS_BE_P NS_BE_S
+% % subplot(3,1,1)
+% % plot(tremor3(1,:))
+% % subplot(3,1,2)
+% % plot(t2(1,:))
+% % subplot(3,1,3)
+% % plot(t2(3,:))
 
 
 
-NS_BE_P %code with indicies for beggining end points of NS
+% NS_BE_P %code with indicies for beggining end points of NS
+NS_BE_S
 
 %%%check NS_BE_P
 close all
@@ -68,7 +69,7 @@ dum2=dum(:,2998011:end);
 SmrData.WvData=dum2;
 clearvars -except SmrData
 cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA')
-save ('P01_RS')
+% % % save ('P01_RS')
 
 
 

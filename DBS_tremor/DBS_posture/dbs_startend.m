@@ -166,6 +166,7 @@ else
     
     
 %     figure()
+%     time=1:length(data(4,:));
 %     plot(time,data(4,:))
 %     hold on
 %     plot(time(index),data(4,index),'r.')

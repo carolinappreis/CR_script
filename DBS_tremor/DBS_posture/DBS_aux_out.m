@@ -13,10 +13,8 @@ pc1_exp =cell(length(cohort),1);
 m_ax=NaN(1,length(cohort));
 ns_mat=NaN(length(cohort),3);
 rs_mat=NaN(length(cohort),3);
-
-
-% main=[1 1 3 1 3 3 3 3 1 1];
-% ns_mat=[[1 2 3]; [1 2 3]; [3 2 1]; [1 2 3];[3 2 1]; [3 2 1]; [3 2 1]; [3 2 1]; [1 2 3]; [1 2 3]];
+st_sp=cell(length(cohort),1); 
+et_sp=cell(length(cohort),1);
 
 
 for iii =1:length(cohort)
@@ -214,6 +212,11 @@ for iii =1:length(cohort)
     pstart{2,1}=floor((start2./samplerateold)*samplerate)+addon;
     pending{2,1}=floor((ending2./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
     
+    %%%% saving for cluster analysis of spirals
+    st_sp{iii,1}=pstart{2,1};
+    et_sp{iii,1}=pending{2,1};
+    
+    
     xx{1,1}=xx1;
     xx{2,1}=xx2;
     
@@ -236,9 +239,9 @@ for iii =1:length(cohort)
     
     a=hist(ma_c,1:3);
     m_ax(1,iii)=find(a==max(a));
-   if m_ax==1
+   if m_ax(1,iii)==1
        rs_mat(iii,:)=[1 2 3];
-   elseif m_ax==2
+   elseif m_ax(1,iii)==2
        rs_mat(iii,:)=[2 3 1];
    else
        rs_mat(iii,:)=[3 2 1];
@@ -325,7 +328,7 @@ for iii =1:length(cohort)
    
    if (m_ax(1,iii)==1 && f1==1 || m_ax(1,iii)==3 && f1==3)
        ns_mat(iii,:)=[1 2 3];
-   elseif m_ax(1,iii)==1 && f1==3
+   elseif (m_ax(1,iii)==1 && f1==3 || m_ax(1,iii)==3 && f1==1)
        ns_mat(iii,:)=[3 2 1];
    elseif m_ax(1,iii)==1 && f1==2
        ns_mat(iii,:)=[2 3 1];
@@ -404,7 +407,7 @@ for iii =1:length(cohort)
     %
     x_all{iii,1}=[pc_trials_ns; pc_trials];
     pc1_exp{iii,1}(1:3,:)=[(explained_ns(:,1:3))' (explained_rs(:,1:3))'];
-   clearvars -except  cohort iii nostim tt1_all main ns_mat amp_bbl bs_begin bs_end  change_bl x_all pc1_exp m_ax rs_mat
+   clearvars -except  cohort iii nostim tt1_all main ns_mat amp_bbl bs_begin bs_end  change_bl x_all pc1_exp m_ax rs_mat st_sp et_sp
 end
 
 clearvars -except tt1_all  amp_bbl bs_begin bs_end change_bl x_all pc1_exp m_ax ns_mat rs_mat

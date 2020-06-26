@@ -5,8 +5,9 @@ clust=struct; out=struct; start=cell(10,3); ending=cell(10,3); yy=cell(10,3); h_
 rng('default')
 gen=(rng);
 
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_cluster_out.mat');
 
-for iii = 1:length(cohort)
+for iii =  1:length(cohort)
     clearvars -except  cohort cond iii clust s start ending yy out gen h_up
     for co=1:2
 %         size(cond,1)
@@ -19,23 +20,23 @@ for iii = 1:length(cohort)
         
         [s]=dbs_zfiltenv(d,peak_ax,co,iii,s,samplerate);
         
-        %         if ~isnan(clust.win(iii,1))
-        %             [out]=cluster_intime(clust,s,iii,co,out);
-        %         end
-        
-        [start,ending,out,yy]=dbs_mod_nc(start,ending,co,samplerate,iii,s,yy,out); %%%tremor amplitude change without clustering
+%                 if ~isnan(clust.win(iii,1))
+%                     [out]=cluster_intime(clust,s,iii,co,out);
+%                 end
+%         
+%          [start,ending,out,yy]=dbs_mod_nc(start,ending,co,samplerate,iii,s,yy,out); %%%tremor amplitude change without clustering
     end
     
-% %  [clust,out]=dbs_clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
-% %     
-% %  for co=1:2
-% % %      size(cond,1)
-% %      [out]=mod_c(clust,out,co,iii,s,h_up,cohort);   %%%% tremor amplitude change with clustering
-% %  end
+ [clust,out]=dbs_clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
+    
+ for co=1:2
+%      size(cond,1)
+     [out]=mod_c(clust,out,co,iii,s,h_up,cohort);   %%%% tremor amplitude change with clustering
+ end
     
 end
- [nc]=dbs_plots_nc(out)
-%  clearvars -except out clust
+%   [nc]=dbs_plots_nc(out)
+  clearvars -except out clust
 
 % clear
 % load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_cluster_out.mat','out');

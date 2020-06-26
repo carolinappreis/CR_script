@@ -5,6 +5,8 @@ cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA')
 cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA')
 %_________________________________________________________________________%
 cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor/')
+cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor/DBS_posture')
+cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor/DBS_spiral')
 cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor/old_DBS')
 
 

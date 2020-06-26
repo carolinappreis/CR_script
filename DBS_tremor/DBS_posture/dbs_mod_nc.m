@@ -60,35 +60,21 @@ else %_______________________________________________________________________
     
     envelope=s.env{iii,co};
     filt_tremor=s.filt{iii,co};
+   
     
     for j = 1:length(start{iii,co})
-        yd=[sum(envelope(1,start{hh,1}(j):ending{hh,1}(j)));sum(envelope(2,start{hh,1}(j):ending{hh,1}(j)));sum(envelope(3,start{hh,1}(j):ending{hh,1}(j)))];
-        ma_c(j) = find(yd == max(yd)); clear yd
         seg_pc = [filt_tremor(1,start{iii,co}(j):ending{iii,co}(j)); filt_tremor(2,start{iii,co}(j):ending{iii,co}(j)) ;filt_tremor(3,start{iii,co}(j):ending{iii,co}(j))];
         [pc, score, latent, tsquare,explained] = pca(seg_pc');
         pc_trials(j, 1:3) = pc(1:3, 1);
     end
-    
-   f=histogram(ma_c);
-   f1=find(f.Values==(max(f.Values)));
-   close f
-   m_ax(1,iii)=f1;
-   if f1==1
-       ns_mat1(iii,:)=[1 2 3];
-   elseif f1==2
-       ns_mat1(iii,:)=[2 3 1];
-   else
-       ns_mat1(iii,:)=[3 2 1];
-   end
-    
-    
+       
     
 tremor_or2=NaN(length(start{iii,co}),1);
 
 for axx=1:3
     for i=1:length(start{iii,co})
         if (~isnan(start{iii,co}(i)))
-            tremor_or2(axx,i,1)=(mean(envelope(ns_mat(iii,axx),ending{iii,co}(i)-1000:ending{iii,co}(i)))-mean(envelope(ns_mat(iii,axx),start{iii,co}(i)-1000:start{iii,co}(i))))/mean(envelope(ns_mat(iii,axx),start{iii,co}(i)-1000:start{iii,co}(i)));
+            tremor_or2(axx,i,1)=(mean(envelope(axx,ending{iii,co}(i)-1000:ending{iii,co}(i)))-mean(envelope(axx,start{iii,co}(i)-1000:start{iii,co}(i))))/mean(envelope(axx,start{iii,co}(i)-1000:start{iii,co}(i)));
         else
             tremor_or2(axx,i,1)=NaN;
             tremor_pc(i,1)=NaN;

@@ -7,8 +7,8 @@ load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_a
 all1=x_all{iii,1};
 runs{1,1}=1:5e4;
 runs{1,2}=5e4+1:size(all1,1);
-k=2;
 
+k=2;
 Z = linkage(all1,'ward');
 c = cluster(Z, 'Maxclust', k);
 

@@ -22,7 +22,7 @@ for iii=1:size(out.start_c,1)
         phase=NaN;
     end
     
-    figure(7+type)
+    p1=figure(7+type)
     if size(out.start_c,1)==4
         subplot(1,4,iii)
     else
@@ -42,8 +42,8 @@ for iii=1:size(out.start_c,1)
     if ~isnan(phase)
         plot(time(phase),y2(phase),'.','Color',color_b1(1,:),'MarkerSize',10)
     end
-    %     yline(prctile(nostim,99.7917),'k--','LineWidth',1)
-    %     yline(prctile(nostim,0.2083),'k--','LineWidth',1)
+        yline(prctile(nostim,99.7917),'k--','LineWidth',1)
+        yline(prctile(nostim,0.2083),'k--','LineWidth',1)
     ylim([-1 1])
     xlim([-5 335])
     xticks([0:30:330])
@@ -52,6 +52,7 @@ for iii=1:size(out.start_c,1)
     xlabel({'Stimulation phase (degrees)'})
     set(gca,'FontSize',9)
     set(gca,'FontName','Arial','XTickLabelRotation',45)
+    set(p1,'color','w');
 end
 
 
@@ -320,7 +321,7 @@ for iii=1:size(out.start_c,1)10
     bar(x,y,'FaceColor',cl,'EdgeColor',cl)
     hold on
     [rsg,rsg_g,rsg_o]=gauss_fit2(x,y)
-    ylim([0 1.5])
+%     ylim([0 1.5])
     xticks([1:2:14])
     %     xticklabels({'2','3','4','5','6','7','8'});
     ylabel({'absolute amplitude \uV^2'})
