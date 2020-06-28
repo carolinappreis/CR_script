@@ -1,5 +1,5 @@
-function [v_new ,out] = split_vector_length(v, L, out, iii, co,o)
-n = floor(length(v) / L); % Number of segments
+function [v_new ,out,e_new] = split_vector_length(v, e, L, out, iii, co)
+n = floor(length(v)./ L); % Number of segments
 t=1:length(v);
 idx_st = NaN(n, 1);
 idx_st(1, 1) = 1;
@@ -16,10 +16,11 @@ end
 for i = 1:n
     v_new(i, :) = v(1, idx_st(i, 1) : idx_end(i, 1));
     t_new(i, :) = t(1, idx_st(i, 1) : idx_end(i, 1));
-%     figure(1)
-%     plot(t_new(i,:),v_new(i,:))
-%     hold on
-
+    e_new(i,:)= e(1,idx_st(i, 1) : idx_end(i, 1));
+    %     figure(1)
+    %     plot(t_new(i,:),v_new(i,:))
+    %     hold on
+    
 end
 
 

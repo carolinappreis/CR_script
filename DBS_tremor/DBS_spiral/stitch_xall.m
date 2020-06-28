@@ -5,7 +5,7 @@ lf_data=out.l_filt{iii,co};
 st=out.b_trials{iii,co};
 et=out.e_trials{iii,co};
 
-% [f]=plot3d(lf_data,st,et);
+[f]=plot3d(lf_data,st,et);
 
 x_signal=f_data;
 

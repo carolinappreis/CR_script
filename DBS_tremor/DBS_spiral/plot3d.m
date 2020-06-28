@@ -31,32 +31,32 @@ end
 
 
 %%%%%%%%%%%%%%% animation drawing spiral in time
-% % figure()
-% % xlabel('x axis')
-% % ylabel('y axis')
-% % zlabel('z axis')
-% % for f=1:length(st)
-% %     epoch=st(f):et(f);
-% %     h = animatedline;
-% %     numpoints = length(epoch);
-% %     % x = tremorx(1,epoch);
-% %     % y = tremory(1,epoch);
-% %     % z= tremorz(1,epoch);
-% %     x = lf_data(1,epoch);
-% %     y = lf_data(2,epoch);
-% %     z= lf_data(3,epoch);
-% %     a = tic; % start timer
-% %     for k = 1:numpoints
-% %         addpoints(h,x(k),y(k),z(k));
-% %         b = toc(a); % check timer
-% %         if b > (1/10)
-% %             drawnow % update screen every 1/30 seconds
-% %             a = tic; % reset timer after updating
-% %             k;
-% %         end
-% %     end
-% %     h = animatedline(x,y,z,'color',rand(1,3));
-% %     hold on
-% % end
+% figure()
+% xlabel('x axis')
+% ylabel('y axis')
+% zlabel('z axis')
+% for f=1:length(st)
+%     epoch=st(f):et(f);
+%     h = animatedline;
+%     numpoints = length(epoch);
+%     % x = tremorx(1,epoch);
+%     % y = tremory(1,epoch);
+%     % z= tremorz(1,epoch);
+%     x = lf_data(1,epoch);
+%     y = lf_data(2,epoch);
+%     z= lf_data(3,epoch);
+%     a = tic; % start timer
+%     for k = 1:numpoints
+%         addpoints(h,x(k),y(k),z(k));
+%         b = toc(a); % check timer
+%         if b > (1/10)
+%             drawnow % update screen every 1/30 seconds
+%             a = tic; % reset timer after updating
+%             k;
+%         end
+%     end
+%     h = animatedline(x,y,z,'color',rand(1,3));
+%     hold on
+% end
 
 end

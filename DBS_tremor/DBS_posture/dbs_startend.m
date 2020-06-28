@@ -94,112 +94,118 @@ else
     
     %%% input start all trial
     start_t=1;
-    
     sp=sp_1(1,start_t:end);
     ep=ep_1(1,start_t:end);
+   
     
-    %%% posture/spiral trials
-    dt1_s=[sp_1(start_t:2:end)];dt1_e=[ep_1(start_t:2:end)];
-    dt2_s=sp_1(start_t+1:2:end); dt2_e=ep_1(start_t+1:2:end);
-    
-%         time=1:length(data(1,:));
-%         plot(time,data(4,:))
-%         hold on
-%         plot(time(sp),data(4,sp),'r.')
-%         plot(time(ep),data(4,ep),'k.')
-    
-    
-    for ik=1:length(sp) %%find double start and end points in a stimulation run
-        
-        s=(find(([indexes4>=sp(ik)]+[indexes4<=ep(ik)])==2));
-        e=(find(([indexes3>=sp(ik)]+[indexes3<=ep(ik)])==2));
-        tks=(find(diff(xx(s))==0))+1;
-        tke=(find(diff(xx(e))==0));
-        
-        indexes4(s(tks))=NaN;
-        indexes3(e(tke))=NaN;
-        xx(e(tke))=NaN;
-        
-    end
-
-    
-    %%%% find runs with trigering issues (too few, too many pulses)
-% % %     th1=(Fpeak*5)./2;
-% % %     th2=(Fpeak*5)+round((Fpeak*5)./5);
-% % %     for it=1:length(indexes4)
-% % %         if numel(index(find(index==indexes4(it)):find(index==indexes3(it))))>=th1 && numel(index(find(index==indexes4(it)):find(index==indexes3(it))))<=th2
-% % %             indexes4(it)=indexes4(it);
-% % %             indexes3(it)=indexes3(it);
-% % %             xx(it)=xx(it);
-% % %         else
-% % %             indexes4(it)=NaN;
-% % %             indexes3(it)=NaN;
-% % %             xx(it)=NaN;
-% % %         end
-% % %     end
-% % %     %%%%%%%%%%%%%%%
-% % %     indexes4=indexes4(~isnan(indexes4));
-% % %     indexes3=indexes3(~isnan(indexes3));
-% % %     xx=xx(~isnan(xx));
-    
-    
-    start1=[];
-    ending1=[];
-    xx1=[];
-    for il=1:length(dt1_s)
-        start1=[start1 indexes4(find(([indexes4>=dt1_s(il)]+[indexes4<=dt1_e(il)])==2))]; % intersect([1 2 3],[3 4 5])
-        ending1=[ending1 indexes3(find(([indexes3>=dt1_s(il)]+[indexes3<=dt1_e(il)])==2))];
-        xx1=[xx1 xx(find(([indexes4>=dt1_s(il)]+[indexes4<=dt1_e(il)])==2))];
-    end
-    
-    start2=[];
-    ending2=[];
-    xx2=[];
-    for il=1:length(dt2_s)
-        dums=indexes4(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
-        start2=[start2 dums]; clear dums
-        dume=indexes3(find(([indexes3>=dt2_s(il)]+[indexes3<=dt2_e(il)])==2));
-        ending2=[ending2 dume]; clear dume
-        dumx=xx(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
-        xx2=[xx2 dumx];clear dumx
-    end
-    
-    
-%     figure()
-%     time=1:length(data(4,:));
+%     time=1:length(data(1,:));
 %     plot(time,data(4,:))
 %     hold on
-%     plot(time(index),data(4,index),'r.')
-%     plot(time(start2),data(4,start2),'ko')
-%     plot(time(ending2),data(4,ending2),'bo')
+%     plot(time(sp),data(4,sp),'r.')
+%     plot(time(ep),data(4,ep),'k.')
     
-    
-    clear start ending xx
-    pstart{1,1}=floor((start1./samplerateold)*samplerate)+addon;
-    pending{1,1}=floor((ending1./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
-    pstart{2,1}=floor((start2./samplerateold)*samplerate)+addon;
-    pending{2,1}=floor((ending2./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
-    
-    xx{1,1}=xx1;
-    xx{2,1}=xx2;
-    
-    %%% choosing start{1,1}/ending{1,1}/xx{1,1} to get posture only _ check!
-    
-    start{iii,co}= pstart{1,1};
-    ending{iii,co} = pending{1,1};
-    yy{iii,co} = xx{1,1};
-    
-    
-    %     figure()
-    %     index_ds=floor((index./samplerateold)*samplerate)+addon;
-    %     time=1:length(tremor_ds);
-    %     plot(time,tremor_ds(1,:))
-    %     hold on
-    %     plot(time(1,index_ds),tremor_ds(1,index_ds),'r.')
-    %     plot(time(start{iii,co}),tremor_ds(1,start{iii,co}),'bo')
-    %     plot(time(ending{iii,co}),tremor_ds(1,ending{iii,co}),'ko')
-    %----------------------------------------------------------------------------------------------
+    if co==2
+        %%% posture/spiral trials
+        dt1_s=[sp_1(start_t:2:end)];dt1_e=[ep_1(start_t:2:end)];
+        dt2_s=sp_1(start_t+1:2:end); dt2_e=ep_1(start_t+1:2:end);
+        
+        
+        for ik=1:length(sp) %%find double start and end points in a stimulation run
+            
+            s=(find(([indexes4>=sp(ik)]+[indexes4<=ep(ik)])==2));
+            e=(find(([indexes3>=sp(ik)]+[indexes3<=ep(ik)])==2));
+            tks=(find(diff(xx(s))==0))+1;
+            tke=(find(diff(xx(e))==0));
+            
+            indexes4(s(tks))=NaN;
+            indexes3(e(tke))=NaN;
+            xx(e(tke))=NaN;
+            
+        end
+        
+        
+        %%%% find runs with trigering issues (too few, too many pulses)
+        % % %     th1=(Fpeak*5)./2;
+        % % %     th2=(Fpeak*5)+round((Fpeak*5)./5);
+        % % %     for it=1:length(indexes4)
+        % % %         if numel(index(find(index==indexes4(it)):find(index==indexes3(it))))>=th1 && numel(index(find(index==indexes4(it)):find(index==indexes3(it))))<=th2
+        % % %             indexes4(it)=indexes4(it);
+        % % %             indexes3(it)=indexes3(it);
+        % % %             xx(it)=xx(it);
+        % % %         else
+        % % %             indexes4(it)=NaN;
+        % % %             indexes3(it)=NaN;
+        % % %             xx(it)=NaN;
+        % % %         end
+        % % %     end
+        % % %     %%%%%%%%%%%%%%%
+        % % %     indexes4=indexes4(~isnan(indexes4));
+        % % %     indexes3=indexes3(~isnan(indexes3));
+        % % %     xx=xx(~isnan(xx));
+        
+        
+        start1=[];
+        ending1=[];
+        xx1=[];
+        for il=1:length(dt1_s)
+            start1=[start1 indexes4(find(([indexes4>=dt1_s(il)]+[indexes4<=dt1_e(il)])==2))]; % intersect([1 2 3],[3 4 5])
+            ending1=[ending1 indexes3(find(([indexes3>=dt1_s(il)]+[indexes3<=dt1_e(il)])==2))];
+            xx1=[xx1 xx(find(([indexes4>=dt1_s(il)]+[indexes4<=dt1_e(il)])==2))];
+        end
+        
+        start2=[];
+        ending2=[];
+        xx2=[];
+        for il=1:length(dt2_s)
+            dums=indexes4(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
+            start2=[start2 dums]; clear dums
+            dume=indexes3(find(([indexes3>=dt2_s(il)]+[indexes3<=dt2_e(il)])==2));
+            ending2=[ending2 dume]; clear dume
+            dumx=xx(find(([indexes4>=dt2_s(il)]+[indexes4<=dt2_e(il)])==2));
+            xx2=[xx2 dumx];clear dumx
+        end
+        
+        
+        %     figure()
+        %     time=1:length(data(4,:));
+        %     plot(time,data(4,:))
+        %     hold on
+        %     plot(time(index),data(4,index),'r.')
+        %     plot(time(start2),data(4,start2),'ko')
+        %     plot(time(ending2),data(4,ending2),'bo')
+        
+        
+        clear start ending xx
+        pstart{1,1}=floor((start1./samplerateold)*samplerate)+addon;
+        pending{1,1}=floor((ending1./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+        pstart{2,1}=floor((start2./samplerateold)*samplerate)+addon;
+        pending{2,1}=floor((ending2./samplerateold)*samplerate)+addon+addon_end;%floor(5*samplerate);
+        
+        xx{1,1}=xx1;
+        xx{2,1}=xx2;
+        
+        %%% choosing start{1,1}/ending{1,1}/xx{1,1} to get posture only _ check!
+        
+        start{iii,co}= pstart{1,1};
+        ending{iii,co} = pending{1,1};
+        yy{iii,co} = xx{1,1};
+        
+        
+        %         figure()
+        %         index_ds=floor((index./samplerateold)*samplerate)+addon;
+        %         time=1:length(tremor_ds);
+        %         plot(time,tremor_ds(1,:))
+        %         hold on
+        %         plot(time(1,index_ds),tremor_ds(1,index_ds),'r.')
+        %         plot(time(start{iii,co}),tremor_ds(1,start{iii,co}),'bo')
+        %         plot(time(ending{iii,co}),tremor_ds(1,ending{iii,co}),'ko')
+        %----------------------------------------------------------------------------------------------
+    elseif co==3 
+        start{iii,co}= floor((sp./samplerateold)*samplerate)+addon;
+        ending{iii,co} = floor((ep./samplerateold)*samplerate)+addon+addon_end;
+    end
     
 end
 end
+
 

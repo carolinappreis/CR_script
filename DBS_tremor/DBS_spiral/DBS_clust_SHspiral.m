@@ -1,4 +1,4 @@
-clear
+clear; close all
 load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P01_NS1_SH.mat')
 bins=find(NS1(:,1)==-1);
 for y=1:length(bins)
@@ -8,27 +8,37 @@ for y=1:length(bins)
 end
 data1{1,length(bins)-1}=NS1(bins(y):end,:);
 
-for nr=4:6
+for nr=1
     data=data1{1,nr};
+    samplerate=floor(1000/median(diff(data(:,3))));
+    [a,b]=  butter(2, [2/(0.5*samplerate) 6/(0.5*samplerate)], 'bandpass'); %15
     
     L = 150;
-    for o=1:3
-        v=data(:,o);
-        n = floor(length(v) / L); % Number of segments
+    
+    for o=1:2
+        filt(:,o)=filtfilt(a,b,data(:,o));
+        env(:,o)=abs(hilbert(filt(:,o)));
+        
+        n = floor(length(data) / L); % Number of segments
         idx_st = NaN(n, 1);
         idx_st(1, 1) = 1;
         idx_end = NaN(n, 1);
         idx_end(1, 1) = L;
         v_new = NaN(n, L);
+        f_new = NaN(n, L);
         for i = 2:n
             idx_st(i) = idx_st(i-1) + L;
             idx_end(i) = idx_end(i-1) + L;
         end
         for i = 1:n
-            v_new(i, :) = v( idx_st(i, 1) : idx_end(i, 1),1);
+            v_new(i, :) = data( idx_st(i, 1) : idx_end(i, 1),o);
+            f_new(i, :) = filt( idx_st(i, 1) : idx_end(i, 1),o);
         end
-        resamp{1,o}=v_new'; clear v_new
+        resamp{1,o}=f_new'; clear f_new
+        res_dat{1,o}=v_new'; clear v_new
     end
+    
+    
     for j = 1:size(resamp{1,1},1)
         x = [resamp{1,1}(j,:); resamp{1,2}(j,:)];
         [pc, score, latent, tsquare, explained] = pca(x');
@@ -44,7 +54,7 @@ for nr=4:6
     x_all=pc_t;
     runs=1:length(x_all);
     
-    k=2;
+    k=2;;
     Z = linkage(x_all,'ward');
     c = cluster(Z, 'Maxclust', k);
     scatter([pc_t(:, 1)], [pc_t(:, 2)], 10,c)
@@ -65,8 +75,8 @@ for nr=4:6
     
     for cl=1:k
         id=[clust.idx{cl,1}];
-        dum=resamp{1,2}(id,:);
-        tdum=resamp{1,1}(id,:);
+        dum=res_dat{1,2}(id,:);
+        tdum=res_dat{1,1}(id,:);
         for ii=1:size(dum,1)
             plot(tdum(ii,:),dum(ii,:),'.','Color',p(cl,:),'MarkerSize',10)
             hold on

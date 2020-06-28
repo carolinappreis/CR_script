@@ -21,7 +21,8 @@
 
 clear
 cohort =[ 1 3 4 6];
-for iii=1:size(cohort,2)
+for iii=4
+%     1:size(cohort,2)
     clearvars -except cohort iii
 cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA')
 load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P0',num2str(cohort(iii)),'_NS.mat'))
@@ -56,7 +57,10 @@ for i=1:size(hu{iii,1}(1,:),2)
 xline(hu{iii,1}(i),'r')
 xline(hd{iii,1}(i),'r')
 end
+
 end
+plot3(1:length(t3(1,hu{iii,1}(i):hd{iii,1}(i))),t3(2,hu{iii,1}(i):hd{iii,1}(i)),t3(3,hu{iii,1}(i):hd{iii,1}(i)))
+
 
 %%%% -------------
 
@@ -70,6 +74,52 @@ SmrData.WvData=dum2;
 clearvars -except SmrData
 cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA')
 % % % save ('P01_RS')
+
+%%%%%-------
+
+%% PLS
+
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/raw_patient_data/P03/P03_PLS.mat')
+cut=6535190;
+data=SmrData.WvData([3 6 7],:);
+plot3(1:length(data(2,1:cut)),data(2,1:cut),data(3,1:cut))
+plot3(1:length(data(2,cut:end)),data(2,cut:end),data(3,cut:end))
+dum=SmrData.WvData; 
+%%% clear SmrData.WvData; MANUALLY
+dum2=dum(:,1:cut);
+SmrData.WvData=dum2;
+clearvars -except SmrData
+cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd')
+% % % save ('P03_PLS_P')
+
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/raw_patient_data/P06/P06_120POSTURE3TIMES_240posture2times.mat')
+cut=4982100;
+% data=SmrData.WvData([3 6 7],:);
+% plot3(1:length(data(2,1:cut)),data(2,1:cut),data(3,1:cut))
+% plot3(1:length(data(2,cut:end)),data(2,cut:end),data(3,cut:end))
+dum=SmrData.WvData; 
+%%% clear SmrData.WvData; MANUALLY
+dum2=dum(:,1:cut);
+SmrData.WvData=dum2;
+clearvars -except SmrData
+cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd')
+save ('P06_PLS_P1')
+
+
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/raw_patient_data/P06/P06_120POSTURE3TIMES_240posture2times.mat')
+cut=4982100;
+% data=SmrData.WvData([3 6 7],:);
+% plot3(1:length(data(2,1:cut)),data(2,1:cut),data(3,1:cut))
+% plot3(1:length(data(2,cut:end)),data(2,cut:end),data(3,cut:end))
+dum=SmrData.WvData; 
+%%% clear SmrData.WvData; MANUALLY
+dum2=dum(:,cut:end);
+SmrData.WvData=dum2;
+clearvars -except SmrData
+cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd')
+save ('P06_PLS_P2')
+
+
 
 
 
