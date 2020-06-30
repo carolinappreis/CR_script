@@ -1,4 +1,26 @@
 clear
+
+iii=6;
+trial=1;
+
+
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_NS',num2str(trial),'_SH.mat'))
+
+f1=figure(1)
+set(f1,'color','w');
+plot(NS1(:,1),NS1(:,2),'Color',[0.5 0.5 0.5],'LineWidth',2)
+%  plot(NS1(:,1),NS1(:,2),'Color',[0 0.5 0.5],'LineWidth',2)
+% hold on
+% plot(NS1(:,1),NS1(:,2),'r.')
+box('off')
+xticks([])
+yticks([])
+ax = gca
+ax.Visible = 'off'
+
+
+
+
 load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P01_NS1_SH.mat')
 bins=find(NS1(:,1)==-1);
 for y=1:length(bins)
@@ -15,11 +37,11 @@ NS1(bins,:)=[];
 
 %%% Data by spiral
 %%% for nr=1:size(data1,2)
-nr=1;
-data=data1{1,nr};
+% nr=1;
+% data=data1{1,nr};
 
-%%%OR all data
-% data=NS1;
+%%OR all data
+data=NS1;
 
 samplerate=floor(1000/median(diff(data(:,3))));
 [a,b]=  butter(2, [2/(0.5*samplerate) 6/(0.5*samplerate)], 'bandpass'); %15
@@ -71,7 +93,7 @@ xlim([0,size(comb_pc, 1)])
 
 new_e=abs(hilbert(new_f));
 
-th=prctile(new_e,75);
+th=prctile(new_e,30);
 id_sp1=find(new_e>th);
 id_sp2=find(new_e<th);
 
@@ -100,5 +122,5 @@ plot(data_s(id_sp1,1),data_s(id_sp1,2),'r.','MarkerSize',10)
 plot(data_s(id_sp2,1),data_s(id_sp2,2),'b.','MarkerSize',10)
 
 
-close all
+
 

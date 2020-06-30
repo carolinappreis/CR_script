@@ -37,13 +37,13 @@ for iii=1:size(out.start_c,1)
     hold on
     patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
     % plot(y2,'.', 'MarkerSize',20,'Color',color_b1(p,:))
-    stem(time,y2,'.', 'LineWidth',1,'MarkerSize',10,'Color',color_b1(p,:))
+    stem(time,y2,'.', 'LineWidth',2,'MarkerSize',10,'Color',color_b1(p,:))
     yline(0)
     if ~isnan(phase)
-        plot(time(phase),y2(phase),'.','Color',color_b1(1,:),'MarkerSize',10)
+        plot(time(phase),y2(phase),'.','Color',color_b1(1,:),'MarkerSize',15)
     end
-        yline(prctile(nostim,99.7917),'k--','LineWidth',1)
-        yline(prctile(nostim,0.2083),'k--','LineWidth',1)
+    %         yline(prctile(nostim,99.7917),'k--','LineWidth',1)
+    %         yline(prctile(nostim,0.2083),'k--','LineWidth',1)
     ylim([-1 1])
     xlim([-5 335])
     xticks([0:30:330])
@@ -53,6 +53,7 @@ for iii=1:size(out.start_c,1)
     set(gca,'FontSize',9)
     set(gca,'FontName','Arial','XTickLabelRotation',45)
     set(p1,'color','w');
+    title(sprintf('patient %d',(iii)))
 end
 
 
@@ -112,6 +113,7 @@ for iii=1:size(out.start_c,1)
     set(gca,'FontSize',12)
     set(gca,'FontName','Arial','XTickLabelRotation',45)
     set(f1,'color','w');
+    title(sprintf('patient %d',(iii)))
     
     clear i
 end
@@ -185,6 +187,8 @@ for iii=1:size(out.start_c,1)
         set(gca,'XTickLabelRotation',45)
         box('off')
         set(f1,'color','w');
+        title(sprintf('patient %d',(iii)))
+        
         clear sig raw_s raw_ns smo_s
     end
     tall_sig{iii,1}=t_sig;
@@ -195,11 +199,14 @@ for iii=1:size(out.start_c,1)
     ax_max(iii,1)=find(ax_mod(iii,:)==(max(ax_mod(iii,:))));
     m_max(iii,1)=find(amp_abs(iii,:)==(max(amp_abs(iii,:))));
     
+    
     t_s=tall_sig(~(cellfun('isempty',tall_sig)));
     dum=0.15707963267949;
     f1=figure(12) %%% error - not plotting first subplot correctly
     for k=1:size(t_s,1)
         subplot(1,size(t_s,1),k)
+        title(sprintf('patient %d',(iii)))
+        
         polarhistogram(deg2rad(t_s{k,1}),30,'FaceColor','red','FaceAlpha',.8,'EdgeColor','none','BinWidth',dum)
         ax=gca;
         ax.RLim=[0 3];
@@ -209,6 +216,7 @@ for iii=1:size(out.start_c,1)
         ax.GridAlpha = 0.3;
         ax.Box = 'off';
         clear x
+        
     end
     k=1
     subplot(1,size(t_s,1),k)
@@ -310,9 +318,9 @@ for iii=1:size(out.start_c,1)10
     
     f1=figure(14)
     if size(out.start_c,1)==4
-    subplot(1,4,iii)
+        subplot(1,4,iii)
     else
-    subplot(2,5,iii)
+        subplot(2,5,iii)
     end
     y=out.amp_n_bins(iii,:);
     width(iii,:)=sum(~isnan(y));
@@ -321,7 +329,7 @@ for iii=1:size(out.start_c,1)10
     bar(x,y,'FaceColor',cl,'EdgeColor',cl)
     hold on
     [rsg,rsg_g,rsg_o]=gauss_fit2(x,y)
-%     ylim([0 1.5])
+    %     ylim([0 1.5])
     xticks([1:2:14])
     %     xticklabels({'2','3','4','5','6','7','8'});
     ylabel({'absolute amplitude \uV^2'})

@@ -77,7 +77,7 @@ cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA')
 
 %%%%%-------
 
-%% PLS
+%% PLS posture
 
 load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/raw_patient_data/P03/P03_PLS.mat')
 cut=6535190;
@@ -103,7 +103,7 @@ dum2=dum(:,1:cut);
 SmrData.WvData=dum2;
 clearvars -except SmrData
 cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd')
-save ('P06_PLS_P1')
+% % % save ('P06_PLS_P1')
 
 
 load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/raw_patient_data/P06/P06_120POSTURE3TIMES_240posture2times.mat')
@@ -117,7 +117,41 @@ dum2=dum(:,cut:end);
 SmrData.WvData=dum2;
 clearvars -except SmrData
 cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd')
-save ('P06_PLS_P2')
+% % % save ('P06_PLS_P2')
+
+
+%%%PLS spiral
+
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/raw_patient_data/P03/P03_PLS.mat')
+cut=7418625;
+data=SmrData.WvData([3 6 7],:);
+plot3(1:length(data(2,1:cut)),data(2,1:cut),data(3,1:cut))
+plot3(1:length(data(2,cut:end)),data(2,cut:end),data(3,cut:end))
+dum=SmrData.WvData; 
+%%% clear SmrData.WvData; MANUALLY
+dum2=dum(:,cut:end);
+SmrData.WvData=dum2;
+clearvars -except SmrData
+cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_spiral')
+% % % save ('P03_PLS_S')
+
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/raw_patient_data/P04/p04_pls_90 spiral_3posture300_2spiral.mat')
+% data=SmrData.WvData([3 6 7],:);
+% plot3(1:length(data(2,1:cut)),data(2,1:cut),data(3,1:cut))
+% plot3(1:length(data(2,cut:end)),data(2,cut:end),data(3,cut:end))
+dum=SmrData.WvData; 
+%%% clear SmrData.WvData; MANUALLY
+dum2=dum(:,[1:1519204 7309372:end]);
+SmrData.WvData=dum2;
+clearvars -except SmrData
+cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_spiral')
+% % %  save ('P04_PLS_S')
+
+
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/raw_patient_data/P06/p06_60spiral_2.mat')
+clearvars -except SmrData
+cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_spiral')
+% % % save ('P06_PLS_S')
 
 
 

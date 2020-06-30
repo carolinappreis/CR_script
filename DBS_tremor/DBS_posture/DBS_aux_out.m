@@ -1,5 +1,6 @@
 clear; close all
 cohort = [ 1 3 4 6];
+spiral=1;
 
 % nostim= NaN(length(cohort),3,1e6);
 % nostim_f=NaN(length(cohort),3,1e6);
@@ -17,7 +18,7 @@ st_sp=cell(length(cohort),1);
 et_sp=cell(length(cohort),1);
 
 
-for iii =1:length(cohort)
+for iii = 1:length(cohort)
     
     load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P0',num2str(cohort(iii)),'_RS.mat'))
     
@@ -221,9 +222,15 @@ for iii =1:length(cohort)
     xx{2,1}=xx2;
     
     %%% choosing start{1,1}/ending{1,1}/xx{1,1} to get posture only _ check!
+    if spiral ==0
     start{1,1}= pstart{1,1};
     ending{1,1} = pending{1,1};
     yy{1,1}= xx{1,1};
+    else
+    start{1,1}= pstart{2,1};
+    ending{1,1} = pending{2,1};
+    yy{1,1}= xx{2,1};
+    end
     
        hh=1;
     for j = 1:length(start{hh, 1})
@@ -247,17 +254,17 @@ for iii =1:length(cohort)
        rs_mat(iii,:)=[3 2 1];
    end
     
-    tremor_or2=NaN(length(start{hh,1}),1);
+    tremor_or2=NaN(3,length(start{hh,1}));
     
     for axx=1:3
         for i=1:length(start{hh,1})
             if (~isnan(start{hh,1}(i)))
-                tremor_or2(axx,i,1)=(mean(envelope(rs_mat(iii,axx),ending{hh,1}(i)-1000:ending{hh,1}(i)))-mean(envelope(rs_mat(iii,axx),start{hh,1}(i)-1000:start{hh,1}(i))))/mean(envelope(rs_mat(iii,axx),start{hh,1}(i)-1000:start{hh,1}(i)));
-                xx{hh,1}(i)= xx{hh,1}(i);
+                tremor_or2(axx,i)=(mean(envelope(rs_mat(iii,axx),ending{hh,1}(i)-1000:ending{hh,1}(i)))-mean(envelope(rs_mat(iii,axx),start{hh,1}(i)-1000:start{hh,1}(i))))/mean(envelope(rs_mat(iii,axx),start{hh,1}(i)-1000:start{hh,1}(i)));
+                yy{hh,1}(i)= yy(i);
                 
             else
                 tremor_or2(axx,i,1)=NaN;
-                xx{hh,1}(i)= NaN;
+                yy{hh,1}(i)= NaN;
             end
         end
         
@@ -269,8 +276,8 @@ for iii =1:length(cohort)
         %         xx(1,idx_outl)=NaN;
         
         tt=NaN(20,12);
-        yy=xx{hh,1}(:);
         tt_pc=NaN(20,12);
+        yy=cell2mat(yy);
         
         for i=1:12
             tt(1:sum(yy==i),i)=tremor_or2(axx,find(yy==i));
@@ -284,7 +291,7 @@ for iii =1:length(cohort)
     end
     
  %% Baseline
-    clearvars -except iii cohort main method tt1_all ns_mat amp_bbl bs_begin bs_end pc_trials change_bl x_all pc1_exp explained_rs m_ax ns_mat rs_mat
+    clearvars -except iii cohort main method tt1_all ns_mat amp_bbl bs_begin bs_end pc_trials change_bl x_all pc1_exp explained_rs m_ax ns_mat rs_mat spiral
     load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P0',num2str(cohort(iii)),'_NS.mat'))
     
     
@@ -366,7 +373,11 @@ for iii =1:length(cohort)
         freqi(i,:)=(smooth((1000/(2*pi))*diff(unwrap(phase(i,:))),500))';
     end
     
-    NS_BE_P
+    if spiral==0
+        NS_BE_P
+    else
+        NS_BE_S
+    end
     
     segmentb=hu{iii,:};
     segmente=hd{iii,:};
@@ -407,7 +418,7 @@ for iii =1:length(cohort)
     %
     x_all{iii,1}=[pc_trials_ns; pc_trials];
     pc1_exp{iii,1}(1:3,:)=[(explained_ns(:,1:3))' (explained_rs(:,1:3))'];
-   clearvars -except  cohort iii nostim tt1_all main ns_mat amp_bbl bs_begin bs_end  change_bl x_all pc1_exp m_ax rs_mat st_sp et_sp
+   clearvars -except  cohort iii nostim tt1_all main ns_mat amp_bbl bs_begin bs_end  change_bl x_all pc1_exp m_ax rs_mat st_sp et_sp spiral
 end
 
-clearvars -except tt1_all  amp_bbl bs_begin bs_end change_bl x_all pc1_exp m_ax ns_mat rs_mat
+clearvars -except tt1_all  amp_bbl bs_begin bs_end change_bl x_all pc1_exp m_ax ns_mat rs_mat spiral

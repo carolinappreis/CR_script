@@ -62,14 +62,14 @@ for cr=1:2
     hold on
     patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(1,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
     % plot(y2,'.', 'MarkerSize',20,'Color',color_b1(p,:))
-    stem(time,y2,'.', 'LineWidth',1.5,'MarkerSize',14,'Color',color_b1(1,:))
+    stem(time,y2,'.', 'LineWidth',2,'MarkerSize',15,'Color',color_b1(1,:))
     yline(0)
     h=find(y2>cr1 | y2<cr2);
     if ~isempty(h)
-        plot(time(h),y2(h),'.','MarkerSize',14,'Color',color_b1(2,:))
+        plot(time(h),y2(h),'.','MarkerSize',20,'Color',color_b1(2,:))
     end
-            yline(cr2,'--')
-            yline(cr1,'--')
+%             yline(cr2,'--')
+%             yline(cr1,'--')
     xlim([1 12])
     xticks([ 3 6 9 12])
     xticklabels({'-90','0','90','180'})

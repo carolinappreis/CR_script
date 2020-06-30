@@ -5,7 +5,7 @@ clear all
 % cd('C:\Users\creis\OneDrive - Nexus365\Phasic_DBS\patient data\raw_data')
 % SMR_File_To_Mat;
 
- load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P06_RS.mat'))
+ load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P03_RS.mat'))
 
 
 in2=1; % analysing the "main tremor axis"

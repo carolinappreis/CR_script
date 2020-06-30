@@ -1,4 +1,4 @@
-function [peak_ax, start, ending, yy, h_up]= dbs_startend(d,samplerateold,samplerate,iii,co,start,ending,yy,h_up)
+function [peak_ax, start, ending, yy, h_up]= dbs_startend(d,samplerateold,samplerate,iii,co,start,ending,yy,h_up,spiral)
 
 data=d.data_raw;  tremor_ds=d.data_ds;
 
@@ -185,10 +185,17 @@ else
         xx{2,1}=xx2;
         
         %%% choosing start{1,1}/ending{1,1}/xx{1,1} to get posture only _ check!
-        
+        if spiral==0
         start{iii,co}= pstart{1,1};
         ending{iii,co} = pending{1,1};
         yy{iii,co} = xx{1,1};
+        
+        else
+            
+            start{iii,co}= pstart{2,1};
+            ending{iii,co} = pending{2,1};
+            yy{iii,co} = xx{2,1};
+        end
         
         
         %         figure()
