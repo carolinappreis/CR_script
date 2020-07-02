@@ -40,7 +40,7 @@ end
   clearvars -except out clust
 
 % clear
-% load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_cluster_out.mat','out');
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_cluster_out.mat','out');
 stats=struct;
 
 [out]=polyfit(out); %non uniformity of arc's polynomial fits with r2 and f-stats

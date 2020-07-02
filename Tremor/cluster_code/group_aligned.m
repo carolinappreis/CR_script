@@ -1,7 +1,7 @@
 function [stats]=group_aligned(out,stats)
 
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash');
-color_b1=[stone ; blushred];
+color_b1=[stone ; blushred; aegean];
 m_ax=1;
 
 for iii=1:size(out.start_c,1)
@@ -62,11 +62,11 @@ for cr=1:2
     hold on
     patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(1,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
     % plot(y2,'.', 'MarkerSize',20,'Color',color_b1(p,:))
-    stem(time,y2,'.', 'LineWidth',2,'MarkerSize',15,'Color',color_b1(1,:))
+    stem(time,y2,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(3,:))
     yline(0)
     h=find(y2>cr1 | y2<cr2);
     if ~isempty(h)
-        plot(time(h),y2(h),'.','MarkerSize',20,'Color',color_b1(2,:))
+        plot(time(h),y2(h),'.','MarkerSize',25,'Color',color_b1(2,:))
     end
 %             yline(cr2,'--')
 %             yline(cr1,'--')

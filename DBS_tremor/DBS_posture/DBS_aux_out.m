@@ -18,7 +18,8 @@ st_sp=cell(length(cohort),1);
 et_sp=cell(length(cohort),1);
 
 
-for iii = 1:length(cohort)
+ for iii = 4
+%1:length(cohort)
     
     load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P0',num2str(cohort(iii)),'_RS.mat'))
     
@@ -232,12 +233,12 @@ for iii = 1:length(cohort)
     yy{1,1}= xx{2,1};
     end
     
-       hh=1;
-    for j = 1:length(start{hh, 1})
-        if (~isnan(start{hh,1}(j)))
-        yd=[sum(envelope(1,start{hh,1}(j):ending{hh,1}(j)));sum(envelope(2,start{hh,1}(j):ending{hh,1}(j)));sum(envelope(3,start{hh,1}(j):ending{hh,1}(j)))];
+     
+    for j = 1:length(start{1, 1})
+        if (~isnan(start{1,1}(j)))
+        yd=[sum(envelope(1,start{1,1}(j):ending{1,1}(j)));sum(envelope(2,start{1,1}(j):ending{1,1}(j)));sum(envelope(3,start{1,1}(j):ending{1,1}(j)))];
         ma_c(j) = find(yd == max(yd)); clear yd
-        x = [tremorxf(start{hh,1}(j):ending{hh,1}(j)); tremoryf(start{hh,1}(j):ending{hh,1}(j)); tremorzf(start{hh,1}(j):ending{hh,1}(j))];
+        x = [tremorxf(start{1,1}(j):ending{1,1}(j)); tremoryf(start{1,1}(j):ending{1,1}(j)); tremorzf(start{1,1}(j):ending{1,1}(j))];
         [pc, score, latent, tsquare, explained] = pca(x');
         pc_trials(j, 1:3) = pc(1:3, 1);
         explained_rs(j, 1:3) = explained;
@@ -254,17 +255,18 @@ for iii = 1:length(cohort)
        rs_mat(iii,:)=[3 2 1];
    end
     
-    tremor_or2=NaN(3,length(start{hh,1}));
+    tremor_or2=NaN(3,length(start{1,1}));
     
+    yy=cell2mat(yy);
     for axx=1:3
-        for i=1:length(start{hh,1})
-            if (~isnan(start{hh,1}(i)))
-                tremor_or2(axx,i)=(mean(envelope(rs_mat(iii,axx),ending{hh,1}(i)-1000:ending{hh,1}(i)))-mean(envelope(rs_mat(iii,axx),start{hh,1}(i)-1000:start{hh,1}(i))))/mean(envelope(rs_mat(iii,axx),start{hh,1}(i)-1000:start{hh,1}(i)));
-                yy{hh,1}(i)= yy(i);
+        for i=1:length(start{1,1})
+            if (~isnan(start{1,1}(i)))
+                tremor_or2(axx,i)=(mean(envelope(rs_mat(iii,axx),ending{1,1}(i)-1000:ending{1,1}(i)))-mean(envelope(rs_mat(iii,axx),start{1,1}(i)-1000:start{1,1}(i))))/mean(envelope(rs_mat(iii,axx),start{1,1}(i)-1000:start{1,1}(i)));
+                yy(i)= yy(i);
                 
             else
                 tremor_or2(axx,i,1)=NaN;
-                yy{hh,1}(i)= NaN;
+                yy(i)= NaN;
             end
         end
         
@@ -277,7 +279,7 @@ for iii = 1:length(cohort)
         
         tt=NaN(20,12);
         tt_pc=NaN(20,12);
-        yy=cell2mat(yy);
+        
         
         for i=1:12
             tt(1:sum(yy==i),i)=tremor_or2(axx,find(yy==i));
@@ -337,7 +339,7 @@ for iii = 1:length(cohort)
        ns_mat(iii,:)=[1 2 3];
    elseif (m_ax(1,iii)==1 && f1==3 || m_ax(1,iii)==3 && f1==1)
        ns_mat(iii,:)=[3 2 1];
-   elseif m_ax(1,iii)==1 && f1==2
+   elseif (m_ax(1,iii)==1 && f1==2 || m_ax(1,iii)==2 && f1==1)
        ns_mat(iii,:)=[2 3 1];
    end
     

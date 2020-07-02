@@ -154,6 +154,50 @@ cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_spiral')
 % % % save ('P06_PLS_S')
 
 
+%%% HFS
+
+load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf/P03_HFS.mat')
+% dum=SmrData.WvData; 
+% % dum2=dum(:,[8929:73906]);
+% dum2=dum(:,[95161:157547]);
+% SmrData.WvData=dum2;
+% clearvars -except SmrData
+% cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf')
+% save ('P03_HFS_S')
+
+clear
+load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf/P04_HFS.mat')
+
+% dum=SmrData.WvData; 
+% % dum2=dum(:,[42667:93145]);
+% dum2=dum(:,[164174: 231805]);
+% SmrData.WvData=dum2;
+% clearvars -except SmrData
+% cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf')
+% save ('P04_HFS_S')
+
+
+clear
+load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf/P06_HFS.mat')
+% dum=SmrData.WvData; 
+% %  dum2=dum(:,[1:98244]);
+% dum2=dum(:,[142181:259995]);
+% SmrData.WvData=dum2;
+% clearvars -except SmrData
+% cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf')
+% save ('P06_HFS_S')
+
+[d]=dbs_preprocess(SmrData); 
+tremor3=d.data_ds;
+[p,q]=butter(3,[5/(0.5*d.samplerateold)],'low');
+[m,n]=butter(3,[1.5/(0.5*d.samplerateold)],'low');
+for i=1:size(tremor3,1)
+    t2(i,:)=filtfilt(p,q,tremor3(i,:));
+    t3(i,:)=filtfilt(m,n,tremor3(i,:));
+end
+
+
+
 
 
 

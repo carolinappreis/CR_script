@@ -1,6 +1,6 @@
 clear; close
 cohort = [1 3 4 6];
-iii=4
+iii=2
 for iii =  2:length(cohort)
    
     load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P0',num2str(cohort(iii)),'_NS.mat'))
