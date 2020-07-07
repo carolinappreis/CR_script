@@ -1,14 +1,14 @@
 clear
 
-iii=6;
+iii=4;
 trial=1;
 
 
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_NS',num2str(trial),'_SH.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_HF',num2str(trial),'_SH.mat'))
 
 f1=figure(1)
 set(f1,'color','w');
-plot(NS1(:,1),NS1(:,2),'Color',[0.5 0.5 0.5],'LineWidth',2)
+plot(NS1(:,1),NS1(:,2),'Color',[0.8 0.5 0.8],'LineWidth',2)
 %  plot(NS1(:,1),NS1(:,2),'Color',[0 0.5 0.5],'LineWidth',2)
 % hold on
 % plot(NS1(:,1),NS1(:,2),'r.')

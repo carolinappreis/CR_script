@@ -1,8 +1,8 @@
-% % 
-% clear
-%   load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
-%   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
-% rs_max=rs_mat(2,1); clear rs_mat; cr=[];
+% 
+clear
+  load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
+  load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
+rs_max=rs_mat(2,1); clear rs_mat; cr=[];
 
 % clear
 % load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
@@ -10,10 +10,10 @@
 % rs_max=rs_mat(4,1);cr=[];
 
 
-clear
- load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P2')
-  load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
-rs_max=rs_mat(4,1); cr=1;
+% clear
+%  load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P2')
+%   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
+% rs_max=rs_mat(4,1); cr=1;
 
 
 
@@ -119,7 +119,7 @@ end
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure','ax2','ax3');
 color_b1=[stone;ax2;ax3];
 
-i=2
+i=1
 f1=figure;
 set(f1,'color','w')
 b=bar(ax_ch{i,1}','FaceAlpha',[0.75],'EdgeColor','none')
