@@ -48,6 +48,7 @@ if co==2
     xticks([size(data1,2)/2])
     xticklabels(['stim'])
     yticks([])
+    title(sprintf('patient %d',(iii)))
     
     
     if iii==9 || iii==10  %%% the only patients with EMG on the thenar eminence
@@ -62,7 +63,7 @@ if co==2
         end
         
         figure(2)
-        subplot(1,2,iii-8)
+        subplot(2,1,iii-8)
         data1=seg_raw1;
         y2=nanmean(data1,1);
         sem = nanstd(data1,1)./ sqrt(size(data1,2));
@@ -81,6 +82,7 @@ if co==2
         xticks([size(data1,2)/2])
         xticklabels(['stim'])
         yticks([])
+        title(sprintf('patient %d',(iii)))
         
     end
     h=1;

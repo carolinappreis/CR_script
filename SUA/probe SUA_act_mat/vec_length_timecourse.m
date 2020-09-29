@@ -93,6 +93,11 @@ for i=1:size(vec_lg,1)
     end
 end
 color_b=[0.5 0 0];
+
+    p=kruskalwallis(vl)
+
+close all
+
 fig=figure()
 % plot(nanmean(vec_lg,1),'-d','LineWidth',1.5,'Color',color_b)
 plot(mean(vl),'-d','LineWidth',1.5,'Color',color_b)
@@ -109,6 +114,10 @@ fig.Units = 'centimeters';
 fig.OuterPosition= [10, 10, 10, 10];
 fig.Color='w';
 
+dum=mean(vl);
+find(p<0.05)
+figure(1)
+plot(find(p<0.05),dum(find(p<0.05)),'gd')
 
 % err=nanstd(vec_lg);
 % errorbar(nanmean(vec_lg),err)

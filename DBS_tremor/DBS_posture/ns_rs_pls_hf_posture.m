@@ -1,8 +1,8 @@
 clear; close
 cohort = [1 3 4 6];
 
-for iii = 4
-   
+for iii = 1:length(cohort)
+    
     load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P0',num2str(cohort(iii)),'_NS.mat'))
     
     
@@ -20,14 +20,14 @@ for iii = 4
     out.e_trials=hd{iii,:};
     
     
-%         figure(1)
-%         time=1:length(data_t(1,:));
-%         plot(time,data_t(1,:))
-%         hold on
+    %         figure(1)
+    %         time=1:length(data_t(1,:));
+    %         plot(time,data_t(1,:))
+    %         hold on
     handup = [];
     for i = 1:length(out.b_trials)
         handup = [handup out.b_trials(i):out.e_trials(i)]; %#ok<*AGROW>
-
+        
     end
     clear i
     handup = sort(handup,'ascend');
@@ -43,13 +43,13 @@ for iii = 4
     
     peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
     
-    plotp(1,iii-1)=Ppeak(peak_ax(2));
-   pcurve(1,iii-1,:)=ps_curves(peak_ax(2),:);
+    plotp(1,iii)=Ppeak(peak_ax(2));
+    pcurve(1,iii,:)=ps_curves(peak_ax(2),:);
     clearvars -except iii cohort plotp pcurve
-
-
-clearvars -except cohort plotp pcurve  iii
-
+    
+    
+    clearvars -except cohort plotp pcurve  iii
+    
     %1:length(cohort)
     
     load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P0',num2str(cohort(iii)),'_RS.mat'))
@@ -248,11 +248,11 @@ clearvars -except cohort plotp pcurve  iii
     for i=1:length(stt)
         handup=[handup stt(i):ett(i)];
     end
-
+    
     clear i
     handup = sort(handup,'ascend');
     
-  data_t=[tremorx;tremory;tremorz];
+    data_t=[tremorx;tremory;tremorz];
     
     for aa = 1:3
         [Pxx,F] = pwelch(data_t(aa,handup), samplerate, [], round(samplerate), samplerate);
@@ -265,74 +265,16 @@ clearvars -except cohort plotp pcurve  iii
     
     peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
     
-    plotp(2,iii-1)=Ppeak(peak_ax(2));
-    pcurve(2,iii-1,:)=ps_curves(peak_ax(2),:);
+    plotp(2,iii)=Ppeak(peak_ax(2));
+    pcurve(2,iii,:)=ps_curves(peak_ax(2),:);
     clearvars -except iii cohort plotp pcurve
-        
     
-
-
-load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P0',num2str(cohort(iii)),'_PLS_P.mat'))
-
-[d]=dbs_preprocess(SmrData); samplerateold=d.samplerateold; samplerate=d.samplerate;
-data=d.data_raw;  tremor_ds=d.data_ds;
-addon=92; addon_end=35;
-
-new = find(data(2,:) > 4);
-difp = find((diff(new)) > 100000); % are you trying to threshold at 9.6 seconds?
-ep_1 = [new(difp) new(end)];
-sp_1 = [new(1) new(difp+1)];
-
-dum=find((ep_1-sp_1)<(60000./samplerate)*samplerateold);
-if ~isempty(dum)
-    sp_1(1,dum)=NaN;
-    ep_1(1,dum)=NaN;
-end
-sp=sp_1(~isnan(sp_1));
-ep=ep_1(~isnan(ep_1));
-
-if iii==4
-    ep(2)=ep(1);
-    ep(1)=953991;
-    sp(2)=1022995;
-end
     
-
-% time=1:length(data(1,:));
-% plot(time,data(4,:))
-% hold on
-% plot(time(sp),data(4,sp),'r.')
-% plot(time(ep),data(4,ep),'k.')
-
-start= floor((sp./samplerateold)*samplerate)+addon;
-ending = floor((ep./samplerateold)*samplerate)+addon+addon_end;
-
-   handup = [];
-   for i = 1:length(start)
-       handup = [handup start(i):ending(i)]; %#ok<*AGROW>
-       
-   end
-   clear i
-   handup = sort(handup,'ascend');
-   
-   for aa = 1:3
-       [Pxx,F] = pwelch(tremor_ds(aa,handup), samplerate, [], round(samplerate), samplerate);
-       frange = F(3:10);
-      Pxxrange = Pxx(3:10);
-        Freqpeak(aa,:) = frange(find(Pxxrange == max(Pxxrange)));
-        Ppeak(aa,:) = max(Pxxrange);
-        ps_curves(aa,:) = Pxx;
-    end
     
-    peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
     
-        plotp(3,iii-1)=Ppeak(peak_ax(2));
-    pcurve(3,iii-1,:)=ps_curves(peak_ax(2),:);
-    clearvars -except iii cohort plotp pcurve 
     
-
-load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf/P0',num2str(cohort(iii)),'_HFS_P.mat'))
-
+    load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf/P0',num2str(cohort(iii)),'_HFS_P.mat'))
+    
     data_raw=SmrData.WvData;
     samplerateold=SmrData.SR;
     ts=timeseries(data_raw,0:(1/samplerateold):((size(data_raw,2)-1)/samplerateold));
@@ -342,7 +284,7 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf/P0',num2str(co
     tt=0:1/samplerate:(size(ds_data,2)-1)/samplerate;
     data_t=ds_data([3 6 7],:);
     
-  
+    
     for aa = 1:3
         [Pxx,F] = pwelch(data_t(aa,:), samplerate, [], round(samplerate), samplerate);
         frange = F(3:10);
@@ -354,34 +296,105 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf/P0',num2str(co
     
     peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
     
-    plotp(4,iii-1)=Ppeak(peak_ax(2));
-    pcurve(4,iii-1,:)=ps_curves(peak_ax(2),:);
+    plotp(4,iii)=Ppeak(peak_ax(2));
+    pcurve(4,iii,:)=ps_curves(peak_ax(2),:);
+    
+    
+    
+% % %     if iii==1
+% % %         plotp(4,iii)=Ppeak(peak_ax(2));
+% % %         pcurve(4,iii,:)=ps_curves(peak_ax(2),:);
+% % %     else
+% % %         
+% % %         
+% % %         load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P0',num2str(cohort(iii)),'_PLS_P.mat'))
+% % %         
+% % %         [d]=dbs_preprocess(SmrData); samplerateold=d.samplerateold; samplerate=d.samplerate;
+% % %         data=d.data_raw;  tremor_ds=d.data_ds;
+% % %         addon=92; addon_end=35;
+% % %         
+% % %         new = find(data(2,:) > 4);
+% % %         difp = find((diff(new)) > 100000); % are you trying to threshold at 9.6 seconds?
+% % %         ep_1 = [new(difp) new(end)];
+% % %         sp_1 = [new(1) new(difp+1)];
+% % %         
+% % %         dum=find((ep_1-sp_1)<(60000./samplerate)*samplerateold);
+% % %         if ~isempty(dum)
+% % %             sp_1(1,dum)=NaN;
+% % %             ep_1(1,dum)=NaN;
+% % %         end
+% % %         sp=sp_1(~isnan(sp_1));
+% % %         ep=ep_1(~isnan(ep_1));
+% % %         
+% % %         if iii==4
+% % %             ep(2)=ep(1);
+% % %             ep(1)=953991;
+% % %             sp(2)=1022995;
+% % %         end
+% % %         
+% % %         
+% % %         % time=1:length(data(1,:));
+% % %         % plot(time,data(4,:))
+% % %         % hold on
+% % %         % plot(time(sp),data(4,sp),'r.')
+% % %         % plot(time(ep),data(4,ep),'k.')
+% % %         
+% % %         start= floor((sp./samplerateold)*samplerate)+addon;
+% % %         ending = floor((ep./samplerateold)*samplerate)+addon+addon_end;
+% % %         
+% % %         handup = [];
+% % %         for i = 1:length(start)
+% % %             handup = [handup start(i):ending(i)]; %#ok<*AGROW>
+% % %             
+% % %         end
+% % %         clear i
+% % %         handup = sort(handup,'ascend');
+% % %         
+% % %         for aa = 1:3
+% % %             [Pxx,F] = pwelch(tremor_ds(aa,handup), samplerate, [], round(samplerate), samplerate);
+% % %             frange = F(3:10);
+% % %             Pxxrange = Pxx(3:10);
+% % %             Freqpeak(aa,:) = frange(find(Pxxrange == max(Pxxrange)));
+% % %             Ppeak(aa,:) = max(Pxxrange);
+% % %             ps_curves(aa,:) = Pxx;
+% % %         end
+% % %         
+% % %         peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
+% % %         
+% % %         plotp(3,iii)=Ppeak(peak_ax(2));
+% % %         pcurve(3,iii,:)=ps_curves(peak_ax(2),:);
+% % %         clearvars -except iii cohort plotp pcurve
+% % %         
+% % %     end
     clearvars -except iii cohort plotp pcurve F
+    
 end
+
+
 
 
 
 for i=1
-p1=figure(1)
-subplot(1,3,i)
-set(p1,'color','w')
-plot(F, squeeze(pcurve(1,i,:)),'Color',[0.5 0.5 0.5],'LineWidth',3)
-hold on
-plot(F, squeeze(pcurve(2,i,:)),'Color',[0 0.5 0.5],'LineWidth',3)
-plot(F, squeeze(pcurve(3,i,:)),'Color',[0.8 0.5 0.5],'LineWidth',3)
-plot(F, squeeze(pcurve(4,i,:)),'Color',[0.8 0.5 0.8],'LineWidth',3)
-xlim([2 10])
-xticks([2:2:10])
-ylim([0 2e-3])
-box('off')
-xlabel('Frequency (Hz)')
-ylabel('Power(\muV^2)')
-legend({'NS','RS','PLS','HFS'})
-legend('boxoff')
+    p1=figure(1)
+    subplot(1,3,i)
+    set(p1,'color','w')
+    plot(F, squeeze(pcurve(1,i,:)),'Color',[0.5 0.5 0.5],'LineWidth',3)
+    hold on
+    plot(F, squeeze(pcurve(2,i,:)),'Color',[0 0.5 0.5],'LineWidth',3)
+    plot(F, squeeze(pcurve(3,i,:)),'Color',[0.8 0.5 0.5],'LineWidth',3)
+    plot(F, squeeze(pcurve(4,i,:)),'Color',[0.8 0.5 0.8],'LineWidth',3)
+    xlim([2 10])
+    xticks([2:2:10])
+    ylim([0 2e-3])
+    box('off')
+    xlabel('Frequency (Hz)')
+    ylabel('Power(\muV^2)')
+    legend({'NS','RS','PLS','HFS'})
+    legend('boxoff')
 end
 
 n=1;
 for i=2:4
-change(n,:)=round(((plotp(i,:)-plotp(1,:))./plotp(1,:)*100),0);
-n=n+1;
+    change(n,:)=round(((plotp(i,:)-plotp(1,:))./plotp(1,:)*100),0);
+    n=n+1;
 end

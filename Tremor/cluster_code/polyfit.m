@@ -25,17 +25,13 @@ for iii=1:size(out.start_c,1)
     plot(mdp4.Fitted,'g','LineWidth',1.5)
     plot(mdk.Fitted,'k','LineWidth',1.5)
     xticks([1:12])
-    xticklabels([0:30:330])
-    a = get(gca,'XTickLabel');
-    set(gca,'XTickLabel',a,'FontSize',5)
-    b = get(gca,'YTickLabel');
-    set(gca,'YTickLabel',b,'FontSize',10)
-    
+    xticklabels([0:30:330])    
     box('off')
     ylabel({'Change in tremor severity'},'FontSize',12)
     xlabel({'Stimulation phase (degrees)'},'FontSize',12)
     set(gca,'FontName','Arial','XTickLabelRotation',50)
     set(f1,'color','w');
+    title(sprintf('patient %d',(iii)))
 
     
     rsqr(iii,:)=[ mdk.Rsquared.Adjusted mdp1.Rsquared.Adjusted mdp2.Rsquared.Adjusted mdp3.Rsquared.Adjusted  mdp4.Rsquared.Adjusted ];
@@ -54,4 +50,6 @@ for iii=1:size(out.start_c,1)
     %     win(iii,1)=s_idx(1);
     %     dif_aic(iii,:)=[(abs(s_val(1)-s_val(2)))>2 (abs(s_val(1)-s_val(3)))>2 (abs(s_val(1)-s_val(4)))>2 (abs(s_val(1)-s_val(5)))>2];
 end
+ f1.OuterPosition= [1,339,1440,539];
+
 end

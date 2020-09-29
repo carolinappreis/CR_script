@@ -21,6 +21,7 @@ for i=1:k
     figure(2+i)
     subplot(2,5,iii)
     [l h]=silhouette(all1(runs{1,i},:),clust.C{iii,i});
+    xlim([-1 1])
     p{i,1}=l;clear l h
 end
 out.bsilh{iii,1}=p{1,1};

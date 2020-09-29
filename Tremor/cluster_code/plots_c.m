@@ -38,24 +38,26 @@ for iii=1:size(out.start_c,1)
     patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
     % plot(y2,'.', 'MarkerSize',20,'Color',color_b1(p,:))
     stem(time,y2,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(p,:))
+    plot(time,dr,'k.','MarkerSize',10)
     yline(0)
     if ~isnan(phase)
         plot(time(phase),y2(phase),'.','Color',color_b1(1,:),'MarkerSize',25)
     end
-    %         yline(prctile(nostim,99.7917),'k--','LineWidth',1)
-    %         yline(prctile(nostim,0.2083),'k--','LineWidth',1)
-    ylim([-1 1])
+            yline(prctile(nostim,99.7917),'k--','LineWidth',1)
+            yline(prctile(nostim,0.2083),'k--','LineWidth',1)
+%     ylim([-1 1])
     xlim([-5 335])
     xticks([0:30:330])
     box('off')
     ylabel({'Change in tremor severity'})
     xlabel({'Stimulation phase (degrees)'})
-    set(gca,'FontSize',9)
+    set(gca,'FontSize',10)
     set(gca,'FontName','Arial','XTickLabelRotation',45)
     set(p1,'color','w');
     title(sprintf('patient %d',(iii)))
 end
 
+ p1.OuterPosition= [1,339,1440,539];
 
 %% plot median split-arc main axis no thresholds
 
@@ -71,7 +73,6 @@ for iii=1:size(out.start_c,1)
         subplot(2,5,iii)
     end
     pp=[sapphire;azure];
-    
     y=[];clear i
     for i=1:2
         datas(i,:)=eval(['nanmedian(out.arc' num2str(i) '{' num2str(iii) ',2}{m_ax,1})']);
@@ -90,7 +91,9 @@ for iii=1:size(out.start_c,1)
         %         yline(0,'LineWidth',0.5,'Color', [0.5 0.5 0.5])
         hold on
         stem(1:12,dum(i,:),'.', 'LineWidth',2,'MarkerSize',10,'Color',pp(i,:))
-        modms(iii,i)=mean(dum(i,:));
+        
+         dum(i,find(dum(i,:)<0))=atanh(dum(i,find(dum(i,:)<0)));
+        modms(iii,i)=mean(abs(dum(i,:)));
         %                 yline(prctile(nsdatas(i,:),99.7917),'--','Color',pp(i,:))
         %                 yline(prctile(nsdatas(i,:),0.2083),'--','Color',pp(i,:))
         %         ll=round(max([abs(min(min(dum))) abs(max(max(dum)))]),1)+0.1;
@@ -100,7 +103,7 @@ for iii=1:size(out.start_c,1)
     end
     
     for i=1:2
-        plot(1:12,dum(i,:),'.', 'LineWidth',1,'MarkerSize',10,'Color',pp(i,:))
+        plot(1:12,dum(i,:),'.', 'LineWidth',2,'MarkerSize',10,'Color',pp(i,:))
         if ~isnan(pha{i,1})
             plot(pha{i,1},dum(i,pha{i,1}),'.','MarkerSize',15,'Color',blushred)
         end
@@ -110,16 +113,19 @@ for iii=1:size(out.start_c,1)
     box('off')
     ylabel({'Change in tremor severity'})
     xlabel({'Stimulation phase (degrees)'})
-    set(gca,'FontSize',12)
+    set(gca,'FontSize',10)
+    ylim([-1.3 1.3])
     set(gca,'FontName','Arial','XTickLabelRotation',45)
     set(f1,'color','w');
     title(sprintf('patient %d',(iii)))
-    
-    clear i
+    f1.OuterPosition= [1,339,1440,539];
+
+    clear i  dum
 end
 
 f1=figure(31)
-b=bar(median(abs(modms)),'FaceColor','flat','FaceAlpha',.6,'EdgeColor','none','BarWidth',1)
+b=bar(median(modms),'FaceColor','flat','FaceAlpha',.6,'EdgeColor','none','BarWidth',1)
+
 b.CData(1,:) = pp(1,:);
 b.CData(2,:) = pp(2,:);
 hold on
@@ -128,15 +134,17 @@ xticklabels({'low amp','high amp'})
 xlabel({'tremor state'})
 ylabel({'mean magnitude';'of modulation'})
 box('off')
-ylim([0 0.8 ])
+ylim([0 0.8])
 set(f1,'color','w');
-set(gca,'FontSize',12);
+set(gca,'FontSize',10);
 ttest(abs(modms(:,1)),abs(modms(:,2)))
-%     ttest(modms(:,1),modms(:,2))
+    ttest(modms(:,1),modms(:,2))
 
 %     er = errorbar(1:2,median(modms),prctile(modms,5),prctile(modms,95));
 %     er.Color = [0 0 0];
 %     er.LineStyle = 'none';
+
+
 
 %% arcs/arc_smothed all axes
 
@@ -162,8 +170,9 @@ for iii=1:size(out.start_c,1)
         
         %choice=smo_s;
         choice=raw_s;
-        a_arc(1,ax)=abs(sum(raw_s));
-        a_env(1,ax)=abs(sum(enve));
+        dum=squeeze(abs(out.change_c{iii,2}{ax,1}))';
+        ab{1,ax}=dum(~isnan(dum)); clear dum
+        a_arc(1,ax)=mean(abs(raw_s));
         a_abs(1,ax)=mean(enve);
         f1=figure(11);
         
@@ -175,13 +184,13 @@ for iii=1:size(out.start_c,1)
         
         plot(1:12,choice,'Color',color_b1(ax,:),'LineWidth',2.5)
         hold on
-        %         if ~isempty(sig)
-        %             plot(sig,choice(1,sig),'*','MarkerSize',5,'Color','r')
-        %         end
+                if ~isempty(sig)
+                    plot(sig,choice(1,sig),'*','MarkerSize',5,'Color','r')
+                end
         xticks([1:12])
         xticklabels([0:30:330])
-        %         ylim([-1.5 1.5])
-        ylim([-1 1])
+                ylim([-1.5 1.5])
+%         ylim([-1 1])
         ylabel('Change in tremor severity')
         xlabel('Stimulation phase (degrees)')
         set(gca,'XTickLabelRotation',45)
@@ -189,47 +198,60 @@ for iii=1:size(out.start_c,1)
         set(f1,'color','w');
         title(sprintf('patient %d',(iii)))
         
+        ts{iii,ax}=degs(sig);
         clear sig raw_s raw_ns smo_s
+            
     end
     tall_sig{iii,1}=t_sig;
-    ax_mod(iii,:)=a_arc./sum(a_arc)*100;
+     ax_mod(iii,:)=a_arc./sum(a_arc)*100;
+%     ax_mod(iii,:)=a_arc;
+
     %     amp_mod(iii,:)=a_env./sum(a_env)*100;
     amp_abs(iii,:)=a_abs;
     %     ax_abs(iii,:)=a_arc;
     ax_max(iii,1)=find(ax_mod(iii,:)==(max(ax_mod(iii,:))));
     m_max(iii,1)=find(amp_abs(iii,:)==(max(amp_abs(iii,:))));
     
+% % %   [ttest(ax_mod(:,1),ax_mod(:,2)) ttest(ax_mod(:,1),ax_mod(:,3))]
     
-    t_s=tall_sig(~(cellfun('isempty',tall_sig)));
-    dum=0.15707963267949;
-    f1=figure(12) %%% error - not plotting first subplot correctly
-    for k=1:size(t_s,1)
-        subplot(1,size(t_s,1),k)
-        title(sprintf('patient %d',(iii)))
-        
-        polarhistogram(deg2rad(t_s{k,1}),30,'FaceColor','red','FaceAlpha',.8,'EdgeColor','none','BinWidth',dum)
-        ax=gca;
-        ax.RLim=[0 3];
-        ax.RTick=[0 1 2 3];
-        ax.GridLineStyle = '--';
-        ax.RGrid='off'
-        ax.GridAlpha = 0.3;
-        ax.Box = 'off';
-        clear x
-        
-    end
-    k=1
-    subplot(1,size(t_s,1),k)
-    polarhistogram(deg2rad(t_s{k,1}-pi),30,'FaceColor','red','FaceAlpha',.8,'EdgeColor','none','BinWidth',dum)
-    ax=gca;
-    ax.RLim=[0 3];
-    ax.RTick=[0 1 2 3];
-    ax.GridLineStyle = '--';
-    ax.RGrid='off'
-    ax.GridAlpha = 0.3;
-    ax.Box = 'off';
-    clear x
-    set(f1,'color','w');
+    
+ %%%% ploar histograms   
+% %     t_s=tall_sig(~(cellfun('isempty',tall_sig)));
+% %     dum=0.15707963267949;
+% %     f1=figure(12) %%% error - not plotting first subplot correctly
+% %     for k=1:size(t_s,1)
+% %         subplot(1,size(t_s,1),k)
+% %         title(sprintf('patient %d',(iii)))
+% %         
+% %         polarhistogram(deg2rad(t_s{k,1}),30,'FaceColor',blushred,'FaceAlpha',.8,'EdgeColor','none','BinWidth',dum)
+% %         ax=gca;
+% %         ax.RLim=[0 3];
+% %         ax.RTick=[0 1 2 3];
+% %         ax.GridLineStyle = '--';
+% %         ax.RGrid='off'
+% %         ax.GridAlpha = 0.3;
+% %         ax.Box = 'off';
+% %         clear x
+% %         
+% %     end
+% %     k=1
+% %     subplot(1,size(t_s,1),k)
+% %     polarhistogram(deg2rad(t_s{k,1}-pi),30,'FaceColor',blushred,'FaceAlpha',.8,'EdgeColor','none','BinWidth',dum)
+% %     ax=gca;
+% %     ax.RLim=[0 3];
+% %     ax.RTick=[0 1 2 3];
+% %     ax.GridLineStyle = '--';
+% %     ax.RGrid='off'
+% %     ax.GridAlpha = 0.3;
+% %     ax.Box = 'off';
+% %     clear x
+% %     set(f1,'color','w');
+
+
+[h,p]=ttest(ab{1,1},ab{1,2});
+[h1,p1]=ttest(ab{1,1},ab{1,3});
+tot(iii,:)=[p,p1]; clear ab
+tot_bi(iii,:)=[p<0.025 p1<0.025];
 end
 
 % figure(13)
@@ -264,6 +286,8 @@ end
 % ylabel('patients')
 % box('off')
 
+
+
 f1=figure(13)
 subplot(2,2,1)
 b=bar(ax_mod,'FaceAlpha',[0.75],'EdgeColor','none');
@@ -271,23 +295,38 @@ b(1).FaceColor=stone;
 b(2).FaceColor=ax2;
 b(3).FaceColor=ax3;
 xlabel('patients')
-ylabel({'change in tremor' ; 'severity (%)'})
+ylabel({'absolute change' ; 'in tremor severity'})
 legend('main axis','axis2','axis3')
 legend('boxoff')
 box('off')
 set(gca,'FontSize',12);
 subplot(2,2,2)
-b1=bar([numel(find(ax_max==1)) numel(find(ax_max==2|ax_max==3))],'EdgeColor','none','FaceColor','flat');
-b1.CData(1,:) = stone;
-b1.CData(2,:) = [1.00,0.54,0.16];
-xticklabels({'main axis','other axes'})
-% set(gca,'FontName','Arial','XTickLabelRotation',45)
-ylabel('patients')
-ylim([0 10])
+% b1=bar([numel(find(ax_max==1)) numel(find(ax_max==2|ax_max==3))],'EdgeColor','none','FaceColor','flat');
+% b1.CData(1,:) = stone;
+% b1.CData(2,:) = [1.00,0.54,0.16];
+% xticklabels({'main axis','other axes'})
+% % set(gca,'FontName','Arial','XTickLabelRotation',45)
+% ylabel('patients')
+% ylim([0 10])
+% box('off')
+% set(gca,'FontSize',12);
+
+% b1=pie([numel(find(ax_max==1)) numel(find(ax_max==2|ax_max==3))],{'1','9'});
+% colormap([stone; 1.00,0.54,0.16]);
+% t=b1(2);t.FontSize = 14;
+% t=b1(4);t.FontSize = 14;
+b1=pie([numel(find(ax_max==1)) numel(find(ax_max==2)) numel(find(ax_max==3))]);
+colormap([stone; ax2; ax3]);
+t=b1(2);t.FontSize = 14;
+t=b1(4);t.FontSize = 14;
+t=b1(6);t.FontSize = 14;
+legend('main axis','other axis')
+legend('boxoff')
 box('off')
-set(gca,'FontSize',12);
+
+
 subplot(2,2,3)
-b=bar(amp_abs,'FaceAlpha',[0.75],'EdgeColor','none')
+b=bar(amp_abs,'FaceAlpha',[0.75],'EdgeColor','none');
 b(1).FaceColor=stone;
 b(2).FaceColor=ax2;
 b(3).FaceColor=ax3;
@@ -298,17 +337,35 @@ legend('boxoff')
 box('off')
 set(gca,'FontSize',12);
 subplot(2,2,4)
-b1=bar([numel(find(m_max==1)) numel(find(m_max==2|m_max==3))],'EdgeColor','none','FaceColor','flat')
-b1.CData(1,:) = stone;
-b1.CData(2,:) = [1.00,0.54,0.16];
-ylim([0 10])
-xticklabels({'main axis','other axes'})
-% set(gca,'FontName','Arial','XTickLabelRotation',45)
-ylabel('patients')
-box('off')
-set(gca,'FontSize',12);
-set(f1,'color','w');
+% b1=bar([numel(find(m_max==1)) numel(find(m_max==2|m_max==3))],'EdgeColor','none','FaceColor','flat')
+% b1.CData(1,:) = stone;
+% b1.CData(2,:) = [1.00,0.54,0.16];
+% ylim([0 10])
+% xticklabels({'main axis','other axes'})
+% % set(gca,'FontName','Arial','XTickLabelRotation',45)
+% ylabel('patients')
+% box('off')
+% set(gca,'FontSize',12);
+% set(f1,'color','w');
 
+
+% b2=pie([numel(find(m_max==1)) numel(find(m_max==2|m_max==3))],{'10','0'});
+% colormap([stone]);
+% j=b2(2);j.FontSize = 14;
+% legend('main axis','other axis')
+% legend('boxoff')
+% box('off')
+
+
+b1=pie([numel(find(m_max==1)) numel(find(m_max==2)) numel(find(m_max==3))]);
+colormap([stone; ax2; ax3]);
+t=b1(2);t.FontSize = 14;
+t=b1(4);t.FontSize = 14;
+t=b1(6);t.FontSize = 14;
+legend('main axis','other axis')
+legend('boxoff')
+box('off')
+set(f1,'color','w');
 
 %% gaussian fit to tremor properties & correlation with arc features
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','stone');
@@ -332,8 +389,8 @@ for iii=1:size(out.start_c,1)10
     %     ylim([0 1.5])
     xticks([1:2:14])
     %     xticklabels({'2','3','4','5','6','7','8'});
-    ylabel({'absolute amplitude \uV^2'})
-    xlabel('frequency(Hz)')
+    ylabel({'Absolute amplitude (\muV^2)'})
+    xlabel('Frequency (Hz)')
     %     set(gca,'FontSize',12)
     box('off')
     legend('off')
@@ -425,3 +482,25 @@ end
 % % [f,h]=ttest(out.ns3(yu,:),out.pls3(yu,:))
 end
 
+% % for i=1:10
+% % 
+% % tog{i,1}=horzcat(out.all_amp{i,1},out.all_amp{i,2});
+% % 
+% % subplot(2,5,i)
+% % x=1:size(tog{i,1},2);
+% % y=tog{i,1};
+% %    
+% % [fitresult] = fit( x',y', 'poly1' );
+% %    
+% %    h=plot(fitresult,x,y);
+% %     
+% %     hold on
+% %     plot(x,y,'k.','MarkerSize',10,'HandleVisibility','off');
+% %     legend('off')
+% %     box('off')
+% % ylabel ('Absolute Amplitude')
+% % xlabel('trials')
+% % [r(1,i),p(1,i)]=corrcoef(x',y');
+% % clear x y
+% % 
+% % end

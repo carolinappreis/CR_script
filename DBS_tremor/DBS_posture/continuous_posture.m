@@ -95,8 +95,10 @@ for p= 1:length(start{iii,co})
         xline(tp_e{p,1}(K),'y.','LineWidth',2)
         ylim([1.9 2])
         figure(2)
-        xline(tp_s{p,1}(K),'y.','LineWidth',2)
-        xline(tp_e{p,1}(K),'y.','LineWidth',2)
+        xline(tp_s{p,1}(K),'y','LineWidth',0.5)
+        xline(tp_e{p,1}(K),'y','LineWidth',0.5)
+        xline(tp_s{p,1}(K)-3000,'b','LineWidth',0.5)
+        xline(tp_e{p,1}(K)+3000,'b','LineWidth',0.5)
         ylim([-0.05 0.05])
     end
     
@@ -119,27 +121,44 @@ end
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure','ax2','ax3');
 color_b1=[stone;ax2;ax3];
 
-i=1
-f1=figure;
+% for i=1:length(start{iii,co})
+% f1=figure(i);
+% set(f1,'color','w')
+% b=bar(ax_ch{i,1}','FaceAlpha',[0.75],'EdgeColor','none')
+% b(1).FaceColor=stone;
+% b(2).FaceColor=ax2;
+% b(3).FaceColor=ax3;
+% box('off')
+% ylim([-1 1])
+% yticks(-1:0.2:1)
+% ylabel({'Change in tremor severity'})
+% legend('tracked axis','axis2','axis3')
+% legend('Orientation','horizontal')
+% legend('Location','southwest')
+% legend('boxoff')
+% set(gca,'xtick',[]);
+% set(gca,'xcolor',[1 1 1])
+% set(gca,'FontSize',14);
+% end
+
+
+for i=1:2
+f1=figure(i);
 set(f1,'color','w')
-b=bar(ax_ch{i,1}','FaceAlpha',[0.75],'EdgeColor','none')
-b(1).FaceColor=stone;
-b(2).FaceColor=ax2;
-b(3).FaceColor=ax3;
+plot(1:5,ax_ch{i,1}(1,:),'--','Color',stone,'LineWidth',1)
+hold on
+stem(1:5,ax_ch{i,1}(1,:),'.', 'LineWidth',4,'MarkerSize',20,'Color',stone)
+% b=bar(ax_ch{i,1}(1,:),'FaceAlpha',[0.75],'EdgeColor','none')
+% b(1).FaceColor=stone;
 box('off')
+xlim([-0.5 6.5])
 ylim([-1 1])
 yticks(-1:0.2:1)
 ylabel({'Change in tremor severity'})
-legend('tracked axis','axis2','axis3')
-legend('Orientation','horizontal')
-legend('Location','southwest')
-legend('boxoff')
 set(gca,'xtick',[]);
 set(gca,'xcolor',[1 1 1])
 set(gca,'FontSize',14);
-
-
-
+end
 
 
 

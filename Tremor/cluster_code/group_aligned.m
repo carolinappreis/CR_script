@@ -51,7 +51,7 @@ for cr=1:2
         arc{cr,1}=s_al;
     end
     f1=figure(19)
-    subplot(2,1,cr)
+    subplot(1,2,cr)
     % main peak at 180 deg
     dr=[s_al(:,8:12) s_al(:,1:7)];
     y2=nanmedian(dr,1);
@@ -91,16 +91,19 @@ end
 dr1=prctile(ref_ns(id_a,:),95,2);
 dr2=prctile(ref_ns(id_s,:), 5,2);
 
+arc1=arc{1,1}(id_a,:);
+arc2=arc{2,1}(id_s,:);
+
 for g=1:size(arc{1,1},2)
-    arc1=arc{1,1}(id_a,g);
-    arc2=arc{2,1}(id_s,g);
-    [j,h]=signrank(arc1,dr1);
+    [j,h]=signrank((arc1(:,g)),(dr1));
     stats.group_amp(1,g)=j; 
     stats.group_amp(2,g)=j<(0.05/12);clear j h
-    [j,h]=signrank(arc2,dr2);
+    [j,h]=signrank((arc2(:,g)),(dr2));
     stats.group_sup(1,g)=j;
     stats.group_sup(2,g)=j<(0.05/12);
-    clear arc1 arc2 j h
+    clear j h
+    dif_a(:,g)=arc1(:,g)-dr1;
+    dif_s(:,g)=arc2(:,g)-dr2;
 end
 
 end

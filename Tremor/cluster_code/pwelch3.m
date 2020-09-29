@@ -105,6 +105,44 @@ f1.Units ='centimeters';
 f1.OuterPosition= [5, 5, 30, 20];
 set(f1,'color','w');
 
+f2=figure;
+subplot(1,2,1)
+bar(1:3,[median(fASNS(1,:)) median(fASNS(2,:)) median(fASNS(3,:))],'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.3,'EdgeColor','none')
+hold on
+subplot(1,2,2)
+bar(1:3,[median(pASNS(1,:)) median(pASNS(2,:)) median(pASNS(3,:))],'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.3,'EdgeColor','none')
+hold on
+for i=1:size(fASNS,2)
+    cl= rand(1,3);
+    subplot(1,2,1)
+    plot(fASNS(1:3,i),'Color',cl,'LineWidth',1)
+    hold on
+    plot([fASNS(1,i); fASNS(2,i); fASNS(3,i)],'.','MarkerSize',15,'Color',cl)
+    % ylim([0 1.6])
+    % yticks([0:0.4:2])
+    xlim([0 4])
+    xticklabels({'NS','SUP','AMP'})
+    box('off')
+    ylabel('Tremor peak frequency')
+    set(gca,'FontSize',12)
+    
+    subplot(1,2,2)
+    plot(pASNS(1:3,i),'Color',cl,'LineWidth',1)
+    hold on
+    plot([pASNS(1,i); pASNS(2,i); pASNS(3,i)],'.','MarkerSize',15,'Color',cl)
+    % ylim([0 1.6])
+    % yticks([0:0.4:2])
+    xlim([0 4])
+    xticklabels({'NS','SUP','AMP'})
+    box('off')
+    ylabel('Tremor peak frequency power')
+    set(gca,'FontSize',12)
+    
+end
+f2.Units ='centimeters';
+% f2.OuterPosition= [257,547,763,331];
+set(f2,'color','w');
+
 
 %% PLS and NS
 

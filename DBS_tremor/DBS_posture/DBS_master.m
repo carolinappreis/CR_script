@@ -6,9 +6,9 @@ rng('default')
 gen=(rng);
 
 spiral=0;
- load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_cluster_out.mat');
+load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_cluster_out.mat');
 
-for iii = 1:length(cohort)
+for iii =1:length(cohort)
     clearvars -except  cohort cond iii clust s start ending yy out gen h_up spiral
     for co=1:2
 %         size(cond,1)
@@ -25,11 +25,11 @@ for iii = 1:length(cohort)
 %                     [out]=cluster_intime(clust,s,iii,co,out);
 %                 end
 %         
-         [start,ending,out,yy]=dbs_mod_nc(start,ending,co,samplerate,iii,s,yy,out); %%%tremor amplitude change without clustering
+%          [start,ending,out,yy]=dbs_mod_nc(start,ending,co,samplerate,iii,s,yy,out); %%%tremor amplitude change without clustering
     end
     
- [clust,out]=dbs_clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
-    
+%  [clust,out]=dbs_clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
+%     
  for co=1:2
 %      size(cond,1)
      [out]=mod_c(clust,out,co,iii,s,h_up,cohort);   %%%% tremor amplitude change with clustering
@@ -40,7 +40,7 @@ end
   clearvars -except out clust
 
 % clear
-load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_cluster_out.mat','out');
+% load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_cluster_out.mat','out');
 stats=struct;
 
 [out]=polyfit(out); %non uniformity of arc's polynomial fits with r2 and f-stats

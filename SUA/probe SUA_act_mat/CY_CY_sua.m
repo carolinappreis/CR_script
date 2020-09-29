@@ -66,50 +66,50 @@ for u=1:size(units_match1,1)
                 pref_pha(ctc,ii)=circ_mean(bu1);
                 clear bu
                 
-                %         cyc_avg(1,ii)=nanmean(vec_lg);
-                %         cyc_ang_avg(1,ii)=circ_mean(pref_pha);
+%                         cyc_avg(1,ii)=nanmean(vec_lg);
+%                         cyc_ang_avg(1,ii)=circ_mean(pref_pha);
                 
             end
             
             clearvars -except zm idx_spkcycle pha_b_all pha_b pha_b_l vec_lg ctc cyc_avg cyc_ang_avg pref_pha units_match cy_bursts SSNR u f units_match1
-                        for i=11:15
-                            figure(ctc+1)
-                            if i==11
-                                p1=polarplot([0 pref_pha(ctc,i)], [0, vec_lg(ctc,i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-                                hold on
-                            elseif i==12
-                                p2=polarplot([pref_pha(ctc,i-1) pref_pha(ctc,i)], [vec_lg(ctc,i-1), vec_lg(ctc,i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-                            elseif i==13
-                                p3=polarplot([pref_pha(ctc,i-1) pref_pha(ctc,i)], [vec_lg(ctc,i-1), vec_lg(ctc,i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-                            elseif i==14
-                                p4=polarplot([pref_pha(ctc,i-1) pref_pha(ctc,i)], [vec_lg(ctc,i-1), vec_lg(ctc,i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-                            elseif i==15
-                                p5=polarplot([pref_pha(ctc,i-1) pref_pha(ctc,i)], [vec_lg(ctc,i-1), vec_lg(ctc,i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+%                         for i=11:15
+%                             figure(ctc+1)
+%                             if i==11
+%                                 p1=polarplot([0 pref_pha(ctc,i)], [0, vec_lg(ctc,i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+%                                 hold on
+%                             elseif i==12
+%                                 p2=polarplot([pref_pha(ctc,i-1) pref_pha(ctc,i)], [vec_lg(ctc,i-1), vec_lg(ctc,i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+%                             elseif i==13
+%                                 p3=polarplot([pref_pha(ctc,i-1) pref_pha(ctc,i)], [vec_lg(ctc,i-1), vec_lg(ctc,i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+%                             elseif i==14
+%                                 p4=polarplot([pref_pha(ctc,i-1) pref_pha(ctc,i)], [vec_lg(ctc,i-1), vec_lg(ctc,i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+%                             elseif i==15
+%                                 p5=polarplot([pref_pha(ctc,i-1) pref_pha(ctc,i)], [vec_lg(ctc,i-1), vec_lg(ctc,i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+%             
+%                             end
+%                         end
+%                         rlim([0 0.7])
+%                         legend([p1 p2 p3 p4 p5],{'1st cycle','2nd cycle','3rd cycle','4th cycle','5th cycle'},'Box','off','Orientation','horizontal','Location','south','FontSize',9)
+%             
             
-                            end
-                        end
-                        rlim([0 0.7])
-                        legend([p1 p2 p3 p4 p5],{'1st cycle','2nd cycle','3rd cycle','4th cycle','5th cycle'},'Box','off','Orientation','horizontal','Location','south','FontSize',9)
-            
-            
-            %%per animal
-            %     for i=11:15
-            %         if i==11
-            %             p1=polarplot([0 cyc_ang_avg(i)], [0, cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-            %             hold on
-            %         elseif i==12
-            %             p2=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-            %         elseif i==13
-            %             p3=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-            %         elseif i==14
-            %             p4=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-            %         elseif i==15
-            %             p5=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
-            %
-            %         end
-            %         rlim([0 0.6])
-            %     end
-            %     legend([p1 p2 p3 p4 p5],{'1st cycle','2nd cycle','3rd cycle','4th cycle','5th cycle'},'Box','off','Orientation','horizontal','Location','south','FontSize',9)
+            %per animal
+% % %                 for i=11:15
+% % %                     if i==11
+% % %                         p1=polarplot([0 cyc_ang_avg(i)], [0, cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+% % %                         hold on
+% % %                     elseif i==12
+% % %                         p2=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+% % %                     elseif i==13
+% % %                         p3=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+% % %                     elseif i==14
+% % %                         p4=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+% % %                     elseif i==15
+% % %                         p5=polarplot([cyc_ang_avg(i-1) cyc_ang_avg(i)], [cyc_avg(i-1) cyc_avg(i)],'linewidth',2,'MarkerIndices',[2],'Marker','d')
+% % %             
+% % %                     end
+% % %                     rlim([0 0.6])
+% % %                 end
+% % %                 legend([p1 p2 p3 p4 p5],{'1st cycle','2nd cycle','3rd cycle','4th cycle','5th cycle'},'Box','off','Orientation','horizontal','Location','south','FontSize',9)
         end
         clear pha_b
 end
