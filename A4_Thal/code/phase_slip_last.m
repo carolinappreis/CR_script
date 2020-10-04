@@ -1,21 +1,12 @@
 clear all
 close all
-% cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
+%  cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal')
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal')
 
 load('BZ_opt.mat');
-color_b=[0.5 0 0];
 % color_b=[0 0 0.8];
-CTX=0;
-
-
-% for ii=1:length(BZ.idrat)
-% data{ii,1}=BZ.filt_thal{BZ.idrat(ii),1}
-% end
-% data=vertcat(data{:});
+color_b=[0.5 0 0];
 bins=[55:50:300];
-
-
 
 for ik=1:size(BZ.env_ctx,1)
     clearvars dur
@@ -27,7 +18,6 @@ for ik=1:size(BZ.env_ctx,1)
         ref1=ref1(1:length(ref1_1));
         ref2=ref2(1:length(ref1_1));
     end
-    %         [dur,dur_idx]=sort(ref2-ref1,'ascend');
     [dur,dur_idx]=sort(ref2-ref1,'ascend');
     %     dur_all(ik,1)=max(dur);
     if max(dur)>=290
@@ -43,7 +33,6 @@ for ik=1:size(BZ.env_ctx,1)
         end
     end
 end
-
 m=1;
 new_idx=[];
 for i =1:size(ind_b1,1)
@@ -60,33 +49,19 @@ end
 BZ.idrat=new_idx;
 r= min(cellfun(@length,ind_b1_1));
 
-
-
 epochs_zd=[];
 for bi=1:size(ind_b1,2)
     dim=[];
     for ik=1:length(BZ.idrat)
         clear ref3 epochs_ct
         ref3=ind_b1_1{ik,bi}(1,1:r(bi));
-        
-        if CTX==0
-            what=size(BZ.phase_thal{BZ.idrat(ik),1},1);
-        else
-            what=1;
-        end
-        
-        for ct=1:what
+        for ct=1:size(BZ.phase_thal{BZ.idrat(ik),1},1)
             clear epochs_z epochs_z1
-            
-            if CTX==0
-                non_norm=unwrap(BZ.phase_thal{BZ.idrat(ik),1}(ct,:));%circdist
-            else
-                non_norm=unwrap(BZ.phase_ctx(BZ.idrat(ik),:));
-            end
-            
+            non_norm=unwrap(BZ.phase_ctx(BZ.idrat(ik),:))-unwrap(BZ.phase_thal{BZ.idrat(ik),1}(ct,:)); %circdist
             non_norm1=diff(non_norm);
             znon_norm=zscore(non_norm1);
             el=400;
+            
             for ii=1:length(ref3)
                 if ref3(ii)>el
                     epochs_z(ii,:)=znon_norm(ref3(ii)-el:ref3(ii)+el);
@@ -101,7 +76,6 @@ for bi=1:size(ind_b1,2)
                     end
                 end
             end
-            
             epochs_zd=[epochs_zd ; epochs_z1];
             epochs_ct(ct,:,:)=epochs_z1;
         end
@@ -112,8 +86,12 @@ for bi=1:size(ind_b1,2)
     end
     dim_all{bi,1}=dim;
     slip_b{bi,:}=squeeze(mean(epochs_probe,1));
-    clear epochs_probe
+    clear epochs_probe 
 end
+
+
+
+
 
 %% HC's
 
@@ -139,7 +117,7 @@ end
 fig=figure(2)
 subplot(2,1,1)
 imagesc(ns)
-title('BZ')
+title('BZ-CTX')
 xlabel ('Time (msec)')
 ylabel('Bursts (sorted by length)')
 yticks([1 65])

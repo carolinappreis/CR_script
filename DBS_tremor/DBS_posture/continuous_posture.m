@@ -1,13 +1,13 @@
-% 
-clear
-  load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
-  load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
-rs_max=rs_mat(2,1); clear rs_mat; cr=[];
 
 % clear
-% load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
+%   load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
 %   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
-% rs_max=rs_mat(4,1);cr=[];
+% rs_max=rs_mat(2,1); clear rs_mat; cr=[];
+
+clear
+load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
+  load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
+rs_max=rs_mat(4,1);cr=[];
 
 
 % clear
@@ -49,7 +49,7 @@ end
 
 
 
-y=[sum(s.env{iii,co}(1,1:start{1,3}(1):ending{1,3}(1)));sum(s.env{iii,co}(2,1:start{1,3}(1):ending{1,3}(1)));sum(s.env{iii,co}(3,1:start{1,3}(1):ending{1,3}(1)))]
+y=[sum(s.env{iii,co}(1,1:start{1,3}(1):ending{1,3}(1)));sum(s.env{iii,co}(2,1:start{1,3}(1):ending{1,3}(1)));sum(s.env{iii,co}(3,1:start{1,3}(1):ending{1,3}(1)))];
 max_env(1,1)=find(y==(max(y))); clear y
 for j=1:size(start{1,3},2)
 y=[sum(s.env{iii,co}(1,start{1,3}(j)-3000:start{1,3}(j)));sum(s.env{iii,co}(2,start{1,3}(j)-3000:start{1,3}(j)));sum(s.env{iii,co}(3,start{1,3}(j)-3000:start{1,3}(j)))];
@@ -142,7 +142,7 @@ color_b1=[stone;ax2;ax3];
 % end
 
 
-for i=1:2
+for i=1:3
 f1=figure(i);
 set(f1,'color','w')
 plot(1:5,ax_ch{i,1}(1,:),'--','Color',stone,'LineWidth',1)

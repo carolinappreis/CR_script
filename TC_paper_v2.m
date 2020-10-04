@@ -13,8 +13,9 @@ run 'plots_psi_time_bursts.m'
 % bursts_aligned_off.m
 
 %phase-slips analysis
-run 'phase_slips.m' % as described in PNAS - Cagnan et al.2019
-run 'during_severalb.m' % according to bins of busrt duration
+run 'phase_slip_last.m' % up to date 
+% run 'phase_slips.m' % as described in PNAS - Cagnan et al.2019
+% run 'during_severalb.m' % according to bins of busrt duration
 run 'idregion_phaseslip.m' % change of instantaneous frequency at ctx and thal independantly
 %PSD ctx and subcortical regions
 run 'psd_plots'
