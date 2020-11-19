@@ -1,4 +1,4 @@
-function [out]=mod_c(clust,out,co,iii,s,h_up,cohort)
+function  [out]=mod_c(clust,out,co,iii,s,cohort)
 % rng(gen)
 m_ax=1;
 z_sig=s.z{iii,co};
@@ -11,11 +11,12 @@ env_acc=s.env_acc{iii,co};
 
 
 if co==1
-%     if length(cohort)==10
+    
+    if (size(cohort,2))==10
         load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/aux_out.mat','bs_end','bs_begin','amp_bbl','change_bl')
-%     else
-%         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','bs_end','bs_begin','amp_bbl','change_bl')
-%     end
+    else
+        load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','bs_end','bs_begin','amp_bbl','change_bl')
+    end
     
     for m=1:length(out.sns{iii,1})
         out.all_amp{iii,co}(1,m)=mean(envelope(m_ax,out.sns{iii,1}(1,m)-1000:out.sns{iii,1}(1,m)));

@@ -42,17 +42,39 @@ clearvars -except out clust
 
 load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat','out');
 
+
+%%% 1) plots & stats stim ARCs and mediansplit stim ARCs with clustering 
+[r,p]=plots_c(out);
+
+
+%%% 2) plots & stats tremor power during non-stim / superssive stim effects and amplifying stim effects 
+[out]=psd_rs_indseg(out); 
+% avg pwelch of 5 sec segments amp and sup - 
+        %%% pwelch from 5 sec seg of 50 000 non-stim surrogate comes from
+        %%% ppx_nseg.m
+
+ %%% 3) plots & stats group stim effects vs non stim effects      
+[stats]=group_arcs(out,stats);
+
+ %%% 3) plots & stats group stim effects vs non stim effects after median
+ %%% split
+run('median_split_group.m');
+
+
+
+%%%%%%%%%%%%%%%% NOT USED IN PAPER / EXTRA ANALYSIS
+
 [out]=polyfit(out); %non uniformity of arc's polynomial fits with r2 and f-stats
 [out]=polyfit_nc(out);
-
-  [out]=cvar(out);
-
-[r,p]=plots_c(out);  %plots ARCs with clustering
-[out]=psd_rs(out);  %power of RS segments
-stats=struct;
-[stats]=pwelch3(out,stats);  % stat comparison between power and freq between amplification supression and no stim
-[stats]=group_aligned(out,stats);  % group ARC - stats
-[stats]=group_arcs(out,stats);
 % % [nc]=plots_nc(out); %plots ARCs without clustering ---- needs fx mod_nc
+
+
+%%% concatenate trials that are supressive and amp and take their pwelch:
+% [out]=psd_rs(out);  %power of RS segments
+% [stats]=pwelch3(out,stats);  % stat comparison between power and freq between amplification supression and no stim
+
+[out]=cvar(out);
+stats=struct;
+
 
 

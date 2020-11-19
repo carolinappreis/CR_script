@@ -1,10 +1,12 @@
 function [low,high,m_arc_a,m_arc_s]=ns_th(out,ref_ns,iii,low,high,m_arc_a,m_arc_s)
-[p,q]=(max(ref_ns'));
-[m,n]=(min(ref_ns'));
+[p,q]=(max(ref_ns'));% find max modulatory effect of each surrogate arc
+[m,n]=(min(ref_ns'));% find min modulatory effect of each surrogate arc
 
 parfor ii=1:size(ref_ns,1)
-    % main peak at 0 deg
-    if q(ii)==1;
+ 
+    %%% arc's aligned to max amplification
+    
+    if q(ii)==1;    % if main peak at 0 deg
         s_al_a(ii,:)=ref_ns(ii,:);
         check(1,ii)=NaN;
     else
@@ -13,8 +15,9 @@ parfor ii=1:size(ref_ns,1)
         %         check(1,ii)=sum(diff([q(ii):size(s_al_a,2) 1:q(ii)-1]));
     end
     
-    % main peak at 0 dega
-    if n(ii)==1;
+   %%% arc's aligned to max amplification
+    
+    if n(ii)==1;  % if main peak at 0 deg
         s_al_s(ii,:)=ref_ns(ii,:);
         check(1,ii)=NaN;
     else

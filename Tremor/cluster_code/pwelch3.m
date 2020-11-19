@@ -8,7 +8,7 @@ dumm={'out.Pxx_ns_all';'out.Pxx_s_all';'out.Pxx_a_all'};
 for i=1:size(dumm,1)
     cr=eval(dumm{i,1});
     pxxrange=cr(:,frange);
-    pASNS(i,:)=max(pxxrange');
+    pNSSA(i,:)=max(pxxrange');
     
     
     
@@ -28,12 +28,20 @@ for i=1:size(dumm,1)
 end
 % kstest(ASNS(1,:)-ASNS(3,:))==1
 
-[p,stats.power_ns_s]=ttest(pASNS(1,:),pASNS(2,:))
-[p,stats.power_ns_a]=ttest(pASNS(1,:),pASNS(3,:))
-[p,stats.power_s_a]=ttest(pASNS(2,:),pASNS(3,:))
+[p,stats.power_ns_s]=ttest(pNSSA(1,:),pNSSA(2,:))
+[p,stats.power_ns_a]=ttest(pNSSA(1,:),pNSSA(3,:))
+[p,stats.power_s_a]=ttest(pNSSA(2,:),pNSSA(3,:))
 [p,stats.freq_ns_s]=ttest(fASNS(1,:),fASNS(2,:));
 [p,stats.freq_ns_a]=ttest(fASNS(1,:),fASNS(3,:));
 [p,stats.freq_s_a]=ttest(fASNS(2,:),fASNS(3,:));
+
+
+
+
+
+
+
+
 
 
 close all
@@ -72,7 +80,7 @@ subplot(1,3,2)
 bar(1:3,[median(fASNS(1,:)) median(fASNS(2,:)) median(fASNS(3,:))],'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.3,'EdgeColor','none')
 hold on
 subplot(1,3,3)
-bar(1:3,[median(pASNS(1,:)) median(pASNS(2,:)) median(pASNS(3,:))],'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.3,'EdgeColor','none')
+bar(1:3,[median(pNSSA(1,:)) median(pNSSA(2,:)) median(pNSSA(3,:))],'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.3,'EdgeColor','none')
 hold on
 for i=1:size(fASNS,2)
     cl= rand(1,3);
@@ -89,11 +97,11 @@ for i=1:size(fASNS,2)
     set(gca,'FontSize',12)
     
     subplot(1,3,3)
-    plot(pASNS(1:3,i),'Color',cl,'LineWidth',1)
+    plot(pNSSA(1:3,i),'Color',cl,'LineWidth',1)
     hold on
-    plot([pASNS(1,i); pASNS(2,i); pASNS(3,i)],'.','MarkerSize',15,'Color',cl)
-    % ylim([0 1.6])
-    % yticks([0:0.4:2])
+    plot([pNSSA(1,i); pNSSA(2,i); pNSSA(3,i)],'.','MarkerSize',15,'Color',cl)
+    ylim([0 1.6])
+    yticks([0:0.4:2])
     xlim([0 4])
     xticklabels({'NS','SUP','AMP'})
     box('off')
@@ -110,7 +118,7 @@ subplot(1,2,1)
 bar(1:3,[median(fASNS(1,:)) median(fASNS(2,:)) median(fASNS(3,:))],'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.3,'EdgeColor','none')
 hold on
 subplot(1,2,2)
-bar(1:3,[median(pASNS(1,:)) median(pASNS(2,:)) median(pASNS(3,:))],'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.3,'EdgeColor','none')
+bar(1:3,[median(pNSSA(1,:)) median(pNSSA(2,:)) median(pNSSA(3,:))],'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.3,'EdgeColor','none')
 hold on
 for i=1:size(fASNS,2)
     cl= rand(1,3);
@@ -127,9 +135,9 @@ for i=1:size(fASNS,2)
     set(gca,'FontSize',12)
     
     subplot(1,2,2)
-    plot(pASNS(1:3,i),'Color',cl,'LineWidth',1)
+    plot(pNSSA(1:3,i),'Color',cl,'LineWidth',1)
     hold on
-    plot([pASNS(1,i); pASNS(2,i); pASNS(3,i)],'.','MarkerSize',15,'Color',cl)
+    plot([pNSSA(1,i); pNSSA(2,i); pNSSA(3,i)],'.','MarkerSize',15,'Color',cl)
     % ylim([0 1.6])
     % yticks([0:0.4:2])
     xlim([0 4])

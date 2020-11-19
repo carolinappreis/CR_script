@@ -1,25 +1,30 @@
 
+%%% choose between 1) patient 3 (DT) 3) patient 6 (ET) stim at 120 deg 4)
+%%% pateint 6 (ET) at 240
+
 % clear
 %   load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
 %   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
 % rs_max=rs_mat(2,1); clear rs_mat; cr=[];
 
-clear
-load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
-  load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
-rs_max=rs_mat(4,1);cr=[];
-
-
 % clear
-%  load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P2')
+% load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
 %   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
-% rs_max=rs_mat(4,1); cr=1;
+% rs_max=rs_mat(4,1);cr=[];
 
 
+clear
+ load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P2')
+  load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat') %%% to get the main axis and points of tp_s(tapping start) and tp_e(tapping ending)
+
+rs_max=rs_mat(4,1); cr=1;
+
+%%% -------
 
 [d]=dbs_preprocess(SmrData); samplerateold=d.samplerateold; samplerate=d.samplerate;
 
-co=3;
+co=3; %%% condifition 3 - phase locked
+
 iii=1;
 clust=struct; out=struct; start=cell(1,3); ending=cell(1,3); yy=cell(1,3); h_up=cell(1,3); s=struct;
 
@@ -35,7 +40,7 @@ end
 
 %%% PLS06 P2
 if cr==1
-ending{1, 3}(1,2)=258848;
+ending{1,3}(1,2)=258848;
 end
 
 
@@ -119,27 +124,28 @@ end
 
 
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure','ax2','ax3');
+
 color_b1=[stone;ax2;ax3];
 
-% for i=1:length(start{iii,co})
-% f1=figure(i);
-% set(f1,'color','w')
-% b=bar(ax_ch{i,1}','FaceAlpha',[0.75],'EdgeColor','none')
-% b(1).FaceColor=stone;
-% b(2).FaceColor=ax2;
-% b(3).FaceColor=ax3;
-% box('off')
-% ylim([-1 1])
-% yticks(-1:0.2:1)
-% ylabel({'Change in tremor severity'})
-% legend('tracked axis','axis2','axis3')
-% legend('Orientation','horizontal')
-% legend('Location','southwest')
-% legend('boxoff')
-% set(gca,'xtick',[]);
-% set(gca,'xcolor',[1 1 1])
-% set(gca,'FontSize',14);
-% end
+for i=1:length(start{iii,co})
+f1=figure(i);
+set(f1,'color','w')
+b=bar(ax_ch{i,1}','FaceAlpha',[0.75],'EdgeColor','none')
+b(1).FaceColor=stone;
+b(2).FaceColor=ax2;
+b(3).FaceColor=ax3;
+box('off')
+ylim([-1 1])
+yticks(-1:0.2:1)
+ylabel({'Change in tremor severity'})
+legend('tracked axis','axis2','axis3')
+legend('Orientation','horizontal')
+legend('Location','southwest')
+legend('boxoff')
+set(gca,'xtick',[]);
+set(gca,'xcolor',[1 1 1])
+set(gca,'FontSize',14);
+end
 
 
 for i=1:3
@@ -148,10 +154,16 @@ set(f1,'color','w')
 plot(1:5,ax_ch{i,1}(1,:),'--','Color',stone,'LineWidth',1)
 hold on
 stem(1:5,ax_ch{i,1}(1,:),'.', 'LineWidth',4,'MarkerSize',20,'Color',stone)
-% b=bar(ax_ch{i,1}(1,:),'FaceAlpha',[0.75],'EdgeColor','none')
-% b(1).FaceColor=stone;
-box('off')
 xlim([-0.5 6.5])
+
+%%% ib case of just one tap use
+
+% % plot(1:3,ax_ch{i,1}(1,:),'--','Color',stone,'LineWidth',1)
+% % hold on
+% % stem(1:3,ax_ch{i,1}(1,:),'.', 'LineWidth',4,'MarkerSize',20,'Color',stone)
+% % xlim([-0.5 4.5])
+
+box('off')
 ylim([-1 1])
 yticks(-1:0.2:1)
 ylabel({'Change in tremor severity'})

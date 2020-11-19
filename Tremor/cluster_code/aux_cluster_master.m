@@ -1,3 +1,7 @@
+%%% combination of HC and BA  codes to calculate  distribution of changes
+%%% in tremor severity during non-stimulation
+
+
 clear all, close all
 cohort = [ 2 3 4 5 8 10 11 13 16 17];
 
@@ -12,17 +16,18 @@ change_bl = NaN(10,3,5e4);
 pc1_exp =cell(10,1);
 
 
-
+%%% main axis is adjusted in random stim according to psd calculated from
+%%% the non stim condition, and accelerometer axis are swaped on the
+%%% amplifyier accordingly - main and ns_mat code for this change
 main=[1 1 3 1 3 3 3 3 1 1];
 ns_mat=[[1 2 3]; [1 2 3]; [3 2 1]; [1 2 3];[3 2 1]; [3 2 1]; [3 2 1]; [3 2 1]; [1 2 3]; [1 2 3]];
 
 
-for iii = 1:10
+for iii = 1:size(cohort,2)
     
-    % load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Random_Stim\RS\P0',num2str(cohort(iii)),'_RS.mat'))
     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Random_Stim/RS/P0',num2str(cohort(iii)),'_RS.mat'))
     
-    
+   
     in2 = 1; % analysing the "main tremor axis"
     
     if in2 == 1
@@ -320,8 +325,8 @@ for iii = 1:10
             %             tremor_k(iii,ax,j)= (tremor_f2(j,(end3-begin3+1))-tremor_f22(j,(end3-begin3+1)))/(2*pi*0.001*(end3-begin3)); %mean(frequency(end3-1000:end3));%
             %             clear tremor_f2 tremor_f22
             %%% ----------for frquency seg_bl=tremor_k;
-%             change_bl(iii,ax,j)=(mean(envelope(ns_mat(iii,ax),end3-1000:end3))-mean(envelope(ns_mat(iii,ax), begin3-1000:begin3)))./mean(envelope(ns_mat(iii,ax), begin3-1000:begin3));
-%             amp_bbl(iii,ax,j)=mean(envelope(ns_mat(iii,ax), begin3-1000:begin3));
+             change_bl(iii,ax,j)=(mean(envelope(ns_mat(iii,ax),end3-1000:end3))-mean(envelope(ns_mat(iii,ax), begin3-1000:begin3)))./mean(envelope(ns_mat(iii,ax), begin3-1000:begin3));
+             amp_bbl(iii,ax,j)=mean(envelope(ns_mat(iii,ax), begin3-1000:begin3));
             for_cluster(ax,j,:) = baseline(ns_mat(iii,ax), begin3:end3); % 50000 segments of 5 sec of filtered data
         end
     end

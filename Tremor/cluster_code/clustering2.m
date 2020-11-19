@@ -33,7 +33,7 @@ for h=1:size(clust.C,2) %% baseline vs. random stim
     end
 end
 
-%%% ----- decision tree for which cluster vs non-cluster
+%%% ----- decision for which cluster vs non-cluster
 
 rm=[clust.count{iii,1}(1,2) clust.count{iii,1}(2,2)];
 if rm(1)~=rm(2)
@@ -93,27 +93,5 @@ elseif clust.win(iii)==2
 else
     xticklabels({'cluster1','cluster2'})
 end
-
-
-% if ~isnan(clust.mslh(iii,clust.win(iii))) & clust.mslh(iii,clust.win(iii))<0.5
-%     error('bad silhouette score for main cluster')
-% end
-
-
-% NOT FINISHED
-% figure(6)
-% set(gcf, 'color', 'w', 'Position', [300,300,1200,300])
-%
-% subplot(1,4,1)
-% scatter3([pc_comp{iii,1}(:, 1); pc_comp{iii,2}(:, 1) ],[pc_comp{iii,1}(:, 2); pc_comp{iii,2}(:, 2) ],[pc_comp{iii,1}(:, 3); pc_comp{iii,2}(:, 3)],10,c);
-% title('Combined')
-%
-% subplot(1,4,2)
-% scatter3(pc_comp{iii,1}(:, 1), pc_comp{iii,1}(:, 2), pc_comp{iii,1}(:, 3), 10, clust.C{iii,1})
-% title('Resampled Baseline')
-%
-% subplot(1,4,3)
-% scatter3(pc_comp{iii,2}(:, 1), pc_comp{iii,2}(:, 2), pc_comp{iii,2}(:, 3), 10, clust.C{iii,2})
-% title('Random Stim')
 
 end
