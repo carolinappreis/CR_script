@@ -84,7 +84,7 @@ for co=1:size(cond,1)
     end
 end
 
-load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','squash','blood','sky','aegean');
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','squash','blood','sky','aegean','grey');
 if name=='bz'
     color_b={squash blood};
 else
@@ -93,6 +93,8 @@ end
 
 time=1:el+1;
 site=([[2+0.3 2+0.3 2+0.4 2+0.4];[2+0.6 2+0.6 2+0.7 2+0.7]]);
+
+color_ref={[0.5 0.5 0.5]  [0 0 0]};
 
 
 for co=1:size(cond,1)
@@ -115,10 +117,10 @@ for co=1:size(cond,1)
         y3=zscore(mean(A)-std(A)./sqrt(size(A,1)));
         % y1= (mean(A)+std(A));
         % y3= (mean(A)-std(A));
-        plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',[color_b{1,on}])
+        plot(time, y2,'LineStyle','-', 'LineWidth',1.5,'Color',[(color_ref{1,on}+color_b{1,on})./2])
         hold on
-        patch([time fliplr(time)], [y1 fliplr(y2)],[color_b{1,on}],'FaceAlpha',[0.2],'EdgeColor','none')
-        patch([time fliplr(time)], [y2 fliplr(y3)],[color_b{1,on}],'FaceAlpha',[0.2],'EdgeColor','none')
+        patch([time fliplr(time)], [y1 fliplr(y2)],[(color_ref{1,on}+color_b{1,on})./2],'FaceAlpha',[0.2],'EdgeColor','none')
+        patch([time fliplr(time)], [y2 fliplr(y3)],[(color_ref{1,on}+color_b{1,on})./2],'FaceAlpha',[0.2],'EdgeColor','none')
         if ~isempty (beg)
             patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],site(on,:),color_b{1,on},'EdgeColor','none')
         end

@@ -92,6 +92,9 @@ m_arc_s=zeros(10,12);
     box('off')
     set(f1,'color','w');
     set(gca,'FontSize',12);
+    f1.Units = 'centimeters';
+    f1.OuterPosition= [10, 10, 22, 12];
+    
     
     %%% stats
     for g=1:12

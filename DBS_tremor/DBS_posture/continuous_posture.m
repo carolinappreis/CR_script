@@ -44,13 +44,26 @@ ending{1,3}(1,2)=258848;
 end
 
 
-% for i=1:3
-%     subplot(3,1,i)
-% plot(d.ds_dall(2,:))
-% hold on
-% plot(s.l_filt{iii,co}(i,:))
-% ylim([1.9 2])
-% end
+for i=1:3
+    subplot(3,1,i)
+plot(d.ds_dall(2,:))
+hold on
+plot(s.l_filt{iii,co}(i,:))
+ylim([1.9 2])
+end
+
+for i=1
+    subplot(2,1,1)
+plot(d.ds_dall(2,:))
+hold on
+plot(s.l_filt{iii,co}(i,:))
+ylim([1.9 2])
+subplot(2,1,2)
+plot(d.ds_dall(2,:))
+hold on
+plot(s.filt{iii,co}(i,:))
+ylim([-0.05 0.05])
+end
 
 
 

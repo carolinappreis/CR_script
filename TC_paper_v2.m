@@ -9,6 +9,10 @@ run 'new_mastercode.m'
         run 'sub_to_ctx.m'
         %%% ref cortex
         run 'ctx_to_sub.m'
+        
+        %%%other freq bands
+        run 'mastercode_bands.m'
+        
 %psi_change
         %%% subcortex ref
         run 'sub_to_ctx_psi.m'
@@ -35,6 +39,11 @@ run('PrepData_cy_by_cy.m') % will call fx cy_by_cy.m
         %uses output from for SUA 'pl_nonunif_sua.m' with data_SUA_SNR.mat
         %selects units non-uniformily locked to
         %one of three sub beta bands - the one with highest vector length.
+        
+%%%Analysis in 1 rat, 2 probes with co-registartion on the 3 sites
+run ('BZ_SNR_psi.m')
+run ('BZ_SNR_amp.m') %% wil run change_amp
+run ('BZ_SNR_ovlap.m')
 
 %-----------------------BUA-A4 Analysis----------------------------------------
   cd('/Users/Carolina/Documents/GitHub/CR_script/CTSNR/OLD/A4_Thal/code')

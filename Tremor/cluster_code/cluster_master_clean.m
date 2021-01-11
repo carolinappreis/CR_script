@@ -36,3 +36,5 @@ clearvars -except out clust
 cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
 %%%%% save(cluster_out_mc.mat');
 
+%
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');

@@ -47,6 +47,10 @@ for j=1:size(data,1)
     end
 end
 
+p_fried=friedman(vec_lg');
+[tt tp]=ttest(vec_lg(:,10),vec_lg(:,12));
+
+
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','squash','blood','sky','aegean','seafoam');
 if name=='bz'
     color_b={squash blood};

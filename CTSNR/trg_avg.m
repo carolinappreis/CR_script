@@ -121,7 +121,10 @@ for mm=1:2
         sig_rise_all=[];
     end
     if ~isempty(sig_rise_all)
+        sig{1,mm}=sig_rise_all;
         patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],place,color_c,'EdgeColor','none')
+    else
+        sig{1,mm}=[];
     end
     
 end
@@ -132,15 +135,57 @@ xticks([0:100:400])
 xticklabels ({'-200','-100','0','100','200'})
 box ('off')
 xlabel ('Time (ms)')
-ylabel('Firing-rate(z-score)')
+ylabel('Firing-rate (z-score)')
 set(gca,'FontSize',12)
 
 fig1.Units = 'centimeters';
-fig1.OuterPosition= [10, 10, 10, 10];
+fig1.OuterPosition= [10, 10, 7, 10];
 fig1.Color='w';
 
 
 
+
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','squash','blood','sky','aegean','grey','black');
+if name=='bz'
+    col={blood,grey,black};
+else
+    col={aegean,grey,black};
+end
+cond={'env_trg_pa','env_trg_npa','env_trg_surr'};
+label={'phase-aligned','non phase-aligned','random ref'};
+fig1=figure
+for ii=1:size(cond,2)
+    data=eval(cond{1,ii});
+    color_b=col{1,ii};
+    y2=mean(data);
+    y1=y2+(std(data)./sqrt(size(data,1)));
+    y3=y2-(std(data)./sqrt(size(data,1)));
+    p1=plot(time2, y2, 'LineWidth',1.5,'Color',color_b)
+    patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
+    patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
+hold on
+end
+
+place={[2.9 2.9 3.0 3.0] [3.3 3.3 3.4 3.4]};
+for mm=1:2
+if ~isempty(sig{1,mm})
+    patch([sig{1,mm}(1) sig{1,mm}(2) sig{1,mm}(2) sig{1,mm}(1)],place{1,mm},col{1,mm+1},'EdgeColor','none')
+end
+end
+
+xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
+xlim ([0 400])
+ylim ([-5 5])
+xticks([0:100:400])
+xticklabels ({'-200','-100','0','100','200'})
+box ('off')
+xlabel ('Time (ms)')
+ylabel('envelope (zscore)')
+set(gca,'FontSize',12)
+
+fig1.Units = 'centimeters';
+fig1.OuterPosition= [10, 10, 7, 10];
+fig1.Color='w';
 
 
 %%% suplots: phase_aligned trig-acg, non-phase aligned avg and surrogates
