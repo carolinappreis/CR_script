@@ -1,9 +1,9 @@
 clear
 
-iii=4;
+iii=6;
 trial=1;
 
-
+cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/SH_spirals_xcels')
 load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_HF',num2str(trial),'_SH.mat'))
 
 f1=figure(1)

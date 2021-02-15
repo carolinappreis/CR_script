@@ -18,8 +18,7 @@ st_sp=cell(length(cohort),1);
 et_sp=cell(length(cohort),1);
 
 
- for iii = 4
-%1:length(cohort)
+ for iii = 1:length(cohort)
     
     load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P0',num2str(cohort(iii)),'_RS.mat'))
     

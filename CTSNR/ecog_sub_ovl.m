@@ -3,23 +3,23 @@
 b_in=cell(size(coh_filts,1),1);
 b_dur=cell(size(coh_filts,1),1);
 for pr=1:size(coh_filts,1)
-     pre_b_in=zeros(size(coh_filts{pr,1},1),size(coh_filts{pr,1},2));
+    pre_b_in=zeros(size(coh_filts{pr,1},1),size(coh_filts{pr,1},2));
     for ct=1:size(coh_filts{pr,1},1)
         sig=coh_filts{pr,1}(ct,:);
         env=abs(hilbert(sig));
-
-%         [onset,offset]=bursts_aligned(env,sig);
-%         onset1=onset; clear onset
-%         offset1=offset; clear offset
-%         
-                 [onset1,offset1]=bursts(env);
+        
+        %         [onset,offset]=bursts_aligned(env,sig);
+        %         onset1=onset; clear onset
+        %         offset1=offset; clear offset
+        %
+        [onset1,offset1]=bursts(env);
         onset1=horzcat(onset1{:});
         offset1=horzcat(offset1{:});
-            for jj=1:length(onset1)
-                pre_b_in(ct,onset1(jj):offset1(jj))=1;
-                pre_b_dur(ct,jj)=offset1(jj)-onset1(jj);
-            end      
-        clear sig env onset1 offset1 
+        for jj=1:length(onset1)
+            pre_b_in(ct,onset1(jj):offset1(jj))=1;
+            pre_b_dur(ct,jj)=offset1(jj)-onset1(jj);
+        end
+        clear sig env onset1 offset1
     end
     b_in{pr,1}=pre_b_in;
     b_dur{pr,1}=sum(pre_b_dur,2);
@@ -31,28 +31,28 @@ r=0;
 perct=[];
 prct_all=[];
 for iii=1:size(b_in,1)
-        probe=squeeze(b_in{iii,1});
-  for ct=2:size(probe,1)
-      r=r+1;
-      ref_b=find(probe(1,:)==1);
-      dum=[probe(1,:);probe(ct,:)];
-      combi=1;
-       [number_ovl,dur_ovl]=overlap(dum,combi); 
-       [dur_chance_ovl]=chance_ovl(dum,ref_b,combi);
-      
-      
-      ovlap(r,:)=[(length(ref_b)-dur_ovl) dur_ovl]./length(ref_b).*100;
-      ch_ovl(r,:)=dur_chance_ovl;
-      
-      
-      dur_ovlap(r,:)=dur_ovl;
-      dur_s(r,:)=[sum(probe(1,:)) sum(probe(ct,:))];
-      n_ovlap(1,r)=number_ovl;
-      dumi=sum(dum);
-      join(r,:)=dumi;
-      prct_all(r,:)=(hist(dumi,0:2))./1000;
-      clear  dum ref_b
-  end
+    probe=squeeze(b_in{iii,1});
+    for ct=2:size(probe,1)
+        r=r+1;
+        ref_b=find(probe(1,:)==1);
+        dum=[probe(1,:);probe(ct,:)];
+        combi=1;
+        [number_ovl,dur_ovl]=overlap(dum,combi);
+        [dur_chance_ovl]=chance_ovl(dum,ref_b,combi);
+        
+        
+        ovlap(r,:)=[(length(ref_b)-dur_ovl) dur_ovl]./length(ref_b).*100;
+        ch_ovl(r,:)=dur_chance_ovl;
+        
+        
+        dur_ovlap(r,:)=dur_ovl;
+        dur_s(r,:)=[sum(probe(1,:)) sum(probe(ct,:))];
+        n_ovlap(1,r)=number_ovl;
+        dumi=sum(dum);
+        join(r,:)=dumi;
+        prct_all(r,:)=(hist(dumi,0:2))./1000;
+        clear  dum ref_b
+    end
     clear test pre probe_prc probe dur_ovl number_ovl
 end
 
@@ -64,42 +64,74 @@ else
     color_b={grey,aegean};
 end
 
-Z=[mean(dur_s) mean(dur_ovlap)]./1000;
+
+
 
 fig=figure;
-venn(Z,'FaceColor',color_b,'FaceAlpha',{0.6,0.6},'EdgeColor','none')
-if name=='bz'
-legend({'Ecog'; 'BZ'});
-else
-legend({'Ecog'; 'SNr'});
+y1=[ovlap(:,2) ch_ovl(:,2)];
+err=std(y1);
+x=mean(y1);
+bar([mean(ovlap(:,2)) mean(ch_ovl(:,2))],'EdgeColor','none','FaceColor',color_b{1,2},'FaceAlpha',0.5)
+hold on
+errorbar([1:2],x,err,'.','Color',color_b{1,2},'LineWidth',2)
+[p,h]=(ttest(ovlap(:,2),ch_ovl(:,2)))
+line([1;2],[22;22],'Color','k');
+if h<0.001
+    plot([1.4 1.5 1.6] ,[25 25 25],'k*','LineWidth',0.5)
+elseif h<0.01
+    plot([1.45 1.55] ,[25 25],'k*','LineWidth',0.5)
+elseif h<0.05
+    plot(1.5,25,'k*','LineWidth',0.5)
 end
-legend('boxoff')
 
-r=round([(mean(prct_all(:,1))) ((mean(dur_s)-mean(dur_ovlap))./1000) (mean(dur_ovlap)./1000)],1);
+ylim([0 30])
+xticklabels({'real OVL','chance OVL'})
+ylabel('ECoG \beta bursts(%)')
+box('off')
+set(gca,'FontSize',12)
+fig.Units='centimeters';
+fig.OuterPosition= [10, 10, 8, 10];
+set(fig,'color','w');
 
-str = [num2str(r(1)),'%'];
-t = text(-3,2,str);
-s = t.FontSize;
-t.FontSize = 14;
 
-str = [num2str(r(2)),'%'];
-t = text(-0.5,0,str);
-s = t.FontSize;
-t.FontSize = 14;
-
-str = [num2str(r(3)),'%'];
-t = text(3.5,0,str);
-s = t.FontSize;
-t.FontSize = 14;
-
-str = [num2str(r(4)),'%'];
-t = text(1.5,0,str);
-s = t.FontSize;
-t.FontSize = 14;
-
-set(gca,'visible','off')
-fig.Units = 'centimeters';
-fig.OuterPosition= [10, 10, 16, 12];
+%%%% venn diagram and bar with no ovl/ovl
+% %
+% % Z=[mean(dur_s) mean(dur_ovlap)]./1000;
+% %
+% % fig=figure;
+% % venn(Z,'FaceColor',color_b,'FaceAlpha',{0.6,0.6},'EdgeColor','none')
+% % if name=='bz'
+% % legend({'Ecog'; 'BZ'});
+% % else
+% % legend({'Ecog'; 'SNr'});
+% % end
+% % legend('boxoff')
+% %
+% % r=round([(mean(prct_all(:,1))) ((mean(dur_s)-mean(dur_ovlap))./1000) (mean(dur_ovlap)./1000)],1);
+% %
+% % str = [num2str(r(1)),'%'];
+% % t = text(-3,2,str);
+% % s = t.FontSize;
+% % t.FontSize = 14;
+% %
+% % str = [num2str(r(2)),'%'];
+% % t = text(-0.5,0,str);
+% % s = t.FontSize;
+% % t.FontSize = 14;
+% %
+% % str = [num2str(r(3)),'%'];
+% % t = text(3.5,0,str);
+% % s = t.FontSize;
+% % t.FontSize = 14;
+% %
+% % str = [num2str(r(4)),'%'];
+% % t = text(1.5,0,str);
+% % s = t.FontSize;
+% % t.FontSize = 14;
+% %
+% % set(gca,'visible','off')
+% % fig.Units = 'centimeters';
+% % fig.OuterPosition= [10, 10, 16, 12];
 
 
 
@@ -133,7 +165,6 @@ if (ttest(ovlap(:,2),ch_ovl(:,2)))==1
     plot(2,95,'k*','LineWidth',1)
 end
 
-
 % plot((prct_ecog.*100)','.-','LineWidth',2','MarkerSize',15)
 xticklabels({'NO OVL','OVL'})
 ylabel('Total time EcogB (%)')
@@ -143,10 +174,11 @@ fig.Units='centimeters';
 fig.OuterPosition= [10, 10, 12, 10];
 set(fig,'color','w');
 
-[mean(ch_ovl) std(ch_ovl)]
-[mean(ovlap) std(ovlap)]
-(ttest(ovlap(:,1),ch_ovl(:,1)))
-(ttest(ovlap(:,2),ch_ovl(:,2)))
+
+
+
+
+
 
 % fig=figure
 % boxplot(n_ovlap)
@@ -162,6 +194,6 @@ set(fig,'color','w');
 % fig.Units='centimeters';
 % fig.OuterPosition= [10, 10, 5, 10];
 % set(fig,'color','w');
-% 
-%  
+%
+%
 % % end

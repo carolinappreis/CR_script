@@ -371,7 +371,7 @@ set(f1,'color','w');
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','stone');
 cl=stone;
 m_ax=1;
-for iii=1:size(out.start_c,1)10
+for iii=1:size(out.start_c,1)
     
     f1=figure(14)
     if size(out.start_c,1)==4

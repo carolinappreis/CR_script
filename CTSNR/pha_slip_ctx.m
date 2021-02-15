@@ -89,19 +89,24 @@ for r= 1:size(bi,2)
 end
 
 subplot(2,1,2)
+fig=figure;
 plot(ps,'Color',color_b,'LineWidth',2)
 %%%% ONSET
-xline(40,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5])
+% xline(40,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5])
+xline(40,'--','LineWidth',2,'Color','r')
 xticks([20:20:80])
 xlim([20 80])
+ylim([0 0.8])
+yticks([0:0.2:0.8])
 xticklabels ({'-200','0','200','400'})
 fig.Units = 'centimeters';
-fig.InnerPosition= [10, 10, 14,12];
+fig.InnerPosition= [10, 10, 7.5, 6.5];
 fig.Color='w';
 set(gca,'FontSize',12)
 xlabel ('Time (msec)')
 ylabel('Probability of phase slip')
 box('off')
+
 
 
 [stats_pre_pos,p]=ttest(mean(pl(:,200:399),2),mean(pl(:,401:600),2))

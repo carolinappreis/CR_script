@@ -27,7 +27,13 @@ for pr=1:size(coh_filts,1)
                 epochs_zi(ii,:)=znon_norm(onset{2,1}(on(ii))-el:onset{2,1}(on(ii))+el);
             end
         end
-        
+%         
+%         for ii=1:(length(znon_norm)/1000)
+%             idx_sur=randi([el+1,(length(znon_norm)-el)],1,1);
+%             epochs_zi(ii,:)= znon_norm(idx_sur-el:idx_sur+el);
+%         end
+%         
+%         
         epochs_z=epochs_zi(1:25,:);
         
         for m=1:size(epochs_z,1)
@@ -105,6 +111,8 @@ plot(ps,'Color',color_b,'LineWidth',2)
 xline(40,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5])
 xticks([20:20:80])
 xlim([20 80])
+ylim([0 0.8])
+yticks([0:0.2:0.8])
 xticklabels ({'-200','0','200','400'})
 fig.Units = 'centimeters';
 fig.InnerPosition= [10, 10, 14,12];

@@ -29,6 +29,13 @@ for pr=1:size(coh_filts,1)
             end
         end
         
+%         for ii=1:(length(znon_norm)/1000)
+%             idx_sur=randi([el+1,(length(znon_norm)-el)],1,1);
+%             epochs_zi(ii,:)= znon_norm(idx_sur-el:idx_sur+el);
+%         end
+        
+        
+        
         epochs_z=epochs_zi(1:25,:);
         
         for m=1:size(epochs_z,1)

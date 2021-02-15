@@ -2,7 +2,7 @@
 clear all; close all
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
-load ('NEW_BZ_cycle.mat')
+load ('NEW_SNR_cycle.mat')
 
 data_region=units_match(~cellfun('isempty',units_match));
 Ecog_region=ecogbf_match(any(ecogbf_match,2),:);

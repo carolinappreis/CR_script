@@ -105,6 +105,8 @@ plot(ps,'Color',color_b,'LineWidth',2)
 xline(40,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5])
 xticks([20:20:80])
 xlim([20 80])
+ylim([0 0.8])
+yticks([0:0.2:0.8])
 xticklabels ({'-200','0','200','400'})
 fig.Units = 'centimeters';
 fig.InnerPosition= [10, 10, 14,12];

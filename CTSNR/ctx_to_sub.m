@@ -5,7 +5,7 @@ for pr=1:size(coh_filts,1)
     thal=coh_filts{pr,1}(2:end,:);
     
     env=abs(hilbert(ctx));
-    env=smoothdata(env,'movmean',50);
+%     env=smoothdata(env,'movmean',50);
 %     [onset1,offset1]=bursts(env);
     
     [onset,offset]=bursts_aligned(env,ctx);
@@ -35,7 +35,7 @@ for pr=1:size(coh_filts,1)
                 end
             end
             
-            for j=1:length(env)/1000
+            for j=1:length(env)/100
                 idx_sur=randi([501,(length(env)-el)],1,1);
                 surr_seg(j,:)= ((thal_env(idx_sur-el:idx_sur+el)-median(thal_env(idx_sur-el:idx_sur)))./median(thal_env(idx_sur-el:idx_sur)));
             end
@@ -90,14 +90,14 @@ for co=1:size(cond,1)
         st=NaN(1,length(time));
         clear A; A=squeeze(data{co,1}(on,:,:));
         clear B; B=squeeze(data{co,2}(on,:,:));
-%         hayriye_c; st(1,:)=stats.prob; st2(1,:)=stats.posclusterslabelmat;
+         hayriye_c; st(1,:)=stats.prob; st2(1,:)=stats.posclusterslabelmat;
          beg=[];
-%         beg=find(st(1,:)<0.05 & st2(1,:)~=0);
-%         sig_rise_all=[];
-%         if ~isempty(beg)
-%             sig_rise_all=[beg(1) beg(end)];
-%         end
-%         clear st st2
+        beg=find(st(1,:)<0.05 & st2(1,:)~=0);
+        sig_rise_all=[];
+        if ~isempty(beg)
+            sig_rise_all=[beg(1) beg(end)];
+         end
+        clear st st2
 
         y2=100.*(mean(A));
         y1=100.*(mean(A)+std(A)./sqrt(size(A,1)));

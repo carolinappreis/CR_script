@@ -5,14 +5,18 @@ for pr=1:size(coh_filts,1)
     thal=coh_filts{pr,1}(2:end,:);
     
     env=abs(hilbert(ctx));
-    env=smoothdata(env,'movmean',50);
-    [onset1,offset1]=bursts(env);
+%         env=smoothdata(env,'movmean',50);
+%         [onset1,offset1]=bursts(env);
+
+        [onset,offset]=bursts_aligned(env,ctx);
+        onset1=onset; clear onset
+        offset1=offset; clear offset
     
     ctx_phase=angle(hilbert(ctx));
     
     for o=1:size(onset1,1)
         clear onset
-        onset=offset1{o,1};
+        onset=onset1{o,1};
         
         for ct=1:size(thal,1)
             clear thal_phase non_norm
@@ -62,8 +66,8 @@ for pr=1:size(coh_filts,1)
             ep_b(pr,o,ct,:)=zscore(nanmean(ep_b1,1)); 
             ep_b_s(pr,o,ct,:)=zscore(nanmean(ep_b1_s,1)); clear ep_b1_s
             r=r+1;
-            base_t(r,:)=mean(ep_t1(1:el)); clear ep_t1
-            base_b(r,:)=mean(ep_b1(1:el)); clear ep_b1
+            base_t(r,:)=mean(ep_t1(300:500)); clear ep_t1
+            base_b(r,:)=mean(ep_b1(300:500)); clear ep_b1
             
         end
     end

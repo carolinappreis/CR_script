@@ -6,9 +6,9 @@ rng('default')
 gen=(rng);
 
 spiral=0;
-load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_cluster_out.mat');
+ load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_cluster_out.mat');
 
-for iii = 1:length(cohort)
+for iii =  1:length(cohort)
     clearvars -except  cohort cond iii clust s start ending yy out gen h_up spiral
     for co=1:size(cond,1)
         

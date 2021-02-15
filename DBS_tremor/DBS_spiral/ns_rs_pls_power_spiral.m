@@ -299,11 +299,11 @@ if iii==4
 end
     
 
-% time=1:length(data(1,:));
-% plot(time,data(4,:))
-% hold on
-% plot(time(sp),data(4,sp),'r.')
-% plot(time(ep),data(4,ep),'k.')
+time=1:length(data(1,:));
+plot(time,data(4,:))
+hold on
+plot(time(sp),data(4,sp),'r.')
+plot(time(ep),data(4,ep),'k.')
 
 start= floor((sp./samplerateold)*samplerate)+addon;
 ending = floor((ep./samplerateold)*samplerate)+addon+addon_end;
@@ -384,3 +384,5 @@ end
 for i=2:4
 change(i-1,:)=round(((plotp(i,:)-plotp(1,:))./plotp(1,:)*100),0);
 end
+
+

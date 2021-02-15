@@ -116,7 +116,7 @@ if ~isempty (st)
     for hh=1:size(offset1,1)
         for b = 1:length(offset1{hh,1})
             for p=1:length(maxidxM)
-                if min(abs(offset1{hh,1}(b)-maxidxM(p)))<=30;
+                if min(abs(offset1{hh,1}(b)-maxidxM(p)))<=30
                     pre_offset{hh,1}(b,:)=p;
                 end
             end
@@ -127,7 +127,7 @@ if ~isempty (st)
     for hh=1:size(onset1,1)
         for b = 1:length(onset1{hh,1})
             for p=1:length(maxidxM)
-                if min(abs(onset1{hh,1}(b)-maxidxM(p)))<=30;
+                if min(abs(onset1{hh,1}(b)-maxidxM(p)))<=30
                     pre_onset{hh,1}(b,:)=p;
                 end
             end

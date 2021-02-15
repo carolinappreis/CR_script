@@ -1,5 +1,5 @@
 function [fig]=sub_to_ctx_psi(coh_filts,name)
-
+r=0;
 for pr=1:size(coh_filts,1)
     ctx=coh_filts{pr,1}(1,:);
     thal=coh_filts{pr,1}(2:end,:);
@@ -13,12 +13,16 @@ for pr=1:size(coh_filts,1)
         non_norm=wrapToPi(ctx_phase-thal_phase);
         
         env=abs(hilbert(thal(ct,:)));
-        env=smoothdata(env,'movmean',50);
-        onset1=bursts(env);
+%         env=smoothdata(env,'movmean',50);
+%         [onset1,offset1]=bursts(env);
+
+        [onset,offset]=bursts_aligned(env,ctx);
+        onset1=onset; clear onset
+        offset1=offset; clear offset
         
         for o=1:size(onset1,1)
             clear onset
-            onset=onset1{o,1};
+            onset=offset1{o,1};
             el=500;
             clear epochs_idx epochs_t
             for jj=1:length(onset)
@@ -33,7 +37,7 @@ for pr=1:size(coh_filts,1)
             epochs_t = epochs_t(any(epochs_t,2),:);
             
             clear epochs_idx_sur epochs_t_sur
-            for n=1:(length(non_norm)/100)
+            for n=1:(length(non_norm)/10000)
                 idx_sur=randi([el+1,(length(non_norm)-el)],1,1);
                 epochs_idx_sur(n,:)= idx_sur-el:idx_sur+el;
                 epochs_t_sur(n,:)= non_norm(idx_sur-el:idx_sur+el);
@@ -57,11 +61,14 @@ for pr=1:size(coh_filts,1)
                     end
                 end
             end
-            ep_b(pr,o,ct,:)=nanmean(ep_b1,1); clear ep_b1
+            ep_b(pr,o,ct,:)=nanmean(ep_b1,1); 
             ep_b_s(pr,o,ct,:)=nanmean(ep_b1_s,1); clear ep_b1_s
+            r=r+1;
+            base_t(r,:)=mean(ep_t(300:500)); clear ep_t
+            base_b(r,:)=mean(ep_b1(300:500)); clear ep_b1
         end
     end
-    clearvars -except ep_b ep_b_s ep_t ep_t_s pr coh_filts el name
+    clearvars -except ep_b ep_b_s ep_t ep_t_s pr coh_filts el name  base_t  base_b r
 end
 
 
@@ -95,6 +102,7 @@ time=1:el+1;
 site=([[2+0.3 2+0.3 2+0.4 2+0.4];[2+0.6 2+0.6 2+0.7 2+0.7]]);
 
 color_ref={[0.5 0.5 0.5]  [0 0 0]};
+baseline=round([mean(base_b) mean(base_t)],2);
 
 
 for co=1:size(cond,1)
@@ -144,5 +152,9 @@ for co=1:size(cond,1)
         
         hold on
     end
+        str = ['psi:',num2str(baseline(co))];
+        t = text(-1.5,-2.5,str);
+        s = t.FontSize;
+        t.FontSize = 12;
 end
 end

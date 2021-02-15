@@ -47,8 +47,16 @@ for j=1:size(data,1)
     end
 end
 
-p_fried=friedman(vec_lg');
-[tt tp]=ttest(vec_lg(:,10),vec_lg(:,12));
+
+
+[~,~,stats]=kruskalwallis(vec_lg);
+[c,m,h,nms]=multcompare(stats,'CType','dunn-sidak');
+
+
+
+
+
+
 
 
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','squash','blood','sky','aegean','seafoam');
@@ -57,23 +65,6 @@ if name=='bz'
 else
     color_b={sky aegean};
 end
-%%% cycle eleven is burst onset
-
-fig=figure()
-cy_plots=7:15;
-for i=1:length(cy_plots)
-    subplot(1,length(cy_plots),i,polaraxes)
-    for un=1:size(vec_lg,1)
-        polarplot([0 pref_pha(un,cy_plots(i))], [0, vec_lg(un,cy_plots(i))],'linewidth',2)
-        rlim([0 0.5])
-        hold on
-    end
-end
-
-fig.Units = 'centimeters';
-fig.OuterPosition= [10, 10, 40, 10];
-fig.Color='w';
-
 
 
 vec_m=nanmean(vec_lg,1);
@@ -106,9 +97,29 @@ fig.Color='w';
 
 
 
+% % fig=figure()
+% % % plot(nanmean(vec_lg,1),'-d','LineWidth',1.5,'Color',color_b{1,2})
+% % plot(mean(vec_lg),'-d','LineWidth',1.5,'Color',color_b{1,2})
+% % hold on
+% % xline(11,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
+% % xlim([0 22])
+% % xlabel('Number of {\beta} cycles')
+% % xticks([1:2:21])
+% % xticklabels ({'-10','-8','-6','-4','-2','0','2','4','6','8','10'})
+% % ylabel('Vector length')
+% % box('off')
+% % set(gca,'FontSize',12)
+% % fig.Units = 'centimeters';
+% % fig.OuterPosition= [10, 10, 10, 10];
+% % fig.Color='w';
+
+
 fig=figure()
 % plot(nanmean(vec_lg,1),'-d','LineWidth',1.5,'Color',color_b{1,2})
-plot(mean(vec_lg),'-d','LineWidth',1.5,'Color',color_b{1,2})
+x=1:21;
+y=mean(vec_lg);
+err=std(vec_lg);
+errorbar(x,y,err,'-d','LineWidth',1.5,'Color',color_b{1,2})
 hold on
 xline(11,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim([0 22])
@@ -121,5 +132,22 @@ set(gca,'FontSize',12)
 fig.Units = 'centimeters';
 fig.OuterPosition= [10, 10, 10, 10];
 fig.Color='w';
+
+%%% cycle eleven is burst onset
+% fig=figure()
+% cy_plots=7:15;
+% for i=1:length(cy_plots)
+%     subplot(1,length(cy_plots),i,polaraxes)
+%     for un=1:size(vec_lg,1)
+%         polarplot([0 pref_pha(un,cy_plots(i))], [0, vec_lg(un,cy_plots(i))],'linewidth',2)
+%         rlim([0 0.5])
+%         hold on
+%     end
+% end
+% 
+% fig.Units = 'centimeters';
+% fig.OuterPosition= [10, 10, 40, 10];
+% fig.Color='w';
+
 
 end

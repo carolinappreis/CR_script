@@ -8,8 +8,12 @@ for pr=1:size(coh_filts,1)
     for ct=1:size(thal,1)
         ref=thal(ct,:);
         env=abs(hilbert(ref));
-        env=smoothdata(env,'movmean',50);
-        [onset1,offset1]=bursts(env);
+%         env=smoothdata(env,'movmean',50);
+%         [onset1,offset1]=bursts(env);
+
+        [onset,offset]=bursts_aligned(env,ctx);
+        onset1=onset; clear onset
+        offset1=offset; clear offset
         
         for o=1:size(onset1,1)
            onset=onset1{o,1};
@@ -107,7 +111,11 @@ co=1;
         xline(200,'--','Color',[0.5 0.5 0.5],'LineWidth',2)
         box('off')
         xlim ([0 500])
-        ylim ([-20 20])
+        if max(mean(A).*100)>50
+            ylim ([-150 150])
+        else
+            ylim ([-20 20])
+        end
         xticks([0:100:500])
         xticklabels ({'-200','-100','0','100','200','300'})
         fig.Units = 'centimeters';
@@ -138,7 +146,11 @@ end
 xline(200,'--','Color',[0.5 0.5 0.5],'LineWidth',2)
 box('off')
 xlim ([0 500])
-%         ylim ([-50 50])
+if max(mean(A).*100)>50
+    ylim ([-150 150])
+else
+    ylim ([-20 20])
+end
 xticks([0:100:500])
 xticklabels ({'-200','-100','0','100','200','300'})
 fig.Units = 'centimeters';
