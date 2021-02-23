@@ -1,7 +1,7 @@
 clear all
 close all
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/final_mats')
-load('SNR_bua.mat');
+load('BZ_bua.mat');
 
 %filtering probe signals and cortex in the beta band (+-5Hz peak coherence) if the summed coherence
 %between 15-35Hz is more than 10% of the coherence in all freqs.

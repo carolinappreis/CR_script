@@ -72,7 +72,7 @@ end
 fig=figure;
 subplot(2,1,1)
 imagesc(ns)
-colorbar
+% colorbar
 if name=='bz'
     title('CTX-BZ')
 else
@@ -102,14 +102,14 @@ end
 subplot(2,1,2)
 plot(ps,'Color',color_b,'LineWidth',2)
 %%%% ONSET
-xline(40,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5])
+xline(40,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color','red')
 xticks([20:20:80])
 xlim([20 80])
 ylim([0 0.8])
 yticks([0:0.2:0.8])
 xticklabels ({'-200','0','200','400'})
 fig.Units = 'centimeters';
-fig.InnerPosition= [10, 10, 14,12];
+fig.InnerPosition= [10, 10, 8,13];
 fig.Color='w';
 set(gca,'FontSize',12)
 xlabel ('Time (msec)')

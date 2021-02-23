@@ -7,12 +7,13 @@ cond={'NS';'RS';'PLS'};
 clust=struct; out=struct; start=cell(10,3); ending=cell(10,3); yy=cell(10,3); h_up=cell(10,3); s=struct;
 % rng('default')
 % gen=(rng);
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
 
 
 for iii = 1:length(cohort)
     clearvars -except  cohort cond iii clust s start ending yy out gen h_up
     
-    for co= 1:2 % NS and RS conditions       
+   for co= 1:2 % NS and RS conditions       
         load(strcat('/Users/Carolina/OneDrive - Nexus365/PERI-STIM/DATA/P0',num2str(cohort(iii)),'_',num2str(cond{co,1}),'.mat'))
 
         [d]=preprocess(SmrData); samplerateold=d.samplerateold; samplerate=d.samplerate;
@@ -24,9 +25,9 @@ for iii = 1:length(cohort)
         [s]=zfiltenv(d,bfilt,afilt,co,iii,s); clear afilt bfilt %% zscore / filter / envelope / phase
     end
     
-     [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analyses
+       [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analyses
     
-    for co=1:2
+     for co=1:2
         [out]=mod_c(clust,out,co,iii,s,cohort);   %%%% tremor modulation
     end
    
@@ -34,7 +35,7 @@ for iii = 1:length(cohort)
 end
 clearvars -except out clust
 cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
-%%%%% save(cluster_out_mc.mat');
+%%%%% save('cluster_out_mc.mat');
 
 %
 load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');

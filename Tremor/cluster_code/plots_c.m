@@ -1,17 +1,18 @@
 function [r,p]=plots_c(out)
 m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
-color_b1=[blushred; aegean; stone];
+color_b1=[aegean;blushred; stone];
 
 
 %%  plot arc's main axis with significant threshold\
 for iii=1:size(out.start_c,1)
     %%% for type=1:2
-    type=1;
-    feature={'out.change_c';'out.changef'};
-    p=2;
+    type=2;
+    feature={'out.change_c';'out.fchange'};
+    p=type;
     dr=eval([(num2str(feature{type,1})) '{' num2str(iii) ',2}{m_ax,1}']);
     data=nanmedian(dr);
+   
     nostim=eval(squeeze([num2str(feature{type,1}) '{' num2str(iii) ',1}(m_ax,:)']));
     n=[];
     n=[n ; data(find(data > prctile(nostim, 99.7917) | data< prctile(nostim, 0.2083)))];
@@ -38,18 +39,23 @@ for iii=1:size(out.start_c,1)
     patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
     % plot(y2,'.', 'MarkerSize',20,'Color',color_b1(p,:))
     stem(time,y2,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(p,:))
-    plot(time,dr,'k.','MarkerSize',10)
+%  plot(time,dr,'k.','MarkerSize',10)
     yline(0)
     if ~isnan(phase)
         plot(time(phase),y2(phase),'.','Color',color_b1(1,:),'MarkerSize',25)
     end
-            yline(prctile(nostim,99.7917),'k--','LineWidth',1)
-            yline(prctile(nostim,0.2083),'k--','LineWidth',1)
-%     ylim([-1 1])
+%             yline(prctile(nostim,99.7917),'k--','LineWidth',1)
+%             yline(prctile(nostim,0.2083),'k--','LineWidth',1)
+    if type==2
+            ylim([-0.4 0.4])
+            ylabel({'Change in tremor frequency'})
+    else
+        ylim([-1 1])
+            ylabel({'Change in tremor severity'})
+    end
     xlim([-5 335])
     xticks([0:30:330])
     box('off')
-    ylabel({'Change in tremor severity'})
     xlabel({'Stimulation phase (degrees)'})
     set(gca,'FontSize',10)
     set(gca,'FontName','Arial','XTickLabelRotation',45)
@@ -73,6 +79,7 @@ for iii=1:size(out.start_c,1)
         subplot(2,5,iii)
     end
     pp=[sapphire;azure];
+    tu=[[1:12]-0.3;[1:12]];
     y=[];clear i
     for i=1:2
         datas(i,:)=eval(['nanmedian(out.arc' num2str(i) '{' num2str(iii) ',2}{m_ax,1})']);
@@ -90,7 +97,7 @@ for iii=1:size(out.start_c,1)
         %         dum=smo_m;
         %         yline(0,'LineWidth',0.5,'Color', [0.5 0.5 0.5])
         hold on
-        stem(1:12,dum(i,:),'.', 'LineWidth',2,'MarkerSize',10,'Color',pp(i,:))
+        stem(tu(i,:),dum(i,:),'.', 'LineWidth',3,'MarkerSize',10,'Color',pp(i,:))
         
          dum(i,find(dum(i,:)<0))=atanh(dum(i,find(dum(i,:)<0)));
         modms(iii,i)=mean(abs(dum(i,:)));
@@ -103,9 +110,8 @@ for iii=1:size(out.start_c,1)
     end
     
     for i=1:2
-        plot(1:12,dum(i,:),'.', 'LineWidth',2,'MarkerSize',10,'Color',pp(i,:))
         if ~isnan(pha{i,1})
-            plot(pha{i,1},dum(i,pha{i,1}),'.','MarkerSize',15,'Color',blushred)
+            plot(tu(i,pha{i,1}),dum(i,pha{i,1}),'.','MarkerSize',15,'Color',blushred)
         end
     end
     

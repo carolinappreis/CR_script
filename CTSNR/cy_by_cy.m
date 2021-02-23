@@ -68,7 +68,8 @@ end
 
 
 vec_m=nanmean(vec_lg,1);
-ang_m=circ_mean(pref_pha);
+ang_m=circ_mean(pref_pha); rad2deg(circ_mean(ang_m'))
+ang_std=circ_std(pref_pha); rad2deg(circ_mean(ang_std'))
 
 fig=figure()
 cy_plots=6:16; % first 5
@@ -123,6 +124,8 @@ errorbar(x,y,err,'-d','LineWidth',1.5,'Color',color_b{1,2})
 hold on
 xline(11,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim([0 22])
+ylim([0 0.6])
+yticks(0:0.2:0.6)
 xlabel('Number of {\beta} cycles')
 xticks([1:2:21])
 xticklabels ({'-10','-8','-6','-4','-2','0','2','4','6','8','10'})

@@ -14,6 +14,7 @@ for i=1:size(data_region,1)
 end
 
 [fig]=cy_by_cy(data,ecog,name);
+[fig]=lock_prop(data,ecog,name);
 
 %% JUXTA
 clear all; close all

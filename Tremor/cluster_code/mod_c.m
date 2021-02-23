@@ -13,7 +13,7 @@ env_acc=s.env_acc{iii,co};
 if co==1
     
     if (size(cohort,2))==10
-        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/aux_out.mat','bs_end','bs_begin','amp_bbl','change_bl')
+        load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/aux_out.mat','bs_end','bs_begin','amp_bbl','change_bl','freq_bl')
     else
         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','bs_end','bs_begin','amp_bbl','change_bl')
     end
@@ -69,7 +69,7 @@ if co==1
     out.bins=bins;
     
     %%% baseline 50000 - taken from aux_master.m
-    
+    %%%amp surr
     rep = 10;
     for ax=1:3
         bb(ax,:)=change_bl(iii,ax,(clust.idx{iii,co}));
@@ -83,6 +83,22 @@ if co==1
 
         clear dum dum2 baseline3
     end
+    
+    %%%freq surr
+        rep = 10;
+    for ax=1:3
+        bb(ax,:)=freq_bl(iii,ax,(clust.idx{iii,co}));
+        ba(ax,:)=amp_bbl(iii,(clust.idx{iii,co}));
+        dum = bb(randi(length(bb), 1e6, rep));
+        out.fchange{iii,co}(ax,:)=nanmedian(dum,2); clear dum
+        for i = 1:12
+            dum = bb(randi(length(bb), 1e6, rep));
+            out.ns_prc{iii,ax}(:,i)=nanmedian(dum,2); clear dum
+        end
+
+        clear dum dum2 baseline3
+    end
+    
     
     
     %%%baseline median split
@@ -155,7 +171,9 @@ else
                     tremor_k(i,1)= (tremor_f2(i,(et(i)-st(i)+1))-tremor_f22(i,(et(i)-st(i)+1)))/(2*pi*0.001*(et(i)-st(i))); %mean(frequency(et(i)-1000:et(i)));%
                     
                     z_seg1(i,1:5000)=z_sig(m_ax,st(i):st(i)+5000-1);
-                    e_env1(i,1:5000)=envelope(m_ax,st(i):st(i)+5000-1);
+%                     e_env1(i,1:5000)=envelope(m_ax,st(i):st(i)+5000-1);
+                    e_env1(i,1:5000)=zenv(m_ax,st(i):st(i)+5000-1);
+
                 else
                     tremor_or2(1,i)=NaN;
                     tremor_or3(1,i)=NaN;

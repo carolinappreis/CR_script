@@ -1,6 +1,10 @@
 %%%%%%%%%%%%%%%%%%% MEDIAN NERVE PHASE-SPECIFIC STIM CODE %%%%%%%%%%%%%%%%%%
 
 %RESULTS PAPER
+cd('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data')
+cd('/Users/Carolina/Documents/GitHub/CR_script/Tremor/cluster_code')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
+
         %%% 1) plots & stats stim ARCs and mediansplit stim ARCs with clustering 
         [r,p]=plots_c(out);
 

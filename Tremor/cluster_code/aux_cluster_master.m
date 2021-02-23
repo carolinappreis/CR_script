@@ -2,7 +2,7 @@
 %%% in tremor severity during non-stimulation
 
 
-clear all, close all
+clear all; close all
 cohort = [ 2 3 4 5 8 10 11 13 16 17];
 
 % nostim= NaN(length(cohort),3,1e6);
@@ -11,8 +11,9 @@ tt1_all=cell(10,3);
 x_all=cell(10,1);
 bs_begin=NaN(10,5e4);
 bs_end=NaN(10,5e4);
-amp_bbl = NaN(10,3,5e4);
-change_bl = NaN(10,3,5e4);
+amp_bbl=NaN(10,3,5e4);
+change_bl=NaN(10,3,5e4);
+freq_bl= NaN(10,3,5e4);
 pc1_exp =cell(10,1);
 
 
@@ -231,7 +232,7 @@ for iii = 1:size(cohort,2)
         end
     
 % %     %% Baseline
-    clearvars -except iii cohort main method tt1_all ns_mat amp_bbl bs_begin bs_end pc_trials change_bl x_all pc1_exp explained_rs
+    clearvars -except iii cohort main method tt1_all ns_mat freq_bl amp_bbl bs_begin bs_end pc_trials change_bl x_all pc1_exp explained_rs
     load(strcat('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/Baseline/P0',num2str(cohort(iii)),'_baseline.mat'))
     %    load(strcat('C:\Users\creis\OneDrive - Nexus365\Periph_tremor_data\Baseline\P0',num2str(cohort(iii)),'_baseline.mat'))
     rng('default') % set random seed for consistency
@@ -320,11 +321,11 @@ for iii = 1:size(cohort,2)
         
         for ax = 1:3
             
-            %             tremor_f2(j,1:(end3-begin3+1))=unwrap(phase(ns_mat(iii,ax),begin3:end3));
-            %             tremor_f22(j,1:(end3-begin3+1))=(phase(ns_mat(iii,ax),begin3)+(0:1:(end3-begin3))*2*pi/(1000./mean(freqi(ns_mat(iii,ax),begin3-1000:begin3))));
-            %             tremor_k(iii,ax,j)= (tremor_f2(j,(end3-begin3+1))-tremor_f22(j,(end3-begin3+1)))/(2*pi*0.001*(end3-begin3)); %mean(frequency(end3-1000:end3));%
-            %             clear tremor_f2 tremor_f22
-            %%% ----------for frquency seg_bl=tremor_k;
+                        tremor_f2(j,1:(end3-begin3+1))=unwrap(phase(ns_mat(iii,ax),begin3:end3));
+                        tremor_f22(j,1:(end3-begin3+1))=(phase(ns_mat(iii,ax),begin3)+(0:1:(end3-begin3))*2*pi/(1000./mean(freqi(ns_mat(iii,ax),begin3-1000:begin3))));
+                        freq_bl(iii,ax,j)= (tremor_f2(j,(end3-begin3+1))-tremor_f22(j,(end3-begin3+1)))/(2*pi*0.001*(end3-begin3)); %mean(frequency(end3-1000:end3));%
+                        clear tremor_f2 tremor_f22
+            %%% ----------
              change_bl(iii,ax,j)=(mean(envelope(ns_mat(iii,ax),end3-1000:end3))-mean(envelope(ns_mat(iii,ax), begin3-1000:begin3)))./mean(envelope(ns_mat(iii,ax), begin3-1000:begin3));
              amp_bbl(iii,ax,j)=mean(envelope(ns_mat(iii,ax), begin3-1000:begin3));
             for_cluster(ax,j,:) = baseline(ns_mat(iii,ax), begin3:end3); % 50000 segments of 5 sec of filtered data
@@ -341,7 +342,7 @@ for iii = 1:size(cohort,2)
     %
     x_all{iii,1}=[pc_trials_ns; pc_trials];
     pc1_exp{iii,1}(1:3,:)=[(explained_ns(:,1:3))' (explained_rs(:,1:3))'];
-    clearvars -except  cohort iii nostim tt1_all main ns_mat amp_bbl bs_begin bs_end  change_bl x_all pc1_exp
+    clearvars -except  cohort iii nostim tt1_all main ns_mat amp_bbl bs_begin bs_end  change_bl x_all pc1_exp freq_bl
 end
 
-    clearvars -except tt1_all  amp_bbl bs_begin bs_end change_bl x_all pc1_exp
+    clearvars -except tt1_all  amp_bbl bs_begin bs_end change_bl x_all pc1_exp freq_bl

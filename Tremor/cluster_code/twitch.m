@@ -50,41 +50,41 @@ if co==2
     yticks([])
     title(sprintf('patient %d',(iii)))
     
-    
-    if iii==9 || iii==10  %%% the only patients with EMG on the thenar eminence
-        
-        zdata1=zscore(d.data_raw(9,:)); %emg 3 for patient 9 and 10
-        for i=1:length(index)
-            if (~isnan(index(i)))
-                seg_raw1(i,1:(f*2))=zdata1(1,(index(i)-(f-1)):(index(i)+f));
-            else
-                seg_raw1(i,1:(f*2))=NaN;
-            end
-        end
-        
-        figure(2)
-        subplot(2,1,iii-8)
-        data1=seg_raw1;
-        y2=nanmean(data1,1);
-        sem = nanstd(data1,1)./ sqrt(size(data1,2));
-        y1=y2+sem;
-        y3=y2-sem;
-        time=1:length(y2);
-        plot(y2,'k','LineWidth',1);
-        hold on
-        patch([time fliplr(time)], [y1 fliplr(y2)],'k','FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
-        patch([time fliplr(time)], [y2 fliplr(y3)],'k','FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
-        hold on
-        xline(size(data1,2)/2,'--')
-        box('off')
-        xlim([0 size(data1,2)])
-        ylim ([-1 1])
-        xticks([size(data1,2)/2])
-        xticklabels(['stim'])
-        yticks([])
-        title(sprintf('patient %d',(iii)))
-        
-    end
+%     
+%     if iii==9 || iii==10  %%% the only patients with EMG on the thenar eminence
+%         
+%         zdata1=zscore(d.data_raw(9,:)); %emg 3 for patient 9 and 10
+%         for i=1:length(index)
+%             if (~isnan(index(i)))
+%                 seg_raw1(i,1:(f*2))=zdata1(1,(index(i)-(f-1)):(index(i)+f));
+%             else
+%                 seg_raw1(i,1:(f*2))=NaN;
+%             end
+%         end
+%         
+%         figure(2)
+%         subplot(2,1,iii-8)
+%         data1=seg_raw1;
+%         y2=nanmean(data1,1);
+%         sem = nanstd(data1,1)./ sqrt(size(data1,2));
+%         y1=y2+sem;
+%         y3=y2-sem;
+%         time=1:length(y2);
+%         plot(y2,'k','LineWidth',1);
+%         hold on
+%         patch([time fliplr(time)], [y1 fliplr(y2)],'k','FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
+%         patch([time fliplr(time)], [y2 fliplr(y3)],'k','FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
+%         hold on
+%         xline(size(data1,2)/2,'--')
+%         box('off')
+%         xlim([0 size(data1,2)])
+%         ylim ([-1 1])
+%         xticks([size(data1,2)/2])
+%         xticklabels(['stim'])
+%         yticks([])
+%         title(sprintf('patient %d',(iii)))
+%         
+%     end
     h=1;
 end
 h=2;

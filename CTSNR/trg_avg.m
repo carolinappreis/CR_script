@@ -122,7 +122,7 @@ for mm=1:2
     end
     if ~isempty(sig_rise_all)
         sig{1,mm}=sig_rise_all;
-        patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],place,color_c,'EdgeColor','none')
+%         patch([sig_rise_all(1) sig_rise_all(2) sig_rise_all(2) sig_rise_all(1)],place,color_c,'EdgeColor','none')
     else
         sig{1,mm}=[];
     end
@@ -130,16 +130,17 @@ for mm=1:2
 end
 xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim ([0 400])
-ylim ([-5 5])
+ylim ([-3 3])
+yticks([-3:1:3])
 xticks([0:100:400])
 xticklabels ({'-200','-100','0','100','200'})
 box ('off')
 xlabel ('Time (ms)')
-ylabel('Firing-rate (z-score)')
+ylabel({'Firing-rate','(z-score)'})
 set(gca,'FontSize',12)
 
 fig1.Units = 'centimeters';
-fig1.OuterPosition= [10, 10, 7, 10];
+fig1.OuterPosition= [10, 10, 8, 10];
 fig1.Color='w';
 
 
@@ -166,7 +167,7 @@ for ii=1:size(cond,2)
 hold on
 end
 
-place={[2.9 2.9 3.0 3.0] [3.3 3.3 3.4 3.4]};
+place={[2.5 2.5 2.6 2.6] [2.8 2.8  2.9 2.9]};
 for mm=1:2
 if ~isempty(sig{1,mm})
     patch([sig{1,mm}(1) sig{1,mm}(2) sig{1,mm}(2) sig{1,mm}(1)],place{1,mm},col{1,mm+1},'EdgeColor','none')
@@ -175,16 +176,17 @@ end
 
 xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim ([0 400])
-ylim ([-5 5])
+ylim ([-3 3])
+yticks([-3:1:3])
 xticks([0:100:400])
 xticklabels ({'-200','-100','0','100','200'})
 box ('off')
 xlabel ('Time (ms)')
-ylabel('envelope (zscore)')
+ylabel({'envelope \beta filtered','firing-rate (zscore)'})
 set(gca,'FontSize',12)
 
 fig1.Units = 'centimeters';
-fig1.OuterPosition= [10, 10, 7, 10];
+fig1.OuterPosition= [10, 10, 8, 10];
 fig1.Color='w';
 
 
@@ -197,7 +199,8 @@ patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.1],'EdgeCo
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
 xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim ([0 400])
-ylim ([-5 5])
+ylim ([-3 3])
+yticks([-3:1:3])
 xticks([0:100:400])
 xticklabels ({'-200','-100','0','100','200'})
 legend([p1],{'phase-aligned'},'FontSize',12,'box','off','Location','northeast' )

@@ -1,5 +1,5 @@
 %% JUXTA
-clear all
+clear all; close all
  cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
 load ('SUA_BZ')
 
@@ -9,12 +9,10 @@ ecog=WaveData_DC;
 clearvars -except data ecog name
 [fig]=trg_avg(data,ecog,name);
 
-
 %% SUA
 clear all; close all
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
 load('data_SUA_SNR.mat')
-
 
 data=cell2mat(data_region);
 ecog=[];
@@ -25,7 +23,10 @@ end
 clearvars -except data ecog name
 [fig]=trg_avg(data,ecog,name);
 
+
 %%
+[fig]=lock_prop(data,ecog,name);
+
 %%%% extras
 
 % check firing rate units
