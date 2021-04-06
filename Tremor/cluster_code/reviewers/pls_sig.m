@@ -215,8 +215,7 @@ for numb=4;
     %         ini=15000;
     ini=20000;
     
-    
-    gg=[];
+     gg=[];
     
     for i=1:length(start)
         % gg=[gg ;(z_env(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
@@ -229,30 +228,31 @@ for numb=4;
         subplot(size(gg,1),1,ii)
         y1=smooth(gg(ii,:));
         x1=1:length(y1);
-        plot((y1),'Color','k','LineWidth',2)
+        plot((y1),'Color','k','LineWidth',1)
         hold on
         mdp1=fitlm(x1,y1,'poly2');
         plot(mdp1.Fitted,'r','LineWidth',1.5)
         n=mdp1.Rsquared.Adjusted;
         
-        filename=['adjr^2=',num2str(round(n,2))];
-        t = text(0.5,0.5,filename);
-        s = t.FontSize;
-        t.FontSize = 12;
-        
-        xline(ini,'--','Color',[0.5 0.5 0.5],'LineWidth',2)
-        xlim([0 80000])
+%         filename=['adjr^2=',num2str(round(n,2))];
+%         t = text(0.5,0.5,filename);
+%         s = t.FontSize;
+%         t.FontSize = 10;
+%                 xlim([0 80000])
         xticks([0:10000:80000])
         xticklabels({'-20','-10','0','10','20','30','40','50','60'})
-        ylim([0 2])
-        yticks(0:0.5:2)
+         xlim([15000 80000])
+%         ylim([0 2])
+%         yticks(0:0.5:2)
+        ylim([0 16])
+        yticks(0:4:16)
         ylabel('tremor severity (m/s^2)')
         xlabel ('time (s)')
         
 
         box('off')
         set(gca,'FontSize',12)
-        title(['PLS pt',num2str(numb),' trial',num2str(ii)])
+%         title(['PLS pt',num2str(numb),' trial',num2str(ii)])
         
     end
     
@@ -260,6 +260,53 @@ for numb=4;
     f1.OuterPosition= [10, 10, 14, 16];
     set(f1,'color','w');
     box('off')
+    
+% % %     gg=[];
+% % %     
+% % %     for i=1:length(start)
+% % %         % gg=[gg ;(z_env(ax,(segmentbp(i)-ini):(segmentbp(i)+60000)))];
+% % %         gg=[gg ;(envelope(ax,(start(i)-ini):(start(i)+60000)))];
+% % %         % gg=[gg ;(z_env(ax,(start(i)-ini):(start(i)+60000)))];
+% % %     end
+% % %     
+% % %     f1=figure;
+% % %     for ii=1:size(gg,1)
+% % %         subplot(size(gg,1),1,ii)
+% % %         y1=smooth(gg(ii,:));
+% % %         x1=1:length(y1);
+% % %         plot((y1),'Color','k','LineWidth',1)
+% % %         hold on
+% % %         mdp1=fitlm(x1,y1,'poly2');
+% % %         plot(mdp1.Fitted,'r','LineWidth',1.5)
+% % %         n=mdp1.Rsquared.Adjusted;
+% % %         
+% % %         filename=['adjr^2=',num2str(round(n,2))];
+% % %         t = text(0.5,0.5,filename);
+% % %         s = t.FontSize;
+% % %         t.FontSize = 10;
+% % %         
+% % %         xline(ini,'--','Color',[0.5 0.5 0.5],'LineWidth',2)
+% % %         xlim([0 80000])
+% % %         xticks([0:10000:80000])
+% % %         xticklabels({'-20','-10','0','10','20','30','40','50','60'})
+% % % %         ylim([0 2])
+% % % %         yticks(0:0.5:2)
+% % %         ylim([0 16])
+% % %         yticks(0:4:16)
+% % %         ylabel('tremor severity (m/s^2)')
+% % %         xlabel ('time (s)')
+% % %         
+% % % 
+% % %         box('off')
+% % %         set(gca,'FontSize',12)
+% % % %         title(['PLS pt',num2str(numb),' trial',num2str(ii)])
+% % %         
+% % %     end
+% % %     
+% % %     f1.Units = 'centimeters';
+% % %     f1.OuterPosition= [10, 10, 14, 16];
+% % %     set(f1,'color','w');
+% % %     box('off')
     
     
     

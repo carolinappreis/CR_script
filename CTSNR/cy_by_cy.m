@@ -4,7 +4,7 @@ function [fig]=cy_by_cy(data,ecog,name)
 tt=0;
 for j=1:size(data,1)
     
-    clearvars -except j b a ecog data srn check vec_lg pref_pha tt name
+    clearvars -except name ecog data srn j b a  check vec_lg pref_pha tt 
     
     ctx=ecog(j,:);
     Ecogfiltered=ecog(j,:);
@@ -31,7 +31,8 @@ for j=1:size(data,1)
         end
     end
     
-    
+% %     n=40; (bu(1:10,1) if we want fixxed number of burst with spikes per
+% cycle
     for x=1:size(pha_b,2)
         bu=pha_b(:,x); bu=bu(~isnan(bu));
         check1(1,x)=length(bu);
@@ -39,7 +40,7 @@ for j=1:size(data,1)
         pp(1,x)=circ_mean(bu); clear bu bu1
     end
     
-    if min(check1)>size(block,1)/5
+     if min(check1)>size(block,1)/4
         tt=tt+1;
         vec_lg(tt,:)=vl;
         pref_pha(tt,:)=pp;

@@ -26,14 +26,14 @@ run 'pha_slip_sub.m'
 
 %Overlaps
     %%% subcortex ref
-    run 'subctx_ov.m'
+    run 'subctx_ovl.m'
     %%% ref cortex
     run 'ecog_sub_ovl.m'
 
 %%% SUA/JUXTA
 %triggerd-averages
 run('PrepData_trg_avg.m') % will call fx trg_avg.m
-        
+run('pref_lock_ang.m') % pref locking angle of subcortical untis to ecog across all ecog recording
 %Modulation of angle and vector length cycle by cycle       
 run('PrepData_cy_by_cy.m') % will call fx cy_by_cy.m 
         %uses output from for SUA 'pl_nonunif_sua.m' with data_SUA_SNR.mat

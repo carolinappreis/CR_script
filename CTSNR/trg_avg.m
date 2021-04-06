@@ -1,8 +1,9 @@
-function [fig]=trg_avg(data,ecog,name)
+ function [fig]=trg_avg(data,ecog,name)
 
 srn=1000;
 [b,a]=butter(2,[15/(0.5*srn) 35/(0.5*srn)],'bandpass');
 tt=0;
+srate=[];
 for j=1:size(data,1)
     
     clearvars -except j b a ecog data srn rec_pa rec_npa count_b tt rec_surr z1 env_trg_pa env_trg_npa env_trg_surr name
@@ -22,10 +23,10 @@ for j=1:size(data,1)
         data_g=smoothdata(data(j,:),'gaussian',25); % convolve a gaussian to spikes
         %%%option: N = 100; alpha =15 ; w = gausswin(N,alpha); data_g=conv(data(j,:),w,'same');
                 
-        onset1=bursts(env);
-        onset1=horzcat(onset1{:}); % onset of short and long bursts
-        onset=bursts_aligned(env,Ecogfiltered); 
-        onset=horzcat(onset{:}); % onset of short and long bursts aligned to closer peak of beta oscillations
+        [onset1 offset1]=bursts(env);
+        ref=horzcat(offset1{:}); % offset of short and long bursts
+        [onset offset]=bursts_aligned(env,Ecogfiltered); 
+         ref_al=horzcat(offset{:}); % offset of short and long bursts aligned to closer peak of beta oscillations
         
         epoch=200;
         for n=1:(length(env)/100)
@@ -34,16 +35,16 @@ for j=1:size(data,1)
         end
         
         
-        for jj=1:size(onset,2)
-            if onset(jj)>200 && onset(jj)+200<length(data_g) && onset1(jj)>200 && onset1(jj)+200<length(data_g)
-                output_pa(jj,:)=data_g(onset(jj)-200:onset(jj)+200);
-                output_npa(jj,:)= data_g(onset1(jj)-200:onset1(jj)+200);
+        for jj=1:size(ref_al,2)
+            if ref_al(jj)>200 && ref_al(jj)+200<length(data_g) && ref(jj)>200 && ref(jj)+200<length(data_g)
+                output_pa(jj,:)=data_g(ref_al(jj)-200:ref_al(jj)+200);
+                output_npa(jj,:)= data_g(ref(jj)-200:ref(jj)+200);
             end
         end
         
         if max(zscore(sum(output_pa,1)))>1.96
             tt=tt+1;
-            count_b(1,tt)=length(onset);
+            count_b(1,tt)=length(ref_al);
             rec_pa(tt,:)=zscore(sum(output_pa,1));
             rec_npa(tt,:)=zscore(sum(output_npa,1));
             rec_surr(tt,:)=zscore(sum(pre_sur,1));
@@ -128,7 +129,7 @@ for mm=1:2
     end
     
 end
-xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(200,'--',{'burst offset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim ([0 400])
 ylim ([-3 3])
 yticks([-3:1:3])
@@ -146,48 +147,48 @@ fig1.Color='w';
 
 
 
-load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','squash','blood','sky','aegean','grey','black');
-if name=='bz'
-    col={blood,grey,black};
-else
-    col={aegean,grey,black};
-end
-cond={'env_trg_pa','env_trg_npa','env_trg_surr'};
-label={'phase-aligned','non phase-aligned','random ref'};
-fig1=figure
-for ii=1:size(cond,2)
-    data=eval(cond{1,ii});
-    color_b=col{1,ii};
-    y2=mean(data);
-    y1=y2+(std(data)./sqrt(size(data,1)));
-    y3=y2-(std(data)./sqrt(size(data,1)));
-    p1=plot(time2, y2, 'LineWidth',1.5,'Color',color_b)
-    patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
-    patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
-hold on
-end
+    load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','squash','blood','sky','aegean','grey','black');
+    if name=='bz'
+        col={blood,grey,black};
+    else
+        col={aegean,grey,black};
+    end
+    cond={'env_trg_pa','env_trg_npa','env_trg_surr'};
+    label={'phase-aligned','non phase-aligned','random ref'};
+    fig1=figure
+    for ii=1:size(cond,2)
+        data=eval(cond{1,ii});
+        color_b=col{1,ii};
+        y2=mean(data);
+        y1=y2+(std(data)./sqrt(size(data,1)));
+        y3=y2-(std(data)./sqrt(size(data,1)));
+        p1=plot(time2, y2, 'LineWidth',1.5,'Color',color_b)
+        patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
+        patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
+    hold on
+    end
 
-place={[2.5 2.5 2.6 2.6] [2.8 2.8  2.9 2.9]};
-for mm=1:2
-if ~isempty(sig{1,mm})
-    patch([sig{1,mm}(1) sig{1,mm}(2) sig{1,mm}(2) sig{1,mm}(1)],place{1,mm},col{1,mm+1},'EdgeColor','none')
-end
-end
+    place={[2.5 2.5 2.6 2.6] [2.8 2.8  2.9 2.9]};
+    for mm=1:2
+    if ~isempty(sig{1,mm})
+        patch([sig{1,mm}(1) sig{1,mm}(2) sig{1,mm}(2) sig{1,mm}(1)],place{1,mm},col{1,mm+1},'EdgeColor','none')
+    end
+    end
 
-xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
-xlim ([0 400])
-ylim ([-3 3])
-yticks([-3:1:3])
-xticks([0:100:400])
-xticklabels ({'-200','-100','0','100','200'})
-box ('off')
-xlabel ('Time (ms)')
-ylabel({'envelope \beta filtered','firing-rate (zscore)'})
-set(gca,'FontSize',12)
+    xline(200,'--',{'burst offset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
+    xlim ([0 400])
+    ylim ([-3 3])
+    yticks([-3:1:3])
+    xticks([0:100:400])
+    xticklabels ({'-200','-100','0','100','200'})
+    box ('off')
+    xlabel ('Time (ms)')
+    ylabel({'envelope \beta filtered','firing-rate (zscore)'})
+    set(gca,'FontSize',12)
 
-fig1.Units = 'centimeters';
-fig1.OuterPosition= [10, 10, 8, 10];
-fig1.Color='w';
+    fig1.Units = 'centimeters';
+    fig1.OuterPosition= [10, 10, 8, 10];
+    fig1.Color='w';
 
 
 %%% suplots: phase_aligned trig-acg, non-phase aligned avg and surrogates
@@ -197,7 +198,7 @@ y2=region_pl; y1=y2+region_spl; y3=y2-region_spl;
 p1=plot(time2, y2, 'LineWidth',1.5,'Color',color_b)
 patch([time2 fliplr(time2)], [y1 fliplr(y2)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
 patch([time2 fliplr(time2)], [y2 fliplr(y3)],[color_b],'FaceAlpha',[0.1],'EdgeColor','none')
-xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
+xline(200,'--',{'burst offset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',[0.5 0.5 0.5],'LineWidth',2)
 xlim ([0 400])
 ylim ([-3 3])
 yticks([-3:1:3])
@@ -215,7 +216,7 @@ y5=region_npl; y4=y5+region_snpl; y6=y5-region_snpl; color_s=[0.5 0.5 0.5];
 p2=plot(time2, y5, 'LineWidth',1.5,'Color',color_s)
 patch([time2 fliplr(time2)], [y4 fliplr(y5)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
 patch([time2 fliplr(time2)], [y5 fliplr(y6)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
-xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',color_s,'LineWidth',2)
+xline(200,'--',{'burst offset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',color_s,'LineWidth',2)
 xlim ([0 400])
 ylim ([-5 5])
 xticks([0:100:400])
@@ -231,7 +232,7 @@ y5=region_surr; y4=y5+region_ssurr; y6=y5-region_ssurr; color_s=[0 0 0];
 p2=plot(time2, y5, 'LineWidth',1.5,'Color',color_s)
 patch([time2 fliplr(time2)], [y4 fliplr(y5)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
 patch([time2 fliplr(time2)], [y5 fliplr(y6)],[color_s],'FaceAlpha',[0.1],'EdgeColor','none')
-xline(200,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',color_s,'LineWidth',2)
+xline(200,'--',{'burst offset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','Color',color_s,'LineWidth',2)
 xlim ([0 400])
 ylim ([-5 5])
 xticks([0:100:400])
@@ -246,4 +247,4 @@ fig.Units = 'centimeters';
 fig.OuterPosition= [10, 10, 30, 10];
 fig.Color='w';
 
-end
+ end

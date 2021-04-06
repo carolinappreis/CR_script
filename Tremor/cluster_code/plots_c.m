@@ -1,16 +1,17 @@
 function [r,p]=plots_c(out)
 m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
-color_b1=[aegean;blushred; stone];
+color_b1=[aegean;stone;blushred];
 
 
 %%  plot arc's main axis with significant threshold\
 for iii=1:size(out.start_c,1)
     %%% for type=1:2
-    type=2;
+    type=1;
     feature={'out.change_c';'out.fchange'};
     p=type;
     dr=eval([(num2str(feature{type,1})) '{' num2str(iii) ',2}{m_ax,1}']);
+    dr=abs(dr);
     data=nanmedian(dr);
    
     nostim=eval(squeeze([num2str(feature{type,1}) '{' num2str(iii) ',1}(m_ax,:)']));
@@ -34,24 +35,24 @@ for iii=1:size(out.start_c,1)
     y1=prctile(dr,75);
     y3=prctile(dr,25);
     time=0:30:330;
-    patch([time fliplr(time)], [y1 fliplr(y2)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
-    hold on
-    patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
-    % plot(y2,'.', 'MarkerSize',20,'Color',color_b1(p,:))
+%     patch([time fliplr(time)], [y1 fliplr(y2)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
+%     hold on
+%     patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
     stem(time,y2,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(p,:))
-%  plot(time,dr,'k.','MarkerSize',10)
+    hold on
+    plot(time,dr,'r.','MarkerSize',5)
     yline(0)
-    if ~isnan(phase)
-        plot(time(phase),y2(phase),'.','Color',color_b1(1,:),'MarkerSize',25)
-    end
+%     if ~isnan(phase)
+%         plot(time(phase),y2(phase),'.','Color',color_b1(3,:),'MarkerSize',25)
+%     end
 %             yline(prctile(nostim,99.7917),'k--','LineWidth',1)
 %             yline(prctile(nostim,0.2083),'k--','LineWidth',1)
     if type==2
-            ylim([-0.4 0.4])
+%             ylim([-1 1])
             ylabel({'Change in tremor frequency'})
     else
-        ylim([-1 1])
-            ylabel({'Change in tremor severity'})
+         ylim([-1.5 1.5])
+             ylabel({'Change in tremor severity'})
     end
     xlim([-5 335])
     xticks([0:30:330])
@@ -375,6 +376,7 @@ set(f1,'color','w');
 
 %% gaussian fit to tremor properties & correlation with arc features
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','stone');
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/bini.mat');
 cl=stone;
 m_ax=1;
 for iii=1:size(out.start_c,1)
@@ -385,27 +387,39 @@ for iii=1:size(out.start_c,1)
     else
         subplot(2,5,iii)
     end
-    y=out.amp_n_bins(iii,:);
+%     y=out.amp_n_bins(iii,:);
+      y=amp_n_bins(iii,:);
+    y(1,find(isnan(y)))=0;
     width(iii,:)=sum(~isnan(y));
     x=out.bins(1:end-2);
+    x=bins(1:end-2);
     
     bar(x,y,'FaceColor',cl,'EdgeColor',cl)
     hold on
-    [rsg,rsg_g,rsg_o]=gauss_fit2(x,y)
+     [rsg,rsg_g,rsg_o]=gauss_fit2(x',y')
+% %      [fitobj,goodness,output]=fit(x',y','weibull')
+% %      h2=plot(fitobj);
+% %  set(h2,'LineWidth',1.5,'Color','r')
+% % % [rsg,rsg_g,rsg_o] = raylFit(x, y)
+% % % [rsg,rsg_g,rsg_o] = WBFit(x,y);
+
+
     %     ylim([0 1.5])
     xticks([1:2:14])
     %     xticklabels({'2','3','4','5','6','7','8'});
-    ylabel({'Absolute amplitude (\muV^2)'})
-    xlabel('Frequency (Hz)')
+%     ylabel({'Absolute amplitude (\muV^2)'})
+%     xlabel('Frequency (Hz)')
     %     set(gca,'FontSize',12)
     box('off')
     legend('off')
+     title(sprintf('patient %d',(iii)))
     cv(iii,:)=rsg.c./rsg.b;
     clear y rsg rsg_o rsg_g
-    
+      set(gca,'FontSize',12)
     f1.Units = 'centimeters';
     f1.OuterPosition= [10, 10, 25, 10];
     set(f1,'color','w');
+  
     
     
     d1=nanmedian(squeeze(out.change_c{iii,2}{1,m_ax}));

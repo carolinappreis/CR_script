@@ -30,6 +30,12 @@ for aa = 1:3
     Freqpeak(aa,:) = frange(find(Pxxrange == max(Pxxrange)));
     Ppeak(aa,:) = max(Pxxrange);
     ps_curves(aa,:) = Pxx;
+    
+%     plot(ps_curves')
+%     xlim([3 30])
+%     box('off')
+%     ylabel('Power spectra')
+%     xlabel('Frequency (Hz)')
 end
 
 peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];

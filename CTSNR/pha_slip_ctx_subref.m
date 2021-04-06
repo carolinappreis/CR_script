@@ -8,12 +8,14 @@ for pr=1:size(coh_filts,1)
     for ct=1:size(thal,1)
         env=abs(hilbert(thal(ct,:)));
         
-        [onset,offset1]=bursts_aligned(env,thal(ct,:));
-        if numel(offset1{2,1})>numel(onset{2,1})
-            offset1{2,1}=offset1{2,1}(1:length(onset{2,1}));
+        [onset,offset]=bursts_aligned(env,thal(ct,:));
+        if numel(offset{2,1})>numel(onset{2,1})
+            offset{2,1}=offset{2,1}(1:length(onset{2,1}));
         end
-        dur_long=offset1{2,1}-onset{2,1};
+        dur_long=offset{2,1}-onset{2,1};
         [dur,dur_idx]=sort(dur_long,'descend');
+        ref=onset{2,1};
+        
         on=flip(dur_idx);
         
         r=r+1;
@@ -24,15 +26,15 @@ for pr=1:size(coh_filts,1)
         el=400;
         
         for ii=1:length(on)
-            if onset{2,1}(on(ii))>el && onset{2,1}(on(ii))+el<length(znon_norm)
-                epochs_zi(ii,:)=znon_norm(onset{2,1}(on(ii))-el:onset{2,1}(on(ii))+el);
+            if ref(on(ii))>el && ref(on(ii))+el<length(znon_norm)
+                epochs_zi(ii,:)=znon_norm(ref(on(ii))-el:ref(on(ii))+el);
             end
         end
         
-%         for ii=1:(length(znon_norm)/1000)
-%             idx_sur=randi([el+1,(length(znon_norm)-el)],1,1);
-%             epochs_zi(ii,:)= znon_norm(idx_sur-el:idx_sur+el);
-%         end
+        %         for ii=1:(length(znon_norm)/1000)
+        %             idx_sur=randi([el+1,(length(znon_norm)-el)],1,1);
+        %             epochs_zi(ii,:)= znon_norm(idx_sur-el:idx_sur+el);
+        %         end
         
         
         
@@ -54,7 +56,7 @@ for pr=1:size(coh_filts,1)
     clear thal ctx
 end
 
-clearvars -except epochs_ct name coh_filts 
+clearvars -except epochs_ct name coh_filts
 
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','squash','blood','sky','aegean');
 if name=='bz'
@@ -80,7 +82,7 @@ end
 fig=figure;
 subplot(2,1,1)
 imagesc(ns)
-colorbar
+% colorbar
 title('CTX')
 xlabel ('Time (msec)')
 ylabel('Bursts (sorted by length)')
@@ -104,14 +106,14 @@ for r= 1:size(bi,2)
 end
 
 subplot(2,1,2)
-plot(ps,'Color',color_b,'LineWidth',2)
+plot(ps,'Color',[0.5 0.5 0.5],'LineWidth',2)
 %%%% ONSET
-xline(40,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5])
+xline(40,'--',{'burst onset'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color','r')
 xticks([20:20:80])
 xlim([20 80])
 xticklabels ({'-200','0','200','400'})
 fig.Units = 'centimeters';
-fig.InnerPosition= [10, 10, 14,12];
+fig.InnerPosition= [10, 10, 12,12];
 fig.Color='w';
 set(gca,'FontSize',12)
 xlabel ('Time (msec)')

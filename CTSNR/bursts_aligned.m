@@ -1,5 +1,5 @@
 
-function [onset,offset1]=bursts_aligned(env,Ecogfiltered)
+function [onset,offset]=bursts_aligned(env,Ecogfiltered)
 samprate=1000;
 threshold=prctile(env,75);
 tt(size(env,1):size(env,2))=threshold;

@@ -1,4 +1,5 @@
-function [srate]=firing_rate(data_region)
+function  [srate]=firing_rate(data_region)
+
 data_a=cell2mat(data_region);
 srn=1000;
     for ii=1:size(data_a,1)

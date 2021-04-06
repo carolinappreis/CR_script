@@ -8,7 +8,7 @@ ecog=WaveData_DC;
 
 clearvars -except data ecog name
 [fig]=trg_avg(data,ecog,name);
-
+[pref_in, pref_out, mean_ang,spike_rate]=pref_lock_ang(data,ecog,name)
 %% SUA
 clear all; close all
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
@@ -22,7 +22,7 @@ end
 
 clearvars -except data ecog name
 [fig]=trg_avg(data,ecog,name);
-
+[pref_in, pref_out, mean_ang,spike_rate]=pref_lock_ang(data,ecog,name)
 
 %%
 [fig]=lock_prop(data,ecog,name);

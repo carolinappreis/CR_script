@@ -22,7 +22,10 @@ for i=1:k
     subplot(2,5,iii)
     [l h]=silhouette(all1(runs{1,i},:),clust.C{iii,i});
     xlim([-1 1])
+%     xticklabels([-1:0.2:1])
     p{i,1}=l;clear l h
+    title(sprintf('patient %d',(iii)))
+    box('off')
 end
 out.bsilh{iii,1}=p{1,1};
 
@@ -85,6 +88,8 @@ box('off')
 legend({'NS','RS'},'Location','northwest')
 legend('boxoff')
 ylabel('percentage of trials')
+ylim([0 100])
+title(sprintf('patient %d',(iii)))
 if clust.win(iii)==1
     xticklabels({'cluster1*','cluster2'})
 elseif clust.win(iii)==2
@@ -93,5 +98,5 @@ elseif clust.win(iii)==2
 else
     xticklabels({'cluster1','cluster2'})
 end
-
+    
 end

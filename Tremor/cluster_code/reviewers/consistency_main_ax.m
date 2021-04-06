@@ -1,10 +1,11 @@
 clear ; close 
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/mean_amplitude_5sec.mat','m_env5_phase')
 
 for sub=1:10
     for pp=1:12
         for ii=1:3
-            ax(:,ii)=out.end_env{sub,2}{ii,1}(:,pp);
+            ax(:,ii)=m_env5_phase{sub,2}{ii,1}(:,pp);
         end
         
         for n=1:20
@@ -43,6 +44,6 @@ for sub=1:10
     set(fig,'color','w');
     box('off')
     
-    clearvars -except out prob sub
+    clearvars -except m_env5_phase prob sub
 end
 

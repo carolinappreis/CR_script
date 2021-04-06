@@ -13,8 +13,11 @@ m_arc_s=zeros(10,12);
         ref(iii,:)=eval(['nanmedian(out.arc' num2str(cd) '{' num2str(iii) ',2}{m_ax,1})']); %
         pre_ns=squeeze(eval(['out.ns_ms{' num2str(iii) ',1}(' num2str(cd) ',:)']));
         ref_ns(1:1e6,1:12)= pre_ns(randi(length(pre_ns),1000000,12)); %generate surrogate of non-stim ARC
-        [low,high,m_arc_a,m_arc_s]=ns_th(out,ref_ns,iii,low,high,m_arc_a,m_arc_s); clear ref_ns %% align non-stim ARCs to max sup and amp and take 5% and 95% percentile respectivley
+%         [low,high,m_arc_a,m_arc_s]=ns_th(out,ref_ns,iii,low,high,m_arc_a,m_arc_s); clear ref_ns %% align non-stim ARCs to max sup and amp and take 5% and 95% percentile respectivley
     end
+    % %% saved output of ns_th for speed
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/low_th_group')
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/high_th_group')
 
     id_s=[];
     id_a=[];

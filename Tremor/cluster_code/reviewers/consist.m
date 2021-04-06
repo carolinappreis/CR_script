@@ -1,12 +1,12 @@
-% clear; close
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat','out');
-% m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
-% load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
-% color_b1=[blushred; aegean; stone];
-
-
-for iii=10
-%     1:size(out.start_c,1)
+clear; close
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat','out');
+m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
+load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
+color_b1=[blushred; aegean; stone];
+close all
+clearvars -except m_ax color_b1 out
+for iii=4
+    %     1:size(out.start_c,1)
     %%% for type=1:2
     close all
     type=1; feature={'out.change_c';'out.fchange'};
@@ -23,64 +23,36 @@ for iii=10
         phase=NaN;
     end
     
-    
-    
-    
-    f1=figure;
-    for ii=1:size(gg,1)
-        subplot(size(gg,1),1,ii)
-        y1=smooth(gg(ii,:));
-        x1=1:length(y1);
-        plot((y1),'Color','k','LineWidth',2)
-        hold on
-        mdp1=fitlm(x1,y1,'poly2');
-        plot(mdp1.Fitted,'r','LineWidth',1.5)
-        n=mdp1.Rsquared.Adjusted;
-        
-        filename=['adjr^2=',num2str(round(n,2))];
-        t = text(0.5,0.5,filename);
-        s = t.FontSize;
-        t.FontSize = 12;
-        
-        xline(ini,'--','Color',[0.5 0.5 0.5],'LineWidth',2)
-        xlim([0 80000])
-        xticks([0:10000:80000])
-        xticklabels({'-20','-10','0','10','20','30','40','50','60'})
-        ylim([0 14])
-        yticks(0:2:14)
-        ylabel('tremor severity (m/s^2)')
-        xlabel ('time (s)')
-        
-
-        box('off')
-        set(gca,'FontSize',12)
-        title(['PLS pt',num2str(numb),' trial',num2str(ii)])
-        
-    end
-    
-    f1.Units = 'centimeters';
-    f1.OuterPosition= [10, 10, 14, 16];
-    set(f1,'color','w');
-    box('off')
-    
-    
-    
-    
-    
     if (~isnan(phase))
         for p=1:length(phase)
-            dat=out.zenv_seg{iii,phase(p)};
+             dat=out.env_seg{iii,phase(p)-1};
+% dat=out.env_seg{iii,1};
             f1=figure(p)
             for gg=1:size(dat,1)
                 subplot(2,5,gg)
                 x=1:size(dat,2);
-                y=dat(gg,:);
-                plot(x,y,'k')
+                y=smooth((dat(gg,:).*(10*9.81/0.5)));
+                data_all(gg,:)=y;
+                plot(x,y,'k','LineWidth',1)
                 hold on
-                mdp1=fitlm(x,y,'poly1');
+                mdp1=fitlm(x,y,'poly2');
                 plot(mdp1.Fitted,'r','LineWidth',1.5)
-                n=round(mdp1.Rsquared.Adjusted,2);
-                title(sprintf('r= %d',(n)))
+                n=mdp1.Rsquared.Adjusted;
+                filename=['adjr^2=',num2str(round(n,2))];
+                xlim([0 5000])
+                xticks([0:1000:5000])
+                xticklabels({'0','1','2','3','4','5'})
+                                ylim([0 16])
+                                yticks(0:4:16)
+                set(gca,'FontSize',12)
+                aa=get(gca,'ylim');
+%                 yticks([(aa(1)):(((aa(2)-aa(1))/2)):(aa(2))]);
+                t = text(3500,aa(2),filename);
+                s = t.FontSize;
+                t.FontSize = 10;
+                ylabel('tremor severity (m/s^2)')
+                xlabel ('time (s)')
+                box('off')  
             end
             set(f1,'color','w');
             f1.OuterPosition= [1,339,1440,539];
@@ -91,10 +63,3 @@ for iii=10
     
 end
 
-yy(numb,:)=smooth(median(gg,1));
-%     y=yy(numb,1:35000);
-y=yy(numb,1:40000);
-x=tt(1:length(y));
-initial_params=[];
-[param]=sigm_fit(x,y,initial_params)        % automatic initial_params
-clear x y

@@ -9,26 +9,25 @@ clust=struct; out=struct; start=cell(10,3); ending=cell(10,3); yy=cell(10,3); h_
 % gen=(rng);
 load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
 
-
-for iii = 1:length(cohort)
+for iii =1: length(cohort)
     clearvars -except  cohort cond iii clust s start ending yy out gen h_up
     
-   for co= 1:2 % NS and RS conditions       
+   for co= 1 % NS and RS conditions       
         load(strcat('/Users/Carolina/OneDrive - Nexus365/PERI-STIM/DATA/P0',num2str(cohort(iii)),'_',num2str(cond{co,1}),'.mat'))
 
         [d]=preprocess(SmrData); samplerateold=d.samplerateold; samplerate=d.samplerate;
         
-        [h]=twitch(iii,d,samplerateold,samplerate,co); clear h; %% jolt induced by stim recorded on main axis of the 3axial acc and emg for patients 9 and 10
+%          [h]=twitch(iii,d,samplerateold,samplerate,co); clear h; %% jolt induced by stim recorded on main axis of the 3axial acc and emg for patients 9 and 10
         
         [afilt, bfilt, start, ending, yy, h_up]= startend(d,samplerateold,samplerate,iii,co,start,ending,yy,h_up); %% start and end points of stim runs
         
         [s]=zfiltenv(d,bfilt,afilt,co,iii,s); clear afilt bfilt %% zscore / filter / envelope / phase
     end
     
-       [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analyses
+%         [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analyses
     
-     for co=1:2
-        [out]=mod_c(clust,out,co,iii,s,cohort);   %%%% tremor modulation
+     for co=1
+        [out]=mod_c(clust,out,co,iii,s,cohort,h_up);   %%%% tremor modulation
     end
    
     
