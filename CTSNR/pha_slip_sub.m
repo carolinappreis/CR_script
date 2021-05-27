@@ -9,10 +9,12 @@ for pr=1:size(coh_filts,1)
     [onset,offset]=bursts_aligned(env,ctx);
     if numel(offset{2,1})>numel(onset{2,1})
         offset{2,1}=offset{2,1}(1:length(onset{2,1}));
+    elseif numel(onset{2,1})>numel(offset{2,1})
+        onset{2,1}=onset{2,1}(1:length(offset{2,1}));
     end
     dur_long=offset{2,1}-onset{2,1};
 
-    ref=offset{2,1};
+    ref=onset{2,1};
     [dur,dur_idx]=sort(dur_long,'descend');
     on=flip(dur_idx(1:25));
     

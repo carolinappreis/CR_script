@@ -14,9 +14,9 @@ for iii=1:size(out.start_c,1)
 %%% 5% and 95% percentile of aligned non-stim ARC's to max suppression and
 %%% amplification
     ref_ns(1:1e6,1:12)=squeeze(out.ns_arc{iii,m_ax}); %% surrogate of non-stim ARCs
-%     [low,high,m_arc_a,m_arc_s]=ns_th(out,ref_ns,iii,low,high,m_arc_a,m_arc_s); clear ref_ns %% align non-stim ARCs to max sup and amp and take 5% and 95% percentile respectivley
+%      [low,high,m_arc_a,m_arc_s]=ns_th(out,ref_ns,iii,low,high,m_arc_a,m_arc_s); clear ref_ns %% align non-stim ARCs to max sup and amp and take 5% and 95% percentile respectivley
 end
-% %% saved output of ns_th for speed
+% % % % %% saved output of ns_th for speed
 load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/low_th_group')
 load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/high_th_group')
 

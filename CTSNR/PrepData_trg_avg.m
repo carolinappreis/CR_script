@@ -6,9 +6,6 @@ load ('SUA_BZ')
 data=data_all;
 ecog=WaveData_DC; 
 
-clearvars -except data ecog name
-[fig]=trg_avg(data,ecog,name);
-[pref_in, pref_out, mean_ang,spike_rate]=pref_lock_ang(data,ecog,name)
 %% SUA
 clear all; close all
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/probe SUA_act_mat')
@@ -20,11 +17,12 @@ for i=1:size(data_region,1)
     ecog = [ecog ; repmat(Ecog_region(i,:),size(data_region{i,1},1),1)];
 end
 
+%% Analyses
 clearvars -except data ecog name
+
 [fig]=trg_avg(data,ecog,name);
 [pref_in, pref_out, mean_ang,spike_rate]=pref_lock_ang(data,ecog,name)
-
-%%
+[fig]=broad_cycy(data,ecog,name);
 [fig]=lock_prop(data,ecog,name);
 
 %%%% extras

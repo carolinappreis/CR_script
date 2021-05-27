@@ -38,11 +38,15 @@ for pr=size(raw_coh,1)-1:size(raw_coh,1)
     for ct=2:size(raw_coh{pr,1},1)
         freq=1:81;
         [Pxx_ind,F_i]=mscohere((raw_coh{pr,1}(1,:)),(raw_coh{pr,1}(ct,:)),samprate,[],samprate,samprate);
+        [f1,t1,cl1]=sp2a2_R2(raw_coh{pr,1}(1,:)',raw_coh{pr,1}(ct,:)',1000,10);
+        cl1.what='column 1 - 3';
+        figure
+        psp2_R2(f1,t1,cl1,80,100,50,1)
         p=p+1;
         coher(p,:)=Pxx_ind(freq)./sum(Pxx_ind);clear Pxx_ind
         [Pxx_ctx,F_ind]=pwelch(raw_coh{pr,1}(1,:),samprate,[],samprate,samprate);
         power_ctx(c,:)=Pxx_ctx(freq)./sum(Pxx_ctx); clear Pxx_ctx
-        [Pxx_probe,F_ind]=pwelch((raw_coh{pr,1}(ct,:)),samprate,[],samprate,samprate);
+        [Pxx_probe,F_ind,pxxc]=pwelch((raw_coh{pr,1}(ct,:)),samprate,[],samprate,samprate,'ConfidenceLevel',0.95);
         power_probe(p,:)=Pxx_probe(freq)./sum(Pxx_probe); clear Pxx_probe
         
     end

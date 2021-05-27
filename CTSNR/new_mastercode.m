@@ -1,7 +1,7 @@
 clear all
 close all
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/final_mats')
-load('BZ_bua.mat')
+load('SNR_bua.mat')
 
 %filtering probe signals and cortex in the beta band (+-5Hz peak coherence) if the summed coherence
 %between 15-35Hz is more than 10% of the coherence in all freqs.
@@ -37,7 +37,7 @@ ctx=ctx((~cellfun('isempty',coh_filts)),:);
 %%%%%%%%
 
 clearvars -except coh_filts name
-
+close all
 
 % CHANGE IN BETA AMPLITUDE
 % [fig]=ctx_to_sub(coh_filts,name);

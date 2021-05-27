@@ -1,3 +1,11 @@
+%% JUXTA
+clear all; close all
+cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
+load('BZ_cycle')
+
+data=units_match;
+ecog=ecogbf_match;
+
 %% SUA
 clear all; close all
 % cd('C:\Users\creis\OneDrive - Nexus365\BNDU_computer\Documents\Carolina_code\codes_thal\SUA\probe SUA_act_mat')
@@ -13,15 +21,9 @@ for i=1:size(data_region,1)
     ecog = [ecog ; repmat(Ecog_region(i,:),size(data_region{i,1},1),1)];
 end
 
+%% Analyses
+
+clearvars -except data ecog name
 [fig]=cy_by_cy(data,ecog,name);
 [fig]=lock_prop(data,ecog,name);
 
-%% JUXTA
-clear all; close all
-cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/SUA/Juxta SUA_act_mat/mat')
-load('BZ_cycle')
-
-data=units_match;
-ecog=ecogbf_match;
-
-[fig]=cy_by_cy(data,ecog,name);

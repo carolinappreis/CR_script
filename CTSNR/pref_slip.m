@@ -1,5 +1,5 @@
 function [tocomp tocomp_r]=pref_slip(epochs_z1,b_ps,a_ps,after_on,r,tocomp,a_r,b_r,tocomp_r)
-ini=350;
+ini=300;
 slip=epochs_z1(:,ini:400);
 bp=b_ps(:,ini:400);
 ap=a_ps(:,ini:400);

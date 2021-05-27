@@ -59,14 +59,14 @@ st=begin3(~isnan(begin3)); clear begin3
 ed=ending3(~isnan(ending3)); clear ending3
 
 
-% time=1:length(env);
-% plot(time,env)
-% hold on
-% plot(time(begin2(ind_b)),env(begin2(ind_b)),'r.')
-% plot(time(ending2(ind_b)),env(ending2(ind_b)),'b.')
-% plot(time(st),env(st),'go')
-% plot(time(ed),env(ed),'bo')
-% find((ed(2:end)-st(1:end-1))<200)
+% % time=1:length(env);
+% % plot(time,env)
+% % hold on
+% % plot(time(begin2(ind_b)),env(begin2(ind_b)),'r.')
+% % plot(time(ending2(ind_b)),env(ending2(ind_b)),'b.')
+% % plot(time(st),env(st),'go')
+% % plot(time(ed),env(ed),'bo')
+% % find((ed(2:end)-st(1:end-1))<200)
 
 
 if ~isempty (st)
@@ -122,21 +122,37 @@ if ~isempty (st)
         end
         offset{hh,1}=maxidxM(nonzeros(pre_offset{hh,1}));
     end
-    
+    cys=6;
     for hh=1:size(onset1,1)
         dn=0;
         for b = 1:length(onset1{hh,1})
             for p=1:length(maxidxM)
                 if min(abs(onset1{hh,1}(b)-maxidxM(p)))<=30;
                     pre_onset{hh,1}(b,:)=p;
-                    if p-11>0 && p+11<length(maxidxM)
+                    if p-cys>0 && p+cys<length(maxidxM)
                         dn=dn+1;
-                        cycles{hh,1}(dn,:)=maxidxM(p-11:p+11);
+                        cycles{hh,1}(dn,:)=maxidxM(p-cys:p+cys);
                     end
                 end
             end
         end
         onset{hh,1}=maxidxM(nonzeros(pre_onset{hh,1}));
     end
+    
+%     time=1:length(env);
+% plot(time,env)
+% hold on
+% plot(time,Ecogfiltered)
+% plot(time(begin2(ind_b)),env(begin2(ind_b)),'r.')
+% plot(time(ending2(ind_b)),env(ending2(ind_b)),'b.')
+% plot(time(st),env(st),'go')
+% plot(time(ed),env(ed),'bo')
+% % block=cell2mat(cycles{2,1});
+% block=(cycles{2,1});
+% plot(time(block), Ecogfiltered(block),'k.','MarkerSize',10)
+
+
+    
+    
 end
 

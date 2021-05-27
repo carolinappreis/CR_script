@@ -35,66 +35,67 @@ if co==1
 
     
     %%% tremor properties hist- frequency and amplitude
-    if ~isnan(clust.win(iii,1))
-        idx_ns{iii,1}=h_up{iii,co};
-        out.ns{iii,1}=z_sig(m_ax,h_up{iii,co});
-        out.env_ns{iii,1}=envelope(m_ax,h_up{iii,co});
-        
-    else
-        st= out.start_c{iii,co};
-        ed= out.ending_c{iii,co};
-        for j=1:length(st)
-            idx_cseg(:,j)=st(j):ed(j);
-            val_cluster(:,j)=z_sig(m_ax,st(j):ed(j));
-            val_cluster1(:,j)=envelope(m_ax,st(j):ed(j));
-        end
-        indi=idx_cseg(:);
-        val=val_cluster(:);
-        val1=val_cluster1(:);
-        
-        [indi_c, ia] = unique(indi);
-        idx_ns{iii,1}=indi_c;
-        out.ns{iii,1}=val(ia,1);
-        out.env_ns{iii,1}=val1(ia,1);
-    end
-    
-    
-    
-    ns_amp=envelope(m_ax,idx_ns{iii,co});
-    ns_freq=freqi(m_ax,idx_ns{iii,co});
+% % % % %     if ~isnan(clust.win(iii,1))
+% % % % %         idx_ns{iii,1}=h_up{iii,co};
+% % % % %         out.ns{iii,1}=z_sig(m_ax,h_up{iii,co});
+% % % % %         out.env_ns{iii,1}=envelope(m_ax,h_up{iii,co});
+% % % % %         
+% % % % %     else
+% % % % %         st= out.start_c{iii,co};
+% % % % %         ed= out.ending_c{iii,co};
+% % % % %         for j=1:length(st)
+% % % % %             idx_cseg(:,j)=st(j):ed(j);
+% % % % %             val_cluster(:,j)=z_sig(m_ax,st(j):ed(j));
+% % % % %             val_cluster1(:,j)=envelope(m_ax,st(j):ed(j));
+% % % % %         end
+% % % % %         indi=idx_cseg(:);
+% % % % %         val=val_cluster(:);
+% % % % %         val1=val_cluster1(:);
+% % % % %         
+% % % % %         [indi_c, ia] = unique(indi);
+% % % % %         idx_ns{iii,1}=indi_c;
+% % % % %         out.ns{iii,1}=val(ia,1);
+% % % % %         out.env_ns{iii,1}=val1(ia,1);
+% % % % %     end
+% % % % %     
+% % % % %     
+% % % % %     
+% % % % %     ns_amp=envelope(m_ax,idx_ns{iii,co});
+% % % % %     ns_freq=freqi(m_ax,idx_ns{iii,co});
     %     [min(ns_freq) max(ns_freq)];
 %     bins=2:0.5:9;
-    bins=2:0.25:9;
-    for i=1:length(bins)
-        if i+1<length(bins)
-            dum=find(ns_freq>bins(i) & ns_freq<=bins(i+1));
-            if ~isempty (dum)
-                m_n_amp(1,i)=nanmedian(ns_amp(dum));
-            else
-                m_n_amp(1,i)=NaN;
-            end
-            clear dum
-        end
-    end
-    
-    out.amp_n_bins(iii,:)=m_n_amp./max(m_n_amp) %% /nanmedian(ns_amp); 
-    out.bins=bins;
-    
-% % % % %     %%% baseline 50000 - taken from aux_master.m
-% % % % %     %%%amp surr
-% % % % %     rep = 10;
-% % % % %     for ax=1:3
-% % % % %         bb(ax,:)=change_bl(iii,ax,(clust.idx{iii,co}));
-% % % % %         ba(ax,:)=amp_bbl(iii,(clust.idx{iii,co}));
-% % % % %         dum = bb(randi(length(bb), 1e6, rep));
-% % % % %         out.change_c{iii,co}(ax,:)=nanmedian(dum,2); clear dum
-% % % % %         for i = 1:12
-% % % % %             dum = bb(randi(length(bb), 1e6, rep));
-% % % % %             out.ns_arc{iii,ax}(:,i)=nanmedian(dum,2); clear dum
+% % % % %     bins=2:0.25:9;
+% % % % %     for i=1:length(bins)
+% % % % %         if i+1<length(bins)
+% % % % %             dum=find(ns_freq>bins(i) & ns_freq<=bins(i+1));
+% % % % %             if ~isempty (dum)
+% % % % %                 m_n_amp(1,i)=nanmedian(ns_amp(dum));
+% % % % %             else
+% % % % %                 m_n_amp(1,i)=NaN;
+% % % % %             end
+% % % % %             clear dum
 % % % % %         end
-% % % % % 
-% % % % %         clear dum dum2 baseline3
 % % % % %     end
+% % % % %     
+% % % % %     out.amp_n_bins(iii,:)=m_n_amp./max(m_n_amp) %% /nanmedian(ns_amp); 
+% % % % %     out.bins=bins;                                  
+% % % % %     
+
+    %%% baseline 50000 - taken from aux_master.m
+    %%%amp surr
+    rep = 10;
+    for ax=1:3
+        bb(ax,:)=change_bl(iii,ax,(clust.idx{iii,co}));
+        ba(ax,:)=amp_bbl(iii,ax,(clust.idx{iii,co}));
+% % %         dum = bb(randi(length(bb), 1e6, rep));
+% % %         out.change_c{iii,co}(ax,:)=nanmedian(dum,2); clear dum
+% % %         for i = 1:12
+% % %             dum = bb(randi(length(bb), 1e6, rep));
+% % %             out.ns_arc{iii,ax}(:,i)=nanmedian(dum,2); clear dum
+% % %         end
+
+        clear dum dum2 baseline3
+    end
 % % % % %     
 % % % % %     %%%freq surr
 % % % % %         rep = 10;
@@ -113,25 +114,28 @@ if co==1
 % % % % %     
 % % % % %     
 % % % % %     
-% % % % %     %%%baseline median split
-% % % % %     
-% % % % %     ns_a=NaN(2,1e6);
-% % % % %     
-% % % % %     seg=bb(m_ax,:);
-% % % % %     ba1=ba(m_ax,:);
-% % % % %     
-% % % % %     a_1=seg(1,find(ba1<=median(ba1)));
-% % % % %     a_2=seg(1,find(ba1>median(ba1)));
-% % % % %     
-% % % % %     rep = 10;
-% % % % %     dum1 = a_1(randi(length(a_1), 1e6, rep));
-% % % % %     dum2 = a_2(randi(length(a_2), 1e6, rep));
-% % % % %     ns_a(1,:) = (nanmedian(dum1,2))';
-% % % % %     ns_a(2,:) = (nanmedian(dum2,2))';
-% % % % %     clear dum1 dum2
-% % % % %     
-% % % % %     out.ns_ms{iii,1}=ns_a;
-% % % % %     
+    %%%baseline median split
+    
+    ns_a=NaN(2,1e6);
+    
+    seg=bb(m_ax,:);
+    ba1=ba(m_ax,:);
+    
+    a_1=seg(1,find(ba1<=median(ba1)));
+    a_2=seg(1,find(ba1>median(ba1)));
+    
+%     rep = 10;
+    rep=5;
+    dum1 = a_1(randi(length(a_1), 1e6, rep));
+    dum2 = a_2(randi(length(a_2), 1e6, rep));
+    ns_a(1,:) = (nanmedian(dum1,2))';
+    ns_a(2,:) = (nanmedian(dum2,2))';
+    clear dum1 dum2
+    
+    
+    
+    out.ns_ms{iii,1}=ns_a;
+    
 % % % % %     %%%% median power ns --- because it used to be compared with PLS no
 % % % % %     %%%% need for clustering
 % % % % %     % % %     st=out.sns{iii,co}; et=out.ens{iii,co};
