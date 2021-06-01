@@ -5,7 +5,7 @@ color_b1=[blushred; aegean; stone];
 
 
 %%  plot arc's main axis with significant threshold\
-for iii=1:10
+for iii=1:size(out.start_c,1)
     %%% for type=1:2
     type=1;
     feature={'out.change_c';'out.changef'};
@@ -22,8 +22,12 @@ for iii=1:10
         phase=NaN;
     end
     
-    figure(7+type)
-    subplot(2,5,iii)
+    p1=figure(7+type)
+    if size(out.start_c,1)==4
+        subplot(1,4,iii)
+    else
+        subplot(2,5,iii)
+    end
     y2=data;
     y1=prctile(dr,75);
     y3=prctile(dr,25);
@@ -47,6 +51,8 @@ for iii=1:10
     xlabel({'Stimulation phase (degrees)'})
     set(gca,'FontSize',9)
     set(gca,'FontName','Arial','XTickLabelRotation',45)
+    set(p1,'color','w');
+    title(sprintf('patient %d',(iii)))
 end
 
 
@@ -56,9 +62,13 @@ m_ax=1;% change if the main axis is not always 1 - replace by array of main axes
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
 color_b1=[blushred; aegean; stone];
 
-for iii=1:10
+for iii=1:size(out.start_c,1)
     f1=figure(10)
-    subplot(2,5,iii)
+      if size(out.start_c,1)==4
+        subplot(1,4,iii)
+    else
+        subplot(2,5,iii)
+    end
     pp=[sapphire;azure];
     
     y=[];clear i

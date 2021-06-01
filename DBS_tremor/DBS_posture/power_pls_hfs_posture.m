@@ -1,7 +1,5 @@
 clear; close
-cohort = [3 6];
-
-%%%% no posture for 1 4
+cohort = [3 6]; %%%% no posture for 1 4
 
  for iii =  1:2
         close all
@@ -90,9 +88,9 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf/P0',num2str(co
 
 end
   
- i=2
+for i=1:2
  
-p1=figure(1)
+p1=figure(i)
 set(p1,'color','w')
 plot(F, squeeze(pcurve(1,i,:)),'Color',[0.5 0.5 0.5],'LineWidth',3)
 hold on
@@ -102,7 +100,7 @@ xticks([3:2:10])
 box('off')
 xlabel('Frequency (Hz)')
 ylabel('Power(\muV^2)')
-legend({'NO STIM','STIM'})
+legend({'PLS','HFS'})
 legend('boxoff')
-
-plotp(2,:)-plotp(1,:)./plotp(1,:)
+end
+power_change=plotp(2,:)-plotp(1,:)./plotp(1,:);

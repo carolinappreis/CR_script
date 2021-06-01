@@ -6,12 +6,12 @@ color_b1=[aegean;stone;blushred];
 
 %%  plot arc's main axis with significant threshold\
 for iii=1:size(out.start_c,1)
-    %%% for type=1:2
+    %%% for type=1:2 
     type=1;
-    feature={'out.change_c';'out.fchange'};
+    feature={'out.change_c';'out.fchange'}; %%% non stim of freq has not been calculated, uncomment that bit to see frc
     p=type;
     dr=eval([(num2str(feature{type,1})) '{' num2str(iii) ',2}{m_ax,1}']);
-    dr=abs(dr);
+%     dr=abs(dr);
     data=nanmedian(dr);
    
     nostim=eval(squeeze([num2str(feature{type,1}) '{' num2str(iii) ',1}(m_ax,:)']));
@@ -35,12 +35,12 @@ for iii=1:size(out.start_c,1)
     y1=prctile(dr,75);
     y3=prctile(dr,25);
     time=0:30:330;
-%     patch([time fliplr(time)], [y1 fliplr(y2)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
-%     hold on
-%     patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
+    patch([time fliplr(time)], [y1 fliplr(y2)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
+    hold on
+    patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
     stem(time,y2,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(p,:))
     hold on
-    plot(time,dr,'r.','MarkerSize',5)
+%     plot(time,dr,'r.','MarkerSize',5)
     yline(0)
 %     if ~isnan(phase)
 %         plot(time(phase),y2(phase),'.','Color',color_b1(3,:),'MarkerSize',25)

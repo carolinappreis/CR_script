@@ -2,22 +2,22 @@
 %%% choose between 1) patient 3 (DT) 3) patient 6 (ET) stim at 120 deg 4)
 %%% pateint 6 (ET) at 240
 % 
-% clear
-%   load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
-%   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
-% rs_max=rs_mat(2,1); clear rs_mat; cr=[];
-
-clear
-load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
+clear; close
+  load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
-rs_max=rs_mat(4,1);cr=[];
+rs_max=rs_mat(2,1); clear rs_mat; cr=[];
 
-% 
-% clear
+% clear; close
+% load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
+%   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
+% rs_max=rs_mat(4,1);cr=[];
+
+
+% clear; close
 %  load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P2')
 %   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')%%% to get the main axis and points of tp_s(tapping start) and tp_e(tapping ending)
 % rs_max=rs_mat(4,1); cr=1;
-%%% PLS06 P2
+%% PLS06 P2
 
 %%% -------
 
