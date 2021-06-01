@@ -28,10 +28,10 @@ for iii =  1:length(cohort)
 %          [start,ending,out,yy]=dbs_mod_nc(start,ending,co,samplerate,iii,s,yy,out); %%%tremor amplitude change without clustering
     end
     
-  [clust,out]=dbs_clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
+  [clust,out]=dbs_clustering2(out,iii,clust,start,ending,yy,spiral); %% clustering analysis
 %     
  for co=1:size(cond,1)
-     [out]=mod_c(clust,out,co,iii,s,h_up,cohort);   %%%% tremor amplitude change with clustering
+     [out]=mod_c(clust,out,co,iii,s,h_up,cohort,spiral);   %%%% tremor amplitude change with clustering
  end
     
 end

@@ -1,4 +1,4 @@
-function  [out]=mod_c(clust,out,co,iii,s,cohort,h_up)
+function  [out]=mod_c(clust,out,co,iii,s,cohort,h_up,spiral)
 % rng(gen)
 m_ax=1;
 z_sig=s.z{iii,co};
@@ -15,7 +15,11 @@ if co==1
     if (size(cohort,2))==10
         load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/aux_out.mat','bs_end','bs_begin','amp_bbl','change_bl','freq_bl')
     else
+        if spiral==0
         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','bs_end','bs_begin','amp_bbl','change_bl')
+        else
+         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/aux_out_spiral.mat','bs_end','bs_begin','amp_bbl','change_bl')  
+        end
     end
     
 %      t=1:length(env_acc(m_ax,:));
