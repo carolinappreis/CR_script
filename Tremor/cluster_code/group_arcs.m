@@ -62,7 +62,33 @@ for cr=1:2
 end
 
 
+
+%%% to exclude patient 3 as suggested by reviewer
+
+a=find((id_a)==3);
+if ~isempty(a)
+    id_a=id_a([[1:a-1] [a+1:end]]);
+    arc{1,1}=arc{1,1}([[1:a-1] [a+1:end]],:);
+else
+    id_a=id_a;
+    arc{1,1}=arc{1,1};
+end
+
+
+s=find((id_s)==3);
+if ~isempty(s)
+    id_s=id_s([[1:s-1] [s+1:end]]);
+     arc{2,1}=arc{2,1}([[1:s-1] [s+1:end]],:);
+else
+    id_s=id_s;
+    arc{2,1}=arc{2,1};
+end
+
+
+
+
 low1=low(id_s,:); %%% match non-stim cases to those where stim ARCs are not exclusivley amplifying --- specific to this data
+high1=high(id_a,:);
 
 
 
@@ -72,16 +98,16 @@ pp=[blushred; stone];
 f1=figure(50)
 % group amplification 
 subplot(1,2,1)
-b=bar([median(arc{1,1}(:,1))  median(high(:,1))],'FaceColor','flat','FaceAlpha',.7,'EdgeColor','none','BarWidth',1);
+b=bar([median(arc{1,1}(:,1))  median(high1(:,1))],'FaceColor','flat','FaceAlpha',.7,'EdgeColor','none','BarWidth',1);
 b.CData(1,:) = pp(1,:);
 b.CData(2,:) = pp(2,:);
 hold on
-plot([arc{1,1}(:,1)' ;  high(:,1)'],'k.')
+plot([arc{1,1}(:,1)' ;  high1(:,1)'],'k.')
 ylim([-1 1])
 xticklabels({'stim','non-stim'})
 ylabel({'maximum amplification' ; 'of tremor'})
 box('off')
-set(gca,'FontSize',12);
+set(gca,'FontSize',14);
 
 subplot(1,2,2)
 % group supression
@@ -102,7 +128,7 @@ f1.OuterPosition= [10, 10, 22, 12];
 %%% only stats.group_amp/sup (1,:) should be looked at since those were the
 %%% only ones to which aligment was performed to
 for g=1:12
-    [j,h]=signrank(arc{1,1}(:,g),(high(:,g)));
+    [j,h]=signrank(arc{1,1}(:,g),(high1(:,g)));
     stats.group_amp(g,2)=j;
     stats.group_amp(g,1)=h;clear j h
 %     stats.group_amp(g,1)=h<(0.05/12); clear j h
@@ -110,10 +136,12 @@ for g=1:12
     stats.group_sup(g,2)=j;
     stats.group_sup(g,1)=h;clear j h
 %     stats.group_sup(g,1)=h<(0.05/12); clear j h
-    dif_a(:,g)=arc{1,1}(:,g)-high(:,g);
+    dif_a(:,g)=arc{1,1}(:,g)-high1(:,g);
     dif_s(:,g)=arc{2,1}(:,g)-low1(:,g);
 end
 
+stats.group_amp(1,:)
+stats.group_sup(1,:)
 
 end
 

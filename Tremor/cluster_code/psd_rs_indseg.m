@@ -33,6 +33,11 @@ for iii=1:size(out.start_c,1)
     clear amp1 sup1   
 end
 
+
+
+pNSSA(:,3)=NaN;
+
+
 ttest(pNSSA(1,:), pNSSA(2,:))
 ttest(pNSSA(1,:), pNSSA(3,:))
 ttest(pNSSA(2,:), pNSSA(3,:))
@@ -40,7 +45,8 @@ ttest(pNSSA(2,:), pNSSA(3,:))
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone')
 color_b1={ stone; aegean; blushred};
 
-bar(1:3,[median(pNSSA(1,:)) median(pNSSA(2,:)) median(pNSSA(3,:))],'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.3,'EdgeColor','none')
+
+bar(1:3,[nanmedian(pNSSA(1,:)) nanmedian(pNSSA(2,:)) nanmedian(pNSSA(3,:))],'FaceColor',[0.5 0.5 0.5],'FaceAlpha',0.3,'EdgeColor','none')
 hold on
 for i=1:size(pNSSA,2)
     cl= rand(1,3);

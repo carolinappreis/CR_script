@@ -6,14 +6,13 @@ color_b1=[aegean;stone;blushred];
 
 %%  plot arc's main axis with significant threshold\
 for iii=1:size(out.start_c,1)
-    %%% for type=1:2 
     type=1;
     feature={'out.change_c';'out.fchange'}; %%% non stim of freq has not been calculated, uncomment that bit to see frc
     p=type;
     dr=eval([(num2str(feature{type,1})) '{' num2str(iii) ',2}{m_ax,1}']);
-%     dr=abs(dr);
+    %     dr=abs(dr);
     data=nanmedian(dr);
-   
+    
     nostim=eval(squeeze([num2str(feature{type,1}) '{' num2str(iii) ',1}(m_ax,:)']));
     n=[];
     n=[n ; data(find(data > prctile(nostim, 99.7917) | data< prctile(nostim, 0.2083)))];
@@ -40,19 +39,22 @@ for iii=1:size(out.start_c,1)
     patch([time fliplr(time)], [y2 fliplr(y3)],[color_b1(p,:)],'FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
     stem(time,y2,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(p,:))
     hold on
-%     plot(time,dr,'r.','MarkerSize',5)
+    %     plot(time,dr,'r.','MarkerSize',5)
     yline(0)
-%     if ~isnan(phase)
-%         plot(time(phase),y2(phase),'.','Color',color_b1(3,:),'MarkerSize',25)
-%     end
-%             yline(prctile(nostim,99.7917),'k--','LineWidth',1)
-%             yline(prctile(nostim,0.2083),'k--','LineWidth',1)
+    if ~isnan(phase)
+        plot(time(phase),y2(phase),'.','Color',color_b1(3,:),'MarkerSize',25)
+        %     end
+        %                 yline(prctile(nostim,99.7917),'k--','LineWidth',1)
+        %                 yline(prctile(nostim,0.2083),'k--','LineWidth',1)
+    end
     if type==2
-%             ylim([-1 1])
-            ylabel({'Change in tremor frequency'})
+        ylim([-0.5 0.5])
+        yticks(-0.5:0.25:0.5)
+        ylabel({'Change in tremor frequency (Hz)'})
     else
-         ylim([-1.5 1.5])
-             ylabel({'Change in tremor severity'})
+        %          ylim([-1.5 1.5])
+        ylim([-1 1])
+        ylabel({'Change in tremor severity'})
     end
     xlim([-5 335])
     xticks([0:30:330])
@@ -64,7 +66,11 @@ for iii=1:size(out.start_c,1)
     title(sprintf('patient %d',(iii)))
 end
 
- p1.OuterPosition= [1,339,1440,539];
+if size(out.start_c,1)==4
+    p1.OuterPosition= [1,100,1000,300];
+else
+    p1.OuterPosition= [1,339,1440,539];
+end
 
 %% plot median split-arc main axis no thresholds
 
@@ -73,6 +79,7 @@ load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aeg
 color_b1=[blushred; aegean; stone];
 
 for iii=1:size(out.start_c,1)
+    %     if iii~=3
     f1=figure(10)
     if size(out.start_c,1)==4
         subplot(1,4,iii)
@@ -83,24 +90,27 @@ for iii=1:size(out.start_c,1)
     tu=[[1:12]-0.3;[1:12]];
     y=[];clear i
     for i=1:2
+        
         datas(i,:)=eval(['nanmedian(out.arc' num2str(i) '{' num2str(iii) ',2}{m_ax,1})']);
         raw(i,:)=repmat(datas(i,:),1,3);
         for ti=size(datas,2)+1:size(datas,2)*2
             smo_m(i,ti-12)=sum(raw(i,(ti-1:ti+1)))./length(raw(i,(ti-1:ti+1)));
         end
+        
         nsdatas(i,:)=squeeze(eval(['out.ns_ms{' num2str(iii) ',1}(' num2str(i) ',:)']))';
         if ~isempty(find(datas(i,:) > prctile(nsdatas(i,:), 99.7917) | datas(i,:)< prctile(nsdatas(i,:), 0.2083)))
             pha{i,1}=find(datas(i,:) > prctile(nsdatas(i,:), 99.7917) | datas(i,:)< prctile(nsdatas(i,:), 0.2083));
         else
             pha{i,1}=NaN;
         end
+        
         dum=datas;
         %         dum=smo_m;
         %         yline(0,'LineWidth',0.5,'Color', [0.5 0.5 0.5])
         hold on
         stem(tu(i,:),dum(i,:),'.', 'LineWidth',3,'MarkerSize',10,'Color',pp(i,:))
         
-         dum(i,find(dum(i,:)<0))=atanh(dum(i,find(dum(i,:)<0)));
+        dum(i,find(dum(i,:)<0))=atanh(dum(i,find(dum(i,:)<0)));
         modms(iii,i)=mean(abs(dum(i,:)));
         %                 yline(prctile(nsdatas(i,:),99.7917),'--','Color',pp(i,:))
         %                 yline(prctile(nsdatas(i,:),0.2083),'--','Color',pp(i,:))
@@ -125,13 +135,20 @@ for iii=1:size(out.start_c,1)
     set(gca,'FontName','Arial','XTickLabelRotation',45)
     set(f1,'color','w');
     title(sprintf('patient %d',(iii)))
-    f1.OuterPosition= [1,339,1440,539];
-
+    if size(out.start_c,1)==4
+        f1.OuterPosition= [1,100,1000,300];
+    else
+        f1.OuterPosition= [1,339,1440,539];
+    end
+    
     clear i  dum
+    %     end
 end
-
 f1=figure(31)
-b=bar(median(modms),'FaceColor','flat','FaceAlpha',.6,'EdgeColor','none','BarWidth',1)
+
+% modms(3,:)=[NaN NaN];
+
+b=bar(nanmedian(modms),'FaceColor','flat','FaceAlpha',.6,'EdgeColor','none','BarWidth',1)
 
 b.CData(1,:) = pp(1,:);
 b.CData(2,:) = pp(2,:);
@@ -145,7 +162,7 @@ ylim([0 0.8])
 set(f1,'color','w');
 set(gca,'FontSize',10);
 ttest(abs(modms(:,1)),abs(modms(:,2)))
-    ttest(modms(:,1),modms(:,2))
+ttest(modms(:,1),modms(:,2))
 
 %     er = errorbar(1:2,median(modms),prctile(modms,5),prctile(modms,95));
 %     er.Color = [0 0 0];
@@ -191,13 +208,13 @@ for iii=1:size(out.start_c,1)
         
         plot(1:12,choice,'Color',color_b1(ax,:),'LineWidth',2.5)
         hold on
-                if ~isempty(sig)
-                    plot(sig,choice(1,sig),'*','MarkerSize',5,'Color','r')
-                end
+        if ~isempty(sig)
+            plot(sig,choice(1,sig),'*','MarkerSize',5,'Color','r')
+        end
         xticks([1:12])
         xticklabels([0:30:330])
-                ylim([-1.5 1.5])
-%         ylim([-1 1])
+        ylim([-1.5 1.5])
+        %         ylim([-1 1])
         ylabel('Change in tremor severity')
         xlabel('Stimulation phase (degrees)')
         set(gca,'XTickLabelRotation',45)
@@ -207,58 +224,58 @@ for iii=1:size(out.start_c,1)
         
         ts{iii,ax}=degs(sig);
         clear sig raw_s raw_ns smo_s
-            
+        
     end
     tall_sig{iii,1}=t_sig;
-     ax_mod(iii,:)=a_arc./sum(a_arc)*100;
-%     ax_mod(iii,:)=a_arc;
-
+    ax_mod(iii,:)=a_arc./sum(a_arc)*100;
+    %     ax_mod(iii,:)=a_arc;
+    
     %     amp_mod(iii,:)=a_env./sum(a_env)*100;
     amp_abs(iii,:)=a_abs;
     %     ax_abs(iii,:)=a_arc;
     ax_max(iii,1)=find(ax_mod(iii,:)==(max(ax_mod(iii,:))));
     m_max(iii,1)=find(amp_abs(iii,:)==(max(amp_abs(iii,:))));
     
-% % %   [ttest(ax_mod(:,1),ax_mod(:,2)) ttest(ax_mod(:,1),ax_mod(:,3))]
+    % % %   [ttest(ax_mod(:,1),ax_mod(:,2)) ttest(ax_mod(:,1),ax_mod(:,3))]
     
     
- %%%% ploar histograms   
-% %     t_s=tall_sig(~(cellfun('isempty',tall_sig)));
-% %     dum=0.15707963267949;
-% %     f1=figure(12) %%% error - not plotting first subplot correctly
-% %     for k=1:size(t_s,1)
-% %         subplot(1,size(t_s,1),k)
-% %         title(sprintf('patient %d',(iii)))
-% %         
-% %         polarhistogram(deg2rad(t_s{k,1}),30,'FaceColor',blushred,'FaceAlpha',.8,'EdgeColor','none','BinWidth',dum)
-% %         ax=gca;
-% %         ax.RLim=[0 3];
-% %         ax.RTick=[0 1 2 3];
-% %         ax.GridLineStyle = '--';
-% %         ax.RGrid='off'
-% %         ax.GridAlpha = 0.3;
-% %         ax.Box = 'off';
-% %         clear x
-% %         
-% %     end
-% %     k=1
-% %     subplot(1,size(t_s,1),k)
-% %     polarhistogram(deg2rad(t_s{k,1}-pi),30,'FaceColor',blushred,'FaceAlpha',.8,'EdgeColor','none','BinWidth',dum)
-% %     ax=gca;
-% %     ax.RLim=[0 3];
-% %     ax.RTick=[0 1 2 3];
-% %     ax.GridLineStyle = '--';
-% %     ax.RGrid='off'
-% %     ax.GridAlpha = 0.3;
-% %     ax.Box = 'off';
-% %     clear x
-% %     set(f1,'color','w');
-
-
-[h,p]=ttest(ab{1,1},ab{1,2});
-[h1,p1]=ttest(ab{1,1},ab{1,3});
-tot(iii,:)=[p,p1]; clear ab
-tot_bi(iii,:)=[p<0.025 p1<0.025];
+    %%%% ploar histograms
+    % %     t_s=tall_sig(~(cellfun('isempty',tall_sig)));
+    % %     dum=0.15707963267949;
+    % %     f1=figure(12) %%% error - not plotting first subplot correctly
+    % %     for k=1:size(t_s,1)
+    % %         subplot(1,size(t_s,1),k)
+    % %         title(sprintf('patient %d',(iii)))
+    % %
+    % %         polarhistogram(deg2rad(t_s{k,1}),30,'FaceColor',blushred,'FaceAlpha',.8,'EdgeColor','none','BinWidth',dum)
+    % %         ax=gca;
+    % %         ax.RLim=[0 3];
+    % %         ax.RTick=[0 1 2 3];
+    % %         ax.GridLineStyle = '--';
+    % %         ax.RGrid='off'
+    % %         ax.GridAlpha = 0.3;
+    % %         ax.Box = 'off';
+    % %         clear x
+    % %
+    % %     end
+    % %     k=1
+    % %     subplot(1,size(t_s,1),k)
+    % %     polarhistogram(deg2rad(t_s{k,1}-pi),30,'FaceColor',blushred,'FaceAlpha',.8,'EdgeColor','none','BinWidth',dum)
+    % %     ax=gca;
+    % %     ax.RLim=[0 3];
+    % %     ax.RTick=[0 1 2 3];
+    % %     ax.GridLineStyle = '--';
+    % %     ax.RGrid='off'
+    % %     ax.GridAlpha = 0.3;
+    % %     ax.Box = 'off';
+    % %     clear x
+    % %     set(f1,'color','w');
+    
+    
+    [h,p]=ttest(ab{1,1},ab{1,2});
+    [h1,p1]=ttest(ab{1,1},ab{1,3});
+    tot(iii,:)=[p,p1]; clear ab
+    tot_bi(iii,:)=[p<0.025 p1<0.025];
 end
 
 % figure(13)
@@ -387,8 +404,8 @@ for iii=1:size(out.start_c,1)
     else
         subplot(2,5,iii)
     end
-%     y=out.amp_n_bins(iii,:);
-      y=amp_n_bins(iii,:);
+    %     y=out.amp_n_bins(iii,:);
+    y=amp_n_bins(iii,:);
     y(1,find(isnan(y)))=0;
     width(iii,:)=sum(~isnan(y));
     x=out.bins(1:end-2);
@@ -396,30 +413,30 @@ for iii=1:size(out.start_c,1)
     
     bar(x,y,'FaceColor',cl,'EdgeColor',cl)
     hold on
-     [rsg,rsg_g,rsg_o]=gauss_fit2(x',y')
-% %      [fitobj,goodness,output]=fit(x',y','weibull')
-% %      h2=plot(fitobj);
-% %  set(h2,'LineWidth',1.5,'Color','r')
-% % % [rsg,rsg_g,rsg_o] = raylFit(x, y)
-% % % [rsg,rsg_g,rsg_o] = WBFit(x,y);
-
-
+    [rsg,rsg_g,rsg_o]=gauss_fit2(x',y')
+    % %      [fitobj,goodness,output]=fit(x',y','weibull')
+    % %      h2=plot(fitobj);
+    % %  set(h2,'LineWidth',1.5,'Color','r')
+    % % % [rsg,rsg_g,rsg_o] = raylFit(x, y)
+    % % % [rsg,rsg_g,rsg_o] = WBFit(x,y);
+    
+    
     %     ylim([0 1.5])
     xticks([1:2:14])
     %     xticklabels({'2','3','4','5','6','7','8'});
-%     ylabel({'Absolute amplitude (\muV^2)'})
-%     xlabel('Frequency (Hz)')
+    %     ylabel({'Absolute amplitude (\muV^2)'})
+    %     xlabel('Frequency (Hz)')
     %     set(gca,'FontSize',12)
     box('off')
     legend('off')
-     title(sprintf('patient %d',(iii)))
+    title(sprintf('patient %d',(iii)))
     cv(iii,:)=rsg.c./rsg.b;
     clear y rsg rsg_o rsg_g
-      set(gca,'FontSize',12)
+    set(gca,'FontSize',12)
     f1.Units = 'centimeters';
     f1.OuterPosition= [10, 10, 25, 10];
     set(f1,'color','w');
-  
+    
     
     
     d1=nanmedian(squeeze(out.change_c{iii,2}{1,m_ax}));
@@ -503,17 +520,17 @@ end
 end
 
 % % for i=1:10
-% % 
+% %
 % % tog{i,1}=horzcat(out.all_amp{i,1},out.all_amp{i,2});
-% % 
+% %
 % % subplot(2,5,i)
 % % x=1:size(tog{i,1},2);
 % % y=tog{i,1};
-% %    
+% %
 % % [fitresult] = fit( x',y', 'poly1' );
-% %    
+% %
 % %    h=plot(fitresult,x,y);
-% %     
+% %
 % %     hold on
 % %     plot(x,y,'k.','MarkerSize',10,'HandleVisibility','off');
 % %     legend('off')
@@ -522,5 +539,5 @@ end
 % % xlabel('trials')
 % % [r(1,i),p(1,i)]=corrcoef(x',y');
 % % clear x y
-% % 
+% %
 % % end

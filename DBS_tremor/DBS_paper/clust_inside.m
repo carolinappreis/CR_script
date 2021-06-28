@@ -1,10 +1,7 @@
 
-function [clust,out]=dbs_clustering2(out,iii,clust,start,ending,yy,spiral)
-if spiral==0
-    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','x_all')
-else
-    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_spiral.mat','x_all')
-end
+function [clust,out]=clust_inside(out,iii,clust,start,ending,yy,spiral)
+
+out.xall{iii,1};
 
 %%%----- cluster analysis
 all1=x_all{iii,1};

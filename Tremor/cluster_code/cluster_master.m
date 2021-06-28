@@ -69,10 +69,6 @@ run('median_split_group.m');
 % % [nc]=plots_nc(out); %plots ARCs without clustering ---- needs fx mod_nc
 
 
-%%% concatenate trials that are supressive and amp and take their pwelch:
-% [out]=psd_rs(out);  %power of RS segments
-% [stats]=pwelch3(out,stats);  % stat comparison between power and freq between amplification supression and no stim
-
 [out]=cvar(out);
 stats=struct;
 

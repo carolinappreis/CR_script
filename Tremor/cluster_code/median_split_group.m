@@ -60,15 +60,39 @@ m_arc_s=zeros(10,12);
 
     %%% use extreme percentiles vs median for stats
     
-    mini= low;
-    maxi= high;
+%     mini= low;
+%     maxi= high;
     
-    %median
-%     mini= m_arc_s;
-%     maxi= m_arc_a;
-%     
+% % %     median
+    mini= m_arc_s;
+    maxi= m_arc_a;
+    
+    
+    %%% to exclude patient 3 as suggested by reviewer
+
+a=find((id_a)==3);
+if ~isempty(a)
+    id_a=id_a([[1:a-1] [a+1:end]]);
+    arc{1,1}=arc{1,1}([[1:a-1] [a+1:end]],:);
+else
+    id_a=id_a;
+    arc{1,1}=arc{1,1};
+end
+
+
+s=find((id_s)==3);
+if ~isempty(s)
+    id_s=id_s([[1:s-1] [s+1:end]]);
+     arc{2,1}=arc{2,1}([[1:s-1] [s+1:end]],:);
+else
+    id_s=id_s;
+    arc{2,1}=arc{2,1};
+end
     
     mini1=mini(id_s,:); %%% match non-stim cases to those where stim ARCs are not exclusivley amplifying --- specific to this data
+    maxi1=maxi(id_a,:);
+    
+    
     
     load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure');
     
@@ -81,11 +105,11 @@ m_arc_s=zeros(10,12);
     f1=figure(50+cd)
     %%% plot amplifying effects
     subplot(1,2,1)
-    b=bar([median(arc{1,1}(:,1))  median(maxi(:,1))],'FaceColor','flat','FaceAlpha',.7,'EdgeColor','none','BarWidth',1);
+    b=bar([median(arc{1,1}(:,1))  median(maxi1(:,1))],'FaceColor','flat','FaceAlpha',.7,'EdgeColor','none','BarWidth',1);
     b.CData(1,:) = pp(1,:);
     b.CData(2,:) = pp(2,:);
     hold on
-    plot([arc{1,1}(:,1)' ;  maxi(:,1)'],'k.')
+    plot([arc{1,1}(:,1)' ;  maxi1(:,1)'],'k.')
     ylim([-1 1])
     xticklabels({'stim','non-stim'})
     ylabel({'maximum amplification' ; 'of tremor'})
@@ -110,7 +134,7 @@ m_arc_s=zeros(10,12);
   
     %%% stats
     for g=1:12
-        [j,h]=signrank(arc{1,1}(:,g),(maxi(:,g)));
+        [j,h]=signrank(arc{1,1}(:,g),(maxi1(:,g)));
         stats.group_amp(cd,g,2)=j;
         stats.group_amp(cd,g,1)=h;clear j h
         %     stats.group_amp(g,1)=h<(0.05/12); clear j h
