@@ -1,7 +1,10 @@
 
-function [clust,out]=clust_inside(out,iii,clust,start,ending,yy,spiral)
-
-out.xall{iii,1};
+function [clust,out]=clust_inside(out,iii,clust,spiral)
+if spiral==0
+    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','x_all')
+else
+    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_spiral.mat','x_all')
+end
 
 %%%----- cluster analysis
 all1=x_all{iii,1};
@@ -57,22 +60,22 @@ else
 end
 
 
-if spiral==0
-    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','bs_end','bs_begin')
-else
-    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_spiral.mat','bs_end','bs_begin')
-end
-
-co=1;
-out.start_c{iii,co}=bs_begin(iii,clust.idx{iii,co});
-out.ending_c{iii,co}=bs_end(iii,clust.idx{iii,co});
-out.sns{iii,co}=start{iii,co};
-out.ens{iii,co}=ending{iii,co};
-
-co=2;
-out.start_c{iii,co}=start{iii,co}(clust.idx{iii,co});
-out.ending_c{iii,co}=ending{iii,co}(clust.idx{iii,co});
-out.yy{iii,co}=yy{iii,co}(clust.idx{iii,co});
+% % if spiral==0
+% %     load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','bs_end','bs_begin')
+% % else
+% %     load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_spiral.mat','bs_end','bs_begin')
+% % end
+% % 
+% % co=1;
+% % out.start_c{iii,co}=bs_begin(iii,clust.idx{iii,co});
+% % out.ending_c{iii,co}=bs_end(iii,clust.idx{iii,co});
+% % out.sns{iii,co}=start{iii,co};
+% % out.ens{iii,co}=ending{iii,co};
+% % 
+% % co=2;
+% % out.start_c{iii,co}=start{iii,co}(clust.idx{iii,co});
+% % out.ending_c{iii,co}=ending{iii,co}(clust.idx{iii,co});
+% % out.yy{iii,co}=yy{iii,co}(clust.idx{iii,co});
 
 % co=3;
 % out.start_c{iii,co}=start{iii,co};
