@@ -1,13 +1,8 @@
 
 function [clust,out]=clust_inside(out,iii,clust,spiral)
-if spiral==0
-    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','x_all')
-else
-    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_spiral.mat','x_all')
-end
 
 %%%----- cluster analysis
-all1=x_all{iii,1};
+all1=[out.x_all{iii,1}; out.x_all{iii,2}];;
 runs{1,1}=1:5e4;
 runs{1,2}=5e4+1:size(all1,1);
 

@@ -404,8 +404,8 @@ for iii=1:size(out.start_c,1)
     else
         subplot(2,5,iii)
     end
-    %     y=out.amp_n_bins(iii,:);
-    y=amp_n_bins(iii,:);
+         y=out.amp_n_bins(iii,:);
+%     y=amp_n_bins(iii,:);
     y(1,find(isnan(y)))=0;
     width(iii,:)=sum(~isnan(y));
     x=out.bins(1:end-2);

@@ -2,12 +2,13 @@ function [peak_ax, start, ending, yy, h_up]= srtend(d,samplerateold,samplerate,i
 
 data=d.data_raw;  tremor_ds=d.data_ds;
 
-decide=0; % 0=all from posture ; 1= condition specific
+decide=0; %0= freq of filtering is task specific else is coming from prosture 
+
 
 
 if co==1
     
-    if decide ==0
+    if decide==0
         if spiral==0
             NS_BE_P
         else
@@ -44,7 +45,7 @@ if co==1
     
     peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
     Fpeak = peak_ax(1);
-    
+  
     
     yy{iii,co}=NaN;
     
