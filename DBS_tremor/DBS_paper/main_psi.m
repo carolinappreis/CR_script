@@ -10,7 +10,7 @@ for type=1:2
             bar(dr(iii,:),'EdgeColor','none','FaceColor',color_b1(1,:),'FaceAlpha',0.5);
             ylim([0 80])
             yticks(0:20:80)
-            xticklabels({'X','Y','Z'})
+            xticklabels({'Z','Y','X'})
             ylabel('trials')
             box('off')
             set(gca,'FontSize',14)
@@ -24,7 +24,7 @@ for type=1:2
             errorbar([1:2],x,err,'.','Color',color_b1(1,:),'LineWidth',2)
             ylim([0 1.2])
             yticks(0:0.5:1)
-            xticklabels({['1-2'],['1-3']}) 
+            xticklabels({['z,y'],['z,x']}) 
             xlabel ('Axes')
             ylabel('PSI')
             box('off')

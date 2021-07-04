@@ -17,9 +17,9 @@ end
 %%%%% figures
 % [avg_sup]=plot_arc(out,match_ax,color_b1);
 %
-% [f1]=sup_envtime(out,match_ax,spiral);
-% [avg_sup]=three_by4(out,color_b1);
+[f1]=sup_envtime(out,match_ax,spiral);
+[avg_sup]=three_by4(out,color_b1);
 %   
-% [p1]=main_psi(out,color_b1);
+ [p1]=main_psi(out,color_b1);
 %
 [f1]=trem_prop(out,match_ax);

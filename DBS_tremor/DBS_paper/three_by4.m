@@ -1,6 +1,6 @@
-function[avg_sup,f1]=three_by4(out,match_ax,color_b1)
+function[avg_sup,f1]=three_by4(out,color_b1)
 sup=[];cc=0;
-type=1;
+type=2;
 for iii=1:size(out.start_c,1)
     feature={'out.mod_amp';'out.mod_freq'}; %%% non stim of freq has not been calculated, uncomment that bit to see frc
     p=type;
@@ -8,10 +8,10 @@ for iii=1:size(out.start_c,1)
     for rr=1:3
         clearvars -except out match_ax color_b1 sup cc type iii rr feature p p1
         cc=cc+1;
-        dr=eval([(num2str(feature{type,1})) '{' num2str(iii) ',2}{match_ax(2,iii,rr),1}']);
+        dr=eval([(num2str(feature{type,1})) '{' num2str(iii) ',2}{rr,1}']);
         data=nanmedian(dr);
         sup(type,iii,rr)=min(data);
-        nostim=eval(squeeze([num2str(feature{type,1}) '{' num2str(iii) ',1}(match_ax(1,iii,rr),:)']));
+        nostim=eval(squeeze([num2str(feature{type,1}) '{' num2str(iii) ',1}(rr,:)']));
         n=[];
         n=[n ; data(find(data > prctile(nostim, 99.7917) | data< prctile(nostim, 0.2083)))];
         n_phases=numel(find(data > prctile(nostim, 99.7917) | data< prctile(nostim, 0.2083)));

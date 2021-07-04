@@ -2,7 +2,7 @@ function [peak_ax, start, ending, yy, h_up]= srtend(d,samplerateold,samplerate,i
 
 data=d.data_raw;  tremor_ds=d.data_ds;
 
-decide=0; %0= freq of filtering is task specific else is coming from prosture 
+decide=0; %0= freq of filtering is task specific else is coming from prosture
 
 
 
@@ -45,7 +45,7 @@ if co==1
     
     peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
     Fpeak = peak_ax(1);
-  
+    
     
     yy{iii,co}=NaN;
     
@@ -220,7 +220,11 @@ else
         %         plot(time(start{iii,co}),tremor_ds(1,start{iii,co}),'bo')
         %         plot(time(ending{iii,co}),tremor_ds(1,ending{iii,co}),'ko')
         %----------------------------------------------------------------------------------------------
+    elseif co==3
+        start{iii,co}= floor((sp./samplerateold)*samplerate)+addon;
+        ending{iii,co} = floor((ep./samplerateold)*samplerate)+addon+addon_end;
     end
+end
 end
 
 

@@ -69,7 +69,7 @@ for type=1:2
             p2=figure(type+3)
             subplot(1,4,iii)
             for n=1:3
-                dr=eval([(num2str(feature{type,1})) '{' num2str(iii) ',2}{match_ax(2,iii,n),1}']);
+                dr=eval([(num2str(feature{type,1})) '{' num2str(iii) ',2}{n,1}']);
                 data=nanmedian(dr);
                 plot(time,data,'LineWidth',2,'Color',cl(n,:))
                 hold on 

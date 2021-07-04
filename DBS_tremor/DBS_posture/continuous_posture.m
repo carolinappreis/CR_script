@@ -44,26 +44,26 @@ ending{1,3}(1,2)=258848;
 end
 
 
-for i=1:3
-    subplot(3,1,i)
-plot(d.ds_dall(2,:))
-hold on
-plot(s.l_filt{iii,co}(i,:))
-ylim([1.9 2])
-end
-
-for i=1
-    subplot(2,1,1)
-plot(d.ds_dall(2,:))
-hold on
-plot(s.l_filt{iii,co}(i,:))
-ylim([1.9 2])
-subplot(2,1,2)
-plot(d.ds_dall(2,:))
-hold on
-plot(s.filt{iii,co}(i,:))
-ylim([-0.05 0.05])
-end
+% for i=1:3
+%     subplot(3,1,i)
+% plot(d.ds_dall(2,:))
+% hold on
+% plot(s.l_filt{iii,co}(i,:))
+% ylim([1.9 2])
+% end
+% 
+% for i=1
+%     subplot(2,1,1)
+% plot(d.ds_dall(2,:))
+% hold on
+% plot(s.l_filt{iii,co}(i,:))
+% ylim([1.9 2])
+% subplot(2,1,2)
+% plot(d.ds_dall(2,:))
+% hold on
+% plot(s.filt{iii,co}(i,:))
+% ylim([-0.05 0.05])
+% end
 
 
 
@@ -80,16 +80,16 @@ end
 
 
 for ax=1:3
-figure(1)
-plot(1:length(d.ds_dall(2,:)),d.ds_dall(2,:),'Color',[0.5 0.5 0.5])
-hold on
-plot(s.l_filt{iii,co}(ax,:),'LineWidth',1.5)
-
-figure(2)
-plot(1:length(d.ds_dall(2,:)),d.ds_dall(2,:),'Color',[0.5 0.5 0.5])
-hold on
-plot(1:length(s.filt{iii,co}(ax,:)),s.filt{iii,co}(ax,:),'LineWidth',1.5)
-plot(1:length(s.env{iii,co}(ax,:)),s.env{iii,co}(ax,:),'LineWidth',1.5)
+% % figure(1)
+% % plot(1:length(d.ds_dall(2,:)),d.ds_dall(2,:),'Color',[0.5 0.5 0.5])
+% % hold on
+% % plot(s.l_filt{iii,co}(ax,:),'LineWidth',1.5)
+% % 
+% % figure(2)
+% % plot(1:length(d.ds_dall(2,:)),d.ds_dall(2,:),'Color',[0.5 0.5 0.5])
+% % hold on
+% % plot(1:length(s.filt{iii,co}(ax,:)),s.filt{iii,co}(ax,:),'LineWidth',1.5)
+% % plot(1:length(s.env{iii,co}(ax,:)),s.env{iii,co}(ax,:),'LineWidth',1.5)
 
 for p= 1:length(start{iii,co})
     
@@ -108,16 +108,16 @@ for p= 1:length(start{iii,co})
     for K=1:size(tp_s{p,1},2)
         BHD{p,1}(1,K)=mean(s.env_acc{iii,co}(ax,tp_s{p,1}(K)-3000:tp_s{p,1}(K)));
         AHD{p,1}(1,K)=mean(s.env_acc{iii,co}(ax,tp_e{p,1}(K):tp_e{p,1}(K)+3000));
-        figure(1)
-        xline(tp_s{p,1}(K),'y.','LineWidth',2)
-        xline(tp_e{p,1}(K),'y.','LineWidth',2)
-        ylim([1.9 2])
-        figure(2)
-        xline(tp_s{p,1}(K),'y','LineWidth',0.5)
-        xline(tp_e{p,1}(K),'y','LineWidth',0.5)
-        xline(tp_s{p,1}(K)-3000,'b','LineWidth',0.5)
-        xline(tp_e{p,1}(K)+3000,'b','LineWidth',0.5)
-        ylim([-0.05 0.05])
+%         figure(1)
+%         xline(tp_s{p,1}(K),'y.','LineWidth',2)
+%         xline(tp_e{p,1}(K),'y.','LineWidth',2)
+%         ylim([1.9 2])
+%         figure(2)
+%         xline(tp_s{p,1}(K),'y','LineWidth',0.5)
+%         xline(tp_e{p,1}(K),'y','LineWidth',0.5)
+%         xline(tp_s{p,1}(K)-3000,'b','LineWidth',0.5)
+%         xline(tp_e{p,1}(K)+3000,'b','LineWidth',0.5)
+%         ylim([-0.05 0.05])
     end
     
 %     figure(p+2)
