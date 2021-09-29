@@ -179,7 +179,7 @@ else
             tremor_f2=NaN(20,5001);
             tremor_f22=NaN(20,5001);
             z_seg1=NaN(length(st),5000);
-            e_env1=NaN(length(st),5000);
+            e_env1=NaN(length(st),6000);
             env_5=NaN(1,length(st));
             
             
@@ -196,8 +196,8 @@ else
                     tremor_k(i,1)= (tremor_f2(i,(et(i)-st(i)+1))-tremor_f22(i,(et(i)-st(i)+1)))/(2*pi*0.001*(et(i)-st(i))); %mean(frequency(et(i)-1000:et(i)));%
                     
                     z_seg1(i,1:5000)=z_sig(m_ax,st(i):st(i)+5000-1);
-                    e_env1(i,1:5000)=envelope(m_ax,st(i):st(i)+5000-1);
-                    e_env1(i,1:5000)=zenv(m_ax,st(i):st(i)+5000-1);
+%                     e_env1(i,1:5000)=envelope(m_ax,st(i):st(i)+5000-1);
+                    e_env1(i,1:6000)=zenv(m_ax,st(i):st(i)+6000-1);
                     
                     
                     
@@ -213,7 +213,7 @@ else
                     
                     
                     z_seg1(i,1:5000)=NaN;
-                    e_env1(i,1:5000)=NaN;
+                    e_env1(i,1:6000)=NaN;
                     yyt(i)= NaN;
                 end
             end
@@ -262,7 +262,7 @@ else
                 ttf(1:sum(yyt==i),i)=tremor_k(find(yyt==i));
                 
                 out.z_seg{iii,i}= z_seg1(find(yyt==i),:);
-                out.env_seg{iii,i}= e_env1(find(yyt==i),:);
+                out.zenv_seg{iii,i}= e_env1(find(yyt==i),:);
                 
                 
                 tt1(1:sum(pha_idx(1,:)==i),i)=ch_a1(1,find(pha_idx(1,:)==i));

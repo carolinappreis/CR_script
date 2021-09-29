@@ -19,6 +19,7 @@ end
 
 %% Analyses
 clearvars -except data ecog name
+cd('/Users/Carolina/Documents/GitHub/CR_script/CTSNR')
 
 [fig]=trg_avg(data,ecog,name);
 [pref_in, pref_out, mean_ang,spike_rate]=pref_lock_ang(data,ecog,name)

@@ -10,7 +10,7 @@ for iii=1:size(out.start_c,1)
     pp1=squeeze(out.seg_zenv{iii,1}{match_ax(2,iii,1),1}(:,(find(data==(min(data)))),:));
     dum=find(~isnan(pp1(:,1)));
     for i=1:length(dum)
-        pp(i,:)=pp1(i,:)./(mean(pp1(i,1:1000)));
+         pp(i,:)=(pp1(i,:)-(mean(pp1(i,1:1000))))./(mean(pp1(i,1:1000)));
     end
     
     f1=figure(type+2)
@@ -23,15 +23,13 @@ for iii=1:size(out.start_c,1)
     hold on
     patch([time fliplr(time)], [y2 fliplr(y3)],'r','FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
     plot(time,y2,'r','LineWidth',2)
-    ylim([0 2.5])
+    ylim([-0.5 0.5])
+    yticks(-0.5:0.25:0.5)
     xlim([0 6000])
     xticks([0:1000:6000])
     xticklabels({'-1','0','1','2','3','4','5'})
-    %     ylim([0 4])
-    %     yticks(0:1:4)
     set(gca,'FontSize',12)
-    aa=get(gca,'ylim');
-    ylabel('tremor severity (m/s^2)')
+    ylabel('Normalised tremor severity (a.u)')
     xlabel ('time (s)')
     box('off')
     xline(1000,'--',{'stim ON'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5])
@@ -69,7 +67,7 @@ for iii=1:size(out.start_c,1)
         pp1=squeeze(out.seg_zenv{iii,1}{match_ax(2,iii,n),1}(:,(find(data==(min(data)))),:));
         dum=find(~isnan(pp1(:,1)));
         for i=1:length(dum)
-            pp(i,:)=pp1(i,:)./(mean(pp1(i,1:1000)));
+            pp(i,:)=(pp1(i,:)-(mean(pp1(i,1:1000))))./(mean(pp1(i,1:1000)));
         end
         clear dum
         
@@ -83,15 +81,15 @@ for iii=1:size(out.start_c,1)
         hold on
         patch([time fliplr(time)], [y2 fliplr(y3)],[cl(n,:)],'FaceAlpha',0.15,'EdgeColor','none','HandleVisibility','off')
         plot(time,y2,'Color',cl(n,:),'LineWidth',1)
-        ylim([0 5])
+        ylim([-0.5 0.5])
+        yticks(-0.5:0.25:0.5)
         xlim([0 6000])
         xticks([0:1000:6000])
         xticklabels({'-1','0','1','2','3','4','5'})
         %     ylim([0 4])
         %     yticks(0:1:4)
         set(gca,'FontSize',12)
-        aa=get(gca,'ylim');
-        ylabel('tremor severity (m/s^2)')
+        ylabel('Normalised tremor severity (a.u)')
         xlabel ('time (s)')
         box('off')
         xline(1000,'--',{'stim ON'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5])

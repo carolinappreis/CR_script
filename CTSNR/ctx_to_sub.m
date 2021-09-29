@@ -35,13 +35,13 @@ for pr=1:size(coh_filts,1)
                 end
             end
             
-            for j=1:length(env)/100
-                idx_sur=randi([501,(length(env)-el)],1,1);
-                surr_seg(j,:)= ((thal_env(idx_sur-el:idx_sur+el)-median(thal_env(idx_sur-el:idx_sur)))./median(thal_env(idx_sur-el:idx_sur)));
-            end
-            
-            burst_amp(pr,o,ct,:)=nanmedian(al_seg,1);
-            surr_amp(pr,o,ct,:)=nanmedian(surr_seg,1);
+% % %             for j=1:length(env)/100
+% % %                 idx_sur=randi([501,(length(env)-el)],1,1);
+% % %                 surr_seg(j,:)= ((thal_env(idx_sur-el:idx_sur+el)-median(thal_env(idx_sur-el:idx_sur)))./median(thal_env(idx_sur-el:idx_sur)));
+% % %             end
+% % %             
+           burst_amp(pr,o,ct,:)=nanmedian(al_seg,1);
+% % %             surr_amp(pr,o,ct,:)=nanmedian(surr_seg,1);
             
             clear thal_env al_seg sur_seg
         end
@@ -60,7 +60,7 @@ for co=1:size(cond,1)
         dat1=eval(cond{co,co2});
         
         for  bst=1:2
-            dum=squeeze(dat1(:,bst,:,300:800)); %%% CHOOSING [-200 300] TO PLOT
+             dum=squeeze(dat1(:,bst,:,300:800)); %%% CHOOSING [-200 300] TO PLOT
             join=[];
             for i=1:size(dum,1)
                 dum1=squeeze(dum(i,:,:));

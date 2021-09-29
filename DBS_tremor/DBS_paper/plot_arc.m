@@ -34,12 +34,12 @@ for type=1:2
         stem(time,y2,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(p,:))
         hold on
         yline(0)
-        
+%         yline(prctile(nostim,99.7917),'k--','LineWidth',1)
+        yline(prctile(nostim,0.2083),'k--','LineWidth',1)
         %  plot(time,dr,'r.','MarkerSize',5)
         if ~isnan(phase)
             plot(time(phase),y2(phase),'.','Color',color_b1(3,:),'MarkerSize',25)
-            %                 yline(prctile(nostim,99.7917),'k--','LineWidth',1)
-            %                 yline(prctile(nostim,0.2083),'k--','LineWidth',1)
+
         end
         
         
@@ -95,7 +95,7 @@ for type=1:2
     end
     p1.OuterPosition= [1,100,1000,300];
 end
-p1.OuterPosition= [1,100,1000,300];
-p2.OuterPosition= [1,100,1000,300];
+p1.OuterPosition= [440,163,201,634];
+p1.OuterPosition= [163,440,632,201];
 end
 

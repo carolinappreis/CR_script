@@ -8,11 +8,11 @@ data=nanmedian(dr);
 pp1=squeeze(out.seg_zenv{iii,1}{match_ax(2,iii,1),1}(:,(find(data==(max(data)))),:));
 dum=find(~isnan(pp1(:,1)));
 for i=1:length(dum)
-    pp(i,:)=pp1(i,:)./(mean(pp1(i,1:1000)));
+    pp(i,:)=(pp1(i,:)-(mean(pp1(i,1:1000))))./(mean(pp1(i,1:1000)));
 end
 
 f1=figure(type+4)
-subplot(1,2,1)
+subplot(1,4,1)
 y2=smooth(nanmean(pp))';
 y1=(y2+smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
 y3=(y2-smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
@@ -24,11 +24,10 @@ plot(time,y2,'r','LineWidth',2)
 xlim([0 6000])
 xticks([0:1000:6000])
 xticklabels({'-1','0','1','2','3','4','5'})
-%     ylim([0 4])
-%     yticks(0:1:4)
+ylim([-0.5 0.5])
+yticks(-0.5:0.25:0.5)
 set(gca,'FontSize',12)
-aa=get(gca,'ylim');
-ylabel('tremor severity (m/s^2)')
+ylabel('Normalised tremor severity (a.u)')
 xlabel ('time (s)')
 box('off')
 xline(1000,'--',{'stim ON'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5]);
@@ -44,11 +43,11 @@ for n=1:3
     pp1=squeeze(out.seg_zenv{iii,1}{match_ax(2,iii,n),1}(:,(find(data==(max(data)))),:));
     dum=find(~isnan(pp1(:,1)));
     for i=1:length(dum)
-        pp(i,:)=pp1(i,:)./(mean(pp1(i,1:1000)));
+        pp(i,:)=(pp1(i,:)-(mean(pp1(i,1:1000))))./(mean(pp1(i,1:1000)));
     end
     clear dum
     
-    subplot(1,2,2)
+    subplot(1,4,2)
     y2=smooth(nanmean(pp))';
     y1=(y2+smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
     y3=(y2-smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
@@ -60,14 +59,14 @@ for n=1:3
     xlim([0 6000])
     xticks([0:1000:6000])
     xticklabels({'-1','0','1','2','3','4','5'})
-    %     ylim([0 4])
-    %     yticks(0:1:4)
+     ylim([-0.5 0.5])
+    yticks(-0.5:0.25:0.5)
     set(gca,'FontSize',12)
-    aa=get(gca,'ylim');
-    ylabel('tremor severity (m/s^2)')
+    ylabel('Normalised tremor severity (a.u)')
     xlabel ('time (s)')
     box('off')
     xline(1000,'--',{'stim ON'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5]) 
 end
  set(f1,'color','w');
+ f1.OuterPosition= [1,100,1000,300];
 end

@@ -1,10 +1,6 @@
+function [f1]=in_time(iii,s,co,samplerate,start,ending,tp_s,tp_e,color_b1,cr,match_ax,pt,d)
 
-function [f1]=in_time(iii,s,co,samplerate,start,ending,tp_s,tp_e,color_b1,cr,match_ax,pt)
 
-[b,a]=butter(2,[0.8/(0.5*samplerate) ],'low'); %15
-for i=1:3
-    s.l_filt{iii,co}(i,:)=filtfilt(b,a,s.raw{iii,co}(i,:));
-end
 
 
 %%% PLS06 P2
@@ -13,26 +9,30 @@ if cr==1
 end
 
 
-% for i=1:3
-%     subplot(3,1,i)
-% plot(d.ds_dall(2,:))
-% hold on
-% plot(s.l_filt{iii,co}(i,:))
-% ylim([1.9 2])
-% end
-%
-% for i=1
-%     subplot(2,1,1)
-% plot(d.ds_dall(2,:))
-% hold on
-% plot(s.l_filt{iii,co}(i,:))
-% ylim([1.9 2])
-% subplot(2,1,2)
-% plot(d.ds_dall(2,:))
-% hold on
-% plot(s.filt{iii,co}(i,:))
-% ylim([-0.05 0.05])
-% end
+[b,a]=butter(2,[0.8/(0.5*samplerate) ],'low'); %15
+for i=1:3
+    s.l_filt{iii,co}(i,:)=filtfilt(b,a,s.raw{iii,co}(i,:));
+end
+for i=1:3
+    subplot(3,1,i)
+plot(d.ds_dall(2,:))
+hold on
+plot(s.l_filt{iii,co}(i,:))
+ylim([1.9 2])
+end
+
+for i=1
+    subplot(2,1,1)
+plot(d.ds_dall(2,:))
+hold on
+plot(s.l_filt{iii,co}(i,:))
+ylim([1.9 2])
+subplot(2,1,2)
+plot(d.ds_dall(2,:))
+hold on
+plot(s.filt{iii,co}(i,:))
+ylim([-0.05 0.05])
+end
 
 
 
@@ -110,16 +110,16 @@ end
 %         f1=figure(x);
 %         subplot(1,3,i)
 %         set(f1,'color','w')
-%         
+%
 %         if length(ax_ch{i,1}(x,:))==5
 %             data=ax_ch{i,1}(x,:);
 %         else
 %             data=[(ax_ch{i,1}(x,1:2)) NaN NaN (ax_ch{i,1}(x,end))];
 %         end
-%         
+%
 %         plot(1:5,data,'--','Color',color_b1(1,:),'LineWidth',1)
 %         hold on
-%         plot(1:5,data,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(1,:))    
+%         plot(1:5,data,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(1,:))
 %         xlim([0.8 5.2])
 %         xticks(1:5)
 %         xticklabels({'Btap','Atap','Btap','Atap','Boff'})
@@ -139,7 +139,7 @@ m_ax=match_ax(2,pt,1);
 if pt==2
     m_ax=1;
 end
-    
+
 for x=1:3
     f1=figure(6);
     
@@ -148,29 +148,29 @@ for x=1:3
         if length(ax_ch{i,1}(x,:))==5
             data=ax_ch{i,1}(x,:);
         else
-            data=[(ax_ch{i,1}(x,1:2)) NaN NaN (ax_ch{i,1}(x,end))];
+            data=[NaN NaN (ax_ch{i,1}(x,1:2)) (ax_ch{i,1}(x,end))];
         end
         
         plot(1:5,data,'-','Color',color_b1(1,:),'LineWidth',1)
         hold on
-%         if x==m_ax;
-        plot(1:5,data,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(x,:))   
-        end
-        xlim([0.8 5.2])
-        xticks(1:5)
-        xticklabels({'Btap','Atap','Btap','Atap','Boff'})
-        yline(0)
-        box('off')
-        ylim([-1 1])
-        yticks(-1:0.5:1)
-        ylabel({'Change in tremor', 'severity'})
-        set(gca,'FontSize',11);
+        %         if x==m_ax;
+        plot(1:5,data,'.', 'LineWidth',4,'MarkerSize',20,'Color',color_b1(x,:))
     end
-    f1.Units = 'centimeters';
-    f1.OuterPosition= [10, 10, 35, 8];
-    set(f1,'color','w');
+    xlim([0.8 5.2])
+    xticks(1:5)
+    xticklabels({'Btap','Atap','Btap','Atap','Boff'})
+    yline(0)
+    box('off')
+    ylim([-1 1])
+    yticks(-1:0.5:1)
+    ylabel({'Change in tremor', 'severity'})
+    set(gca,'FontSize',11);
 end
+f1.Units = 'centimeters';
+f1.OuterPosition= [10, 10, 35, 8];
+set(f1,'color','w');
 end
+
 
 
 
@@ -221,3 +221,18 @@ end
 % [pc, score, latent, tsquare, explained] = pca(x');
 %  max_pc(j,:)=find(pc(:,1)==max(pc(:,1))); clear x
 % end
+
+
+%%% breaks of stim
+%% p03
+tb_s=({[112700 145500];[332500 369500];[559100 588100]});
+tb_e=({[113200 145900];[332900 370000]; [560400 588600]});
+
+%%%% p04
+tb_s=({[50490 91800];[236400 264200];[NaN 434400]});
+tb_e=({[51980 94600];[237700 266400]; [NaN 436500]});
+
+
+for i=1:3
+    breaks(i,:)=tb_e{i,1}-tb_s{i,1};
+end

@@ -1,6 +1,6 @@
 function[avg_sup,f1]=three_by4(out,color_b1)
 sup=[];cc=0;
-type=2;
+type=1;
 for iii=1:size(out.start_c,1)
     feature={'out.mod_amp';'out.mod_freq'}; %%% non stim of freq has not been calculated, uncomment that bit to see frc
     p=type;

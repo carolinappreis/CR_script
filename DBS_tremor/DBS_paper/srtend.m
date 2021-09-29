@@ -41,6 +41,12 @@ if co==1
         Freqpeak(aa,:) = frange(find(Pxxrange == max(Pxxrange)));
         Ppeak(aa,:) = max(Pxxrange);
         ps_curves(aa,:) = Pxx;
+%         
+%         figure(iii)
+%         plot(F(3:10),Pxx(3:10))
+%         hold on
+%         
+        clear Pxx F
     end
     
     peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
@@ -49,6 +55,8 @@ if co==1
     
     yy{iii,co}=NaN;
     
+    
+
     %----------------------------------------------------------------------------------------------
 else
     addon=92; addon_end=35;

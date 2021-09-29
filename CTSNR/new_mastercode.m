@@ -1,7 +1,7 @@
 clear all
 close all
 cd('/Users/Carolina/OneDrive - Nexus365/BNDU_computer/Documents/Carolina_code/codes_thal/final_mats')
-load('SNR_bua.mat')
+load('SNr_bua.mat')
 
 %filtering probe signals and cortex in the beta band (+-5Hz peak coherence) if the summed coherence
 %between 15-35Hz is more than 10% of the coherence in all freqs.
@@ -49,7 +49,7 @@ close all
 
 
 % PHASE SLIPS IN ALIGNMENT AND INSTANTANEOUS FREQUENCY
-% [fig]=pha_slip_ctx_subctx(coh_filts,name)
+%  [fig]=pha_slip_ctx_subctx(coh_filts,name)
 % [fig]=pha_slip_ctx(coh_filts,name)
 % [fig]=pha_slip_sub(coh_filts,name)
 

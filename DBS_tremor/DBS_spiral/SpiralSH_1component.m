@@ -45,6 +45,9 @@ for o=1:2
     filt(o,:)=(filtfilt(a,b,data(o,:))).*(10*9.81/0.5);
 end
 
+
+plot(filt(1,:))
+
 x = [filt(1,:); filt(2,:)];
 [pc, score, latent, tsquare, explained] = pca(x');
 % new_f(1,:)= filt(1,:).*pc(1,1)+ filt(2,:).*pc(2,1);
@@ -53,9 +56,47 @@ new_f(1,:)= filt(1,:).*pc(1,1)+ filt(2,:).*pc(2,1);
 
 new_e=abs(hilbert(new_f));
 
-th=prctile(new_e,5);
+th=prctile(new_e,55);
 id_sp1=find(new_e>th);
 id_sp2=find(new_e<th);
+
+idx=id_sp1;
+    
+d_idx=diff(idx);
+pnts=find(d_idx>1);
+begin=idx(pnts+1);
+ending=idx(pnts);
+
+begin2=[idx(1) begin];
+ending2=[ending idx(end)];
+
+dur=ending2-begin2;
+findi=find(dur>samplerate);
+% dur(find(dur>10))
+ending3=ending2(findi);
+begin3=begin2(findi);
+
+
+
+time=1:length(new_e);
+
+figure
+% plot(time,new_f)
+hold on
+plot(time,new_e)
+yline(th)
+plot(time(begin3),new_e(begin3),'r.')
+plot(time(ending3),new_e(ending3),'b.')
+
+
+figure
+plot(data(:,1),data(:,2),'Color',[0.5 0.5 0.5])
+for i=1:length(begin3)
+hold on
+plot(data(begin3(i):ending3(i),1),data(begin3(i):ending3(i),2),'r.','MarkerSize',10)
+% plot(data(id_sp2,1),data(id_sp2,2),'b.','MarkerSize',10)
+end
+
 
 time=1:length(new_e);
 

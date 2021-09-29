@@ -18,7 +18,7 @@ for pr=1:size(coh_filts,1)
     
     ref=onset{2,1};
     [dur,dur_idx]=sort(dur_long,'descend');
-    on=flip(dur_idx(1:25));
+    on=flip(dur_idx(1:10));
     
     for ct=1:size(thal,1)
         r=r+1;
@@ -63,11 +63,12 @@ for pr=1:size(coh_filts,1)
                 end
             end
         end
+         if size(epochs_z1,1)==10
         epochs_ct(r,:,:)=epochs_z1;
         tocomp(r,:)=[circ_mean(b_ps(find(~isnan(b_ps)))) circ_mean(a_ps(find(~isnan(a_ps))))];
         tocomp_r(r,:)=[circ_r(b_ps(find(~isnan(b_ps)))) circ_r(a_ps(find(~isnan(a_ps))))];
         abs_r(r,:)=[circ_r(bf(find(~isnan(bf)))) circ_r(af(find(~isnan(af))))];
-        
+         end
         clear pha_thal epochs_z epochs_z1 znon_norm non_norm1 non_norm pref_pha b_ps after_on b_ps a_ps
     end
     clear pha_thal onset offset1 dur dur_idx on ctx thal pha_ctx env
@@ -112,7 +113,7 @@ set(fig,'color','w');
 
 
 
-maxi=30;
+maxi=20;
 
 fig=figure;
 subplot(1,2,1)

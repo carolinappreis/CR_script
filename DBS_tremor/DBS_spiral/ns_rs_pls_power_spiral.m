@@ -38,7 +38,7 @@ for iii =  2:length(cohort)
         Pxxrange = Pxx(3:10);
         Freqpeak(aa,:) = frange(find(Pxxrange == max(Pxxrange)));
         Ppeak(aa,:) = max(Pxxrange);
-        ps_curves(aa,:) = Pxx;
+        ps_curves(aa,:) = Pxx./(max(Pxx(3:50)));
     end
     
     peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
@@ -260,7 +260,7 @@ for iii =2: 4
         Pxxrange = Pxx(3:10);
         Freqpeak(aa,:) = frange(find(Pxxrange == max(Pxxrange)));
         Ppeak(aa,:) = max(Pxxrange);
-        ps_curves(aa,:) = Pxx;
+        ps_curves(aa,:) = Pxx./(max(Pxx(3:50)));
     end
     
     peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
@@ -322,7 +322,7 @@ ending = floor((ep./samplerateold)*samplerate)+addon+addon_end;
       Pxxrange = Pxx(3:10);
         Freqpeak(aa,:) = frange(find(Pxxrange == max(Pxxrange)));
         Ppeak(aa,:) = max(Pxxrange);
-        ps_curves(aa,:) = Pxx;
+        ps_curves(aa,:) = Pxx./(max(Pxx(3:50)));
     end
     
     peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
@@ -352,7 +352,7 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf/P0',num2str(co
         Pxxrange = Pxx(3:10);
         Freqpeak(aa,:) = frange(find(Pxxrange == max(Pxxrange)));
         Ppeak(aa,:) = max(Pxxrange);
-        ps_curves(aa,:) = Pxx;
+        ps_curves(aa,:) = Pxx./(max(Pxx(3:50)));
     end
     
     peak_ax = [(Freqpeak(find(Ppeak == max(Ppeak)))) (find(Ppeak == max(Ppeak)))];
@@ -361,6 +361,7 @@ load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_hf/P0',num2str(co
     pcurve(4,iii-1,:)=ps_curves(peak_ax(2),:);
     clearvars -except iii cohort plotp pcurve F
 end
+
 
 for i=1:3
 p1=figure(1)
@@ -379,10 +380,10 @@ xlabel('Frequency (Hz)')
 ylabel('Power(\muV^2)')
 legend({'NS','RS','PLS','HFS'})
 legend('boxoff')
+
+
 end
 
 for i=2:4
 change(i-1,:)=round(((plotp(i,:)-plotp(1,:))./plotp(1,:)*100),0);
 end
-
-

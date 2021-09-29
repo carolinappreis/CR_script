@@ -22,9 +22,9 @@ for type=1:2
             bar([mean(dr{iii,1}(1,:)) mean(dr{iii,1}(2,:))],'EdgeColor','none','FaceColor',color_b1(1,:),'FaceAlpha',0.5)
             hold on
             errorbar([1:2],x,err,'.','Color',color_b1(1,:),'LineWidth',2)
-            ylim([0 1.2])
-            yticks(0:0.5:1)
-            xticklabels({['z,y'],['z,x']}) 
+            ylim([0 1.15])
+            yticks(0:0.25:1)
+            xticklabels({['Z,Y'],['Z,X']}) 
             xlabel ('Axes')
             ylabel('PSI')
             box('off')

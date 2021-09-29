@@ -1,16 +1,16 @@
 
 %%% choose between 1) patient 3 (DT) 3) patient 6 (ET) stim at 120 deg 4)
 %%% pateint 6 (ET) at 240
+% 
+% clear
+%   load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
+%   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
+% rs_max=rs_mat(2,1); clear rs_mat; cr=[];
 
 clear
-  load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
+load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
-rs_max=rs_mat(2,1); clear rs_mat; cr=[];
-
-% clear
-% load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
-%   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','rs_mat')
-% rs_max=rs_mat(4,1);cr=[];
+rs_max=rs_mat(4,1);cr=[];
 
 % % 
 % % clear
@@ -64,7 +64,7 @@ end
 % plot(s.filt{iii,co}(i,:))
 % ylim([-0.05 0.05])
 % end
-
+% 
 
 
 y=[sum(s.env{iii,co}(1,1:start{1,3}(1):ending{1,3}(1)));sum(s.env{iii,co}(2,1:start{1,3}(1):ending{1,3}(1)));sum(s.env{iii,co}(3,1:start{1,3}(1):ending{1,3}(1)))];
@@ -80,16 +80,16 @@ end
 
 
 for ax=1:3
-% % figure(1)
-% % plot(1:length(d.ds_dall(2,:)),d.ds_dall(2,:),'Color',[0.5 0.5 0.5])
-% % hold on
-% % plot(s.l_filt{iii,co}(ax,:),'LineWidth',1.5)
-% % 
-% % figure(2)
-% % plot(1:length(d.ds_dall(2,:)),d.ds_dall(2,:),'Color',[0.5 0.5 0.5])
-% % hold on
-% % plot(1:length(s.filt{iii,co}(ax,:)),s.filt{iii,co}(ax,:),'LineWidth',1.5)
-% % plot(1:length(s.env{iii,co}(ax,:)),s.env{iii,co}(ax,:),'LineWidth',1.5)
+% figure(1)
+% plot(1:length(d.ds_dall(2,:)),d.ds_dall(2,:),'Color',[0.5 0.5 0.5])
+% hold on
+% plot(s.l_filt{iii,co}(ax,:),'LineWidth',1.5)
+% 
+% figure(2)
+% plot(1:length(d.ds_dall(2,:)),d.ds_dall(2,:),'Color',[0.5 0.5 0.5])
+% hold on
+% plot(1:length(s.filt{iii,co}(ax,:)),s.filt{iii,co}(ax,:),'LineWidth',1.5)
+% plot(1:length(s.env{iii,co}(ax,:)),s.env{iii,co}(ax,:),'LineWidth',1.5)
 
 for p= 1:length(start{iii,co})
     
@@ -101,23 +101,23 @@ for p= 1:length(start{iii,co})
 %     xline(ending{iii,co}(p))
 %     
 %     
-    
+%     
     BS(1,p)=mean(s.env_acc{iii,co}(ax,start{iii,co}(p)-3000:start{iii,co}(p)));
     OS(1,p)=mean(s.env_acc{iii,co}(ax,ending{iii,co}(p)-3000:ending{iii,co}(p)));
 
     for K=1:size(tp_s{p,1},2)
         BHD{p,1}(1,K)=mean(s.env_acc{iii,co}(ax,tp_s{p,1}(K)-3000:tp_s{p,1}(K)));
         AHD{p,1}(1,K)=mean(s.env_acc{iii,co}(ax,tp_e{p,1}(K):tp_e{p,1}(K)+3000));
-%         figure(1)
-%         xline(tp_s{p,1}(K),'y.','LineWidth',2)
-%         xline(tp_e{p,1}(K),'y.','LineWidth',2)
-%         ylim([1.9 2])
-%         figure(2)
-%         xline(tp_s{p,1}(K),'y','LineWidth',0.5)
-%         xline(tp_e{p,1}(K),'y','LineWidth',0.5)
-%         xline(tp_s{p,1}(K)-3000,'b','LineWidth',0.5)
-%         xline(tp_e{p,1}(K)+3000,'b','LineWidth',0.5)
-%         ylim([-0.05 0.05])
+        figure(1)
+        xline(tp_s{p,1}(K),'y.','LineWidth',2)
+        xline(tp_e{p,1}(K),'y.','LineWidth',2)
+        ylim([1.9 2])
+        figure(2)
+        xline(tp_s{p,1}(K),'y','LineWidth',0.5)
+        xline(tp_e{p,1}(K),'y','LineWidth',0.5)
+        xline(tp_s{p,1}(K)-3000,'b','LineWidth',0.5)
+        xline(tp_e{p,1}(K)+3000,'b','LineWidth',0.5)
+        ylim([-0.05 0.05])
     end
     
 %     figure(p+2)
@@ -131,7 +131,7 @@ for p= 1:length(start{iii,co})
     end
 end
 
-close all
+% close all
 end
 
 
@@ -139,42 +139,42 @@ end
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aegean','stone','squash','sapphire','azure','ax2','ax3');
 
 color_b1=[stone;ax2;ax3];
-
-for i=1:length(start{iii,co})
-f1=figure(i);
-set(f1,'color','w')
-b=bar(ax_ch{i,1}','FaceAlpha',[0.75],'EdgeColor','none')
-b(1).FaceColor=stone;
-b(2).FaceColor=ax2;
-b(3).FaceColor=ax3;
-box('off')
-ylim([-1 1])
-yticks(-1:0.2:1)
-ylabel({'Change in tremor severity'})
-legend('tracked axis','axis2','axis3')
-legend('Orientation','horizontal')
-legend('Location','southwest')
-legend('boxoff')
-set(gca,'xtick',[]);
-set(gca,'xcolor',[1 1 1])
-set(gca,'FontSize',14);
-end
+% 
+% for i=1:length(start{iii,co})
+% f1=figure(i);
+% set(f1,'color','w')
+% b=bar(ax_ch{i,1}','FaceAlpha',[0.75],'EdgeColor','none')
+% b(1).FaceColor=stone;
+% b(2).FaceColor=ax2;
+% b(3).FaceColor=ax3;
+% box('off')
+% ylim([-1 1])
+% yticks(-1:0.2:1)
+% ylabel({'Change in tremor severity'})
+% legend('tracked axis','axis2','axis3')
+% legend('Orientation','horizontal')
+% legend('Location','southwest')
+% legend('boxoff')
+% set(gca,'xtick',[]);
+% set(gca,'xcolor',[1 1 1])
+% set(gca,'FontSize',14);
+% end
 
 
 for i=1:3
 f1=figure(i);
 set(f1,'color','w')
-plot(1:5,ax_ch{i,1}(1,:),'--','Color',stone,'LineWidth',1)
-hold on
-stem(1:5,ax_ch{i,1}(1,:),'.', 'LineWidth',4,'MarkerSize',20,'Color',stone)
-xlim([-0.5 6.5])
+% plot(1:5,ax_ch{i,1}(1,:),'--','Color',stone,'LineWidth',1)
+% hold on
+% stem(1:5,ax_ch{i,1}(1,:),'.', 'LineWidth',4,'MarkerSize',20,'Color',stone)
+% xlim([-0.5 6.5])
 
 %%% ib case of just one tap use
 
-% % plot(1:3,ax_ch{i,1}(1,:),'--','Color',stone,'LineWidth',1)
-% % hold on
-% % stem(1:3,ax_ch{i,1}(1,:),'.', 'LineWidth',4,'MarkerSize',20,'Color',stone)
-% % xlim([-0.5 4.5])
+plot(1:3,ax_ch{i,1}(1,:),'--','Color',stone,'LineWidth',1)
+hold on
+stem(1:3,ax_ch{i,1}(1,:),'.', 'LineWidth',4,'MarkerSize',20,'Color',stone)
+xlim([-0.5 4.5])
 
 box('off')
 ylim([-1 1])
@@ -185,7 +185,7 @@ set(gca,'xcolor',[1 1 1])
 set(gca,'FontSize',14);
 end
 
-
+[mean([ax_ch{1,1}(1,:) ax_ch{1,1}(2,:) ax_ch{1,1}(3,:)]) std([ax_ch{1,1}(1,:) ax_ch{1,1}(2,:) ax_ch{1,1}(3,:)])]
 
 
 

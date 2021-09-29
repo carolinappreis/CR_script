@@ -38,8 +38,9 @@ for pr=1:size(coh_filts,1)
             end
         end
     end
+     if size(epochs_z1,1)==25
     epochs_ct(r,:,:)=epochs_z1;
-    
+     end
     clear onset offset1 dur dur_idx on pha_ctx epochs_z epochs_z1 znon_norm non_norm1 non_norm
 end
 

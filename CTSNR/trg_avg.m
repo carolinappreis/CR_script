@@ -1,4 +1,4 @@
- function [fig]=trg_avg(data,ecog,name)
+%  function [fig]=trg_avg(data,ecog,name)
 
 srn=1000;
 [b,a]=butter(2,[15/(0.5*srn) 35/(0.5*srn)],'bandpass');
@@ -26,14 +26,32 @@ for j=1:size(data,1)
         [onset1 offset1]=bursts(env);
         ref=horzcat(offset1{:}); % offset of short and long bursts
         [onset offset]=bursts_aligned(env,Ecogfiltered); 
-         ref_al=horzcat(offset{:}); % offset of short and long bursts aligned to closer peak of beta oscillations
+         ref_al=horzcat(onset{:}); % offset of short and long bursts aligned to closer peak of beta oscillations
         
         epoch=200;
-        for n=1:(length(env)/100)
+        for n=1:size(ref_al,2)
             idx_sur=randi([epoch+1,(length(env)-epoch)],1,1);
+            
+%              ep=idx_sur-30:idx_sur+30;
+%              [maxvalM,maxidxM] = findpeaks(Ecogfiltered(ep));
+%                 time=1:length(Ecogfiltered);
+%                 plot(time(ep),Ecogfiltered(ep))
+%                 hold on
+%                 xline(time(ep(maxidxM(2))))
+%                   xline(time(ep(maxidxM(1))))
+                  
+%                   di=abs(idx_sur-ep(maxidxM));
+%                   idx_sur2=ep( maxidxM(find(di==(min(di)))));
+                  
+%                  xline(time( ep( maxidxM(find(di==(min(di)))))),'g')
+%                  xline(time(idx_sur),'r')
+%             if ~isempty((idx_sur2-epoch)) & (idx_sur2-epoch)>0
+%                 pre_sur(n,:)= data_g(idx_sur2-epoch:idx_sur2+epoch);
+% 
+%             end
             pre_sur(n,:)= data_g(idx_sur-epoch:idx_sur+epoch);
+            
         end
-        
         
         for jj=1:size(ref_al,2)
             if ref_al(jj)>200 && ref_al(jj)+200<length(data_g) && ref(jj)>200 && ref(jj)+200<length(data_g)
@@ -247,4 +265,4 @@ fig.Units = 'centimeters';
 fig.OuterPosition= [10, 10, 30, 10];
 fig.Color='w';
 
- end
+%  end
