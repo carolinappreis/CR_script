@@ -22,15 +22,17 @@
 % % % NS1(bins,:)=[];
 % % % data=NS1';
 clear
-clear
+close
 cohort=[ 1 3 4 6];
 iii=cohort(3);
 trial=1;
 close all
 
-% load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_HF',num2str(trial),'_SH.mat'))
 
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_C',num2str(trial),'_SH.mat'))
+
+  load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_HF',num2str(trial),'_SH.mat'))
+
+%  load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_C',num2str(trial),'_SH.mat'))
 data=NS1';
 samplerate=floor(1000/median(diff(data(3,:))));
 samplerate2=samplerate*100;
@@ -46,17 +48,31 @@ data1(o,:)=interp1(data(o,:),time1,'linear','extrap');
 end
 
 
+
+g1=figure(1)
 [Pxx,F] = pwelch(data1(2,:), 2*samplerate2, [], 2*samplerate2, 2*samplerate2);
-plot(F,Pxx)
+plot(F,Pxx,'b','LineWidth',1.5)
 xlim([0 50])
+ylim([0 35])
 mm=2;MM=50;
 Fp1=F(find(Pxx==max(Pxx(find(F==mm):find(F==MM)))))+mm;
 
 hold on
+
 [Pxx,F] = pwelch(data1(1,:), 2*samplerate2, [], 2*samplerate2, 2*samplerate2);
-plot(F,Pxx)
+plot(F,Pxx,'r','LineWidth',1.5)
 xlim([0 50])
+ylim([0 35])
 Fp2=F(find(Pxx==max(Pxx(find(F==mm):find(F==MM)))))+mm;
+legend('xaxis','yaxis')
+box('off')
+set(g1,'color','w');
+g1.OuterPosition= [1,100,280,380];
+legend('boxoff')
+xlabel('Frequency (Hz)')
+ylabel('Power (u.a)')
+
+
 
 Fpeak=floor(mean(Fp1,Fp2));
 
@@ -74,14 +90,14 @@ x = [filt(1,:); filt(2,:)];
 new_f(1,:)= filt(1,:).*pc(1,1)+ filt(2,:).*pc(2,1);
 
 
-% subplot(3,1,1)
-% plot(time1,data1(2,:),'.')
-% hold on
-% plot(time,data(2,:),'.')
-% subplot(3,1,2)
-% plot(time1,filt(2,:))
-% subplot(3,1,3)
-% plot(time1,new_f)
+subplot(3,1,1)
+plot(time1,data1(2,:),'.')
+hold on
+plot(time,data(2,:),'.')
+subplot(3,1,2)
+plot(time1,filt(2,:))
+subplot(3,1,3)
+plot(time1,new_f)
 
 new_e=abs(hilbert(new_f));
 
@@ -105,13 +121,20 @@ findi=find(dur>samplerate2*2);
 ending3=ending2(findi);
 begin3=begin2(findi);
 
-figure
+m1=figure
 plot(time1,new_f)
 hold on
 plot(time1,new_e)
 yline(th)
 plot(time1(begin3),new_e(begin3),'r.')
 plot(time1(ending3),new_e(ending3),'b.')
+xticks([0:samplerate2./10:floor(length(new_f))])
+xticklabels([0:10:170])
+ylabel('Amplitude(uV)')
+xlabel('Time (s)')
+box('off')
+set(m1,'color','w');
+m1.OuterPosition= [1,100,1000,300];
 % % 
 
 figure
@@ -130,8 +153,20 @@ plot(data1(1,begin3(i):ending3(i)),data1(2,begin3(i):ending3(i)),'r.','MarkerSiz
 % plot(data(id_sp2,1),data(id_sp2,2),'b.','MarkerSize',10)
 end
 
-
-
+f1=figure(5);
+[S,F,T,P] = spectrogram(data1(2,:),hanning(512),384,3:50,samplerate2);
+imagesc(T,fliplr(F),P);
+set(gca,'FontSize',12);
+ax = gca;
+ax.YDir = 'normal'
+xticks(0:10:160)
+yticks(5:10:50)
+ylabel('Frequency (Hz)')
+xlabel('Time (s)')
+box('off')
+colorbar
+set(f1,'color','w');
+f1.OuterPosition= [1,100,1000,300];
 
 
 

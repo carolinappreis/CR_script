@@ -88,7 +88,7 @@ yline(th)
 plot(time(begin3),new_e(begin3),'r.')
 plot(time(ending3),new_e(ending3),'b.')
 
-
+data=data';
 figure
 plot(data(:,1),data(:,2),'Color',[0.5 0.5 0.5])
 for i=1:length(begin3)

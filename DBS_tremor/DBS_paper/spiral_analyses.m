@@ -105,7 +105,7 @@ for iii=2
         co=1; s=struct;
         [s]=zfiltenv_simple(d,peak_ax,co,iii,s,samplerate);
         
-        [xx]=pha_sta(d,s)
+%         [xx]=pha_sta(d,s)
         
                 figure(iii-1)
 %                 subplot(1,4,cond)
