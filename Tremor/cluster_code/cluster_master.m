@@ -5,11 +5,11 @@ clust=struct; out=struct; start=cell(10,3); ending=cell(10,3); yy=cell(10,3); h_
 rng('default')
 gen=(rng);
 %
-load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
+% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
 for iii = 1:length(cohort)
     clearvars -except  cohort cond iii clust s start ending yy out gen h_up avg
     
-    for co= 2
+    for co= 1
 %         size(cond,1)
         
         load(strcat('/Users/Carolina/OneDrive - Nexus365/PERI-STIM/DATA/P0',num2str(cohort(iii)),'_',num2str(cond{co,1}),'.mat'))
@@ -21,7 +21,8 @@ for iii = 1:length(cohort)
                 [afilt, bfilt, start, ending, yy, h_up]= startend(d,samplerateold,samplerate,iii,co,start,ending,yy,h_up);
         
                 [s]=zfiltenv(d,bfilt,afilt,co,iii,s); clear afilt bfilt
-                
+              
+
 %                          avg(iii,:)=[mean(s.env_acc{iii,1}(1,h_up{iii,co}),2) (std(s.env_acc{iii,1}(1,h_up{iii,co})'))'];
         
         %         if ~isnan(clust.win(iii,1))
@@ -33,12 +34,12 @@ for iii = 1:length(cohort)
     
 %                [clust,out]=clustering2(out,iii,clust,start,ending,yy); %% clustering analysis
 % %     
-    for co=2
-%         size(cond,1)
-        [out]=mod_c(clust,out,co,iii,s,h_up);   %%%% tremor amplitude change with clustering
-    end
-   
-    
+%     for co=2
+% %         size(cond,1)
+%         [out]=mod_c(clust,out,co,iii,s,h_up);   %%%% tremor amplitude change with clustering
+%     end
+%    
+%     
 end
 clearvars -except out clust
 

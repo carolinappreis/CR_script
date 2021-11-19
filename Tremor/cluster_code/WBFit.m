@@ -1,15 +1,21 @@
 
 
 function [fitobj,goodness,output] = WBFit(x, y)
-[xData, yData] = prepareCurveData( x, y );
-fo = fitoptions('Method','NonlinearLeastSquares', 'StartPoint',[0 0])
-%     'Lower',[0  mean(x)-2 ],...
-%      'Upper',[max(y) mean(x)+1 ],...
-% 'StartPoint',[0 0]);
- ft = fittype('a*b*x^(b-1)*exp(-a*x^b)','options',fo);
-% ft = fittype('x./(b^2))*exp((x^2)./2*b^2))','options',fo);
+  ft = fittype( 'a*b*x^(b-1)*exp(-a*x^b)' );
+% %   ft = fittype( 'c*a*b*x^(b-1)*exp(-a*x^b)');  
+% % %  b=k 
+% % %  a=beta
+% %  
+opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
+opts.Display = 'Off';
+opts.Upper = [Inf Inf];
+opts.Lower = [0 0];
+opts.StartPoint = [1 0];
 
-[fitobj,goodness,output] = fit( xData, yData, ft);
+% % % opts.Upper = [Inf Inf Inf];
+% % % opts.Lower = [0 0 0];
+% % % opts.StartPoint = [1 0 5];
 
-h2=plot(fitobj);
-set(h2,'LineWidth',1.5,'Color','r')
+ xData=x(find(~isnan(y))); yData=y(~isnan(y));
+% Fit model to data.
+[fitobj,goodness,output] = fit( xData, yData, ft, opts );

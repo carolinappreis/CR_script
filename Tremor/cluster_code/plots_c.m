@@ -6,7 +6,7 @@ color_b1=[aegean;stone;blushred];
 
 %%  plot arc's main axis with significant threshold\
 for iii=1:size(out.start_c,1)
-    type=1;
+    type=2;
     feature={'out.change_c';'out.fchange'}; %%% non stim of freq has not been calculated, uncomment that bit to see frc
     p=type;
     dr=eval([(num2str(feature{type,1})) '{' num2str(iii) ',2}{m_ax,1}']);
@@ -79,7 +79,7 @@ load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','blushred','aeg
 color_b1=[blushred; aegean; stone];
 
 for iii=1:size(out.start_c,1)
-    %     if iii~=3
+         if iii~=3
     f1=figure(10)
     if size(out.start_c,1)==4
         subplot(1,4,iii)
@@ -89,29 +89,33 @@ for iii=1:size(out.start_c,1)
     pp=[sapphire;azure];
     tu=[[1:12]-0.3;[1:12]];
     y=[];clear i
-    for i=1:2
+    for i=1:2 %% low and high amp 
+        nsdatas(i,:)=squeeze(eval(['out.ns_ms{' num2str(iii) ',1}(' num2str(i) ',:)']))'; %%% 100000 nstim distribution
+                
+%            datas(i,:)=eval(['nanmedian(out.arc' num2str(i) '{' num2str(iii) ',2}{m_ax,1})']);
+        %%% OR normalised to the median of nstim dist
+           datas(i,:)=eval(['nanmedian(out.arc' num2str(i) '{' num2str(iii) ',2}{m_ax,1})'])-median(nsdatas(i,:));  
         
-        datas(i,:)=eval(['nanmedian(out.arc' num2str(i) '{' num2str(iii) ',2}{m_ax,1})']);
+        
         raw(i,:)=repmat(datas(i,:),1,3);
         for ti=size(datas,2)+1:size(datas,2)*2
-            smo_m(i,ti-12)=sum(raw(i,(ti-1:ti+1)))./length(raw(i,(ti-1:ti+1)));
+            smo_m(i,ti-12)=sum(raw(i,(ti-1:ti+1)))./length(raw(i,(ti-1:ti+1))); %%% smoothed ARCs
         end
         
-        nsdatas(i,:)=squeeze(eval(['out.ns_ms{' num2str(iii) ',1}(' num2str(i) ',:)']))';
         if ~isempty(find(datas(i,:) > prctile(nsdatas(i,:), 99.7917) | datas(i,:)< prctile(nsdatas(i,:), 0.2083)))
-            pha{i,1}=find(datas(i,:) > prctile(nsdatas(i,:), 99.7917) | datas(i,:)< prctile(nsdatas(i,:), 0.2083));
+            pha{i,1}=find(datas(i,:) > prctile(nsdatas(i,:), 99.7917) | datas(i,:)< prctile(nsdatas(i,:), 0.2083)); %% find phases with significant changes in tremor severity
         else
             pha{i,1}=NaN;
         end
         
-        dum=datas;
-        %         dum=smo_m;
-        %         yline(0,'LineWidth',0.5,'Color', [0.5 0.5 0.5])
+        dum=datas; %%% choose to plot raw or smoothed ARCs
+        %dum=smo_m;
         hold on
         stem(tu(i,:),dum(i,:),'.', 'LineWidth',3,'MarkerSize',10,'Color',pp(i,:))
         
-        dum(i,find(dum(i,:)<0))=atanh(dum(i,find(dum(i,:)<0)));
-        modms(iii,i)=mean(abs(dum(i,:)));
+        dum1=dum;
+%         dum1(i,find(dum(i,:)<0))=atanh(dum1(i,find(dum1(i,:)<0)));
+        modms(iii,i)=mean(abs(dum1(i,:)));
         %                 yline(prctile(nsdatas(i,:),99.7917),'--','Color',pp(i,:))
         %                 yline(prctile(nsdatas(i,:),0.2083),'--','Color',pp(i,:))
         %         ll=round(max([abs(min(min(dum))) abs(max(max(dum)))]),1)+0.1;
@@ -120,18 +124,18 @@ for iii=1:size(out.start_c,1)
         xticklabels([0:30:330])
     end
     
-    for i=1:2
-        if ~isnan(pha{i,1})
-            plot(tu(i,pha{i,1}),dum(i,pha{i,1}),'.','MarkerSize',15,'Color',blushred)
-        end
-    end
+%     for i=1:2
+%         if ~isnan(pha{i,1})
+%             plot(tu(i,pha{i,1}),dum(i,pha{i,1}),'.','MarkerSize',15,'Color',blushred)
+%         end
+%     end
     
     
     box('off')
     ylabel({'Change in tremor severity'})
     xlabel({'Stimulation phase (degrees)'})
     set(gca,'FontSize',10)
-    ylim([-1.3 1.3])
+    ylim([-1.01 1.01])
     set(gca,'FontName','Arial','XTickLabelRotation',45)
     set(f1,'color','w');
     title(sprintf('patient %d',(iii)))
@@ -142,7 +146,7 @@ for iii=1:size(out.start_c,1)
     end
     
     clear i  dum
-    %     end
+         end
 end
 f1=figure(31)
 
@@ -154,11 +158,11 @@ b.CData(1,:) = pp(1,:);
 b.CData(2,:) = pp(2,:);
 hold on
 plot(abs(modms)','k.')
-xticklabels({'low amp','high amp'})
-xlabel({'tremor state'})
-ylabel({'mean magnitude';'of modulation'})
+xticklabels({'Low amp','High amp'})
+xlabel({'Tremor state'})
+ylabel({'Mean magnitude of modulation'})
 box('off')
-ylim([0 0.8])
+ylim([0 0.5])
 set(f1,'color','w');
 set(gca,'FontSize',10);
 ttest(abs(modms(:,1)),abs(modms(:,2)))

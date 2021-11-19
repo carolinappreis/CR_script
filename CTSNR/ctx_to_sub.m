@@ -35,13 +35,13 @@ for pr=1:size(coh_filts,1)
                 end
             end
             
-% % %             for j=1:length(env)/100
-% % %                 idx_sur=randi([501,(length(env)-el)],1,1);
-% % %                 surr_seg(j,:)= ((thal_env(idx_sur-el:idx_sur+el)-median(thal_env(idx_sur-el:idx_sur)))./median(thal_env(idx_sur-el:idx_sur)));
-% % %             end
-% % %             
+            for j=1:length(env)/1000
+                idx_sur=randi([501,(length(env)-el)],1,1);
+                surr_seg(j,:)= ((thal_env(idx_sur-el:idx_sur+el)-median(thal_env(idx_sur-el:idx_sur)))./median(thal_env(idx_sur-el:idx_sur)));
+            end
+            
            burst_amp(pr,o,ct,:)=nanmedian(al_seg,1);
-% % %             surr_amp(pr,o,ct,:)=nanmedian(surr_seg,1);
+            surr_amp(pr,o,ct,:)=nanmedian(surr_seg,1);
             
             clear thal_env al_seg sur_seg
         end

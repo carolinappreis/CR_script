@@ -1,4 +1,4 @@
-function[match_ax]=link_ax(spiral)
+function[match_ax]=link_ax(spiral) %%matched to main ax in RS
     if spiral==0
         match_ax=NaN(2,4,3);
         match_ax(1,1:4,1:3)=[repmat([3 2 1],3,1); [1 2 3]];

@@ -278,6 +278,8 @@ else
             out.change_c{iii,co}{ax,1}=tt;
             out.end_env{iii,co}{ax,1}=ee;
             out.fchange{iii,co}{ax,1}=ttf;
+            out.amp1{iii,co}{ax,1}=amp1;
+            out.amp2{iii,co}{ax,1}=amp2;
             
             clear tremor_or2 tremor_or3 tt tt1 tt2 ttf tremor_f2 tremor_f22 env5_p env_5
         end
