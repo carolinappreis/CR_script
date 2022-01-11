@@ -3,7 +3,7 @@ clear
 close all
 % cd('/Users/Carolina/Desktop')
 cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/SH_spirals_xcels')
-NS1=xlsread('P03_HF1_SH.xlsx');
+NS1=xlsread('P04_NS1_SH.xlsx');
 
 plot(NS1(:,1),NS1(:,2))
 close

@@ -5,7 +5,7 @@ clust=struct; out=struct; start=cell(10,3); ending=cell(10,3); yy=cell(10,3); h_
 rng('default')
 gen=(rng);
 %
-% load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
+load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat');
 for iii = 1:length(cohort)
     clearvars -except  cohort cond iii clust s start ending yy out gen h_up avg
     

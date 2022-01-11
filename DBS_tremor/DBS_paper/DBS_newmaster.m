@@ -7,12 +7,12 @@ clust=struct; out=struct; start=cell(10,1); ending=cell(10,1); yy=cell(10,3); h_
 rng('default')
 gen=(rng);
 spiral=0;
-% 
-% if spiral==0
-%     load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_final_posture.mat');
-% else
-%     load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_final_spiral.mat');
-% end
+
+if spiral==0
+    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_final_posture.mat');
+else
+    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_final_spiral.mat');
+end
 
 
 for iii = 1:length(cohort)
@@ -44,7 +44,7 @@ for iii = 1:length(cohort)
 %         [d]=dbs_preprocess(SmrData); samplerateold=d.samplerateold; samplerate=d.samplerate;
 %         [peak_ax, start, ending, yy, h_up]= srtend(d,samplerateold,samplerate,iii,co,start,ending,yy,h_up,spiral);
 %         [s]=zfiltenv_simple(d,peak_ax,co,iii,s,samplerate);
-%         [out,clust,freq_bl,amp_bl]=mod2(out,co,iii,s,freq_bl,amp_bl,start,ending,yy,clust,spiral,h_up);
+         [out,clust,freq_bl,amp_bl]=mod2(out,co,iii,s,freq_bl,amp_bl,start,ending,yy,clust,spiral,h_up);
 %      end
 end
 clearvars -except out clust

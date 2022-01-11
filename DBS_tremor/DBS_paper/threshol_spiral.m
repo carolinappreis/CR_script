@@ -28,12 +28,12 @@ iii=cohort(3);
 trial=1;
 close all
 
-    load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_NS',num2str(trial),'_SH.mat'))
+%     load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_NS',num2str(trial),'_SH.mat'))
 
 
 %      load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_HF',num2str(trial),'_SH.mat'))
 
-%   load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_C',num2str(trial),'_SH.mat'))
+   load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(iii),'_C',num2str(trial),'_SH.mat'))
 data=NS1';
 samplerate=floor(1000/median(diff(data(3,:))));
 samplerate2=samplerate*100;
@@ -47,7 +47,6 @@ time1=1:0.01:length(data(3,:));
 for o=1:2
 data1(o,:)=interp1(data(o,:),time1,'linear','extrap');
 end
-
 
 
 g1=figure(1)

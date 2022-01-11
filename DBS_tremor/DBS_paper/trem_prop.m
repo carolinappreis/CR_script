@@ -1,4 +1,4 @@
- function [f1,y]=trem_prop(out,match_ax,spiral)  %%% gaussian fit to tremor properties & correlation with arc features
+ function [x,f1,y]=trem_prop(out,match_ax,spiral)  %%% gaussian fit to tremor properties & correlation with arc features
 
 
 load('/Users/Carolina/Documents/GitHub/CR_script/colour_pal.mat','stone');cl=stone;
@@ -9,7 +9,7 @@ for iii=1:size(out.start_c,1)
     
     y=out.amp_n_bins(iii,:);
 %     width(iii,:)=sum(~isnan(y));
-    y(1,find(isnan(y)))=0;
+%     y(1,find(isnan(y)))=0;
    
     x=out.bins(1:end-2);
     pre_fwhm=x(find(y>0.5));
@@ -18,25 +18,25 @@ for iii=1:size(out.start_c,1)
     f1=figure(1)
     subplot(1,4,iii)
     bar(x,y,'FaceColor',cl,'EdgeColor',cl)
-    hold on
-    [rsg,rsg_g,rsg_o]=gauss_fit2(x',y');
-     h2=plot(rsg);
-%         pd = makedist('normal','mu',rsg.b,'sigma',rsg.c);
+    hold on   
+%     [rsg,rsg_g,rsg_o]=gauss_fit2(x',y');
+%     h2=plot(rsg);
+%     cv(iii,:)=rsg.c./rsg.b;
+%     clear y rsg rsg_o rsg_g
+%     pd = makedist('normal','mu',rsg.b,'sigma',rsg.c);
 
-    
     
     [fitobj,goodness,output] = WBFit(x', y');
     h2=plot(fitobj);
     pd = makedist('Weibull','a',fitobj.a,'b',fitobj.b);
     var1(iii,:)=iqr(pd);
-    var2(iii,:)=std(pd)./mean(pd);
+    med(iii,:)=median(pd);
+    % beta=fitobj.a ; alpha=fitobj.b; iq=beta*(((log(4)).^(1/alpha))-((log(4/3)).^(1/alpha)))
+    % var2(iii,:)=std(pd)./mean(pd);
 
-%   [fitobj,goodness,output]=fit(x',y','weibull')
-%   h2=plot(fitobj);
-    set(h2,'LineWidth',1.5,'Color','r')
-    %     [rsg,rsg_g,rsg_o] = raylFit(x, y)
-    %    [rsg,rsg_g,rsg_o] = WBFit(x,y);
-    %     ylim([0 1.5])
+%     y1 = pdf(pd, x);
+%     plot(x,y1,'k--','LineWidth',1)
+   
     xticks([1:2:14])
     xticklabels({'2','3','4','5','6','7','8'});
     ylabel({'Absolute amplitude (\muV^2)'})
@@ -45,8 +45,7 @@ for iii=1:size(out.start_c,1)
     box('off')
     legend('off')
     title(sprintf('patient %d',(iii)))
-%      cv(iii,:)=rsg.c./rsg.b;
-%     clear y rsg rsg_o rsg_g
+
     set(gca,'FontSize',12)
     f1.Units = 'centimeters';
     f1.OuterPosition= [10, 10, 25, 10];
@@ -71,10 +70,10 @@ f1=figure(2)
 %subplot(1,size(arc.value,2),ii)
 ii=4;
 dum=find(~isnan((arc.value(:,ii))));
-%  x=cv(dum);
-% x=fwhm(dum);
-%         x=width(dum);
-          x=var2(dum);
+%   x=cv(dum);
+% % x=fwhm(dum);
+% %         x=width(dum);
+x=var1(dum)./med(dum);
 
 if spiral==0
     y=arc.value(dum,ii);
@@ -90,17 +89,20 @@ hold on
 plot(x,y,'k.','MarkerSize',10,'HandleVisibility','off');
 [r,p]=corrcoef(x,y); r=vpa(round(r,2));p=vpa(round(p,2));
 title(sprintf('r = %s',r),'FontSize',12)
-% 
+% ylim([-0.3 0.3])
+% yticklabels(-0.3:0.1:0.3)
 % text(0.16,0.25,sprintf('r = %s',r),'FontSize',12)
 % text(0.16,0.20,sprintf('p = %s',p),'FontSize',12)
 
 box('off')
 
- xlabel('IQ')
-% xlabel('fwhm')
-%  xlabel('coefficient of variation')
+%  xlabel('IQ')
+xlabel('TSI')
+% xlabel('FWHM')
+  xlabel('coefficient of variation')
 % ylabel(sprintf( arc.label{ii,1}))
-ylabel('tremor suppresion')
+% ylabel('tremor suppresion')
+ylabel('Deviation from natural change (%)')
 
 set(gca,'FontSize',12)
 f1.Units ='centimeters';

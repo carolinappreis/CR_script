@@ -94,9 +94,19 @@ for iii=1:size(out.start_c,1)
                 
 %            datas(i,:)=eval(['nanmedian(out.arc' num2str(i) '{' num2str(iii) ',2}{m_ax,1})']);
         %%% OR normalised to the median of nstim dist
-           datas(i,:)=eval(['nanmedian(out.arc' num2str(i) '{' num2str(iii) ',2}{m_ax,1})'])-median(nsdatas(i,:));  
+           datas(i,:)=eval(['nanmedian(out.arc' num2str(i) '{' num2str(iii) ',2}{m_ax,1})'])-mean(nsdatas(i,:));  
         
-        
+           figure(5+i)
+         
+               if iii~=3
+                   subplot(2,5,iii)
+                   histogram(nsdatas(i,:));
+                   [h,p] = kstest(nsdatas(i,:));
+                   hih(i,iii)=h;
+                   pip(i,iii)=p;
+               end
+          
+           
         raw(i,:)=repmat(datas(i,:),1,3);
         for ti=size(datas,2)+1:size(datas,2)*2
             smo_m(i,ti-12)=sum(raw(i,(ti-1:ti+1)))./length(raw(i,(ti-1:ti+1))); %%% smoothed ARCs
@@ -110,6 +120,7 @@ for iii=1:size(out.start_c,1)
         
         dum=datas; %%% choose to plot raw or smoothed ARCs
         %dum=smo_m;
+        f1=figure(10)
         hold on
         stem(tu(i,:),dum(i,:),'.', 'LineWidth',3,'MarkerSize',10,'Color',pp(i,:))
         
