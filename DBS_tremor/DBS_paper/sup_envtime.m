@@ -15,9 +15,9 @@ for iii=1:size(out.start_c,1)
     
     f1=figure(type+2)
     subplot(1,4,iii)
-    y2=smooth(nanmean(pp))';
-    y1=(y2+smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
-    y3=(y2-smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
+    y2=nanmean(pp);
+    y1=y2+((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1)));
+    y3=y2-((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1)));
     time=1:6000;
     patch([time fliplr(time)], [y1 fliplr(y2)],'r','FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
     hold on
@@ -73,9 +73,9 @@ for iii=1:size(out.start_c,1)
         
         f2=figure(type+3)
         subplot(1,4,iii)
-        y2=smooth(nanmean(pp))';
-        y1=(y2+smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
-        y3=(y2-smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
+        y2=nanmean(pp);
+        y1=y2+((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1)));
+        y3=y2-((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1)));
         time=1:6000;
         patch([time fliplr(time)], [y1 fliplr(y2)],[cl(n,:)],'FaceAlpha',0.15,'EdgeColor','none','HandleVisibility','off')
         hold on
@@ -95,9 +95,9 @@ for iii=1:size(out.start_c,1)
         xline(1000,'--',{'stim ON'},'LabelOrientation','horizontal','LabelVerticalAlignment','bottom','LineWidth',2,'Color',[0.5 0.5 0.5])
         set(f2,'color','w');
     end
-    if iii==4 && type==1 && spiral==0
-        [p1]=pt4(out,iii,type,match_ax);
-    end
+%     if iii==4 && type==1 && spiral==0
+%         [p1]=pt4(out,iii,type,match_ax);
+%     end
 end
 f1.OuterPosition= [1,100,1000,300];
 f2.OuterPosition= [1,100,1000,300];

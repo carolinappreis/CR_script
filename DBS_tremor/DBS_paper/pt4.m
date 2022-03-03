@@ -13,9 +13,9 @@ end
 
 f1=figure(type+4)
 subplot(1,4,1)
-y2=smooth(nanmean(pp))';
-y1=(y2+smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
-y3=(y2-smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
+y2=nanmean(pp);
+y1=y2+((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1)));
+y3=y2-((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1)));
 time=1:6000;
 patch([time fliplr(time)], [y1 fliplr(y2)],'r','FaceAlpha',[0.15],'EdgeColor','none','HandleVisibility','off')
 hold on
@@ -48,9 +48,9 @@ for n=1:3
     clear dum
     
     subplot(1,4,2)
-    y2=smooth(nanmean(pp))';
-    y1=(y2+smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
-    y3=(y2-smooth(((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1))))');
+    y2=nanmean(pp);
+    y1=y2+((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1)));
+    y3=y2-((nanmean(pp)+nanstd(pp))./sqrt(size(pp,1)));
     time=1:6000;
     patch([time fliplr(time)], [y1 fliplr(y2)],[cl(n,:)],'FaceAlpha',0.15,'EdgeColor','none','HandleVisibility','off')
     hold on

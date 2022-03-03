@@ -1,6 +1,6 @@
 function[avg_sup]=plot_arc(out,match_ax,color_b1)
 sup=[];
-for type=1:2
+for type=1
     for iii=1:size(out.start_c,1)
         
         feature={'out.mod_amp';'out.mod_freq'}; %%% non stim of freq has not been calculated, uncomment that bit to see frc
@@ -83,7 +83,7 @@ for type=1:2
             xticks([0:30:330])
             box('off')
             xlabel({'Stimulation phase (degrees)'})
-            set(gca,'FontSize',10)
+            set(gca,'FontSize',12)
             set(gca,'FontName','Arial','XTickLabelRotation',45)
             set(p2,'color','w');
             title(sprintf('patient %d',(iii)))
@@ -93,9 +93,14 @@ for type=1:2
         end 
         clear dum
     end
-    p1.OuterPosition= [1,100,1000,300];
+    p1.Units = 'centimeters';
+    p1.OuterPosition= [10, 10, 35, 10];
+    set(p1,'color','w');
+    
+    p2.Units = 'centimeters';
+    p2.OuterPosition= [10, 10, 35, 10];
+    set(p2,'color','w');
 end
-p1.OuterPosition= [440,163,201,634];
-p1.OuterPosition= [163,440,632,201];
+
 end
 

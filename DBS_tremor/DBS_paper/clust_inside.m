@@ -2,7 +2,7 @@
 function [clust,out]=clust_inside(out,iii,clust,spiral)
 
 %%%----- cluster analysis
-all1=[out.x_all{iii,1}; out.x_all{iii,2}];;
+all1=[out.x_all{iii,1}; out.x_all{iii,2}];
 runs{1,1}=1:5e4;
 runs{1,2}=5e4+1:size(all1,1);
 
@@ -40,18 +40,26 @@ else
     clust.win(iii,1)=find(bs==(max(bs)));
 end
 
+% 
+% if clust.mslh(iii,1,clust.win(iii,1))>0.75 && clust.mslh(iii,2,clust.win(iii,1))>0.75 
+%     clust.win(iii,1)=clust.win(iii,1);
+%     for b=1:2
+%     clust.idx{iii,b}=find(clust.C{iii,b}==clust.win(iii,1));
+%     end
+% else
+%     clust.win(iii,1)=NaN;
+%     
+%     for b=1:2
+%     clust.idx{iii,b}=1:length(clust.C{iii,b});
+%     end
+% end
 
-if clust.mslh(iii,1,clust.win(iii,1))>0.75 && clust.mslh(iii,2,clust.win(iii,1))>0.75 
-    clust.win(iii,1)=clust.win(iii,1);
-    for b=1:2
-    clust.idx{iii,b}=find(clust.C{iii,b}==clust.win(iii,1));
-    end
-else
-    clust.win(iii,1)=NaN;
-    
-    for b=1:2
-    clust.idx{iii,b}=1:length(clust.C{iii,b});
-    end
+
+
+clust.win(iii,1)=NaN;
+
+for b=1:2
+clust.idx{iii,b}=1:length(clust.C{iii,b});
 end
 
 

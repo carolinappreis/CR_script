@@ -4,14 +4,11 @@ close all
 cond={'NS';'HF';'C'};
 cohort=[ 1 3 4 6];
 
-iii=3;
-trial=1;
-co=2;
+iii=2;
+trial=2;
+co=1;
 
 load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/P0',num2str(cohort(iii)),'_clean_',num2str(cond{co,1}),num2str(trial),'_SH.mat'));
-
-
-t_spi=cell(size(cohort,2),2,size(cond,1));
 
 
 t_spi=cell(size(cohort,2),2,size(cond,1));
@@ -19,10 +16,6 @@ t_spi=cell(size(cohort,2),2,size(cond,1));
 % t_spi{2,1,1}=[[1 1939];[1960 4304];];
 t_spi{2,1,1}=[1 length(tempo)];
 t_spi{2,2,1}=[[1 2534];[2534 5228];[5228 length(tempo)]];
-% t_spi{2,1,2}=[[1 1161];[1189 3040]; [3040 4862]];
-t_spi{2,1,2}=[[1 1161];[1189 3040]];
-t_spi{2,1,3}=[[47 2105];[2105 4072];[4072 6236]];
-
 t_spi{2,1,2}=[[1 1892];[1894 length(tempo)]];
 t_spi{2,1,3}=[[47 2105];[2105 4072];[4072 6236]];
 
@@ -45,11 +38,8 @@ env=abs(hilbert(filt_cs));
 
 senv=smoothdata(env,'movmean',samplerate2);
 
-plot3(tempo,signal(1,:),signal(2,:),'.')
+% plot3(tempo,signal(1,:),signal(2,:),'.')
 
-plot(tempo,filt_cs,'b','LineWidth',1)
-hold on 
-plot(tempo,env,'Color',[0.4,0.5,0.2],'LineWidth',1.5)
 %%% spatial
 % signal=data;
 centre=[535 361];

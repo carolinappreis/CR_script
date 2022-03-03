@@ -6,9 +6,9 @@ close all
 cond={'NS';'HF';'C'};
 cohort=[ 1 3 4 6];
 
-iii=2;
-trial=1;
-co=2;
+iii=3;
+trial=2;
+co=3;
 
 load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/P0',num2str(cohort(iii)),'_',num2str(cond{co,1}),num2str(trial),'_SH.mat'));
 data=(NS1)';
@@ -16,7 +16,7 @@ data=(NS1)';
 plot3(NS1(:,3),NS1(:,1),NS1(:,2),'.')
 
 data(:,find(data(1,:)==-1))=[];
-data(isnan(data(3,:)))
+% data(isnan(data(3,:)))
 com_sig=sqrt((data(1,:).^2)+(data(2,:).^2));
 
 x = data(3,:) ;
@@ -68,13 +68,13 @@ end
 % plot3(res,data1(1,:),data1(2,:))
 % title('3D spiral resamp upsamp')
 
-figure
-subplot(2,1,1)
-plot(data(3,:),data(1,:))
-title('original x')
-subplot(2,1,2)
-plot(res,data1(1,:))
-title('final x')
+% figure
+% subplot(2,1,1)
+% plot(data(3,:),data(1,:))
+% title('original x')
+% subplot(2,1,2)
+% plot(res,data1(1,:))
+% title('final x')
 
 
 %%% clean outliers
@@ -106,12 +106,14 @@ end
 % yline(threshold)
 % plot(res(begin3),env_cs(3,begin3),'k.')
 
-plot3(res,data1(1,:),data1(2,:))
+% plot3(res,data1(1,:),data1(2,:))
 
 
 
 %%% adjust matriz with point of necessary here
 points=cell(size(cohort,2),2,size(cond,1));
+
+points{1,1,1}=[[1:11150] [1434:1457] [17020:40800]];
 
 points{2,1,1}=[[1:6886]];
 % points{2,1,1}=[[1:4126] [5658:6022] [6452:6886]];
@@ -141,33 +143,38 @@ for i=1:3
     signal(i,:)=data1(i,~isnan(data1(i,:)));
 end
 
-figure
-subplot(1,2,1)
-plot(tempo,signal(3,:))
-subplot(1,2,2)
-plot(signal(1,:),signal(2,:),'.')
-title('after')
+% figure
+% subplot(1,2,1)
+% plot(tempo,signal(3,:))
+% subplot(1,2,2)
+% plot(signal(1,:),signal(2,:),'.')
+% title('after')
+% 
+ close all
 
-close all
-
-plot3(tempo,signal(1,:),signal(2,:),'.')
+% plot3(tempo,signal(1,:),signal(2,:),'.')
 
 t_spi=cell(size(cohort,2),2,size(cond,1));
 
 % t_spi{2,1,1}=[[1 1939];[1960 4304];];
-t_spi{2,1,1}=[1 length(tempo)];
-t_spi{2,2,1}=[[1 2534];[2534 5228];[5228 length(tempo)]];
-t_spi{2,1,2}=[[1 1892];[1894 length(tempo)]];
+t_spi{2,1,1}=[1 3161];
+t_spi{2,2,1}=[[1 2534];[2534 5228]];
+t_spi{2,1,2}=[[1 1892];[1894 3713]];
 t_spi{2,1,3}=[[47 2105];[2105 4072];[4072 6236]];
 
-t_spi{3,1,1}=[[1 1687];[1687 2947];[2947 4354];[4354 5601];[5650 length(tempo)]];
-t_spi{3,2,1}=[[1 1668];[1668 2979];[2979 4341];[4341 length(tempo)]];
-t_spi{3,1,2}=[[1 1130];[1130 2517];[2517 4207];[4207 5605];[5605 length(tempo)]];
-t_spi{3,1,3}=[[1 1420];[1420 2647];[2647 3834];[3834 4923];[4923 6132];[6132 7283];[7283 8507];[8507 9827];[9827 10990];[10990 length(tempo)]];
 
-t_spi{4,1,1}=[[1 6260];[7209 length(tempo)]];
-t_spi{4,1,2}=[[1 5236];[5236 length(tempo)]];
-t_spi{4,1,3}=[[1 5932];[5932 length(tempo)]];
+t_spi{3,1,1}=[[1 1687];[1687 2947];[2947 4354];[4354 5601];[5650 7113]];
+t_spi{3,2,1}=[[1 1668];[1668 2979];[2979 4341];[4341 6030]];
+t_spi{3,1,2}=[[1 1130];[1130 2517];[2517 4207];[4207 5605];[5605 6980]];
+t_spi{3,1,3}=[[1 1420];[1420 2647];[2647 3834];[3834 4923];[4923 6132];[6132 7283];[7283 8507];[8507 9827];[9827 10990];[10990 11874]];
+t_spi{3,2,3}=[[];[]];
+t_spi{3,3,3}=[[];[]];
+
+
+t_spi{4,1,1}=[[1 6260];[7209 14084]];
+t_spi{4,1,2}=[[1 5236];[5236 11892]];
+t_spi{4,1,3}=[[1 5932];[5932 12289]];
+
 
 
 
@@ -187,4 +194,4 @@ filename=strcat('P0',num2str(cohort(iii)),'_clean_',num2str(cond{co,1}),num2str(
 
 clearvars -except samplerate2 signal tempo co cohort iii trial cond filename
 
- save(filename)
+save(filename)

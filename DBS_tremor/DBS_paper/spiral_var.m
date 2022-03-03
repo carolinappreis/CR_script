@@ -1,13 +1,14 @@
 
 
-clear all
+clearvars -except menv mpp mvar
 close all
 cond={'NS';'HF';'C'};
 cohort=[ 1 3 4 6];
 
 iii=3;
 trial=1;
-co=2;
+co=3;
+
 
 load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/P0',num2str(cohort(iii)),'_clean_',num2str(cond{co,1}),num2str(trial),'_SH.mat'));
 
@@ -24,77 +25,98 @@ d1=signal(1,:)-centre(1);
 d2=signal(2,:)-centre(2);
 [px,py]=cart2pol(d1,d2);
 
-figure(1)
+
+% figure(1)
+% senv=smoothdata(env,'movmean',samplerate2);
+% polarscatter(px(:), py(:), [], senv(:),'filled')
+% colorbar
+% colormap winter
+% title('envelope')
+
+
+figure(2)
 polarplot(px,py)
 hold on
-figure(2)
+figure(3)
 plot(tempo,filt_cs)
 hold on
 
-
-pxx=rad2deg(px);
-idx{1,1}=find(pxx>0 & pxx< 90);
-idx{2,1}=find(pxx<0 & pxx>-90);
-idx{3,1}=find(pxx>-180 & pxx<-90);
-idx{4,1}=find(pxx>90 & pxx<180);
-
-
-t_spi=cell(size(cohort,2),2,size(cond,1));
-
-% t_spi{2,1,1}=[[1 1939];[1960 4304];];
-t_spi{2,1,1}=[1 length(tempo)];
-t_spi{2,2,1}=[[1 2534];[2534 5228];[5228 length(tempo)]];
-% t_spi{2,1,2}=[[1 1161];[1189 3040]; [3040 4862]];
-t_spi{2,1,2}=[[1 1161];[1189 3040]];
-t_spi{2,1,3}=[[47 2105];[2105 4072];[4072 6236]];
-
-t_spi{2,1,2}=[[1 1892];[1894 length(tempo)]];
-t_spi{2,1,3}=[[47 2105];[2105 4072];[4072 6236]];
-
-
-t_spi{3,1,1}=[[1 1687];[1687 2947];[2947 4354];[4354 5601];[5650 length(tempo)]];
-t_spi{3,2,1}=[[1 1668];[1668 2979];[2979 4341];[4341 length(tempo)]];
-t_spi{3,1,2}=[[1 1130];[1130 2517];[2517 4207];[4207 5605];[5605 length(tempo)]];
-t_spi{3,1,3}=[[1 1420];[1420 2647];[2647 3834];[3834 4923];[4923 6132];[6132 7283];[7283 8507];[8507 9827];[9827 10990];[10990 length(tempo)]];
-
-t_spi{4,1,1}=[[1 6260];[7209 length(tempo)]];
-t_spi{4,1,2}=[[1 5236];[5236 length(tempo)]];
-t_spi{4,1,3}=[[1 5932];[5932 length(tempo)]];
-
-figure(4)
-senv=smoothdata(env,'movmean',samplerate2);
-polarscatter(px(:), py(:), [], senv(:),'filled')
-colorbar
-colormap winter
-title('envelope')
-
-figure(5)
-for mm=1:size(t_spi{iii,trial,co}(:,1),1)
+apxx=rad2deg(px);
+aidx{1,1}=find(apxx>0 & apxx< 90);
+aidx{2,1}=find(apxx<0 & apxx>-90);
+aidx{3,1}=find(apxx>-180 & apxx<-90);
+aidx{4,1}=find(apxx>90 & apxx<180);
     
-    subplot(1,size(t_spi{iii,trial,co}(:,1),1),mm)
-    polarscatter(px(t_spi{iii,trial,co}(mm,1):t_spi{iii,trial,co}(mm,2)),py(t_spi{iii,trial,co}(mm,1):t_spi{iii,trial,co}(mm,2)),[],senv(t_spi{iii,trial,co}(mm,1):t_spi{iii,trial,co}(mm,2)),'filled');
-    %colorbar
-    colormap winter
-    caxis([2 8])
+for qq=1:4
+    app(1,qq) = peak2peak(filt_cs(aidx{qq,1}));
+    avar(1,qq) = var(filt_cs(aidx{qq,1}));
+    aenv(1,qq)= mean(env(aidx{qq,1}));
 end
 
-for i=1:4 
-    figure(1)
-    polarplot(px(idx{i,1}),py(idx{i,1}),'.')
+run('time_split.m')
+
+seg_env=NaN(size(t_spi{iii,trial,co}(:,1),1),4,4);
+seg_pp=NaN(size(t_spi{iii,trial,co}(:,1),1),4,4);
+seg_var=NaN(size(t_spi{iii,trial,co}(:,1),1),4,4);
+
+
+for ns=1:size(t_spi{iii,trial,co}(:,1),1)
+    
+    px1=px(t_spi{iii,trial,co}(ns,1):t_spi{iii,trial,co}(ns,2));
+    py1=py(t_spi{iii,trial,co}(ns,1):t_spi{iii,trial,co}(ns,2));
+    tempo1=tempo(t_spi{iii,trial,co}(ns,1):t_spi{iii,trial,co}(ns,2));
+    filt_cs1=filt_cs(t_spi{iii,trial,co}(ns,1):t_spi{iii,trial,co}(ns,2));
+    env1=env(t_spi{iii,trial,co}(ns,1):t_spi{iii,trial,co}(ns,2));
+
+    pxx=rad2deg(px1);
+    
+    idx{1,1}=find(pxx>0 & pxx< 90);
+    idx{2,1}=find(pxx<0 & pxx>-90);
+    idx{3,1}=find(pxx>-180 & pxx<-90);
+    idx{4,1}=find(pxx>90 & pxx<180);
+    
+     cl=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];[0.4940, 0.1840, 0.5560]];
+% %     figure(4)
+% %     plot(tempo1,filt_cs1)
     hold on
-    figure(2)
-    plot(tempo(idx{i,1}),filt_cs(idx{i,1}),'.')
+    for q=1:4
+        figure(2)
+        polarplot(px1(idx{q,1}),py1(idx{q,1}),'.','Color',cl(q,:))
+        hold on
+        figure(3)
+        plot(tempo1(idx{q,1}),filt_cs1(idx{q,1}),'.','Color',cl(q,:))
+        
+        mpp{iii-1,trial,co}(ns,q) = peak2peak(filt_cs1(idx{q,1}));
+        mvar{iii-1,trial,co}(ns,q) = var(filt_cs1(idx{q,1}));
+        menv{iii-1,trial,co}(ns,q)= mean(env1(idx{q,1}));
+        
+%         [seg_env,seg_pp,seg_var]=segmentation(idx,q,ns,env1,tempo1,filt_cs1,seg_env,seg_pp,seg_var,cl);
+           
+    end
     
-    mpipi(1,i) = peak2peak(filt_cs(idx{i,1}));
-    mvar(1,i) = var(filt_cs(idx{i,1}));
-    menv(1,i)= mean(env(idx{i,1}));  
+    clear px1 pxx idx
+%     close (figure(4))
 end
 
+% if size(seg_env,3)>4 
+%     if size(seg_env(3,:,:),3)==5
+%        seg_env(:,:,5)=[]; 
+%        seg_pp(:,:,5)=[]; 
+%        seg_var(:,:,5)=[]; 
+%     else
+%     error ('check figure 4')
+%     end  
+% end
+% 
+% spi_qua=squeeze(seg_env(:,1,:));
 
+[P,ANOVATAB,STATS] = anova1(menv);
+[c,m,h,nms] = multcompare(STATS);
+[str2num(nms) m]
 
 %%% all data
 f2=figure()
-dat_p1=[menv;mvar;mpipi];
+dat_p1=[aenv;avar;app];
 for a=1:3
     subplot(1,3,a)
     x=squeeze(dat_p1(a,:));
@@ -122,98 +144,98 @@ set(f2,'color','w');
 % % close all
 % % cond={'NS';'HF';'C'};
 % % cohort=[ 1 3 4 6];
-% % 
+% %
 % % iii=3;
 % % trial=1;
 % % co=2;
-% % 
+% %
 % % load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/P0',num2str(cohort(iii)),'_clean_',num2str(cond{co,1}),num2str(trial),'_SH.mat'));
-% % 
+% %
 % % %%% filt & var
 % % com_sig=sqrt((signal(1,:).^2)+(signal(2,:).^2));
 % % [a,b]=  butter(2, [2/(0.5*samplerate2) 8/(0.5*samplerate2)], 'bandpass'); %15
 % % filt_cs=(filtfilt(a,b,com_sig));
 % % shift=abs(min(filt_cs)-1);
-% % 
+% %
 % % env=abs(hilbert(filt_cs));
 % % pp=peak2peak(filt_cs);
-% % 
-% % 
+% %
+% %
 % % %%% spectrogram
 % % sg = samplerate2;
 % % ov = samplerate2/2;
 % % frq=[];
-% % 
+% %
 % % [s,f,t,p]=spectrogram(filt_cs,sg,ov,frq,samplerate2,'yaxis');
-% % 
+% %
 % % idx=(find(f>2));
 % % cut=idx(1); clear idx
 % % idx=(find(f<8));
 % % cut(1,2)=idx(end); clear idx
-% % 
+% %
 % % s=abs(s);
 % % pow=mean(s(cut(1):cut(2),:));
 % % ar2=[];
 % % for ii=1:length(t)-1
 % %     ar2(find(tempo==(t(ii))):find(tempo==(t(ii+1))))=pow(ii+1);
 % % end
-% % 
+% %
 % % dum=find(ar2==0);
 % % ar2(1:dum(end))=pow(1);
 % % ar3=repmat(pow(end),1,length(tempo(find(tempo==(t(end))):end))-1);
 % % arr=[ar2 ar3];
-% % 
+% %
 % % %%% spatial
 % % % signal=data;
 % % centre=[535 361];
 % % d1=signal(1,:)-centre(1);
 % % d2=signal(2,:)-centre(2);
 % % [px,py]=cart2pol(d1,d2);
-% % 
+% %
 % % pxx=rad2deg(px);
 % % idx{1,1}=find(pxx>0 & pxx< 90);
 % % idx{2,1}=find(pxx<0 & pxx>-90);
 % % idx{3,1}=find(pxx>-180 & pxx<-90);
 % % idx{4,1}=find(pxx>90 & pxx<180);
-% % 
-% % 
+% %
+% %
 % % t_spi=cell(size(cohort,2),2,size(cond,1));
-% % 
+% %
 % % % t_spi{2,1,1}=[[1 1939];[1960 4304];];
 % % t_spi{2,1,1}=[1 length(tempo)];
 % % t_spi{2,2,1}=[[1 2534];[2534 5228];[5228 length(tempo)]];
 % % % t_spi{2,1,2}=[[1 1161];[1189 3040]; [3040 4862]];
 % % t_spi{2,1,2}=[[1 1161];[1189 3040]];
 % % t_spi{2,1,3}=[[47 2105];[2105 4072];[4072 6236]];
-% % 
+% %
 % % t_spi{2,1,2}=[[1 1892];[1894 length(tempo)]];
 % % t_spi{2,1,3}=[[47 2105];[2105 4072];[4072 6236]];
-% % 
-% % 
+% %
+% %
 % % t_spi{3,1,1}=[[1 1687];[1687 2947];[2947 4354];[4354 5601];[5650 length(tempo)]];
 % % t_spi{3,2,1}=[[1 1668];[1668 2979];[2979 4341];[4341 length(tempo)]];
 % % t_spi{3,1,2}=[[1 1130];[1130 2517];[2517 4207];[4207 5605];[5605 length(tempo)]];
 % % t_spi{3,1,3}=[[1 1420];[1420 2647];[2647 3834];[3834 4923];[4923 6132];[6132 7283];[7283 8507];[8507 9827];[9827 10990];[10990 length(tempo)]];
-% % 
+% %
 % % t_spi{4,1,1}=[[1 6260];[7209 length(tempo)]];
 % % t_spi{4,1,2}=[[1 5236];[5236 length(tempo)]];
 % % t_spi{4,1,3}=[[1 5932];[5932 length(tempo)]];
-% % 
-% % 
+% %
+% %
 % % figure(1)
 % % polarplot(px,py)
 % % hold on
 % % figure(2)
 % % plot(tempo,filt_cs)
 % % hold on
-% % 
+% %
 % % figure(3)
 % % subplot(2,1,1)
 % % plot(tempo,arr)
 % % subplot(2,1,2)
 % % plot(tempo,env)
-% % 
-% % 
+% %
+% %
 % % figure(4)
 % % subplot(1,2,1)
 % % sarr=smoothdata(arr,'movmean',100);
@@ -227,34 +249,34 @@ set(f2,'color','w');
 % % colorbar
 % % colormap jet
 % % title('envelope')
-% % 
-% % 
+% %
+% %
 % % figure(5)
 % % for mm=1:size(t_spi{iii,trial,co}(:,1),1)
-% %     
+% %
 % %     subplot(1,size(t_spi{iii,trial,co}(:,1),1),mm)
 % %     polarscatter(px(t_spi{iii,trial,co}(mm,1):t_spi{iii,trial,co}(mm,2)),py(t_spi{iii,trial,co}(mm,1):t_spi{iii,trial,co}(mm,2)),[],senv(t_spi{iii,trial,co}(mm,1):t_spi{iii,trial,co}(mm,2)),'filled');
 % %     %colorbar
 % %     colormap winter
 % %     caxis([2 8])
 % % end
-% % 
+% %
 % % for i=1:4
-% %     
+% %
 % %     ddum=diff(idx{i,1});
 % %     nid=idx{i,1}(find(ddum>1));
-% %     
+% %
 % %     figure(1)
 % %     polarplot(px(idx{i,1}),py(idx{i,1}),'.')
 % %     figure(2)
 % %     plot(tempo(idx{i,1}),filt_cs(idx{i,1}),'.')
-% %     
-% %     
+% %
+% %
 % %     mpipi(1,i) = peak2peak(filt_cs(idx{i,1}));
 % %     mvar(1,i) = var(filt_cs(idx{i,1}));
 % %     mpower(1,i)=mean(arr(idx{i,1}));
 % %     menv(1,i)= mean(env(idx{i,1}));
-% %     
+% %
 % %     for u=1:(length(nid))-1
 % %         rr=(nid(u):nid(u+1)-1);
 % %         ll{i,1}(1,u)=length(rr);
@@ -266,16 +288,16 @@ set(f2,'color','w');
 % %     end
 % %     clear ddum nid
 % % end
-% % 
-% % 
+% %
+% %
 % % for i=1:4
 % %     dat_p(1,i,:)=[mean(seg_menv{i,1}) std(seg_menv{i,1})];
 % %     dat_p(2,i,:)=[mean(seg_power{i,1}) std(seg_power{i,1})];
 % %     dat_p(3,i,:)= [mean(seg_var{i,1}) std(seg_var{i,1})];
 % %     dat_p(4,i,:)=[mean(seg_pp{i,1}) std(seg_pp{i,1})];
 % % end
-% % 
-% % 
+% %
+% %
 % % %%% from segments
 % % f1=figure()
 % % for a=1:4
@@ -297,16 +319,16 @@ set(f2,'color','w');
 % %     else a==4
 % %         ylabel('mean peak to peak (fx)')
 % %     end
-% %     
-% %     
+% %
+% %
 % %     box('off')
 % %     set(gca,'FontSize',14)
 % %     clear x err
 % % end
 % % f1.OuterPosition= [1,100,1000,300];
 % % set(f1,'color','w');
-% % 
-% % 
+% %
+% %
 % % %%% all data
 % % f2=figure()
 % % dat_p1=[menv;mpower;mvar;mpipi];

@@ -21,7 +21,7 @@
 
 clear
 cohort =[ 1 3 4 6];
-for iii=4
+for iii=2
 %     1:size(cohort,2)
     clearvars -except cohort iii
 cd('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA')

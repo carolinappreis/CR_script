@@ -1,4 +1,4 @@
-function [fitobj,goodness,output] = gauss_fit2(x,y)
+function [fitobj,goodness,output] = gauss_fit2(x,y,iii,spiral)
 %CREATEFIT(Y)
 %  Create a fit.
 %
@@ -17,20 +17,29 @@ function [fitobj,goodness,output] = gauss_fit2(x,y)
 % [xData, yData] = prepareCurveData( [], y );
 % Set up fittype and options.
 %  ft = fittype( 'a*exp(-((x-b)/(2*c)).^2)' );
- ft = fittype( 'a*exp(-0.5*((x-b)/c).^2)' );
+ft = fittype( 'a*exp(-0.5*((x-b)/c).^2)' );
 % ' @(x,pha)x(1)*exp(-((pha-x(2))/(2*x(3))).^2)';
- 
+
 opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
 opts.Display = 'Off';
 % opts.Upper = [Inf nanmean(x)+1.75  1];
 % opts.Lower = [-Inf nanmean(x)-1.75 0.25];
 % opts.StartPoint = [max(y) nanmean(x) 0.5];
+
+
 opts.Upper = [Inf nanmean(x)+3  1];
 opts.Lower = [0.5 nanmean(x)-3 0.25];
 opts.StartPoint = [max(y) nanmean(x)-2.5 0.2];
 
+if spiral==0
+opts.Upper = [Inf nanmean(x)+3  1];
+opts.Lower = [0.5 nanmean(x)-3 0.25];
+opts.StartPoint = [max(y) nanmean(x)-2.5 0.2];
+end
+    
 
- xData=x(find(~isnan(y))); yData=y(~isnan(y));
+
+xData=x(find(~isnan(y))); yData=y(~isnan(y));
 % Fit model to data.
 [fitobj,goodness,output] = fit( xData, yData, ft, opts );
 % Plot fit with data.
@@ -38,10 +47,10 @@ opts.StartPoint = [max(y) nanmean(x)-2.5 0.2];
 % % h = plot( fitresult, xData, yData );
 %  h2=plot(fitobj);
 %  set(h2,'LineWidth',1.5,'Color','r')
-% 
+%
 % legend( h, 'y', '1_sin', 'Location', 'NorthEast', 'Interpreter', 'none' );
 % Label axes
 % ylabel( 'y', 'Interpreter', 'none' );
 
-
+end
 

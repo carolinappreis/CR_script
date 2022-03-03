@@ -1,4 +1,4 @@
-load('P06_RS_cursos.mat')
+ load(strcat('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA/P06_RS.mat'))
 
 in2=3; % analysing the "main tremor axis"
 
