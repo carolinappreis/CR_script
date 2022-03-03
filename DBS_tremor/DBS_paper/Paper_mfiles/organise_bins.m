@@ -162,4 +162,4 @@ else
 end
 
 filename=strcat('frqspiral_',num2str(name1),'_',num2str(name),num2str(numb_bins),'bins.mat');
-% % %  save(filename)
+% % % save(filename)

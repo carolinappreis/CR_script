@@ -48,7 +48,7 @@ for uu=1:3
 cd('/Users/Carolina/Library/CloudStorage/OneDrive-Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/SPSS')
 fname=strcat('sq_',(num2str(uu)),'.xlsm');
 sq=readtable(fname);
-
+figure(2)
 subplot(1,3,uu)
 dat= [sq.Mean(1:3:10) sq.Mean((1:3:10)+1) sq.Mean((1:3:10)+2)];
 d_err=[sq.Std_Error(1:3:10) sq.Std_Error((1:3:10)+1) sq.Std_Error((1:3:10)+2)];

@@ -4,7 +4,7 @@ clear all; close all
 cohort = [1 3 4 6];
 cond={'NS';'HFS';'PLS_S'};
 folder={'/DATA/';'/DATA_hf/';'/DATA_pls_spiral/'};
-norm=1;
+norm=1; %%% 0= non zscore 1 = zscore across condtions and 2= normalised to NS condition
 
 for iii=2:4
     concat=[];

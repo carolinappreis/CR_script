@@ -3,7 +3,7 @@
 
 % clear all
 close all
-load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/frqspiral_zsc_4bins.mat'));
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/spiral_zsc_4bins.mat'));
 
 ad.metrics{1,1,1}=[ad.metrics{1,1,1}; ad.metrics{1,1,2}];
 ad.metrics{2,1,1}=[ad.metrics{2,1,1}; ad.metrics{2,1,2}];

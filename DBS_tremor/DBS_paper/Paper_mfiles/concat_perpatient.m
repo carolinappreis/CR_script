@@ -52,5 +52,5 @@ end
 clearvars -except signal_all cond map
 cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/')
 
-save('zscore_acr_cond.mat')
+% % save('zscore_acr_cond.mat')
 

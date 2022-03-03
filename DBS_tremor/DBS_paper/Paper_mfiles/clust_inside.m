@@ -1,5 +1,7 @@
 
-function [clust,out]=clust_inside(out,iii,clust,spiral)
+function [clust,out]=clust_inside(out,iii,clust,opt_out)
+
+
 
 %%%----- cluster analysis
 all1=[out.x_all{iii,1}; out.x_all{iii,2}];
@@ -31,36 +33,39 @@ for h=1:size(clust.C,2) %% baseline vs. random stim
 end
 
 %%% ----- decision tree for which cluster vs non-cluster
-
-rm=[clust.count{iii,1}(1,2) clust.count{iii,1}(2,2)];
-if rm(1)~=rm(2)
-    clust.win(iii,1)=find(rm==(max(rm)));
+if opt_out==0
+    rm=[clust.count{iii,1}(1,2) clust.count{iii,1}(2,2)];
+    if rm(1)~=rm(2)
+        clust.win(iii,1)=find(rm==(max(rm)));
+    else
+        bs=[clust.count{iii,1}(1,1) clust.count{iii,1}(2,1)];
+        clust.win(iii,1)=find(bs==(max(bs)));
+    end
+    
+    
+    if clust.mslh(iii,1,clust.win(iii,1))>0.75 && clust.mslh(iii,2,clust.win(iii,1))>0.75
+        clust.win(iii,1)=clust.win(iii,1);
+        for b=1:2
+            clust.idx{iii,b}=find(clust.C{iii,b}==clust.win(iii,1));
+        end
+    else
+        clust.win(iii,1)=NaN;
+        
+        for b=1:2
+            clust.idx{iii,b}=1:length(clust.C{iii,b});
+        end
+    end
+    
 else
-    bs=[clust.count{iii,1}(1,1) clust.count{iii,1}(2,1)];
-    clust.win(iii,1)=find(bs==(max(bs)));
+    
+    clust.win(iii,1)=NaN;
+    
+    for b=1:2
+        clust.idx{iii,b}=1:length(clust.C{iii,b});
+    end
+    
 end
 
-% 
-% if clust.mslh(iii,1,clust.win(iii,1))>0.75 && clust.mslh(iii,2,clust.win(iii,1))>0.75 
-%     clust.win(iii,1)=clust.win(iii,1);
-%     for b=1:2
-%     clust.idx{iii,b}=find(clust.C{iii,b}==clust.win(iii,1));
-%     end
-% else
-%     clust.win(iii,1)=NaN;
-%     
-%     for b=1:2
-%     clust.idx{iii,b}=1:length(clust.C{iii,b});
-%     end
-% end
-
-
-
-clust.win(iii,1)=NaN;
-
-for b=1:2
-clust.idx{iii,b}=1:length(clust.C{iii,b});
-end
 
 
 % % if spiral==0
@@ -68,13 +73,13 @@ end
 % % else
 % %     load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_spiral.mat','bs_end','bs_begin')
 % % end
-% % 
+% %
 % % co=1;
 % % out.start_c{iii,co}=bs_begin(iii,clust.idx{iii,co});
 % % out.ending_c{iii,co}=bs_end(iii,clust.idx{iii,co});
 % % out.sns{iii,co}=start{iii,co};
 % % out.ens{iii,co}=ending{iii,co};
-% % 
+% %
 % % co=2;
 % % out.start_c{iii,co}=start{iii,co}(clust.idx{iii,co});
 % % out.ending_c{iii,co}=ending{iii,co}(clust.idx{iii,co});
@@ -98,7 +103,7 @@ end
 % % %     xticklabels({'cluster1*','cluster2'})
 % % % elseif clust.win(iii)==2
 % % %     xticklabels({'cluster1','cluster2*'})
-% % % 
+% % %
 % % % else
 % % %     xticklabels({'cluster1','cluster2'})
 % % % end

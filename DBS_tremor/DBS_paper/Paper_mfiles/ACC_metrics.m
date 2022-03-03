@@ -3,9 +3,9 @@ cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor/DBS_paper')
 clear all
 ad=struct; ad.metrics=cell(1,1);ad.metricnames={'subj';'cond';'trials';'mean env';'peak2peak';'variance'};
 
- load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/ACC_zscore_acr_cond.mat'))
+load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/ACC_zscore_acr_cond.mat'))
 
-%  load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/ACC_spiral_NSnorm.mat'))
+%%% normalised to NS condition: load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/ACC_spiral_NSnorm.mat'))
 
 for iii=1:3
     clearvars -except ad iii signal_all map
@@ -41,8 +41,8 @@ end
 % % 
 % % load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/spiral_zsc.mat')
 
-%%%% order of conditions here NS/HFS/PSS in the paper: NS/PSS/HFS. Values
-%%%% imported from met variable to table in SPSS for stats at group level
+%%%% order of conditions here NS/HFS/PSS. Values imported from met variable
+%%%% to table in SPSS for stats at group level.
 met=cell(3,3);
 
 for i=1:3
