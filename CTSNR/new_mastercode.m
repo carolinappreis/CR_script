@@ -45,7 +45,7 @@ close all
 
 % CHANGE IN BETA PHASE COUPLING
 % [fig]=sub_to_ctx_psi(coh_filts,name);
-%  [fig]=ctx_to_sub_psi(coh_filts,name);
+% [fig]=ctx_to_sub_psi(coh_filts,name);
 
 
 % PHASE SLIPS IN ALIGNMENT AND INSTANTANEOUS FREQUENCY

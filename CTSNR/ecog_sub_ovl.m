@@ -1,4 +1,4 @@
-% function [fig]=ecog_sub_ovl(coh_filts,name)
+function [fig]=ecog_sub_ovl(coh_filts,name)
 
 b_in=cell(size(coh_filts,1),1);
 b_dur=cell(size(coh_filts,1),1);
@@ -174,7 +174,7 @@ fig.Units='centimeters';
 fig.OuterPosition= [10, 10, 12, 10];
 set(fig,'color','w');
 
-
+end
 
 
 

@@ -6,9 +6,18 @@ cond={'NS';'RS'};
 clust=struct; out=struct; start=cell(10,1); ending=cell(10,1); yy=cell(10,3); h_up=cell(10,3); s=struct; freq_bl=[]; amp_bl=[];
 rng('default')
 gen=(rng);
-spiral=0; %%% posture=0; spiral=1;
+spiral=1; %%% posture=0; spiral=1;
 opt_out=1; %%% with cluster=0; without cluster =1;
-for iii =  1:length(cohort)
+
+
+if spiral==0
+   load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_final_posture_unclust.mat');
+else
+    load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_final_spiral_unclust.mat');
+end
+
+
+for iii = 1:length(cohort)
     clearvars -except  opt_out cohort cond iii clust s start ending yy out gen h_up spiral freq_bl amp_bl avg power dat
     
         for co=1:size(cond,1)
@@ -23,7 +32,7 @@ for iii =  1:length(cohort)
 % % %          power(iii,:)=Pxx; clear Pxx
 % % %          avg(spiral+1,iii,:)=[mean(s.env_acc{iii,co}(match_ax(1,iii,1),h_up{iii,co}),2) std(s.env_acc{iii,co}(match_ax(1,iii,1),h_up{iii,co}))];
          
-         [freq_bl,amp_bl,out]=pre_mod(co,iii,s,spiral,start,ending,out,freq_bl,amp_bl);
+          [freq_bl,amp_bl,out]=pre_mod(co,iii,s,spiral,start,ending,out,freq_bl,amp_bl,samplerate);
         end
     
          [clust,out]=clust_inside(out,iii,clust,opt_out); 
@@ -40,9 +49,8 @@ clearvars -except out clust spiral
 
 cd('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA')
 
-if spiral==0 
-    save('DBS_final_posture_unclust.mat')
-else
-    save('DBS_final_spiral_unclust.mat')
-end
-
+% % if spiral==0 
+% %     save('DBS_final_posture_unclust.mat')
+% % else
+% %     save('DBS_final_spiral_unclust.mat')
+% % end

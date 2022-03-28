@@ -1,4 +1,4 @@
-function  [freq_bl,amp_bl,out]=pre_mod(co,iii,s,spiral,start,ending,out,freq_bl,amp_bl)
+function  [freq_bl,amp_bl,out]=pre_mod(co,iii,s,spiral,start,ending,out,freq_bl,amp_bl,samplerate)
 
 envelope=s.env{iii,co};
 freqi=s.freq{iii,co};
@@ -6,16 +6,38 @@ phase=s.phase{iii,co};
 tfilt=s.filt{iii,co};
 
 if co==1
+ 
     
+%%%% To keep the same "random" indexes from Beatriz's code  
+   
     if spiral==0
         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_out.mat','bs_begin','bs_end')
     else
         load('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/DBS_aux_spiral.mat','bs_begin','bs_end')
     end
-%     
-%     
-     fff=NaN(3,5e4); aaa=NaN(3,5e4);clt = NaN(3,5e4,5001);
-%     
+
+%%%% To generate random indexes from begining    
+% %     if spiral==0
+% %         NS_BE_P
+% %     else
+% %         NS_BE_S
+% %     end  
+% %     segmentb=hu{iii,:};
+% %     segmente=hd{iii,:};
+% %      rng('default') % set random seed for consistency
+% %      gen=rng;
+% %    
+% %     for j = 1:5e4
+% %         ix=randi(length(segmentb),1);
+% %         segment=randi([round(segmentb(ix)+1000) round(segmente(ix)-5000)],1);
+% %         begin3=segment;
+% %         end3=floor(begin3+5*samplerate);
+% %         bs_begin(iii,j)=begin3;
+% %         bs_end(iii,j)=end3 ;
+% %     end
+         
+    fff=NaN(3,5e4); aaa=NaN(3,5e4);clt = NaN(3,5e4,5001);
+     
     parfor j = 1:length(bs_end)
         begin3=bs_begin(iii,j);
         end3=bs_end(iii,j);

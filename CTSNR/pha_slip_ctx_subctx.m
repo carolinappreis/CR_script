@@ -1,4 +1,4 @@
-% [fig]=pha_slip_ctx_subctx(coh_filts,name)
+function [fig]=pha_slip_ctx_subctx(coh_filts,name)
 
 r=0;
 for pr=1:size(coh_filts,1)
@@ -123,3 +123,4 @@ box('off')
 [stats_pre_pos,p]=ttest(mean(pl(:,200:399),2),mean(pl(:,401:600),2))
 
 
+end

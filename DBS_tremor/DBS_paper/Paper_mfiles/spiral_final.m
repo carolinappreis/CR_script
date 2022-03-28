@@ -9,7 +9,6 @@ ad.metrics{1,1,1}=[ad.metrics{1,1,1}; ad.metrics{1,1,2}];
 ad.metrics{2,1,1}=[ad.metrics{2,1,1}; ad.metrics{2,1,2}];
 
 
-
 met=cell(3,3);
 env_all=cell(3,3);
 pol_dat=cell(3,3);
@@ -35,65 +34,9 @@ for ss= 1:size(met,1)
     end
 end
 
+%%% Figure paper 4.C. ss= patients cc=condition
 
-% % for me=1
-% %     for ss= 1:size(met,1)
-% %         for cc=1:size(met,2)
-% %             datt(cc,:)=nanmean(met{ss,cc}(:,:,me));
-% %             dst(cc,:)=nanstd(met{ss,cc}(:,:,me));
-% %             
-% %             %%%realign to max amplitude
-% %             %             norm=mean(met{ss,cc}(:,:,1));
-% %             %             amax=find(norm==max(norm));
-% %             %             if amax==1
-% %             %                 datt1=datt;
-% %             %             else
-% %             %                 datt1=[datt(1,amax:end) datt(1,1:amax-1)];
-% %             %             end
-% %             
-% %             datt1(cc,:)=datt(cc,:)./max(datt(cc,:));
-% %             
-% %             f2=figure(ss)
-% %             subplot(size(met,2),1,cc)
-% %             bar([datt(cc,:)],'EdgeColor','none','FaceColor',[0.8 0.5 1],'FaceAlpha',0.5)
-% %             hold on
-% %             errorbar([1:numb_bins],datt(cc,:),dst(cc,:),'.','Color',[0.8 0.5 1],'LineWidth',2)
-% %             % ylim([0 500])
-% %             % yticks(0:100:500)
-% %             if numb_bins==4
-% %                 xticklabels({'0','90','180','270'})
-% %             elseif numb_bins==6
-% %                 xticklabels({'0','60','120','180','240','300'})
-% %             else xticklabels({'0','45','90','135','180','225','270','315'})
-% %             end
-% %             %
-% %             box('off')
-% %             xlabel('degrees')
-% %             name=ad.metricnames{5+me, 1};
-% %             ylabel(name)
-% %             f2.OuterPosition= [1,100,200,500];
-% %             set(f2,'color','w');
-% %             
-% %         end
-% %         f1=figure(size(met,1)+1)
-% %         bar(datt','EdgeColor','none')
-% %         box('off')
-% %         legend({'NS','HFS','PLS'})
-% %         legend('boxoff')
-% %         f1.OuterPosition= [1,100,500,200];
-% %         set(f1,'color','w');
-% %         
-% %         %
-% %         
-% %         close all
-% %     end
-% %     
-% %     
-% % end
-
-
-
-for ss=3
+for ss=3 
     %     1:size(ad.metrics,1)
     for cc=1:size(ad.metrics,2)
         % %         for me=1
@@ -180,4 +123,58 @@ for ss=3
     end
 end
 
+% % for me=1
+% %     for ss= 1:size(met,1)
+% %         for cc=1:size(met,2)
+% %             datt(cc,:)=nanmean(met{ss,cc}(:,:,me));
+% %             dst(cc,:)=nanstd(met{ss,cc}(:,:,me));
+% %             
+% %             %%%realign to max amplitude
+% %             %             norm=mean(met{ss,cc}(:,:,1));
+% %             %             amax=find(norm==max(norm));
+% %             %             if amax==1
+% %             %                 datt1=datt;
+% %             %             else
+% %             %                 datt1=[datt(1,amax:end) datt(1,1:amax-1)];
+% %             %             end
+% %             
+% %             datt1(cc,:)=datt(cc,:)./max(datt(cc,:));
+% %             
+% %             f2=figure(ss)
+% %             subplot(size(met,2),1,cc)
+% %             bar([datt(cc,:)],'EdgeColor','none','FaceColor',[0.8 0.5 1],'FaceAlpha',0.5)
+% %             hold on
+% %             errorbar([1:numb_bins],datt(cc,:),dst(cc,:),'.','Color',[0.8 0.5 1],'LineWidth',2)
+% %             % ylim([0 500])
+% %             % yticks(0:100:500)
+% %             if numb_bins==4
+% %                 xticklabels({'0','90','180','270'})
+% %             elseif numb_bins==6
+% %                 xticklabels({'0','60','120','180','240','300'})
+% %             else xticklabels({'0','45','90','135','180','225','270','315'})
+% %             end
+% %             %
+% %             box('off')
+% %             xlabel('degrees')
+% %             name=ad.metricnames{5+me, 1};
+% %             ylabel(name)
+% %             f2.OuterPosition= [1,100,200,500];
+% %             set(f2,'color','w');
+% %             
+% %         end
+% %         f1=figure(size(met,1)+1)
+% %         bar(datt','EdgeColor','none')
+% %         box('off')
+% %         legend({'NS','HFS','PLS'})
+% %         legend('boxoff')
+% %         f1.OuterPosition= [1,100,500,200];
+% %         set(f1,'color','w');
+% %         
+% %         %
+% %         
+% %         close all
+% %     end
+% %     
+% %     
+% % end
 

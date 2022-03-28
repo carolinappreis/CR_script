@@ -1,4 +1,4 @@
-%  function [fig]=trg_avg(data,ecog,name)
+function [fig]=trg_avg(data,ecog,name)
 
 srn=1000;
 [b,a]=butter(2,[15/(0.5*srn) 35/(0.5*srn)],'bandpass');
@@ -265,4 +265,4 @@ fig.Units = 'centimeters';
 fig.OuterPosition= [10, 10, 30, 10];
 fig.Color='w';
 
-%  end
+end

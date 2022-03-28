@@ -1,4 +1,4 @@
-function [stats]=group_arcs(out,stats)
+function [p_amp,p_sup]=group_arcs(out)
 
 %%% NON-STIM ARCS
 
@@ -140,8 +140,8 @@ for g=1:12
     dif_s(:,g)=arc{2,1}(:,g)-low1(:,g);
 end
 
-stats.group_amp(1,:)
-stats.group_sup(1,:)
+p_amp=stats.group_amp(1,2);
+p_sup=stats.group_sup(1,2);
 
 end
 

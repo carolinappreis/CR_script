@@ -28,7 +28,7 @@ if co==1
     %%% trials correspond to avg number of stim runs delivered in the
     %%% phase_search condition (1st col all, 2n col low med split and 3rd
     %%% col high med split
-    %%% if not using cluster
+    %%% if not using cluster else comment
     trials{2,1}(2,1)=9;
     
     rep= trials{spiral+1,1}(iii,1);

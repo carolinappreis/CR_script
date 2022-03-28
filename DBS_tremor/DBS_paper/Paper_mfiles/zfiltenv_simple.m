@@ -11,7 +11,6 @@ end
 
     [h1, h2] = butter(3,[1/(0.5*d.samplerateold)],'high');
 
-
 for i=1:size(data,1)
     s.raw{iii,co}(i,:)=data(i,:);
     s.filt{iii,co}(i,:)=filtfilt(afilt,bfilt,s.raw{iii,co}(i,:));
@@ -20,6 +19,7 @@ for i=1:size(data,1)
     s.env_acc{iii,co}(i,:)=abs(hilbert(s.filt{iii,co}(i,:).*(10*9.81/0.5)));
     s.phase{iii,co}(i,:)=angle(hilbert(s.filt{iii,co}(i,:)));
     s.freq{iii,co}(i,:)=(smooth((1000/(2*pi))*diff(unwrap(s.phase{iii,co}(i,:))),500))';
+    s.var{iii,co}(i,:)=var(s.filt{iii,co}(i,:));
     
     s.z{iii,co}(i,:)=zscore(data(i,:));
     s.zfilt{iii,co}(i,:)=filtfilt(afilt,bfilt,s.z{iii,co}(i,:));
@@ -27,6 +27,7 @@ for i=1:size(data,1)
     s.zenv{iii,co}(i,:)=abs(hilbert(s.zfilt{iii,co}(i,:)));
     s.zphase{iii,co}(i,:)=angle(hilbert(s.zfilt{iii,co}(i,:)));
     s.zfreq{iii,co}(i,:)=(smooth((1000/(2*pi))*diff(unwrap(s.zphase{iii,co}(i,:))),500))';
+    s.zvar{iii,co}(i,:)=var(s.zfilt{iii,co}(i,:));
 end
 
 %%% for combined signal

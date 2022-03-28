@@ -20,7 +20,7 @@ for iii=1:size(out.start_c,1)
     bar(x,y,'FaceColor',cl,'EdgeColor',cl)
     hold on   
     
-    if spiral==0 && iii==1 | iii==4
+    if spiral==0 && iii==1 | iii==4 
         [fitobj,goodness,output] = WBFit(x', y',iii,spiral);
         h2=plot(fitobj);
         pd = makedist('Weibull','a',fitobj.a,'b',fitobj.b);

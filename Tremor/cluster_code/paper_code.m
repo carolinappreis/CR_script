@@ -16,7 +16,7 @@ load('/Users/Carolina/OneDrive - Nexus365/Periph_tremor_data/cluster_out_mc.mat'
                 %%% ppx_nseg.m
 
          %%% 3) plots & stats group stim effects vs non stim effects      
-        [stats]=group_arcs(out,stats);
+        [p_amp,p_sup]=group_arcs(out);
 
          %%% 4) plots & stats group stim effects vs non stim effects after median
          %%% split
