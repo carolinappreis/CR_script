@@ -9,7 +9,7 @@ norm=1; %%% norm=1:sqrt(x2+y2) is zscored across condition ;
 
 
 for iii=2:4
-    clearvars -except ad iii cohort cond pca1 norm
+    clearvars -except ad iii cohort cond pca1 norm ms
     for co=1:3
         cn=1;
         if (co==1 && iii==2 | iii==3)
@@ -19,8 +19,8 @@ for iii=2:4
         end
         
         for trial=1:length(ntrial)
-            load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/P0',num2str(cohort(iii)),'_clean_',num2str(cond{co,1}),num2str(trial),'_SH.mat'));
-            load(strcat('/Users/Carolina/OneDrive - Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/zscore_acr_cond.mat'))
+            load(strcat('/Users/Carolina/Desktop/clean_SH_spirals/P0',num2str(cohort(iii)),'_clean_',num2str(cond{co,1}),num2str(trial),'_SH.mat'));
+            load(strcat('/Users/Carolina/Desktop/clean_SH_spirals/zscore_acr_cond.mat'))
             
             centre=[535 361];
             signal1(1,:)=signal(1,:)-centre(1);
@@ -83,22 +83,22 @@ for iii=2:4
                 
                 
                 % % check power/space
-                % %                 [mama,maid]=sort(env,'descend');
-                % %                 figure(1)
-                % %                 if size(t_spi{iii,trial,co}(:,1),1)>5
-                % %                 subplot(2,(size(t_spi{iii,trial,co}(:,1),1))/2,ns)
-                % %                 else
-                % %                 subplot(1,(size(t_spi{iii,trial,co}(:,1),1)),ns)
-                % %                 end
-                % %                 plot3(tempo,signal1(1,:),signal1(2,:))
-                % %                 hold on
-                % %                 plot3(tempo(maid(1:length(maid)/2)),signal1(1,(maid(1:length(maid)/2))),signal1(2,(maid(1:length(maid)/2))),'r.')
-                % %                 clear mama maid
-                % %                 [mama,maid]=sort(env,'ascend');
-                % %                 plot3(tempo(maid(1:length(maid)/2)),signal1(1,(maid(1:length(maid)/2))),signal1(2,(maid(1:length(maid)/2))),'k.')
-                % %                 xlim([tempo(t_spi{iii,trial,co}(ns,1)) tempo(t_spi{iii,trial,co}(ns,2))])
-                % %
-                % %
+% %                                 [mama,maid]=sort(env,'descend');
+% %                                 figure(1)
+% %                                 if size(t_spi{iii,trial,co}(:,1),1)>5
+% %                                 subplot(2,(size(t_spi{iii,trial,co}(:,1),1))/2,ns)
+% %                                 else
+% %                                 subplot(1,(size(t_spi{iii,trial,co}(:,1),1)),ns)
+% %                                 end
+% %                                 plot3(tempo,signal1(1,:),signal1(2,:))
+% %                                 hold on
+% %                                 plot3(tempo(maid(1:length(maid)/2)),signal1(1,(maid(1:length(maid)/2))),signal1(2,(maid(1:length(maid)/2))),'r.')
+% %                                 clear mama maid
+% %                                 [mama,maid]=sort(env,'ascend');
+% %                                 plot3(tempo(maid(1:length(maid)/2)),signal1(1,(maid(1:length(maid)/2))),signal1(2,(maid(1:length(maid)/2))),'k.')
+% %                                 xlim([tempo(t_spi{iii,trial,co}(ns,1)) tempo(t_spi{iii,trial,co}(ns,2))])
+                
+                
                 px1=px(t_spi{iii,trial,co}(ns,1):t_spi{iii,trial,co}(ns,2));
                 py1=py(t_spi{iii,trial,co}(ns,1):t_spi{iii,trial,co}(ns,2));
                 filt_cs1=filt_cs(t_spi{iii,trial,co}(ns,1):t_spi{iii,trial,co}(ns,2));
@@ -132,6 +132,7 @@ for iii=2:4
                     end
                     
                     ad.metrics{iii-1,co,trial}(ns,q,:) = [mean(env1(idx{q,1})); nanmean(pp) ; var(filt_cs1(idx{q,1}));mean(frq1(idx{q,1}(1:end-1))) ];
+
                     clear dum bins pp
                 end
                 

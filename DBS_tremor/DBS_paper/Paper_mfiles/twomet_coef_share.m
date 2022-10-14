@@ -1,12 +1,12 @@
 
-function[total]=coef_share(s,start,ending,tp_s,tp_e,match_ax,pt)
+function[share1]=twomet_coef_share(s,start,ending,tp_s,tp_e,match_ax,pt)
 
 %%%% you need 1 second (1000 ponits segments)
 
 
 dum=s.filt{1,3};
 dum2=s.env_acc{1,3};
-[ref]=pt_post(dum2, start, ending,tp_s,tp_e);
+[ref]=pt_post(dum2, start, ending,tp_s,tp_e); %%% uncomment plot to see breaks in data
 
 
 for t=1:size(ref,1)
@@ -31,18 +31,26 @@ for t=1:size(ref,1)
             % in pca, rows are observations and columns are variables
             for_pca = squeeze(x(:,hh,:)); % should be 3 vs length(segments)
             [pc] = pca(for_pca'); 
-            gha=pc(1:3, 1);
-            accum(hh,:)=find(gha==(max(gha)));
+%             gha=pc(1:3, 1);
+            gha=pc';
+            accum(1,hh)=find(gha==(max(gha)));
+            accum(2,hh)=find(y(:,hh)==(max(y(:,hh))));
             clear for_pca pc gha 
+
         end
-        total{1,t}(r,:)=[numel(find(accum==1))./length(accum) numel(find(accum==2))./length(accum) numel(find(accum==3))./length(accum)];
+
+        for ii=1:size(accum,1)
+        total{ii,t}(r,:)=[numel(find(accum(ii,:)==1))./length(accum(ii,:)) numel(find(accum(ii,:)==2))./length(accum(ii,:)) numel(find(accum(ii,:)==3))./length(accum(ii,:))];
+        end
         clearvars -except s samplerate ref color_b1 match_ax total t j dum dum2 r pt
     end
 
+    id=2;  %%% id==1 is for pca and id==2 is for sum env
+
     if match_ax(2,pt,1)~=3
-        share=total{1,t}*100;
+        share=total{id,t}*100;
     else
-        share=[total{1,t}(:,3) total{1,t}(:,2) total{1,t}(:,1)]*100;
+        share=[total{id,t}(:,3) total{id,t}(:,2) total{id,t}(:,1)]*100;
     end
 
     %     f1=figure(1)
@@ -61,7 +69,7 @@ for t=1:size(ref,1)
     %     set(f1,'color','w')
 
 
-    f1=figure(t)
+    f1=figure(t+1)
     for u=1:3
         subplot(1,3,u)
         pie(share(u,:))
@@ -70,9 +78,17 @@ for t=1:size(ref,1)
     f1.Units = 'centimeters';
     f1.OuterPosition= [10, 10, 35, 8];
     set(f1,'color','w')
-
 end
-share= [mean([total{1,1} ; total{1,2}; total{1,3}]) ; std([total{1,1} ; total{1,2}; total{1,3}])]
+share1= [mean([total{id,1} ; total{id,2}; total{id,3}]) ; std([total{id,1} ; total{id,2}; total{id,3}])];
+
+
+f1=figure(10)
+pie(share1(1,:))
+box('off')
+set(f1,'color','w')
+legend('X','Y','Z')
+legend('boxoff')
+title(sprintf('patient %d',(pt)))
 end
 
 

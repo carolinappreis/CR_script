@@ -49,7 +49,7 @@ if co==1
     
     if ~isnan(clust.win(iii,1))
         idx_ns{iii,1}=h_up{iii,co};
-        out.ns{iii,1}=z_sig(match_ax(co,iii,1),h_up{iii,co});
+        out.ns{iii,1}=z_sig(match_ax(co,iii,1),h_up{iii,co});         
         out.env_ns{iii,1}=envelope(match_ax(co,iii,1),h_up{iii,co});
         out.zenv_ns{iii,1}=zenv(match_ax(co,iii,1),h_up{iii,co});
 

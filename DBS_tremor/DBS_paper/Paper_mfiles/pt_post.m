@@ -8,13 +8,13 @@ for i=1:3
     end
 end
 
-plot(dum2(1,:))
-hold on
-for m=1:3
-    for i=1:length(ref{m,1})
-        xline(ref{m,1}(i))
-    end
-end
+% plot(dum2(1,:))
+% hold on
+% for m=1:3
+%     for i=1:length(ref{m,1})
+%         xline(ref{m,1}(i))
+%     end
+% end
 
 for i=1:3
     breaks(i,:)=tp_e{i,1}-tp_s{i,1};

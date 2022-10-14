@@ -10,16 +10,16 @@ spiral=0;[match_ax]=link_ax(spiral);
 %%% choose between:
 
 %%% 1) patient 3 (DT) 
-load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
-cr=[];pt=2;
+% load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P03_PLS_P')
+% cr=[];pt=2;
+% % % 
+%  2) patient 6 (ET) stim at 120 deg (most sup)
+load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
+cr=[];pt=4;
 
-%%%  2) patient 6 (ET) stim at 120 deg (most sup)
-% % % load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P1')
-% % % cr=[];pt=4;
-
-%%%  3)pateint 6 (ET) stim at 240 deg (2nd most sup)
-% load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P2')
-% cr=1;pt=4
+% % %%  3)pateint 6 (ET) stim at 240 deg (2nd most sup)
+% % load('/Users/Carolina/OneDrive - Nexus365/DBS-STIM/DATA_pls_sd/P06_PLS_P2')
+% % cr=1;pt=4
 
 
 %%% used in paper: 1) and 2)
@@ -37,10 +37,19 @@ out=struct; start=cell(1,3); ending=cell(1,3); yy=cell(1,3); h_up=cell(1,3); s=s
 
 [s]=zfiltenv_simple(d,peak_ax,co,iii,s,samplerate);
 
+%%
 
 [f1]=in_time(iii,s,co,samplerate,start,ending,tp_s,tp_e,color_b1,cr,match_ax,pt,d);
 
-[total]=coef_share(s,start,ending,tp_s,tp_e,match_ax,pt);
+[share1]=twomet_coef_share(s,start,ending,tp_s,tp_e,match_ax,pt);
+
+[dev_freq]=inst_freq_cont(s,start,ending,tp_s,tp_e,match_ax,pt);
+
+[dev_freq,sev]=inst_freq_cont_id(s,start,ending,tp_s,tp_e,match_ax,pt);
+
+
+%%%- old ones
+% [total]=coef_share(s,start,ending,tp_s,tp_e,match_ax,pt);
 % [f1]=pc_ax(s,tp_s,tp_e,cr,start,ending,color_b1,match_ax,pt);
 
 

@@ -51,6 +51,8 @@ for i=1:3
     end
     subplot(3,1,i)
     bar([mean(met{i,1}) mean(met{i,2}) mean(met{i,3})]);
+    change_from_NS(i,:)=([(mean(met{i,1})-mean(met{i,3})) (mean(met{i,1})-mean(met{i,2}))])
+ 
 
 end
 

@@ -1,8 +1,8 @@
 
 
-cd('/Users/Carolina/Library/CloudStorage/OneDrive-Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/SPSS')
-
-cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor/DBS_paper')
+% cd('/Users/Carolina/Library/CloudStorage/OneDrive-Nexus365/Phasic_DBS/patient data/DBS_DATA/clean_SH_spirals/SPSS')
+% 
+% cd('/Users/Carolina/Documents/GitHub/CR_script/DBS_tremor/DBS_paper')
 
 clear; close all
 
